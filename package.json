@@ -1,0 +1,28 @@
+{
+  "name": "sports-plugins",
+  "version": "1.0.0",
+  "description": "A curated marketplace of high-quality community sports plugins for Claude Code, Codex, and AI coding assistants",
+  "private": true,
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/ahump20/Sports-Plugins.git"
+  },
+  "keywords": [
+    "claude-code",
+    "codex",
+    "plugins",
+    "sports",
+    "sabermetrics",
+    "fantasy-sports",
+    "live-scores",
+    "analytics",
+    "mcp",
+    "college-baseball"
+  ],
+  "scripts": {
+    "lint": "echo 'No linter configured yet'",
+    "test": "node --test tests/",
+    "validate": "node scripts/validate-plugins.mjs"
+  }
+}

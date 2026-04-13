@@ -1,0 +1,9 @@
+{
+  "name": "college-baseball-sabermetrics",
+  "description": "Advanced college baseball sabermetrics — wOBA, FIP, wRC+, barrel rates, and pitch-level analytics for NCAA Division I",
+  "version": "1.0.0",
+  "author": {
+    "name": "Sports-Plugins",
+    "url": "https://github.com/ahump20/Sports-Plugins"
+  }
+}

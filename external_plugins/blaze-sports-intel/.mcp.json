@@ -1,0 +1,7 @@
+{
+  "bsi-mcp": {
+    "type": "http",
+    "url": "https://blazesportsintel.com/mcp",
+    "description": "Blaze Sports Intel MCP server — college baseball analytics, box scores, sabermetrics, and Texas Longhorns intel"
+  }
+}

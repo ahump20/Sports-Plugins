@@ -1,0 +1,9 @@
+{
+  "name": "live-scores",
+  "description": "Real-time sports scores, schedules, and game updates across MLB, NFL, NBA, and college sports",
+  "version": "1.0.0",
+  "author": {
+    "name": "Sports-Plugins",
+    "url": "https://github.com/ahump20/Sports-Plugins"
+  }
+}

@@ -1,0 +1,11 @@
+{
+  "name": "blaze-sports-intel",
+  "description": "Blaze Sports Intel (BSI) integration — college baseball box scores, Texas Longhorns deep intel, and advanced sabermetrics via blazesportsintel.com MCP",
+  "version": "1.0.0",
+  "author": {
+    "name": "Blaze Sports Intel",
+    "url": "https://blazesportsintel.com"
+  },
+  "homepage": "https://blazesportsintel.com",
+  "repository": "https://github.com/ahump20/BSI"
+}

@@ -1,0 +1,7 @@
+{
+  "sports-scores-api": {
+    "type": "http",
+    "url": "https://site.api.espn.com/apis/site/v2/sports",
+    "description": "ESPN public API for live scores and schedules"
+  }
+}

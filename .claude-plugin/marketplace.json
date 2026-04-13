@@ -1,0 +1,53 @@
+{
+  "marketplace": {
+    "name": "Sports-Plugins",
+    "version": "1.0.0",
+    "description": "A curated marketplace of high-quality community sports plugins for Claude Code, Codex, and AI coding assistants",
+    "homepage": "https://github.com/ahump20/Sports-Plugins",
+    "categories": [
+      "live-scores",
+      "sabermetrics",
+      "fantasy-sports",
+      "analytics",
+      "college-sports",
+      "mlb",
+      "nfl",
+      "nba"
+    ]
+  },
+  "plugins": [
+    {
+      "name": "live-scores",
+      "path": "plugins/live-scores",
+      "description": "Real-time sports scores, schedules, and game updates across MLB, NFL, NBA, and college sports",
+      "categories": ["live-scores", "mlb", "nfl", "nba", "college-sports"]
+    },
+    {
+      "name": "college-baseball-sabermetrics",
+      "path": "plugins/college-baseball-sabermetrics",
+      "description": "Advanced college baseball sabermetrics — wOBA, FIP, wRC+, barrel rates, and pitch-level analytics",
+      "categories": ["sabermetrics", "analytics", "college-sports"]
+    },
+    {
+      "name": "fantasy-sports",
+      "path": "plugins/fantasy-sports",
+      "description": "Fantasy sports roster optimization, matchup analysis, trade evaluator, and waiver wire recommendations",
+      "categories": ["fantasy-sports", "analytics"]
+    },
+    {
+      "name": "sports-data-explorer",
+      "path": "plugins/sports-data-explorer",
+      "description": "Query and explore sports statistics, compare players, and generate data visualizations",
+      "categories": ["analytics", "mlb", "nfl", "nba", "college-sports"]
+    }
+  ],
+  "external_plugins": [
+    {
+      "name": "blaze-sports-intel",
+      "path": "external_plugins/blaze-sports-intel",
+      "description": "Blaze Sports Intel (BSI) integration — college baseball box scores, Texas Longhorns intel, and advanced analytics via blazesportsintel.com MCP",
+      "homepage": "https://blazesportsintel.com",
+      "categories": ["sabermetrics", "college-sports", "analytics"]
+    }
+  ]
+}

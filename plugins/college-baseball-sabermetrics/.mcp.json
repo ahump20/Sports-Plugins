@@ -1,0 +1,7 @@
+{
+  "college-baseball-stats": {
+    "type": "http",
+    "url": "https://blazesportsintel.com/mcp",
+    "description": "Blaze Sports Intel MCP endpoint for college baseball analytics and sabermetrics data"
+  }
+}
