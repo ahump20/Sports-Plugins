@@ -1,0 +1,41 @@
+{
+  "$schema": "https://code.claude.com/schemas/marketplace.json",
+  "name": "sports-plugins",
+  "owner": {
+    "name": "Austin Humphrey",
+    "email": "Austin@BlazeSportsIntel.com"
+  },
+  "metadata": {
+    "description": "A curated marketplace of high-quality community sports plugins for Claude Code, Codex, and AI coding assistants. Covers college baseball sabermetrics, live scores, sports analytics, and fantasy sports."
+  },
+  "plugins": [
+    {
+      "name": "college-baseball-sabermetrics",
+      "description": "Deep sabermetrics and analytics for college baseball — pitcher evaluation, lineup construction, game data pipelines, and advanced metrics tuned for NCAA and Texas Longhorns coverage.",
+      "source": "./plugins/college-baseball-sabermetrics",
+      "category": "sports-analytics",
+      "homepage": "https://github.com/ahump20/Sports-Plugins/tree/main/plugins/college-baseball-sabermetrics"
+    },
+    {
+      "name": "sports-analytics",
+      "description": "General-purpose sports analytics plugin for building data pipelines, interactive stat visualizations, and predictive models across MLB, NFL, NBA, and college sports.",
+      "source": "./plugins/sports-analytics",
+      "category": "sports-analytics",
+      "homepage": "https://github.com/ahump20/Sports-Plugins/tree/main/plugins/sports-analytics"
+    },
+    {
+      "name": "live-scores",
+      "description": "Real-time scoreboard UI components and live data integration patterns for embedding live scores in web apps and mobile clients.",
+      "source": "./plugins/live-scores",
+      "category": "sports-data",
+      "homepage": "https://github.com/ahump20/Sports-Plugins/tree/main/plugins/live-scores"
+    },
+    {
+      "name": "fantasy-sports",
+      "description": "Fantasy sports tooling for AI-assisted draft strategy, trade analysis, and waiver wire decisions across NFL, MLB, NBA, and college sports.",
+      "source": "./plugins/fantasy-sports",
+      "category": "fantasy",
+      "homepage": "https://github.com/ahump20/Sports-Plugins/tree/main/plugins/fantasy-sports"
+    }
+  ]
+}
