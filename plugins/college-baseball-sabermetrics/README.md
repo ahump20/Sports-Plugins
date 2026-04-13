@@ -16,7 +16,7 @@ Advanced sabermetrics and analytics for NCAA Division I college baseball. Built 
 |-------|------|-------------|
 | `sabermetrics-calc` | Model-invoked | Calculates or explains sabermetric formulas and metrics |
 | `player-lookup` | Model-invoked | Retrieves advanced stats for a specific college baseball player |
-| `team-rankings` | User-invoked | `/rankings` command for conference and national rankings |
+| `rankings` | User-invoked | `/rankings` command for conference and national rankings |
 
 ## Key Metrics
 

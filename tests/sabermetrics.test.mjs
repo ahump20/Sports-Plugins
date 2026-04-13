@@ -4,10 +4,9 @@
  * These are pure-math tests — no network calls, no MCP.
  * Run with: node --test tests/sabermetrics.test.mjs
  *
- * Note: We import from the .ts source via a dynamic path so these
- * tests work in any runner that handles TypeScript or via tsx / ts-node.
- * For CI we compile first (see workflow).  For quick local runs we
- * re-implement the functions in plain JS below.
+ * The formulas are re-implemented inline in plain JS so that tests can
+ * run without a TypeScript compile step.  Keep these in sync with
+ * lib/sabermetrics.ts — any formula change there must be mirrored here.
  */
 
 import { describe, it } from "node:test";
@@ -54,6 +53,17 @@ function era(p) { return p.ip === 0 ? 0 : (p.er / p.ip) * 9; }
 function fip(p) { return p.ip === 0 ? 0 : (13 * p.hr + 3 * (p.bb + p.hbp) - 2 * p.k) / p.ip + FIP_CONSTANT; }
 function whip(p) { return p.ip === 0 ? 0 : (p.bb + p.h) / p.ip; }
 function kPer9(p) { return p.ip === 0 ? 0 : (p.k / p.ip) * 9; }
+function bbPer9(p) { return p.ip === 0 ? 0 : (p.bb / p.ip) * 9; }
+function hrPer9(p) { return p.ip === 0 ? 0 : (p.hr / p.ip) * 9; }
+function kPerBB(p) { return p.bb === 0 ? (p.k > 0 ? Infinity : 0) : p.k / p.bb; }
+function xfip(p) {
+  if (p.ip === 0) return 0;
+  const LG_HR_PER_FB = 0.1;
+  const bip = p.bf - p.k - p.bb - p.hbp;
+  const estFB = bip * 0.35;
+  const expectedHR = estFB * LG_HR_PER_FB;
+  return (13 * expectedHR + 3 * (p.bb + p.hbp) - 2 * p.k) / p.ip + FIP_CONSTANT;
+}
 function cswPctFn(cs, w, tp) { return tp === 0 ? 0 : (cs + w) / tp; }
 
 // ---------------------------------------------------------------------------
@@ -171,11 +181,39 @@ describe("Sabermetrics — Pitching", () => {
     assert.equal(r(cswPctFn(450, 320, 1480)), r(770 / 1480));
   });
 
+  it("BB/9 = (BB / IP) × 9", () => {
+    assert.equal(r(bbPer9(goodPitcher)), r((24 / 95) * 9));
+  });
+
+  it("HR/9 = (HR / IP) × 9", () => {
+    assert.equal(r(hrPer9(goodPitcher)), r((6 / 95) * 9));
+  });
+
+  it("K/BB = K / BB", () => {
+    assert.equal(r(kPerBB(goodPitcher)), r(115 / 24));
+  });
+
+  it("xFIP is in a reasonable range (2.0 – 5.0) for a good pitcher", () => {
+    const x = xfip(goodPitcher);
+    assert.ok(x > 2.0 && x < 5.0, `xFIP ${x} out of range`);
+  });
+
+  it("xFIP differs from FIP (HR normalised to league average)", () => {
+    // xFIP replaces actual HR with expected HR based on FB rate,
+    // so it should differ from FIP unless HR rate exactly matches league avg
+    const f = fip(goodPitcher);
+    const x = xfip(goodPitcher);
+    assert.notEqual(r(f, 4), r(x, 4));
+  });
+
   it("all pitching metrics return 0 for empty line", () => {
     assert.equal(era(emptyPitcher), 0);
     assert.equal(fip(emptyPitcher), 0);
     assert.equal(whip(emptyPitcher), 0);
     assert.equal(kPer9(emptyPitcher), 0);
+    assert.equal(bbPer9(emptyPitcher), 0);
+    assert.equal(hrPer9(emptyPitcher), 0);
+    assert.equal(xfip(emptyPitcher), 0);
   });
 });
 
@@ -187,9 +225,24 @@ describe("Sabermetrics — Edge cases", () => {
   });
 
   it("K/BB returns Infinity when zero walks and some Ks", () => {
-    // FYI: this is a valid edge case (no-hitter, no walks)
     const pitcher = { ...emptyPitcher, ip: 9, k: 12, bb: 0, hbp: 0, h: 0, hr: 0, bf: 27, er: 0, r: 0 };
-    const result = pitcher.bb === 0 && pitcher.k > 0 ? Infinity : pitcher.k / pitcher.bb;
-    assert.equal(result, Infinity);
+    assert.equal(kPerBB(pitcher), Infinity);
+  });
+
+  it("K/BB returns 0 when zero walks and zero Ks", () => {
+    const pitcher = { ...emptyPitcher, ip: 9, k: 0, bb: 0, hbp: 0, h: 0, hr: 0, bf: 27, er: 0, r: 0 };
+    assert.equal(kPerBB(pitcher), 0);
+  });
+
+  it("xFIP returns 0 for empty pitching line", () => {
+    assert.equal(xfip(emptyPitcher), 0);
+  });
+
+  it("xFIP handles negative BIP gracefully (more K+BB+HBP than BF)", () => {
+    // Contrived: bf < k + bb + hbp → bip is negative → estFB is negative
+    const weird = { ...emptyPitcher, ip: 3, bf: 10, k: 8, bb: 3, hbp: 1, hr: 0, h: 0, er: 0, r: 0 };
+    // bip = 10 - 8 - 3 - 1 = -2, estFB = -0.7, expectedHR = -0.07
+    // Result should still be a finite number (the formula doesn't crash)
+    assert.ok(Number.isFinite(xfip(weird)));
   });
 });

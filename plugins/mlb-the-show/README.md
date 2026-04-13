@@ -14,7 +14,7 @@ Diamond Dynasty card analytics for MLB The Show — card valuations, market tren
 | Skill | Type | Description |
 |-------|------|-------------|
 | `card-valuations` | Model-invoked | Card pricing, market trends, and value analysis |
-| `squad-builder` | User-invoked | `/squad` command for team building recommendations |
+| `squad` | User-invoked | `/squad` command for team building recommendations |
 
 ## Card Tiers
 

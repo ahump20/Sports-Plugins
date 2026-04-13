@@ -84,7 +84,7 @@ The `lib/` directory contains portable TypeScript modules used across plugins:
 The formulas in `lib/sabermetrics.ts` are calibrated for NCAA Division I college baseball (BBCOR bats, smaller samples). They can also be used for MLB data by adjusting the linear-weight constants.
 
 ```ts
-import { wOBA, fip, computeBattingAdvanced } from "./lib/sabermetrics.js";
+import { wOBA, fip, computeBattingAdvanced } from "./lib/sabermetrics.ts";
 
 const advanced = computeBattingAdvanced(battingLine, parkFactor);
 console.log(advanced.wOBA, advanced.wRCPlus, advanced.babip);

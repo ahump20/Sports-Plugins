@@ -6,9 +6,10 @@
  */
 
 import { readFileSync, existsSync } from "node:fs";
-import { join } from "node:path";
+import { join, dirname } from "node:path";
+import { fileURLToPath } from "node:url";
 
-const ROOT = new URL("..", import.meta.url).pathname;
+const ROOT = dirname(fileURLToPath(import.meta.url)) + "/..";
 
 function fail(msg) {
   console.error(`  ✗ ${msg}`);
@@ -33,7 +34,7 @@ function validatePlugin(pluginPath) {
       const meta = JSON.parse(readFileSync(metaPath, "utf-8"));
       if (!meta.name) ok = fail(`${pluginPath}: plugin.json missing "name"`) && ok;
       if (!meta.description) ok = fail(`${pluginPath}: plugin.json missing "description"`) && ok;
-      pass(`${pluginPath}: plugin.json valid`);
+      if (meta.name && meta.description) pass(`${pluginPath}: plugin.json valid`);
     } catch (e) {
       ok = fail(`${pluginPath}: plugin.json is not valid JSON — ${e.message}`) && ok;
     }

@@ -14,7 +14,7 @@ AI-powered fantasy sports assistant for roster decisions, matchup analysis, and 
 | Skill | Type | Description |
 |-------|------|-------------|
 | `roster-optimizer` | Model-invoked | Provides start/sit and lineup optimization advice |
-| `matchup-analysis` | User-invoked | `/matchup` command for head-to-head analysis |
+| `matchup` | User-invoked | `/matchup` command for head-to-head analysis |
 
 ## Supported Formats
 
