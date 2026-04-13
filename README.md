@@ -1,118 +1,193 @@
-# Sports-Plugins
+<div align="center">
 
-A curated marketplace of high-quality sports plugins for **Claude Code**, **OpenAI Codex**, and AI coding assistants. Covers college baseball sabermetrics, live scores, sports analytics, and fantasy sports — built on the foundational plugin structures from [anthropics/claude-plugins-official](https://github.com/anthropics/claude-plugins-official) and [OpenAI Codex use cases](https://developers.openai.com/codex/use-cases).
+# 🏟️ Sports-Plugins
 
-Core data foundation: [Blaze Sports Intel (BSI)](https://blazesportsintel.com) — with primary depth on college baseball, Texas Longhorns, and the Big 12.
+**Curated sports plugins for Claude Code, OpenAI Codex, and AI coding assistants.**
+
+[![CI](https://github.com/ahump20/Sports-Plugins/actions/workflows/ci.yml/badge.svg)](https://github.com/ahump20/Sports-Plugins/actions/workflows/ci.yml)
+![TypeScript](https://img.shields.io/badge/TypeScript-5.8-blue?logo=typescript&logoColor=white)
+![Plugins](https://img.shields.io/badge/plugins-4-orange)
+![Skills](https://img.shields.io/badge/skills-12-green)
+![Tests](https://img.shields.io/badge/tests-103%20passing-brightgreen)
+
+College baseball sabermetrics · Live scores · Sports analytics · Fantasy sports
+
+Built on the foundational structures from [anthropics/claude-plugins-official](https://github.com/anthropics/claude-plugins-official) and [OpenAI Codex use cases](https://developers.openai.com/codex/use-cases).
+
+Core data foundation: **[Blaze Sports Intel](https://blazesportsintel.com)** — with primary depth on college baseball, Texas Longhorns, and the Big 12.
+
+</div>
 
 ---
 
 ## Plugins
 
-| Plugin | Category | Description |
-|--------|----------|-------------|
-| [`college-baseball-sabermetrics`](./plugins/college-baseball-sabermetrics) | Sports Analytics | Deep sabermetrics for NCAA — pitcher FIP/xFIP, lineup optimizer, game data pipelines. Primary depth: Texas Longhorns + Big 12. |
-| [`sports-analytics`](./plugins/sports-analytics) | Sports Analytics | Multi-sport data pipelines, Recharts stat visualizations, and predictive modeling across MLB, NFL, NBA, CFB, and college baseball. |
-| [`live-scores`](./plugins/live-scores) | Sports Data | Real-time scoreboard components and Cloudflare Worker polling patterns for live game scores. |
-| [`fantasy-sports`](./plugins/fantasy-sports) | Fantasy | AI-assisted draft strategy, trade analysis, and waiver wire recommendations for NFL, MLB, and NBA fantasy. |
+| Plugin | Skills | Category | Description |
+|--------|:------:|----------|-------------|
+| [`college-baseball-sabermetrics`](./plugins/college-baseball-sabermetrics) | 4 | Sports Analytics | Deep sabermetrics for NCAA — FIP/xFIP, wOBA, wRC+, lineup optimizer, game data pipelines. Primary depth: **Texas Longhorns** + Big 12. |
+| [`sports-analytics`](./plugins/sports-analytics) | 3 | Sports Analytics | Multi-sport data pipelines, Recharts stat visualizations, and predictive modeling (Marcel projections, win probability). |
+| [`live-scores`](./plugins/live-scores) | 2 | Sports Data | Real-time scoreboard components, Cloudflare Worker polling, KV cache, and live-update UI patterns. |
+| [`fantasy-sports`](./plugins/fantasy-sports) | 3 | Fantasy | AI-assisted draft strategy, trade analysis, and waiver wire recommendations for NFL, MLB, and NBA. |
 
 ---
 
-## Plugin Structure
+## Quick Start
 
-Each plugin follows the Claude Code plugin format, with Codex environment compatibility:
+```bash
+git clone https://github.com/ahump20/Sports-Plugins.git
+cd Sports-Plugins
+npm install
+npm run check   # typecheck + lint + test + validate
+```
+
+### Use in Claude Code
+
+1. Open Claude Code in this repository.
+2. Run `/plugins` → enable a plugin (e.g. `college-baseball-sabermetrics`).
+3. Run `/mcp` to confirm MCP server connections.
+4. Use the representative prompts from the plugin README.
+
+### Use with OpenAI Codex
+
+The `.codex/environments/environment.toml` configures the Codex sandbox. Skills are plain Markdown — compatible with Codex's context injection model.
+
+---
+
+## Architecture
+
+```
+Sports-Plugins/
+├── .claude-plugin/
+│   └── marketplace.json           ← Marketplace manifest (all plugins)
+├── .codex/
+│   └── environments/
+│       └── environment.toml       ← OpenAI Codex environment config
+├── .github/
+│   ├── workflows/ci.yml           ← CI: typecheck, lint, test, validate
+│   └── PULL_REQUEST_TEMPLATE.md
+├── src/                           ← Shared library
+│   ├── types/index.ts             ← Canonical data types (Sport, GameBoxScore, etc.)
+│   └── utils/
+│       ├── sabermetrics.ts        ← ERA, FIP, xFIP, wOBA, wRC+, BABIP, ISO, ...
+│       └── normalization.ts       ← IP normalization, team names, data defaults
+├── plugins/
+│   ├── college-baseball-sabermetrics/
+│   │   ├── .claude-plugin/plugin.json
+│   │   ├── .mcp.json
+│   │   ├── README.md
+│   │   ├── skills/                ← 4 SKILL.md files
+│   │   └── src/                   ← metrics, pitcher-eval, lineup, ingest
+│   ├── sports-analytics/
+│   │   ├── src/                   ← provider client, models, format helpers
+│   │   └── skills/                ← 3 SKILL.md files
+│   ├── live-scores/
+│   │   ├── src/                   ← game-card state, cache, display helpers
+│   │   └── skills/                ← 2 SKILL.md files
+│   └── fantasy-sports/
+│       ├── src/                   ← trade analyzer, waiver ranker, draft planner
+│       └── skills/                ← 3 SKILL.md files
+├── scripts/
+│   └── validate-plugins.js        ← Plugin structure validator
+├── package.json
+├── tsconfig.json
+├── vitest.config.ts
+└── eslint.config.mjs
+```
+
+### Plugin Structure
+
+Every plugin follows the same layout:
 
 ```
 plugins/<plugin-name>/
   .claude-plugin/
     plugin.json          ← Claude Code plugin manifest
-  .mcp.json              ← MCP server connections for this plugin
-  README.md              ← Plugin overview and representative prompts
+  .mcp.json              ← MCP server connections (optional)
+  README.md              ← Overview, coverage, representative prompts
   skills/
     <skill-name>/
       SKILL.md           ← Skill instructions loaded by Claude Code
-```
-
-Top-level marketplace:
-
-```
-.claude-plugin/
-  marketplace.json       ← Marketplace manifest listing all plugins
-.codex/
-  environments/
-    environment.toml     ← OpenAI Codex environment config
+  src/
+    index.ts             ← TypeScript entry point and exports
+    *.ts                 ← Implementation modules
+    *.test.ts            ← Tests
 ```
 
 ---
 
 ## MCP Servers
 
-The college baseball sabermetrics and sports analytics plugins connect to:
+Plugins that connect to live data use the BSI MCP endpoint:
 
 | Server | URL | Purpose |
 |--------|-----|---------|
 | BSI | `https://blazesportsintel.com/mcp` | Live college baseball scores, standings, box scores, and player stats |
 
-Use `/mcp` in Claude Code after enabling a plugin to confirm server connections.
+Run `/mcp` in Claude Code after enabling a plugin to confirm the connection.
 
 ---
 
 ## College Baseball Coverage
 
-The flagship plugin is **college-baseball-sabermetrics**, built to fill the ESPN coverage gap for NCAA baseball:
+The flagship plugin — **college-baseball-sabermetrics** — fills the ESPN coverage gap for NCAA baseball:
 
-### Skills
-
-| Skill | Purpose |
-|-------|---------|
+| Skill | What It Does |
+|-------|-------------|
 | `sabermetrics-analysis` | ERA, FIP, xFIP, wOBA, wRC+, BABIP, ISO — with NCAA baselines and Texas-specific context |
-| `pitcher-analytics` | Pitch-mix, sequencing, platoon splits, role recommendations, and series preview cards |
-| `lineup-optimizer` | Batting order construction, wOBA-based slot assignment, platoon adjustments |
-| `game-data-pipeline` | NCAA box score ingestion, IP normalization, player ID cross-reference, Cloudflare D1/KV/R2 storage |
+| `pitcher-analytics` | Pitch-mix analysis, sequencing, platoon splits, role recommendations, series preview cards |
+| `lineup-optimizer` | wOBA-based batting order construction, slot philosophy, platoon adjustments |
+| `game-data-pipeline` | NCAA box score ingestion, IP normalization, player ID cross-reference, storage patterns |
 
-### Representative Prompts
+### Source Code Highlights
+
+```typescript
+import { computeBatterMetrics, computePitcherMetrics } from './plugins/college-baseball-sabermetrics/src/metrics.js';
+import { evaluatePitcher } from './plugins/college-baseball-sabermetrics/src/pitcher-eval.js';
+import { optimizeLineup } from './plugins/college-baseball-sabermetrics/src/lineup.js';
+import { ingestBoxScore } from './plugins/college-baseball-sabermetrics/src/ingest.js';
+```
+
+### Example Prompts
 
 ```
-Evaluate the Texas Longhorns rotation using FIP and xFIP through the first 8 weeks of the season.
+Evaluate the Texas Longhorns rotation using FIP and xFIP through the first 8 weeks.
 
-Build a weekend series preview for UT vs. Oklahoma State with pitcher matchups and lineup tendencies.
+Build a weekend series preview for UT vs. Oklahoma State with pitcher matchups.
 
 Rank the Big 12 bullpens by inherited-runner strand rate and K/9.
 
-Optimize the Longhorns batting order using wOBA and contact rate splits against left-handed starters.
+Optimize the Longhorns batting order using wOBA splits against left-handed starters.
 
 Ingest this NCAA box score JSON and compute game-level FIP and wRC+ for both teams.
 ```
 
 ---
 
-## Using a Plugin in Claude Code
+## Development
 
-1. Open Claude Code in this repository.
-2. Run `/plugins` to view available plugins.
-3. Enable a plugin (e.g. `college-baseball-sabermetrics`).
-4. Run `/mcp` to confirm MCP server connections.
-5. Use the representative prompts from the plugin README to get started.
-
----
-
-## Using with OpenAI Codex
-
-The `.codex/environments/environment.toml` file configures the Codex sandbox environment for this repo. Skills in each plugin are written as plain Markdown instruction files — compatible with Codex's context injection model.
+| Command | Description |
+|---------|-------------|
+| `npm run typecheck` | TypeScript type checking (strict mode) |
+| `npm run lint` | ESLint with TypeScript rules |
+| `npm test` | Run all tests with Vitest |
+| `npm run validate` | Validate plugin manifest structure |
+| `npm run check` | All of the above in sequence |
 
 ---
 
 ## Contributing
 
-1. Fork this repo.
-2. Create a new plugin directory under `plugins/`.
-3. Add `.claude-plugin/plugin.json`, `README.md`, and at least one `skills/<name>/SKILL.md`.
-4. Add your plugin entry to `.claude-plugin/marketplace.json`.
-5. Open a pull request.
+See [CONTRIBUTING.md](./CONTRIBUTING.md) for full guidelines. The short version:
 
-Plugin quality bar: skills must contain specific, actionable guidance — not generic descriptions. See the `college-baseball-sabermetrics` skills for the content standard.
+1. Fork → create a plugin directory under `plugins/`.
+2. Add `plugin.json`, `README.md`, at least one `SKILL.md`, and TypeScript source.
+3. Register in `.claude-plugin/marketplace.json`.
+4. Run `npm run check` → open a PR.
+
+**Quality bar:** Skills must contain specific, actionable guidance — not generic descriptions. See the `college-baseball-sabermetrics` skills for the standard.
 
 ---
 
 ## License
 
-All rights reserved. Proprietary content from Blaze Sports Intel.
+All rights reserved. Proprietary content from [Blaze Sports Intel](https://blazesportsintel.com). See [LICENSE](./LICENSE).
