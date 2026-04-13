@@ -39,7 +39,7 @@ For a quick scoreboard view:
 ```
 /scoreboard mlb
 /scoreboard college-baseball
-/scoreboard nfl week 12
+/scoreboard nfl 2026-10-15
 ```
 
 ## MCP Integration

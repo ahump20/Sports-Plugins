@@ -59,9 +59,9 @@ function kPerBB(p) { return p.bb === 0 ? (p.k > 0 ? Infinity : 0) : p.k / p.bb; 
 function xfip(p) {
   if (p.ip === 0) return 0;
   const LG_HR_PER_FB = 0.1;
-  const bip = p.bf - p.k - p.bb - p.hbp;
-  const estFB = bip * 0.35;
-  const expectedHR = estFB * LG_HR_PER_FB;
+  const bip = Math.max(0, p.bf - p.k - p.bb - p.hbp);
+  const estFB = Math.max(0, bip * 0.35);
+  const expectedHR = Math.max(0, estFB * LG_HR_PER_FB);
   return (13 * expectedHR + 3 * (p.bb + p.hbp) - 2 * p.k) / p.ip + FIP_CONSTANT;
 }
 function cswPctFn(cs, w, tp) { return tp === 0 ? 0 : (cs + w) / tp; }
@@ -238,11 +238,15 @@ describe("Sabermetrics — Edge cases", () => {
     assert.equal(xfip(emptyPitcher), 0);
   });
 
-  it("xFIP handles negative BIP gracefully (more K+BB+HBP than BF)", () => {
-    // Contrived: bf < k + bb + hbp → bip is negative → estFB is negative
+  it("xFIP clamps negative BIP to zero (more K+BB+HBP than BF)", () => {
+    // Contrived: bf < k + bb + hbp → raw bip is negative, should be clamped to 0
     const weird = { ...emptyPitcher, ip: 3, bf: 10, k: 8, bb: 3, hbp: 1, hr: 0, h: 0, er: 0, r: 0 };
-    // bip = 10 - 8 - 3 - 1 = -2, estFB = -0.7, expectedHR = -0.07
-    // Result should still be a finite number (the formula doesn't crash)
-    assert.ok(Number.isFinite(xfip(weird)));
+    // bip clamped to 0 → estFB = 0 → expectedHR = 0
+    // xFIP = (13*0 + 3*(3+1) - 2*8) / 3 + 3.1 = (0+12-16)/3 + 3.1 = -1.333 + 3.1 = 1.767
+    const result = xfip(weird);
+    assert.ok(Number.isFinite(result));
+    // With clamping, expectedHR = 0, so the HR contribution is 0
+    const expected = (13 * 0 + 3 * (3 + 1) - 2 * 8) / 3 + FIP_CONSTANT;
+    assert.equal(r(result), r(expected));
   });
 });

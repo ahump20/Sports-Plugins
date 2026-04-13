@@ -91,7 +91,7 @@ export function wOBA(line: BattingLine): number {
 }
 
 /**
- * Weighted Runs Above Average (per PA).
+ * Weighted Runs Above Average (total, not per PA).
  */
 export function wRAA(line: BattingLine): number {
   return ((wOBA(line) - LG_WOBA) / WOBA_SCALE) * line.pa;
@@ -177,12 +177,15 @@ export function fip(line: PitchingLine): number {
  *
  * Uses a rough fly-ball estimate: FB ≈ (BF − K − BB − HBP) × 0.35
  * (standard ~35 % FB rate when exact FB data is unavailable).
+ *
+ * Clamp derived count estimates to 0 so inconsistent input data
+ * cannot produce impossible negative expected HR totals.
  */
 export function xfip(line: PitchingLine): number {
   if (line.ip === 0) return 0;
-  const bip = line.bf - line.k - line.bb - line.hbp;
-  const estFB = bip * 0.35;
-  const expectedHR = estFB * LG_HR_PER_FB;
+  const bip = Math.max(0, line.bf - line.k - line.bb - line.hbp);
+  const estFB = Math.max(0, bip * 0.35);
+  const expectedHR = Math.max(0, estFB * LG_HR_PER_FB);
   return (13 * expectedHR + 3 * (line.bb + line.hbp) - 2 * line.k) / line.ip + FIP_CONSTANT;
 }
 
