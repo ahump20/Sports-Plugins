@@ -1,0 +1,9 @@
+{
+  "mcpServers": {
+    "college-baseball-sabermetrics": {
+      "type": "http",
+      "url": "https://sabermetrics.blazesportsintel.com/mcp",
+      "description": "Blaze Sports Intel college baseball MCP — 10 tools for 330 NCAA DI programs. Free tier, 30 requests/minute, no API key required."
+    }
+  }
+}
