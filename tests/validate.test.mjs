@@ -6,6 +6,13 @@ import { fileURLToPath } from "node:url";
 
 const ROOT = join(dirname(fileURLToPath(import.meta.url)), "..");
 
+/** Resolve plugin directory — handles both `path` and `source` keys. */
+function pluginDir(plugin) {
+  const raw = plugin.path ?? plugin.source;
+  if (!raw) return null;
+  return raw.startsWith("./") ? raw.slice(2) : raw;
+}
+
 describe("marketplace.json", () => {
   const marketplacePath = join(ROOT, ".claude-plugin", "marketplace.json");
 
@@ -13,18 +20,21 @@ describe("marketplace.json", () => {
     assert.ok(existsSync(marketplacePath), "marketplace.json must exist");
     const data = JSON.parse(readFileSync(marketplacePath, "utf-8"));
     assert.ok(data.marketplace, "must have marketplace key");
-    assert.ok(data.plugins, "must have plugins array");
-    assert.ok(data.external_plugins, "must have external_plugins array");
+    assert.ok(Array.isArray(data.plugins), "must have plugins array");
+    assert.ok(Array.isArray(data.external_plugins), "must have external_plugins array");
   });
 
-  it("all listed plugins have required files", () => {
+  it("all listed plugins with a local path have required files", () => {
     const data = JSON.parse(readFileSync(marketplacePath, "utf-8"));
     const allPlugins = [...data.plugins, ...data.external_plugins];
 
     for (const plugin of allPlugins) {
-      const pluginDir = join(ROOT, plugin.path);
-      const metaPath = join(pluginDir, ".claude-plugin", "plugin.json");
-      const readmePath = join(pluginDir, "README.md");
+      const dir = pluginDir(plugin);
+      if (!dir) continue; // skip plugins with no local path (coming-soon, etc.)
+
+      const absDir = join(ROOT, dir);
+      const metaPath = join(absDir, ".claude-plugin", "plugin.json");
+      const readmePath = join(absDir, "README.md");
 
       assert.ok(
         existsSync(metaPath),
@@ -50,7 +60,10 @@ describe("marketplace.json", () => {
     const allPlugins = [...data.plugins, ...data.external_plugins];
 
     for (const plugin of allPlugins) {
-      const mcpPath = join(ROOT, plugin.path, ".mcp.json");
+      const dir = pluginDir(plugin);
+      if (!dir) continue;
+
+      const mcpPath = join(ROOT, dir, ".mcp.json");
       if (existsSync(mcpPath)) {
         assert.doesNotThrow(
           () => JSON.parse(readFileSync(mcpPath, "utf-8")),
