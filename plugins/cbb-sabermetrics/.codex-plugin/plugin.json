@@ -1,0 +1,45 @@
+{
+  "name": "cbb-sabermetrics",
+  "version": "0.1.0",
+  "description": "Live college baseball sabermetrics for 330 NCAA DI programs via the Blaze Sports Intel MCP. Advanced metrics (wOBA, wRC+, FIP, BABIP, ISO), conference power index, scoreboard, standings, rankings, team and player lookups, matchup detail.",
+  "author": {
+    "name": "Austin Humphrey",
+    "email": "john.humphrey@blazesportsintel.com",
+    "url": "https://blazesportsintel.com"
+  },
+  "homepage": "https://blazesportsintel.com/mcp",
+  "repository": "https://github.com/ahump20/Sports-Plugins",
+  "license": "MIT",
+  "keywords": [
+    "college-baseball",
+    "ncaa",
+    "sabermetrics",
+    "mcp",
+    "woba",
+    "wrc-plus",
+    "fip",
+    "babip",
+    "power-index",
+    "sos"
+  ],
+  "skills": "./skills/",
+  "mcpServers": "./.mcp.json",
+  "interface": {
+    "displayName": "College Baseball Sabermetrics",
+    "shortDescription": "Live NCAA DI college baseball sabermetrics via Blaze Sports Intel MCP",
+    "longDescription": "Use College Baseball Sabermetrics to query live DI scores, conference standings, Top 25 rankings, team and player advanced metrics (wOBA, wRC+, FIP, BABIP, ISO), national and conference leaderboards, SOS-adjusted conference power index, full team schedules, and deep matchup detail with venue, weather, and predictions. All data sourced from the Blaze Sports Intel MCP server at blazesportsintel.com/mcp — free tier, 30 requests/minute, no API key required. Primary source: Highlightly live feeds. Fallback: ESPN. Advanced metrics: BSI Savant daily recompute.",
+    "developerName": "Austin Humphrey / Blaze Sports Intel",
+    "category": "Analytics",
+    "capabilities": [
+      "Read",
+      "Interactive"
+    ],
+    "websiteURL": "https://blazesportsintel.com/mcp",
+    "privacyPolicyURL": "https://blazesportsintel.com/privacy",
+    "termsOfServiceURL": "https://blazesportsintel.com/terms",
+    "defaultPrompt": "Pull the current SEC standings and the top 10 hitters by wRC+ in the SEC.",
+    "brandColor": "#BF5700",
+    "composerIcon": "./assets/icon-small.svg",
+    "screenshots": []
+  }
+}
