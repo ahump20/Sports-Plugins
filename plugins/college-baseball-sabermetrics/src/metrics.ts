@@ -7,7 +7,7 @@
 
 import type { BatterLine, PitcherLine } from '../../../src/types/index.js';
 import * as saber from '../../../src/utils/sabermetrics.js';
-import { normalizeIP, round } from '../../../src/utils/normalization.js';
+import { round } from '../../../src/utils/normalization.js';
 
 // ---------------------------------------------------------------------------
 // Batter metrics
@@ -83,12 +83,12 @@ export interface ComputedPitcherMetrics {
 /**
  * Compute all standard pitching metrics for a single pitcher line.
  *
- * @param line - Raw pitcher counting stats (IP in NCAA notation like "6.2").
+ * @param line - Raw pitcher counting stats with innings pitched already normalized.
  */
 export function computePitcherMetrics(
   line: PitcherLine,
 ): ComputedPitcherMetrics {
-  const ip = typeof line.ip === 'string' ? normalizeIP(line.ip) : line.ip;
+  const ip = line.ip;
 
   return {
     era: roundOrNull(saber.era(line.er, ip), 2),
