@@ -1,0 +1,9 @@
+{
+  "name": "college-baseball-sabermetrics",
+  "description": "Deep sabermetrics and analytics for college baseball — pitcher evaluation, lineup construction, game data pipelines, and advanced metrics tuned for NCAA and Texas Longhorns coverage.",
+  "version": "0.1.0",
+  "author": {
+    "name": "Austin Humphrey",
+    "email": "Austin@BlazeSportsIntel.com"
+  }
+}

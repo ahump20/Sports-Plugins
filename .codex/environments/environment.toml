@@ -1,0 +1,20 @@
+# Sports-Plugins Codex environment
+version = 1
+name = "sports-plugins"
+
+[setup]
+script = ""
+
+[[actions]]
+name = "Install"
+icon = "run"
+command = '''
+npm install
+'''
+
+[[actions]]
+name = "Validate plugins"
+icon = "check"
+command = '''
+node scripts/validate-plugins.js
+'''

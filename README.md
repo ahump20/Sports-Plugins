@@ -90,3 +90,4 @@ See [`docs/CONTRIBUTING.md`](./docs/CONTRIBUTING.md). Community plugins land in 
 Austin Humphrey built this marketplace to put the sports intelligence infrastructure behind Blaze Sports Intel into every developer's hands. The sabermetrics engine covering all 330 NCAA DI baseball programs was already live at [blazesportsintel.com/mcp](https://blazesportsintel.com/mcp). These plugins are the doors a developer walks through to use it.
 
 Born to blaze the path beaten less.
+
