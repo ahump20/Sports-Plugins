@@ -6,7 +6,7 @@
     "email": "john.humphrey@blazesportsintel.com",
     "url": "https://blazesportsintel.com"
   },
-  "description": "Curated sports intelligence plugins for Claude Code, Codex, and AI coding assistants. Live college baseball sabermetrics, team-specific intelligence, editorial voice, data visualization, and sports game development. Wraps the Blaze Sports Intel data engine at blazesportsintel.com/mcp.",
+  "description": "Curated sports intelligence plugins for Claude Code, Codex, and AI coding assistants. Live sabermetrics and analytics across MLB, NFL, NBA, college football, and NCAA Division I college baseball — plus team-specific intelligence, editorial voice, data visualization, and sports game development. Wraps the Blaze Sports Intel data engine at blazesportsintel.com/mcp (31 tools across 5 sports).",
   "plugins": [
     {
       "name": "cbb-sabermetrics",
@@ -39,9 +39,38 @@
     },
     {
       "name": "cardinals-intel",
-      "description": "St. Louis Cardinals baseball intelligence — tactical analysis, roster construction, player development, trade posture, media framing. Coming soon.",
+      "description": "St. Louis Cardinals baseball intelligence — tactical analysis, roster construction, player development, trade posture, media framing. Will depend on mlb-sabermetrics for live data. Coming soon.",
       "category": "scouting",
       "keywords": ["mlb", "cardinals", "st-louis", "scouting"],
+      "dependencies": ["mlb-sabermetrics"],
+      "status": "coming-soon"
+    },
+    {
+      "name": "mlb-sabermetrics",
+      "description": "Live MLB sabermetrics via BSI MCP — scoreboard, standings, team detail, game detail, league leaders. 5 tools wrapping the bsi_get_mlb_* family. Free tier, 30 req/min. Coming soon.",
+      "category": "analytics",
+      "keywords": ["mlb", "baseball", "sabermetrics", "mcp"],
+      "status": "coming-soon"
+    },
+    {
+      "name": "nfl-analytics",
+      "description": "Live NFL analytics via BSI MCP — scoreboard, standings, team detail, game detail, league leaders. 5 tools wrapping the bsi_get_nfl_* family. Coming soon.",
+      "category": "analytics",
+      "keywords": ["nfl", "football", "analytics", "mcp"],
+      "status": "coming-soon"
+    },
+    {
+      "name": "nba-analytics",
+      "description": "Live NBA analytics via BSI MCP — scoreboard, standings, team detail, game detail, league leaders. 5 tools wrapping the bsi_get_nba_* family. Coming soon.",
+      "category": "analytics",
+      "keywords": ["nba", "basketball", "analytics", "mcp"],
+      "status": "coming-soon"
+    },
+    {
+      "name": "cfb-analytics",
+      "description": "Live college football analytics via BSI MCP — scoreboard, standings, rankings, team detail, game detail, transfer portal tracker. 6 tools wrapping the bsi_get_cfb_* family. Coming soon.",
+      "category": "analytics",
+      "keywords": ["cfb", "college-football", "ncaa", "transfer-portal", "mcp"],
       "status": "coming-soon"
     },
     {

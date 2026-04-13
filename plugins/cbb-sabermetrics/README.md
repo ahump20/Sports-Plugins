@@ -2,7 +2,9 @@
 
 **Live college baseball sabermetrics for every NCAA DI program — 330 teams, 32 conferences, 10 tools.**
 
-Wraps the [Blaze Sports Intel MCP](https://blazesportsintel.com/mcp) so any developer using Claude Code or OpenAI Codex can query live college baseball intelligence through natural language.
+Wraps the college-baseball tool family of the [Blaze Sports Intel MCP](https://blazesportsintel.com/mcp) so any developer using Claude Code or OpenAI Codex can query live college baseball intelligence through natural language.
+
+> **Note on scope:** The BSI MCP actually exposes 31 tools across 5 sports (MLB, NFL, NBA, CFB, and NCAA DI college baseball). This plugin surfaces only the 10 college-baseball tools with CBB-specific agents, skills, and commands. For the other sports, see `mlb-sabermetrics`, `nfl-analytics`, `nba-analytics`, and `cfb-analytics` (coming soon).
 
 ## Install
 

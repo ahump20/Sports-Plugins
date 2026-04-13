@@ -6,12 +6,17 @@ Most plugins in this marketplace consume one or more MCP (Model Context Protocol
 
 **Endpoint:** `https://sabermetrics.blazesportsintel.com/mcp`
 **Marketing page:** [blazesportsintel.com/mcp](https://blazesportsintel.com/mcp)
+**Server identity:** `blaze-sports-intel` version 4.0.0
 **Transport:** Streamable HTTP (JSON-RPC 2.0)
 **Auth:** None (free tier)
 **Rate limit:** 30 requests/minute per caller
 **REST mirror:** `https://sabermetrics.blazesportsintel.com/v1/*`
 
-## Tools Exposed (10)
+## Tools Exposed (31 total across 5 sports)
+
+Grouped by sport family. Each group is designed to be surfaced by a dedicated plugin.
+
+### NCAA DI College Baseball (10 tools) → surfaced by `cbb-sabermetrics`
 
 | Tool | Purpose |
 |---|---|
@@ -25,6 +30,47 @@ Most plugins in this marketplace consume one or more MCP (Model Context Protocol
 | `bsi_get_team_schedule` | Full team schedules (past and upcoming) |
 | `bsi_get_match_detail` | Venue, weather, predictions, play-by-play, team stats |
 | `bsi_search_intel` | Cross-entity search across teams, players, games |
+
+### MLB (5 tools) → will be surfaced by `mlb-sabermetrics` (coming soon)
+
+| Tool | Purpose |
+|---|---|
+| `bsi_get_mlb_scoreboard` | Live/final MLB scores with venue and status |
+| `bsi_get_mlb_standings` | Division standings with wins, losses, run differential |
+| `bsi_get_mlb_team` | Team detail with roster and recent performance |
+| `bsi_get_mlb_game` | Game detail with box score and play-by-play |
+| `bsi_get_mlb_leaders` | League leaders by stat category |
+
+### NFL (5 tools) → will be surfaced by `nfl-analytics` (coming soon)
+
+| Tool | Purpose |
+|---|---|
+| `bsi_get_nfl_scoreboard` | Live/final NFL scores with venue and status |
+| `bsi_get_nfl_standings` | Division standings with records |
+| `bsi_get_nfl_team` | Team detail with roster and recent performance |
+| `bsi_get_nfl_game` | Game detail with box score and play-by-play |
+| `bsi_get_nfl_leaders` | League leaders by stat category |
+
+### NBA (5 tools) → will be surfaced by `nba-analytics` (coming soon)
+
+| Tool | Purpose |
+|---|---|
+| `bsi_get_nba_scoreboard` | Live/final NBA scores with venue and status |
+| `bsi_get_nba_standings` | Conference standings with records |
+| `bsi_get_nba_team` | Team detail with roster and recent performance |
+| `bsi_get_nba_game` | Game detail with box score and play-by-play |
+| `bsi_get_nba_leaders` | League leaders by stat category |
+
+### NCAA College Football (6 tools) → will be surfaced by `cfb-analytics` (coming soon)
+
+| Tool | Purpose |
+|---|---|
+| `bsi_get_cfb_scoreboard` | Live/final CFB scores with venue and status |
+| `bsi_get_cfb_standings` | Conference standings with records |
+| `bsi_get_cfb_rankings` | AP/Coaches Poll national rankings |
+| `bsi_get_cfb_team` | Team detail with roster and recent performance |
+| `bsi_get_cfb_game` | Game detail with box score and play-by-play |
+| `bsi_get_cfb_transfer_portal` | Transfer portal tracker |
 
 Every response envelope includes `meta`:
 
