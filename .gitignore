@@ -1,9 +1,39 @@
-*.DS_Store
-.claude/
+# Dependencies
 node_modules/
+
+# Build output
 dist/
+*.tsbuildinfo
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# OS
+*.DS_Store
+Thumbs.db
+
+# Env
 .env
 .env.local
+.env.*.local
+
+# Logs
 *.log
+npm-debug.log*
+
+# Coverage
 coverage/
+
+# Claude
+.claude/
+
+# Turbo
 .turbo/
+
+# Temp
+tmp/
+.tmp/

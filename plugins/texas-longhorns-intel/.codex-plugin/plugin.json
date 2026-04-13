@@ -1,0 +1,45 @@
+{
+  "name": "texas-longhorns-intel",
+  "version": "0.1.0",
+  "description": "Texas Longhorns baseball intelligence — program doctrine plus live sabermetrics. Scouting reports, SEC matchup previews, roster evaluation, NIL efficiency analysis, historical framing. Depends on cbb-sabermetrics for live data access.",
+  "author": {
+    "name": "Austin Humphrey",
+    "email": "john.humphrey@blazesportsintel.com",
+    "url": "https://blazesportsintel.com"
+  },
+  "homepage": "https://blazesportsintel.com/college-baseball/texas-intelligence/",
+  "repository": "https://github.com/ahump20/Sports-Plugins",
+  "license": "MIT",
+  "keywords": [
+    "texas",
+    "longhorns",
+    "college-baseball",
+    "sec",
+    "scouting",
+    "nil",
+    "woba",
+    "wrc-plus"
+  ],
+  "skills": "./skills/",
+  "dependencies": {
+    "cbb-sabermetrics": "^0.1.0"
+  },
+  "interface": {
+    "displayName": "Texas Longhorns Baseball Intel",
+    "shortDescription": "Texas baseball scouting, matchup previews, NIL analysis",
+    "longDescription": "Use Texas Longhorns Baseball Intel for Texas-specific college baseball analysis that combines stable program doctrine (six CWS titles, 38 CWS appearances, UFCU Disch-Falk context, Jim Schlossnagle era) with live sabermetrics data from the cbb-sabermetrics plugin. Produces scouting reports on Texas and its SEC opponents, pre-series matchup previews, roster evaluation with HAV-F scoring, NIL-to-performance efficiency analysis, and historical comparative framing. Every current-season claim verified against the BSI MCP — no fabrication.",
+    "developerName": "Austin Humphrey / Blaze Sports Intel",
+    "category": "Scouting",
+    "capabilities": [
+      "Read",
+      "Interactive"
+    ],
+    "websiteURL": "https://blazesportsintel.com/college-baseball/texas-intelligence/",
+    "privacyPolicyURL": "https://blazesportsintel.com/privacy",
+    "termsOfServiceURL": "https://blazesportsintel.com/terms",
+    "defaultPrompt": "Give me the Texas scouting report for this weekend's SEC series.",
+    "brandColor": "#BF5700",
+    "composerIcon": "./assets/icon-small.svg",
+    "screenshots": []
+  }
+}

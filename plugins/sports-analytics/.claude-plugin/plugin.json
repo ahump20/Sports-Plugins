@@ -1,0 +1,9 @@
+{
+  "name": "sports-analytics",
+  "description": "General-purpose sports analytics plugin for building data pipelines, interactive stat visualizations, and predictive models across MLB, NFL, NBA, and college sports.",
+  "version": "0.1.0",
+  "author": {
+    "name": "Austin Humphrey",
+    "email": "Austin@BlazeSportsIntel.com"
+  }
+}

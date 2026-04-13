@@ -1,0 +1,12 @@
+{
+  "name": "texas-longhorns-intel",
+  "description": "Texas Longhorns baseball intelligence — program doctrine plus live MCP data. Scouting reports, SEC matchup previews, roster evaluation, NIL efficiency analysis, program history, pre-series opponent briefs. Depends on cbb-sabermetrics for live data tools.",
+  "author": {
+    "name": "Austin Humphrey",
+    "email": "john.humphrey@blazesportsintel.com",
+    "url": "https://blazesportsintel.com"
+  },
+  "dependencies": {
+    "cbb-sabermetrics": "^0.1.0"
+  }
+}

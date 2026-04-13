@@ -1,9 +1,15 @@
 {
+  "$schema": "https://raw.githubusercontent.com/anthropics/claude-plugins-official/main/.claude-plugin/marketplace.schema.json",
   "marketplace": {
     "name": "Sports-Plugins",
     "version": "1.0.0",
     "description": "A curated marketplace of high-quality community sports plugins for Claude Code, Codex, and AI coding assistants",
     "homepage": "https://github.com/ahump20/Sports-Plugins",
+    "owner": {
+      "name": "Austin Humphrey",
+      "email": "john.humphrey@blazesportsintel.com",
+      "url": "https://blazesportsintel.com"
+    },
     "categories": [
       "live-scores",
       "sabermetrics",
@@ -17,40 +23,65 @@
   },
   "plugins": [
     {
+      "name": "cbb-sabermetrics",
+      "description": "Live college baseball sabermetrics for 330 NCAA DI programs — wOBA, wRC+, FIP, BABIP, ISO, conference power index, SOS-adjusted rankings. Wraps the Blaze Sports Intel MCP at blazesportsintel.com/mcp. Free tier, 30 requests/min, no API key.",
+      "category": "analytics",
+      "source": "./plugins/cbb-sabermetrics",
+      "homepage": "https://blazesportsintel.com/mcp",
+      "keywords": ["college-baseball", "ncaa", "sabermetrics", "mcp", "woba", "wrc-plus", "fip"],
+      "status": "available"
+    },
+    {
+      "name": "texas-longhorns-intel",
+      "description": "Texas Longhorns baseball intelligence — scouting reports, SEC matchup previews, roster evaluation, NIL efficiency analysis, program history. Depends on cbb-sabermetrics.",
+      "category": "scouting",
+      "source": "./plugins/texas-longhorns-intel",
+      "homepage": "https://blazesportsintel.com/college-baseball/texas-intelligence/",
+      "keywords": ["texas", "longhorns", "college-baseball", "sec", "scouting", "nil"],
+      "dependencies": ["cbb-sabermetrics"],
+      "status": "available"
+    },
+    {
       "name": "live-scores",
       "path": "plugins/live-scores",
       "description": "Real-time sports scores, schedules, and game updates across MLB, NFL, NBA, and college sports",
-      "categories": ["live-scores", "mlb", "nfl", "nba", "college-sports"]
+      "categories": ["live-scores", "mlb", "nfl", "nba", "college-sports"],
+      "status": "available"
     },
     {
       "name": "college-baseball-sabermetrics",
       "path": "plugins/college-baseball-sabermetrics",
       "description": "Advanced college baseball sabermetrics — wOBA, FIP, wRC+, barrel rates, and pitch-level analytics",
-      "categories": ["sabermetrics", "analytics", "college-sports"]
+      "categories": ["sabermetrics", "analytics", "college-sports"],
+      "status": "available"
     },
     {
       "name": "fantasy-sports",
       "path": "plugins/fantasy-sports",
       "description": "Fantasy sports roster optimization, matchup analysis, trade evaluator, and waiver wire recommendations",
-      "categories": ["fantasy-sports", "analytics"]
+      "categories": ["fantasy-sports", "analytics"],
+      "status": "available"
     },
     {
       "name": "sports-data-explorer",
       "path": "plugins/sports-data-explorer",
       "description": "Query and explore sports statistics, compare players, and generate data visualizations",
-      "categories": ["analytics", "mlb", "nfl", "nba", "college-sports"]
+      "categories": ["analytics", "mlb", "nfl", "nba", "college-sports"],
+      "status": "available"
     },
     {
       "name": "college-football-intel",
       "path": "plugins/college-football-intel",
       "description": "College football intelligence — transfer portal tracking, recruiting rankings, conference standings, and Big 12 analytics",
-      "categories": ["analytics", "college-sports"]
+      "categories": ["analytics", "college-sports"],
+      "status": "available"
     },
     {
       "name": "mlb-the-show",
       "path": "plugins/mlb-the-show",
       "description": "MLB The Show Diamond Dynasty card analytics — card valuations, market trends, squad builder, and investment picks",
-      "categories": ["analytics", "mlb"]
+      "categories": ["analytics", "mlb"],
+      "status": "available"
     }
   ],
   "external_plugins": [
