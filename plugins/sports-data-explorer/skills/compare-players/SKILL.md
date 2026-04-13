@@ -1,5 +1,5 @@
 ---
-name: compare
+name: compare-players
 description: Compare two sports players side-by-side with advanced stats and contextual analysis
 argument-hint: <player-a> vs <player-b> [season|career]
 allowed-tools: [Read, Bash, Grep]
