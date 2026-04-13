@@ -10,7 +10,7 @@ import type {
   PitcherLine,
   DataSource,
 } from '../../../src/types/index.js';
-import { normalizeIP, applyBatterDefaults, gameDedupKey } from '../../../src/utils/normalization.js';
+import { applyBatterDefaults, gameDedupKey } from '../../../src/utils/normalization.js';
 import * as saber from '../../../src/utils/sabermetrics.js';
 
 // ---------------------------------------------------------------------------
@@ -108,8 +108,7 @@ function normalizeBatter(b: BatterLine): BatterLine {
 }
 
 function normalizePitcher(p: PitcherLine): PitcherLine {
-  const ip = typeof p.ip === 'string' ? normalizeIP(p.ip) : p.ip;
-  return { ...p, ip };
+  return p;
 }
 
 function validatePitcherERA(
