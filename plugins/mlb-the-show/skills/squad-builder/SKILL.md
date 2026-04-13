@@ -1,13 +1,13 @@
 ---
 name: squad
-description: Build and optimise a Diamond Dynasty squad within a budget, position requirements, and collection goals
+description: Build and optimize a Diamond Dynasty squad within a budget, position requirements, and collection goals
 argument-hint: <budget> [position|theme]
 allowed-tools: [Read, Bash, Grep]
 ---
 
 # Squad Builder
 
-Builds and optimises Diamond Dynasty lineups within budget and positional constraints.
+Builds and optimizes Diamond Dynasty lineups within budget and positional constraints.
 
 ## Arguments
 
@@ -24,7 +24,7 @@ When this command is invoked:
 
 1. Parse the budget (convert `k` = ×1,000, `m` = ×1,000,000)
 2. Parse the optional filter (position group or build theme)
-3. Generate an optimised lineup maximising overall value within budget
+3. Generate an optimized lineup maximizing overall value within budget
 
 ## Output Format
 
