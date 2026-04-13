@@ -14,6 +14,8 @@ A curated marketplace of high-quality community sports plugins for [Claude Code]
 | **[college-baseball-sabermetrics](plugins/college-baseball-sabermetrics/)** | Advanced college baseball sabermetrics — wOBA, FIP, wRC+, barrel rates, pitch analytics |
 | **[fantasy-sports](plugins/fantasy-sports/)** | Fantasy roster optimization, matchup analysis, trade evaluation, and waiver wire picks |
 | **[sports-data-explorer](plugins/sports-data-explorer/)** | Query stats, compare players, and explore data across all major sports |
+| **[college-football-intel](plugins/college-football-intel/)** | College football intel — transfer portal, recruiting rankings, Big 12 standings |
+| **[mlb-the-show](plugins/mlb-the-show/)** | MLB The Show Diamond Dynasty card analytics — valuations, squad builder, investments |
 
 ### External Plugins (`/external_plugins`)
 
@@ -65,6 +67,27 @@ The [Model Context Protocol](https://modelcontextprotocol.io/) (MCP) serves as t
 
 ```bash
 node scripts/validate-plugins.mjs
+```
+
+## Shared Library (`/lib`)
+
+The `lib/` directory contains portable TypeScript modules used across plugins:
+
+| Module | Description |
+|--------|-------------|
+| **[sabermetrics.ts](lib/sabermetrics.ts)** | Pure-function sabermetric calculations — wOBA, FIP, wRC+, BABIP, ISO, xFIP, CSW%, and more with NCAA-calibrated linear weights |
+| **[scores-client.ts](lib/scores-client.ts)** | ESPN public API client — fetches live scoreboards, normalises response data into typed `GameScore` objects |
+| **[types.ts](lib/types.ts)** | Shared TypeScript interfaces — `BattingLine`, `PitchingLine`, `GameScore`, `Player`, `TeamStanding`, etc. |
+
+### Sabermetrics Library
+
+The formulas in `lib/sabermetrics.ts` are calibrated for NCAA Division I college baseball (BBCOR bats, smaller samples). They can also be used for MLB data by adjusting the linear-weight constants.
+
+```ts
+import { wOBA, fip, computeBattingAdvanced } from "./lib/sabermetrics.js";
+
+const advanced = computeBattingAdvanced(battingLine, parkFactor);
+console.log(advanced.wOBA, advanced.wRCPlus, advanced.babip);
 ```
 
 ## Contributing

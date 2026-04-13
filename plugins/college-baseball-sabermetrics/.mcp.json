@@ -2,6 +2,95 @@
   "college-baseball-stats": {
     "type": "http",
     "url": "https://blazesportsintel.com/mcp",
-    "description": "Blaze Sports Intel MCP endpoint for college baseball analytics and sabermetrics data"
+    "description": "Blaze Sports Intel MCP endpoint for college baseball analytics and sabermetrics data",
+    "tools": [
+      {
+        "name": "get_box_score",
+        "description": "Retrieve a complete box score for a college baseball game",
+        "inputSchema": {
+          "type": "object",
+          "properties": {
+            "team": { "type": "string", "description": "Team name or abbreviation" },
+            "date": { "type": "string", "description": "Game date in YYYY-MM-DD format" },
+            "opponent": { "type": "string", "description": "Optional opponent name to disambiguate doubleheaders" }
+          },
+          "required": ["team"]
+        }
+      },
+      {
+        "name": "get_player_stats",
+        "description": "Retrieve advanced sabermetric profile for a college baseball player",
+        "inputSchema": {
+          "type": "object",
+          "properties": {
+            "name": { "type": "string", "description": "Player name" },
+            "team": { "type": "string", "description": "Team name (helps disambiguate)" },
+            "season": { "type": "integer", "description": "Season year (default: current)" }
+          },
+          "required": ["name"]
+        }
+      },
+      {
+        "name": "get_team_stats",
+        "description": "Retrieve team-level analytics with conference context",
+        "inputSchema": {
+          "type": "object",
+          "properties": {
+            "team": { "type": "string", "description": "Team name" },
+            "season": { "type": "integer", "description": "Season year" }
+          },
+          "required": ["team"]
+        }
+      },
+      {
+        "name": "get_standings",
+        "description": "Retrieve conference or national standings with advanced metrics",
+        "inputSchema": {
+          "type": "object",
+          "properties": {
+            "conference": { "type": "string", "description": "Conference name (e.g., Big 12, SEC) or 'national' for Top 25" },
+            "category": { "type": "string", "enum": ["overall", "hitting", "pitching", "rpi"], "description": "Optional category filter" }
+          },
+          "required": ["conference"]
+        }
+      },
+      {
+        "name": "get_schedule",
+        "description": "Retrieve a team's schedule with results and upcoming games",
+        "inputSchema": {
+          "type": "object",
+          "properties": {
+            "team": { "type": "string", "description": "Team name" },
+            "season": { "type": "integer", "description": "Season year" }
+          },
+          "required": ["team"]
+        }
+      },
+      {
+        "name": "search_players",
+        "description": "Search for college baseball players by name, team, or position",
+        "inputSchema": {
+          "type": "object",
+          "properties": {
+            "query": { "type": "string", "description": "Search query (name, team, or position)" },
+            "conference": { "type": "string", "description": "Optional conference filter" },
+            "position": { "type": "string", "description": "Optional position filter" }
+          },
+          "required": ["query"]
+        }
+      },
+      {
+        "name": "compute_sabermetrics",
+        "description": "Calculate sabermetric metrics from raw stat inputs",
+        "inputSchema": {
+          "type": "object",
+          "properties": {
+            "metric": { "type": "string", "enum": ["wOBA", "FIP", "wRC+", "BABIP", "ISO", "xFIP", "CSW%"], "description": "Which metric to calculate" },
+            "stats": { "type": "object", "description": "Raw stat inputs matching BattingLine or PitchingLine shape" }
+          },
+          "required": ["metric", "stats"]
+        }
+      }
+    ]
   }
 }

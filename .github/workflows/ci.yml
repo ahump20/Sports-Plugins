@@ -1,0 +1,33 @@
+name: CI — Validate & Test
+
+on:
+  push:
+    branches: [main, "copilot/**"]
+  pull_request:
+    branches: [main]
+
+jobs:
+  validate:
+    name: Validate Plugins & Run Tests
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+
+      - name: Validate plugin structure
+        run: node scripts/validate-plugins.mjs
+
+      - name: Run unit tests
+        run: node --test tests/*.test.mjs
+
+      - name: Verify JSON files are valid
+        run: |
+          find . -name "*.json" -not -path "./.git/*" -not -path "./node_modules/*" | while read f; do
+            echo "Checking $f"
+            node -e "JSON.parse(require('fs').readFileSync('$f','utf-8'))" || exit 1
+          done

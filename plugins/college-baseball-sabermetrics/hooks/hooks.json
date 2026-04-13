@@ -1,0 +1,29 @@
+{
+  "description": "College baseball sabermetrics plugin hooks — validate stat inputs and format outputs",
+  "hooks": {
+    "PreToolUse": [
+      {
+        "matcher": "college-baseball-stats",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "node -e \"const d=JSON.parse(process.env.TOOL_INPUT||'{}'); const errs=[]; if(d.metric && !['wOBA','FIP','wRC+','BABIP','ISO','xFIP','CSW%'].includes(d.metric)) errs.push('Unknown metric: '+d.metric); if(errs.length){console.error(JSON.stringify({error:errs.join(', ')})); process.exit(1);} console.log(JSON.stringify({status:'ok'}));\"",
+            "timeout": 5
+          }
+        ]
+      }
+    ],
+    "PostToolUse": [
+      {
+        "matcher": "college-baseball-stats",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "node -e \"const d=JSON.parse(process.env.TOOL_OUTPUT||'{}'); if(d.stats){Object.entries(d.stats).forEach(([k,v])=>{if(typeof v==='number') d.stats[k]=Math.round(v*1000)/1000;}); console.log(JSON.stringify(d));} else {console.log(JSON.stringify(d));}\"",
+            "timeout": 5
+          }
+        ]
+      }
+    ]
+  }
+}

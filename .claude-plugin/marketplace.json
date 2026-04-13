@@ -39,6 +39,18 @@
       "path": "plugins/sports-data-explorer",
       "description": "Query and explore sports statistics, compare players, and generate data visualizations",
       "categories": ["analytics", "mlb", "nfl", "nba", "college-sports"]
+    },
+    {
+      "name": "college-football-intel",
+      "path": "plugins/college-football-intel",
+      "description": "College football intelligence — transfer portal tracking, recruiting rankings, conference standings, and Big 12 analytics",
+      "categories": ["analytics", "college-sports"]
+    },
+    {
+      "name": "mlb-the-show",
+      "path": "plugins/mlb-the-show",
+      "description": "MLB The Show Diamond Dynasty card analytics — card valuations, market trends, squad builder, and investment picks",
+      "categories": ["analytics", "mlb"]
     }
   ],
   "external_plugins": [

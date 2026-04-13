@@ -22,7 +22,7 @@
   ],
   "scripts": {
     "lint": "echo 'No linter configured yet'",
-    "test": "node --test tests/",
+    "test": "node --test tests/*.test.mjs",
     "validate": "node scripts/validate-plugins.mjs"
   }
 }
