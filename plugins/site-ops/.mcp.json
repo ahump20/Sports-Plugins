@@ -1,0 +1,10 @@
+{
+  "mcpServers": {
+    "chrome-devtools": {
+      "type": "stdio",
+      "command": "npx",
+      "args": ["-y", "chrome-devtools-mcp@latest"],
+      "description": "Chrome DevTools MCP — navigate, screenshot, evaluate JS, inspect console and network. Used by the build-verify agent for in-session visual compliance checks."
+    }
+  }
+}

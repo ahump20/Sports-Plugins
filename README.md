@@ -24,11 +24,15 @@ codex plugins install cbb-sabermetrics
 |---|---|
 | [`cbb-sabermetrics`](./plugins/cbb-sabermetrics/) | Live college baseball sabermetrics — 10 tools covering scores, standings, rankings, team + player advanced stats, leaderboards, conference power index, matchup detail. Wraps the live BSI MCP. Free tier, 30 req/min, no API key. |
 | [`texas-longhorns-intel`](./plugins/texas-longhorns-intel/) | Texas Longhorns baseball intelligence — program doctrine + live MCP data. Scouting reports, SEC matchup previews, roster evaluation, NIL efficiency. Depends on `cbb-sabermetrics`. |
+| [`gameday-ops`](./plugins/gameday-ops/) | Live game coverage desk — real-time monitoring, leverage tracking, 30-minute post-game recaps. Imports the production `bsi-gameday-ops` skill with 6 reference workflows and 4 output templates. |
+| [`editorial-desk`](./plugins/editorial-desk/) | Editorial voice + anti-fabrication discipline for sports journalism. Three skills — BSI voice guide, anti-fabrication protocol, and source-validated research workflow — plus commands for brief + long-form draft generation. |
+| [`site-ops`](./plugins/site-ops/) | Heritage v2.1 visual compliance, Chrome-devtools in-session screenshots after UI edits, and skill-package curation. Bundles `visual-audit` skill plus `build-verify` and `skill-package-curator` agents. |
+| [`champion-enigma-engine`](./plugins/champion-enigma-engine/) | Biometric-visual AI framework for quantifying athlete intangibles — VCA / PD / PP / NQE components, feasibility-rated per 2025 research. Scaffolds the framework; pairs with `huggingface-skills` for ML pipelines. |
 
 ## Coming Soon
 
 - `cardinals-intel` — St. Louis Cardinals baseball intelligence
-- `sports-storytelling` — editorial voice for sports content
+- `mlb-sabermetrics` · `nfl-analytics` · `nba-analytics` · `cfb-analytics` — sport-specific sabermetric/analytics plugins wrapping the remaining BSI MCP tools
 - `sports-viz` — data visualization patterns (Savant-style charts, biomechanics)
 - `sports-arcade-dev` — browser sports game development
 

@@ -1,0 +1,41 @@
+{
+  "name": "site-ops",
+  "version": "0.1.0",
+  "description": "Site operations — visual compliance checks against the Heritage v2.1 design system, build-verify screenshots after UI edits, and skill-package curation for the universal-skills-marketplace.",
+  "author": {
+    "name": "Austin Humphrey",
+    "email": "john.humphrey@blazesportsintel.com",
+    "url": "https://blazesportsintel.com"
+  },
+  "homepage": "https://blazesportsintel.com",
+  "repository": "https://github.com/ahump20/Sports-Plugins",
+  "license": "MIT",
+  "keywords": [
+    "deploy",
+    "visual-audit",
+    "heritage-design",
+    "chrome-devtools",
+    "skill-package",
+    "qa"
+  ],
+  "skills": "./skills/",
+  "agents": "./agents/",
+  "mcpServers": "./.mcp.json",
+  "interface": {
+    "displayName": "Site Ops",
+    "shortDescription": "Visual compliance, deploy gates, and skill-package curation",
+    "longDescription": "Site Ops bundles the visual-audit skill, the build-verify agent (in-session Chrome screenshots with Heritage v2.1 token checks), and the skill-package-curator agent (validates .skill manifests and wires them into the universal-skills-marketplace). Use this plugin when editing UI, preparing a deploy, or publishing a skill package. Imports the production skills and agents from the Blaze Sports Intel workspace.",
+    "developerName": "Austin Humphrey / Blaze Sports Intel",
+    "category": "DevOps",
+    "capabilities": [
+      "Read",
+      "Interactive"
+    ],
+    "websiteURL": "https://blazesportsintel.com",
+    "privacyPolicyURL": "https://blazesportsintel.com/privacy",
+    "termsOfServiceURL": "https://blazesportsintel.com/terms",
+    "defaultPrompt": "Run a Heritage v2.1 visual audit on blazesportsintel.com/scores and flag any banned text or broken tokens.",
+    "brandColor": "#BF5700",
+    "screenshots": []
+  }
+}

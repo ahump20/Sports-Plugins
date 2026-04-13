@@ -1,0 +1,39 @@
+{
+  "name": "editorial-desk",
+  "version": "0.1.0",
+  "description": "Editorial voice + workflow for sports journalism that covers the athletes, programs, and markets mainstream media overlooks. Three skills: bsi-voice-guide (tone + cadence), anti-fabrication-protocol (the 'no made-up stats or quotes' discipline), research-workflow (source-validated process).",
+  "author": {
+    "name": "Austin Humphrey",
+    "email": "john.humphrey@blazesportsintel.com",
+    "url": "https://blazesportsintel.com"
+  },
+  "homepage": "https://blazesportsintel.com",
+  "repository": "https://github.com/ahump20/Sports-Plugins",
+  "license": "MIT",
+  "keywords": [
+    "editorial",
+    "sports-journalism",
+    "writing",
+    "voice-guide",
+    "anti-fabrication",
+    "undercovered"
+  ],
+  "skills": "./skills/",
+  "interface": {
+    "displayName": "Editorial Desk",
+    "shortDescription": "Sports journalism voice + anti-fabrication discipline",
+    "longDescription": "The Editorial Desk runs sports-journalism workflows for outlets that prioritize athletes, programs, and markets overlooked by mainstream coverage. It enforces the BSI voice — old-school scouting instinct fused with new-school sabermetrics, direct and decisive, raw and conversational — while holding a hard line on fabrication. Every stat comes from a source. Every quote is real. If the data isn't there, the piece says so. Skills: `bsi-voice-guide` (voice + cadence + prohibited filler), `anti-fabrication-protocol` (enforces data-surface-state discipline in prose), `research-workflow` (source hierarchy, contradictory-evidence handling, reproducibility checklist).",
+    "developerName": "Austin Humphrey / Blaze Sports Intel",
+    "category": "Editorial",
+    "capabilities": [
+      "Read",
+      "Interactive"
+    ],
+    "websiteURL": "https://blazesportsintel.com",
+    "privacyPolicyURL": "https://blazesportsintel.com/privacy",
+    "termsOfServiceURL": "https://blazesportsintel.com/terms",
+    "defaultPrompt": "Draft a 400-word feature on a mid-major baseball program making a regional run. No invented stats, no clichés, anti-prestige-bias lens.",
+    "brandColor": "#BF5700",
+    "screenshots": []
+  }
+}

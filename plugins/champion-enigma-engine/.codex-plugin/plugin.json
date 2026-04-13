@@ -1,0 +1,42 @@
+{
+  "name": "champion-enigma-engine",
+  "version": "0.1.0",
+  "description": "CEE — Biometric-visual AI framework for quantifying athlete intangibles. Four skills (cee-framework, visual-cortex-analyzer, physiological-decoder, psychological-profiler) and one evaluator agent. Grounded in 2025 research, every capability feasibility-rated so no overstated claims ship.",
+  "author": {
+    "name": "Austin Humphrey",
+    "email": "john.humphrey@blazesportsintel.com",
+    "url": "https://blazesportsintel.com"
+  },
+  "homepage": "https://blazesportsintel.com",
+  "repository": "https://github.com/ahump20/Sports-Plugins",
+  "license": "MIT",
+  "keywords": [
+    "biometric",
+    "vision",
+    "mental-toughness",
+    "flow-state",
+    "scouting",
+    "intangibles",
+    "neuro",
+    "athlete-evaluation"
+  ],
+  "skills": "./skills/",
+  "agents": "./agents/",
+  "interface": {
+    "displayName": "Champion Enigma Engine",
+    "shortDescription": "Biometric-visual AI for quantifying athlete intangibles",
+    "longDescription": "The Champion Enigma Engine (CEE) is a research-grounded framework for quantifying the intangible traits that separate champions — emotional resilience, focus, mental toughness, neurological efficiency, clutch behavior. It has four components: (1) Visual Cortex Analyzer reads face/gaze/body-language, (2) Physiological Decoder reads stress/flow/neural-efficiency via wearables, (3) Psychological Profiler combines biometric proxies with psych-survey data, (4) Neural Quantification Engine fuses the three into performance predictions. Every capability is feasibility-rated (Feasible / Emerging / Speculative) per 2025 research. This plugin scaffolds the framework; actual ML training happens in downstream HuggingFace-based pipelines.",
+    "developerName": "Austin Humphrey / Blaze Sports Intel",
+    "category": "Scouting",
+    "capabilities": [
+      "Read",
+      "Interactive"
+    ],
+    "websiteURL": "https://blazesportsintel.com",
+    "privacyPolicyURL": "https://blazesportsintel.com/privacy",
+    "termsOfServiceURL": "https://blazesportsintel.com/terms",
+    "defaultPrompt": "Walk me through how the Champion Enigma Engine would evaluate a college quarterback prospect — what's feasible today, what's emerging, what's speculative.",
+    "brandColor": "#BF5700",
+    "screenshots": []
+  }
+}
