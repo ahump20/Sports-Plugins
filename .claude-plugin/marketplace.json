@@ -74,11 +74,60 @@
       "status": "coming-soon"
     },
     {
-      "name": "sports-storytelling",
-      "description": "Editorial voice for sports content that centers the human element — athlete profiles, program narratives, community impact stories, newsletter copy, podcast briefs. Coming soon.",
+      "name": "editorial-desk",
+      "description": "Editorial voice + anti-fabrication discipline for sports journalism that centers undercovered programs and players. Three skills (bsi-voice-guide, anti-fabrication-protocol, research-workflow) and two commands for brief + draft generation.",
+      "author": {
+        "name": "Austin Humphrey",
+        "email": "john.humphrey@blazesportsintel.com",
+        "url": "https://blazesportsintel.com"
+      },
       "category": "editorial",
-      "keywords": ["writing", "editorial", "sports-journalism", "storytelling"],
-      "status": "coming-soon"
+      "source": "./plugins/editorial-desk",
+      "homepage": "https://blazesportsintel.com",
+      "keywords": ["writing", "editorial", "sports-journalism", "voice-guide", "anti-fabrication"],
+      "status": "available"
+    },
+    {
+      "name": "gameday-ops",
+      "description": "Live game coverage desk — real-time monitoring, leverage tracking, 30-minute post-game recap generation. Imports the production bsi-gameday-ops skill with 6 reference workflows and 4 output templates. Wired to the Blaze Sports Intel MCP.",
+      "author": {
+        "name": "Austin Humphrey",
+        "email": "john.humphrey@blazesportsintel.com",
+        "url": "https://blazesportsintel.com"
+      },
+      "category": "live-operations",
+      "source": "./plugins/gameday-ops",
+      "homepage": "https://blazesportsintel.com",
+      "keywords": ["gameday", "live-coverage", "in-game", "recap", "leverage", "win-probability", "mcp"],
+      "status": "available"
+    },
+    {
+      "name": "site-ops",
+      "description": "Site operations — Heritage v2.1 visual compliance, Chrome-devtools in-session screenshots after UI edits, skill-package curation for the universal-skills-marketplace. Bundles the visual-audit skill plus the build-verify and skill-package-curator agents.",
+      "author": {
+        "name": "Austin Humphrey",
+        "email": "john.humphrey@blazesportsintel.com",
+        "url": "https://blazesportsintel.com"
+      },
+      "category": "devops",
+      "source": "./plugins/site-ops",
+      "homepage": "https://blazesportsintel.com",
+      "keywords": ["deploy", "visual-audit", "heritage-design", "chrome-devtools", "qa", "skill-package"],
+      "status": "available"
+    },
+    {
+      "name": "champion-enigma-engine",
+      "description": "Biometric-visual AI framework for quantifying athlete intangibles — emotional resilience, focus, mental toughness, neurological efficiency. Four components (VCA / PD / PP / NQE), feasibility-rated per 2025 research, consent-first. Scaffolds the framework; pairs with huggingface-skills for ML pipelines.",
+      "author": {
+        "name": "Austin Humphrey",
+        "email": "john.humphrey@blazesportsintel.com",
+        "url": "https://blazesportsintel.com"
+      },
+      "category": "scouting",
+      "source": "./plugins/champion-enigma-engine",
+      "homepage": "https://blazesportsintel.com",
+      "keywords": ["biometric", "vision", "mental-toughness", "flow-state", "scouting", "intangibles", "neuro", "athlete-evaluation"],
+      "status": "available"
     },
     {
       "name": "sports-viz",

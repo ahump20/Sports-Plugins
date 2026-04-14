@@ -1,0 +1,9 @@
+{
+  "mcpServers": {
+    "blaze-sports-intel": {
+      "type": "http",
+      "url": "https://blazesportsintel.com/mcp",
+      "description": "Blaze Sports Intel MCP — 31 tools across MLB, NFL, NBA, CFB, and NCAA DI college baseball. Live scoreboards, in-game detail, standings, player/team lookups. Free tier, 30 requests/minute, no API key required."
+    }
+  }
+}

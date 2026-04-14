@@ -1,0 +1,9 @@
+{
+  "name": "site-ops",
+  "description": "Site operations for sports intelligence platforms — visual compliance, deploy gates, and skill-package curation. Heritage design system verification, Chrome-devtools in-session screenshots, and universal-skills-marketplace manifest management.",
+  "author": {
+    "name": "Austin Humphrey",
+    "email": "john.humphrey@blazesportsintel.com",
+    "url": "https://blazesportsintel.com"
+  }
+}

@@ -1,0 +1,9 @@
+{
+  "name": "gameday-ops",
+  "description": "Live game coverage operations for sports intelligence. Real-time monitoring, in-game analysis, leverage situation tracking, and rapid post-game recaps. Speed and accuracy are co-equal — this plugin runs while games are happening.",
+  "author": {
+    "name": "Austin Humphrey",
+    "email": "john.humphrey@blazesportsintel.com",
+    "url": "https://blazesportsintel.com"
+  }
+}

@@ -1,0 +1,42 @@
+{
+  "name": "gameday-ops",
+  "version": "0.1.0",
+  "description": "Live game coverage operations — real-time monitoring, in-game analysis, leverage tracking, and rapid post-game recaps. Imports the production bsi-gameday-ops skill with 6 reference docs and 4 output templates.",
+  "author": {
+    "name": "Austin Humphrey",
+    "email": "john.humphrey@blazesportsintel.com",
+    "url": "https://blazesportsintel.com"
+  },
+  "homepage": "https://blazesportsintel.com",
+  "repository": "https://github.com/ahump20/Sports-Plugins",
+  "license": "MIT",
+  "keywords": [
+    "gameday",
+    "live-coverage",
+    "in-game",
+    "recap",
+    "leverage",
+    "win-probability",
+    "live-scores",
+    "mcp"
+  ],
+  "skills": "./skills/",
+  "mcpServers": "./.mcp.json",
+  "interface": {
+    "displayName": "Gameday Operations",
+    "shortDescription": "Live game coverage desk — monitor, analyze, recap in real time",
+    "longDescription": "Gameday Operations runs the live coverage desk. When a game is in progress it routes to real-time monitoring, leverage-situation tracking, win-probability reads, and rapid post-game recap generation. Triggers automatically on phrases like \"live game\", \"game thread\", \"current inning\", \"walk-off\", or during college baseball game hours (Tue–Sun, 2 PM – 11 PM CT). Routes from college-baseball and team-specific intelligence plugins. Includes 6 reference workflows (live-monitoring, leverage-situations, single-game-focus, post-game-recap, handoff-protocol, tool-priority) and 4 output templates. Wired to the Blaze Sports Intel MCP at blazesportsintel.com/mcp for live data.",
+    "developerName": "Austin Humphrey / Blaze Sports Intel",
+    "category": "Live Operations",
+    "capabilities": [
+      "Read",
+      "Interactive"
+    ],
+    "websiteURL": "https://blazesportsintel.com",
+    "privacyPolicyURL": "https://blazesportsintel.com/privacy",
+    "termsOfServiceURL": "https://blazesportsintel.com/terms",
+    "defaultPrompt": "What college baseball games are in progress right now? Give me the leverage situations in the close ones.",
+    "brandColor": "#BF5700",
+    "screenshots": []
+  }
+}
