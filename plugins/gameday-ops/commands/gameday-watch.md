@@ -26,7 +26,7 @@ Start the live coverage monitor.
 
 ## Output
 
-Uses `assets/scoreboard-template.md` from the bsi-gameday-ops skill. Close games (score diff ≤ 3 in baseball, ≤ 7 in football, ≤ 5 in basketball) get 🔥. High-leverage late-inning situations get ⚡.
+Uses `assets/scoreboard-template.md` from the bsi-gameday-ops skill. Close games (score diff ≤ 3 in baseball, ≤ 7 in football, ≤ 5 in basketball) and high-leverage late-inning situations are marked with text status prefixes/flags consistent with that template (no emoji).
 
 ## Refresh cadence
 
