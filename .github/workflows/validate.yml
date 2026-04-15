@@ -17,7 +17,7 @@ jobs:
     name: Validate JSON manifests
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v6
 
       - name: Check marketplace.json parses
         run: |
@@ -60,7 +60,7 @@ jobs:
     name: Validate plugin structure
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v6
 
       - name: Every plugin has both manifests
         run: |
@@ -88,7 +88,7 @@ jobs:
     name: Banned pattern check
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v6
 
       - name: Reject mock-data patterns in plugin code
         run: |
@@ -109,7 +109,7 @@ jobs:
     name: Markdown lint
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v6
       - name: Check all markdown files are readable
         run: |
           set -e
