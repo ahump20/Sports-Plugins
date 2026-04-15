@@ -1,93 +1,105 @@
 # Sports-Plugins
 
-A curated marketplace of sports intelligence plugins for **Claude Code**, **OpenAI Codex**, and other AI coding assistants. Every plugin ships with both `.claude-plugin/plugin.json` and `.codex-plugin/plugin.json` — one folder, both platforms.
+A curated marketplace of high-quality community sports plugins for [Claude Code](https://code.claude.com), [OpenAI Codex](https://developers.openai.com/codex/use-cases), and AI coding assistants. Covers live scores, sabermetrics, fantasy sports, and sports data analytics.
 
-Built on top of the live **Blaze Sports Intel** data engine at [blazesportsintel.com/mcp](https://blazesportsintel.com/mcp) — real 330-team NCAA DI college baseball coverage, sabermetrics, standings, matchup detail.
+> **Foundation:** Built on the plugin architecture from [anthropics/claude-plugins-official](https://github.com/anthropics/claude-plugins-official) with MCP (Model Context Protocol) endpoints designed for dual compatibility with Claude Code and OpenAI Codex tool-use patterns.
 
-## Install
+## Plugins
 
-**Claude Code:**
-```
-/plugin marketplace add ahump20/Sports-Plugins
-/plugin install cbb-sabermetrics
-```
+### Core Plugins (`/plugins`)
 
-**Codex CLI:**
-```
-codex plugins add ahump20/Sports-Plugins
-codex plugins install cbb-sabermetrics
-```
+| Plugin | Description |
+|--------|-------------|
+| **[live-scores](plugins/live-scores/)** | Real-time scores, schedules, and game updates for MLB, NFL, NBA, and college sports |
+| **[college-baseball-sabermetrics](plugins/college-baseball-sabermetrics/)** | Advanced college baseball sabermetrics — wOBA, FIP, wRC+, barrel rates, pitch analytics |
+| **[fantasy-sports](plugins/fantasy-sports/)** | Fantasy roster optimization, matchup analysis, trade evaluation, and waiver wire picks |
+| **[sports-data-explorer](plugins/sports-data-explorer/)** | Query stats, compare players, and explore data across all major sports |
+| **[college-football-intel](plugins/college-football-intel/)** | College football intel — transfer portal, recruiting rankings, Big 12 standings |
+| **[mlb-the-show](plugins/mlb-the-show/)** | MLB The Show Diamond Dynasty card analytics — valuations, squad builder, investments |
 
-## Available Now
+### External Plugins (`/external_plugins`)
 
-| Plugin | What it does |
-|---|---|
-| [`cbb-sabermetrics`](./plugins/cbb-sabermetrics/) | Live college baseball sabermetrics — 10 tools covering scores, standings, rankings, team + player advanced stats, leaderboards, conference power index, matchup detail. Wraps the live BSI MCP. Free tier, 30 req/min, no API key. |
-| [`texas-longhorns-intel`](./plugins/texas-longhorns-intel/) | Texas Longhorns baseball intelligence — program doctrine + live MCP data. Scouting reports, SEC matchup previews, roster evaluation, NIL efficiency. Depends on `cbb-sabermetrics`. |
+| Plugin | Description |
+|--------|-------------|
+| **[blaze-sports-intel](external_plugins/blaze-sports-intel/)** | [BSI](https://blazesportsintel.com) integration — college baseball box scores, Texas Longhorns intel, and advanced analytics via [blazesportsintel.com/mcp](https://blazesportsintel.com/mcp) |
 
-## Coming Soon
+## Installation
 
-- `cardinals-intel` — St. Louis Cardinals baseball intelligence
-- `sports-storytelling` — editorial voice for sports content
-- `sports-viz` — data visualization patterns (Savant-style charts, biomechanics)
-- `sports-arcade-dev` — browser sports game development
-
-## Foundations
-
-This marketplace is built on three official reference patterns:
-
-1. **[anthropics/claude-plugins-official](https://github.com/anthropics/claude-plugins-official)** — Claude Code plugin layout, manifest schema, marketplace catalog pattern.
-2. **[openai/plugins](https://github.com/openai/plugins)** — Codex plugin layout, `.codex-plugin/plugin.json` schema with rich `interface` metadata, dual-platform compatibility.
-3. **[developers.openai.com/codex/use-cases](https://developers.openai.com/codex/use-cases)** — taxonomy of automation, data, engineering, front-end, integrations, knowledge work, workflow. Applied to sports domain in [`docs/USE-CASES.md`](./docs/USE-CASES.md).
-
-Anthropic and OpenAI plugin folders are structural mirrors. Same subdirectories (`agents/`, `skills/`, `commands/`, `.mcp.json`) load identically on both. Ship one plugin folder, reach both platforms.
-
-## Quality Bar
-
-Every plugin in this marketplace meets the following bar before acceptance:
-
-- **Real data only.** No mock arrays, no `Math.random()`, no placeholder tables. Every data surface wires to a live endpoint or a real computation.
-- **Dual-platform.** Both `.claude-plugin/plugin.json` and `.codex-plugin/plugin.json` present.
-- **Agents have proper frontmatter** — `name`, `description`, tool whitelist, when-to-use examples.
-- **Skills have invocation triggers** and explicit tool contracts.
-- **Commands have parameters documented** and example usage.
-- **README explains** install, data sources, free/paid tier boundaries, free-tier limits, source attribution.
-- **No fabrication** — if a plugin can't reach its data source, it says so.
-
-Full contributor bar in [`docs/CONTRIBUTING.md`](./docs/CONTRIBUTING.md).
-
-## Structure
+Install any plugin directly via Claude Code:
 
 ```
-Sports-Plugins/
-├── .claude-plugin/marketplace.json   # catalog — what's here, where to install from
-├── plugins/{name}/                   # first-party plugins
-│   ├── .claude-plugin/plugin.json    # Claude Code manifest
-│   ├── .codex-plugin/plugin.json     # Codex manifest
-│   ├── .mcp.json                     # MCP server config (if bundled)
-│   ├── agents/*.md                   # agent definitions
-│   ├── skills/{name}/SKILL.md        # skill definitions
-│   ├── commands/*.md                 # slash commands
-│   └── README.md                     # per-plugin docs
-├── external_plugins/                 # community submissions (empty, contribution slot)
-├── docs/                             # marketplace-wide documentation
-│   ├── USE-CASES.md                  # Codex taxonomy applied to sports
-│   ├── CONTRIBUTING.md               # quality bar + submission process
-│   └── MCP-INTEGRATION.md            # how plugins consume the BSI MCP
-└── .github/workflows/validate.yml    # CI: JSON schema check, markdown lint
+/plugin install <plugin-name>@Sports-Plugins
+```
+
+Or browse available plugins:
+
+```
+/plugin > Discover
+```
+
+## Plugin Structure
+
+Every plugin follows the standard [Claude Code plugin structure](https://github.com/anthropics/claude-plugins-official):
+
+```
+plugin-name/
+├── .claude-plugin/
+│   └── plugin.json      # Plugin metadata (required)
+├── .mcp.json            # MCP server configuration (optional)
+├── skills/              # Skill definitions (preferred)
+│   ├── skill-name/
+│   │   └── SKILL.md     # Model-invoked skill
+│   └── command-name/
+│       └── SKILL.md     # User-invoked slash command
+└── README.md            # Documentation (required)
+```
+
+### Dual Compatibility: Claude Code + OpenAI Codex
+
+Plugins in this marketplace are designed for **both** Claude Code and OpenAI Codex:
+
+- **Claude Code** — Native plugin support via `.claude-plugin/` metadata and `skills/` definitions
+- **OpenAI Codex** — MCP server endpoints (`.mcp.json`) provide tool-use access compatible with Codex's function-calling patterns
+
+The [Model Context Protocol](https://modelcontextprotocol.io/) (MCP) serves as the bridge — any plugin with an `.mcp.json` endpoint works seamlessly with any MCP-compatible AI coding assistant.
+
+## Validation
+
+```bash
+node scripts/validate-plugins.mjs
+```
+
+## Shared Library (`/lib`)
+
+The `lib/` directory contains portable TypeScript modules used across plugins:
+
+| Module | Description |
+|--------|-------------|
+| **[sabermetrics.ts](lib/sabermetrics.ts)** | Pure-function sabermetric calculations — wOBA, FIP, wRC+, BABIP, ISO, xFIP, CSW%, and more with NCAA-calibrated linear weights |
+| **[scores-client.ts](lib/scores-client.ts)** | ESPN public API client — fetches live scoreboards, normalises response data into typed `GameScore` objects |
+| **[types.ts](lib/types.ts)** | Shared TypeScript interfaces — `BattingLine`, `PitchingLine`, `GameScore`, `Player`, `TeamStanding`, etc. |
+
+### Sabermetrics Library
+
+The formulas in `lib/sabermetrics.ts` are calibrated for NCAA Division I college baseball (BBCOR bats, smaller samples). They can also be used for MLB data by adjusting the linear-weight constants.
+
+```ts
+import { wOBA, fip, computeBattingAdvanced } from "./lib/sabermetrics.ts";
+
+const advanced = computeBattingAdvanced(battingLine, parkFactor);
+console.log(advanced.wOBA, advanced.wRCPlus, advanced.babip);
 ```
 
 ## Contributing
 
-See [`docs/CONTRIBUTING.md`](./docs/CONTRIBUTING.md). Community plugins land in `external_plugins/` after review. Plugin submissions must clear the quality bar, include both Claude and Codex manifests, and wire to real data.
+See [CONTRIBUTING.md](CONTRIBUTING.md) for guidelines on submitting new sports plugins.
+
+## Related Projects
+
+- [anthropics/claude-plugins-official](https://github.com/anthropics/claude-plugins-official) — The official Claude Code plugins directory
+- [ahump20/BSI](https://github.com/ahump20/BSI) — Blaze Sports Intel — the sports platform powering the BSI external plugin
+- [OpenAI Codex Use Cases](https://developers.openai.com/codex/use-cases) — Codex agent patterns for tool use
 
 ## License
 
-[MIT](./LICENSE) — use, fork, adapt, ship. Attribution appreciated.
-
-## Origin
-
-Austin Humphrey built this marketplace to put the sports intelligence infrastructure behind Blaze Sports Intel into every developer's hands. The sabermetrics engine covering all 330 NCAA DI baseball programs was already live at [blazesportsintel.com/mcp](https://blazesportsintel.com/mcp). These plugins are the doors a developer walks through to use it.
-
-Born to blaze the path beaten less.
-
+[MIT](LICENSE)

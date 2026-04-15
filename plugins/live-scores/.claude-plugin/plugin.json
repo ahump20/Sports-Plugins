@@ -1,9 +1,9 @@
 {
   "name": "live-scores",
-  "description": "Real-time scoreboard UI components and live data integration patterns for embedding live scores in web apps and mobile clients.",
-  "version": "0.1.0",
+  "description": "Real-time sports scores, schedules, and game updates across MLB, NFL, NBA, and college sports",
+  "version": "1.0.0",
   "author": {
-    "name": "Austin Humphrey",
-    "email": "Austin@BlazeSportsIntel.com"
+    "name": "Sports-Plugins",
+    "url": "https://github.com/ahump20/Sports-Plugins"
   }
 }

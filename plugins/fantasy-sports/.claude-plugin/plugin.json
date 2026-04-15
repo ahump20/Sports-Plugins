@@ -1,9 +1,9 @@
 {
   "name": "fantasy-sports",
-  "description": "Fantasy sports tooling for AI-assisted draft strategy, trade analysis, and waiver wire decisions across NFL, MLB, NBA, and college sports.",
-  "version": "0.1.0",
+  "description": "Fantasy sports roster optimization, matchup analysis, trade evaluator, and waiver wire recommendations",
+  "version": "1.0.0",
   "author": {
-    "name": "Austin Humphrey",
-    "email": "Austin@BlazeSportsIntel.com"
+    "name": "Sports-Plugins",
+    "url": "https://github.com/ahump20/Sports-Plugins"
   }
 }

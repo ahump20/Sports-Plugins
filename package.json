@@ -1,8 +1,8 @@
 {
   "name": "@bsi/sports-plugins",
-  "version": "0.1.0",
+  "version": "1.0.0",
   "private": true,
-  "description": "Curated sports plugins for Claude Code, Codex, and AI coding assistants — college baseball sabermetrics, live scores, analytics, and fantasy sports.",
+  "description": "A curated marketplace of high-quality community sports plugins for Claude Code, Codex, and AI coding assistants",
   "author": "Austin Humphrey <Austin@BlazeSportsIntel.com>",
   "license": "SEE LICENSE IN LICENSE",
   "repository": {
@@ -13,14 +13,28 @@
   "engines": {
     "node": ">=20"
   },
+  "keywords": [
+    "claude-code",
+    "codex",
+    "plugins",
+    "sports",
+    "sabermetrics",
+    "fantasy-sports",
+    "live-scores",
+    "analytics",
+    "mcp",
+    "college-baseball"
+  ],
   "scripts": {
     "build": "tsc --build",
     "typecheck": "tsc --noEmit",
     "lint": "eslint . --ext .ts,.tsx",
-    "test": "vitest run",
+    "test": "node --test tests/*.test.mjs",
+    "test:vitest": "vitest run",
     "test:watch": "vitest",
-    "validate": "node scripts/validate-plugins.js",
-    "check": "npm run typecheck && npm run lint && npm run test && npm run validate"
+    "validate": "node scripts/validate-plugins.mjs",
+    "validate:main": "node scripts/validate-plugins.js",
+    "check": "npm run typecheck && npm run test && npm run validate"
   },
   "devDependencies": {
     "@types/node": "^22.15.2",

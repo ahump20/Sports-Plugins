@@ -1,8 +1,46 @@
 {
-  "mcpServers": {
-    "bsi": {
-      "type": "http",
-      "url": "https://blazesportsintel.com/mcp"
-    }
+  "sports-scores-api": {
+    "type": "http",
+    "url": "https://site.api.espn.com/apis/site/v2/sports",
+    "description": "ESPN public API for live scores and schedules",
+    "tools": [
+      {
+        "name": "get_scoreboard",
+        "description": "Fetch the current scoreboard for a sport",
+        "inputSchema": {
+          "type": "object",
+          "properties": {
+            "sport": { "type": "string", "enum": ["mlb", "nfl", "nba", "college-baseball", "college-football"], "description": "The sport league" },
+            "date": { "type": "string", "description": "Optional date in YYYY-MM-DD format" }
+          },
+          "required": ["sport"]
+        }
+      },
+      {
+        "name": "get_team_schedule",
+        "description": "Fetch the schedule for a specific team",
+        "inputSchema": {
+          "type": "object",
+          "properties": {
+            "sport": { "type": "string", "enum": ["mlb", "nfl", "nba", "college-baseball", "college-football"] },
+            "team": { "type": "string", "description": "Team name or abbreviation" },
+            "season": { "type": "integer", "description": "Season year" }
+          },
+          "required": ["sport", "team"]
+        }
+      },
+      {
+        "name": "get_standings",
+        "description": "Fetch league standings",
+        "inputSchema": {
+          "type": "object",
+          "properties": {
+            "sport": { "type": "string", "enum": ["mlb", "nfl", "nba", "college-baseball", "college-football"] },
+            "group": { "type": "string", "description": "Conference or division name" }
+          },
+          "required": ["sport"]
+        }
+      }
+    ]
   }
 }

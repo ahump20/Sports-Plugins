@@ -1,25 +1,48 @@
-# Fantasy Sports
+# Fantasy Sports Plugin
 
-Fantasy sports tooling for AI-assisted draft strategy, trade analysis, and waiver wire decision support across NFL, MLB, NBA, and DFS (daily fantasy). Pairs with the sports-analytics plugin for deeper stat-driven decisions.
+AI-powered fantasy sports assistant for roster decisions, matchup analysis, and trade evaluation.
 
-## Coverage
+## Features
 
-- Draft assistant: ADP analysis, positional scarcity, value picks, and sleeper identification
-- Trade analyzer: value comparison, win-now vs. rebuild framing, and fair-trade ranges
-- Waiver wire: priority ranking, streaming picks, and add/drop rationale
-- DFS lineup construction: salary cap optimization, ownership projection, and stack strategy
-- Scoring system support: standard, PPR, half-PPR, custom leagues
+- **Roster optimization** — Start/sit recommendations based on matchups, trends, and projections
+- **Matchup analysis** — Head-to-head matchup breakdowns with win probability estimates
+- **Trade evaluator** — Analyze trade fairness using rest-of-season projections
+- **Waiver wire** — Surface high-upside adds based on recent performance and usage trends
 
-## Included Skills
+## Skills
 
-- `draft-assistant` — ADP strategy, positional scarcity, sleeper logic, and real-draft simulation guidance
-- `trade-analyzer` — trade value comparison, roster fit analysis, and negotiation framing
-- `waiver-wire` — waiver priority ranking, streaming recommendations, and add/drop decision logic
+| Skill | Type | Description |
+|-------|------|-------------|
+| `roster-optimizer` | Model-invoked | Provides start/sit and lineup optimization advice |
+| `matchup` | User-invoked | `/matchup` command for head-to-head analysis |
 
-## Representative Prompts
+## Supported Formats
 
-- `Analyze this trade: I give up Jonathan Taylor and get CeeDee Lamb in a PPR league. Week 9, I'm 4-4.`
-- `I have picks 4, 19, and 32 in a 12-team PPR snake draft. Give me a draft strategy and three sleepers to target.`
-- `Rank this week's waiver wire RBs by expected opportunity share for a standard scoring league.`
-- `Build a DFS NBA lineup for tonight under $50,000 salary cap. Prioritize players with 30%+ ownership differential.`
-- `Should I start Josh Allen or Jalen Hurts this week given my opponent's defense?`
+- **Fantasy Baseball** — Rotisserie, H2H Categories, H2H Points
+- **Fantasy Football** — PPR, Half-PPR, Standard
+- **Fantasy Basketball** — 9-Category, Points
+
+## Installation
+
+```
+/plugin install fantasy-sports@Sports-Plugins
+```
+
+## Usage
+
+The roster optimizer activates automatically when you discuss fantasy lineups, start/sit decisions, or player values.
+
+```
+/matchup Team A vs Team B
+/matchup week 12
+```
+
+## Methodology
+
+Recommendations are based on:
+- Recent performance trends (last 14/30 days)
+- Matchup quality (opposing pitcher/defense strength)
+- Platoon splits and handedness advantages
+- Park factors and venue effects
+- Injury reports and lineup status
+- Usage and snap/pitch count trends

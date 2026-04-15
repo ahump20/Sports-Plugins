@@ -1,0 +1,105 @@
+{
+  "bsi-mcp": {
+    "type": "http",
+    "url": "https://blazesportsintel.com/mcp",
+    "description": "Blaze Sports Intel MCP server — college baseball analytics, box scores, sabermetrics, and Texas Longhorns intel",
+    "serverInfo": {
+      "name": "com.blazesportsintel/college-baseball",
+      "version": "3.1.0",
+      "status": "active"
+    },
+    "remotes": [
+      {
+        "type": "streamable-http",
+        "url": "https://sabermetrics.blazesportsintel.com/mcp"
+      }
+    ],
+    "tools": [
+      {
+        "name": "get_box_score",
+        "description": "Retrieve a complete box score for a college baseball game",
+        "inputSchema": {
+          "type": "object",
+          "properties": {
+            "team": { "type": "string" },
+            "date": { "type": "string" },
+            "opponent": { "type": "string" }
+          },
+          "required": ["team"]
+        }
+      },
+      {
+        "name": "get_player_stats",
+        "description": "Advanced sabermetric profile for a college baseball player",
+        "inputSchema": {
+          "type": "object",
+          "properties": {
+            "name": { "type": "string" },
+            "team": { "type": "string" },
+            "season": { "type": "integer" }
+          },
+          "required": ["name"]
+        }
+      },
+      {
+        "name": "get_team_stats",
+        "description": "Team-level analytics with conference context",
+        "inputSchema": {
+          "type": "object",
+          "properties": {
+            "team": { "type": "string" },
+            "season": { "type": "integer" }
+          },
+          "required": ["team"]
+        }
+      },
+      {
+        "name": "get_standings",
+        "description": "Conference and national standings with RPI",
+        "inputSchema": {
+          "type": "object",
+          "properties": {
+            "conference": { "type": "string" }
+          },
+          "required": ["conference"]
+        }
+      },
+      {
+        "name": "get_schedule",
+        "description": "Team schedule with results and upcoming games",
+        "inputSchema": {
+          "type": "object",
+          "properties": {
+            "team": { "type": "string" },
+            "season": { "type": "integer" }
+          },
+          "required": ["team"]
+        }
+      },
+      {
+        "name": "get_live_scores",
+        "description": "Current live game scores across college baseball",
+        "inputSchema": {
+          "type": "object",
+          "properties": {
+            "conference": { "type": "string" },
+            "team": { "type": "string" }
+          }
+        }
+      },
+      {
+        "name": "search_players",
+        "description": "Search for players by name, team, or position",
+        "inputSchema": {
+          "type": "object",
+          "properties": {
+            "query": { "type": "string" },
+            "conference": { "type": "string" },
+            "position": { "type": "string" }
+          },
+          "required": ["query"]
+        }
+      }
+    ]
+  }
+}

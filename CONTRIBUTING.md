@@ -1,68 +1,68 @@
 # Contributing to Sports-Plugins
 
-Thank you for your interest in contributing to the Sports-Plugins marketplace.
+Thank you for your interest in contributing sports plugins to this marketplace!
 
-## Getting Started
+## Plugin Structure
 
-```bash
-git clone https://github.com/ahump20/Sports-Plugins.git
-cd Sports-Plugins
-npm install
-npm run check   # typecheck + lint + test + validate
+Every plugin follows the standard Claude Code plugin structure:
+
+```
+plugin-name/
+├── .claude-plugin/
+│   └── plugin.json      # Plugin metadata (required)
+├── .mcp.json            # MCP server configuration (optional)
+├── skills/              # Skill definitions (preferred)
+│   ├── skill-name/
+│   │   └── SKILL.md     # Model-invoked skill
+│   └── command-name/
+│       └── SKILL.md     # User-invoked slash command
+├── commands/            # Legacy slash commands (optional)
+└── README.md            # Documentation (required)
 ```
 
-## Creating a New Plugin
+## Submitting a Plugin
 
-1. Create a directory under `plugins/<your-plugin-name>/`.
+### Internal Plugins (`/plugins`)
 
-2. Add the required files:
+Internal plugins cover core sports functionality maintained by the Sports-Plugins team:
 
-   ```
-   plugins/<your-plugin-name>/
-     .claude-plugin/
-       plugin.json          ← Plugin manifest (see existing plugins for schema)
-     README.md              ← Overview, coverage, included skills, representative prompts
-     skills/
-       <skill-name>/
-         SKILL.md           ← Skill instructions loaded by Claude Code
-     src/
-       index.ts             ← TypeScript entry point
-   ```
+1. Fork this repository
+2. Create your plugin under `plugins/your-plugin-name/`
+3. Include all required files (see structure above)
+4. Submit a pull request
 
-3. Add an `.mcp.json` if your plugin uses MCP servers.
+### External Plugins (`/external_plugins`)
 
-4. Register your plugin in `.claude-plugin/marketplace.json`.
+Third-party sports integrations from partners and the community:
 
-5. Add TypeScript source under `plugins/<your-plugin-name>/src/` — at minimum, export the types and core logic your skill documents describe.
+1. Fork this repository
+2. Create your plugin under `external_plugins/your-plugin-name/`
+3. Include all required files
+4. Submit a pull request
 
-6. Write tests alongside your source code (`*.test.ts`).
+## Plugin Requirements
 
-## Quality Bar
+### Required Files
 
-- **Skills must be specific and actionable.** Generic descriptions ("this plugin does analytics") will be rejected. See `college-baseball-sabermetrics` for the content standard.
-- **TypeScript source must compile cleanly.** Run `npm run typecheck` before submitting.
-- **Tests must pass.** Run `npm test` before submitting.
-- **Plugin validation must pass.** Run `npm run validate` to check manifest integrity.
+- **`.claude-plugin/plugin.json`** — Must include `name`, `description`, and `author`
+- **`README.md`** — Clear documentation explaining what the plugin does
 
-## Code Style
+### Quality Standards
 
-- TypeScript strict mode is enabled.
-- Use the project ESLint config — `npm run lint` to check.
-- Two-space indentation, LF line endings (enforced by `.editorconfig`).
-- Prefer explicit types over `any`. Use `unknown` when the type is genuinely unknown.
+- Plugins must focus on sports-related functionality
+- All MCP server URLs must be valid and accessible
+- Skills must have clear, specific trigger descriptions
+- No hardcoded API keys or secrets
 
-## Pull Request Process
+### Codex Compatibility
 
-1. Fork the repo and create a feature branch.
-2. Make your changes.
-3. Run `npm run check` to validate everything.
-4. Open a PR against `main` with a clear description of what the plugin covers and why.
-5. A maintainer will review for quality, accuracy, and structural compliance.
+Plugins in this marketplace are designed for dual compatibility:
 
-## Reporting Issues
+- **Claude Code** — Native plugin support via `.claude-plugin/` and `skills/`
+- **OpenAI Codex** — MCP server endpoints work with Codex tool-use patterns
 
-Open a GitHub issue with:
-- Which plugin is affected
-- Expected behavior vs. actual behavior
-- Steps to reproduce (if applicable)
-- Any relevant data samples or error messages
+When building MCP integrations, ensure your server endpoints follow the [Model Context Protocol specification](https://modelcontextprotocol.io/).
+
+## Code of Conduct
+
+Be respectful, collaborative, and constructive. We're all here to make sports data more accessible to AI coding assistants.

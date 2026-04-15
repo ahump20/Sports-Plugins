@@ -1,0 +1,9 @@
+{
+  "name": "mlb-the-show",
+  "description": "MLB The Show Diamond Dynasty card analytics — card valuations, market trends, squad builder, and investment picks",
+  "version": "1.0.0",
+  "author": {
+    "name": "Sports-Plugins",
+    "url": "https://github.com/ahump20/Sports-Plugins"
+  }
+}

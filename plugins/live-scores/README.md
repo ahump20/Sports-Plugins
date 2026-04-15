@@ -1,32 +1,51 @@
-# Live Scores
+# Live Scores Plugin
 
-Real-time scoreboard UI components and live data integration patterns for embedding live sports scores in Next.js web apps and React Native mobile clients. Covers college baseball, MLB, NFL, NBA, and college football.
+Real-time sports scores, schedules, and game updates for AI coding assistants.
 
-## Coverage
+## Features
 
-- Scoreboard UI components: game cards, line scores, cross-sport unified views
-- Live data integration: Cloudflare KV polling, SportsDataIO webhooks, BSI MCP real-time feeds
-- Mobile-responsive scoreboard layouts with status indicators
-- In-game state rendering: inning/quarter/period, count, runners on base (baseball)
-- Score change animations and live-update indicators
+- **Live scores** — Current game scores across MLB, NFL, NBA, and college sports
+- **Scoreboard view** — Formatted multi-game scoreboards
+- **Schedule lookup** — Upcoming games for any team or league
+- **Game details** — Box scores, play-by-play summaries, and key stats
 
-## Included Skills
+## Skills
 
-- `scoreboard-ui` — React scoreboard components, live status indicators, mobile-first layout patterns
-- `real-time-data` — Cloudflare Worker polling, KV caching, polling interval management, and stale-data handling
+| Skill | Type | Description |
+|-------|------|-------------|
+| `fetch-scores` | Model-invoked | Retrieves current scores for a specified sport or team |
+| `scoreboard` | User-invoked | `/scoreboard` slash command for formatted scoreboard display |
 
-## MCP Servers
+## Supported Leagues
 
-This plugin ships a plugin-local `.mcp.json` pointing Claude Code at the BSI MCP endpoint:
+- **MLB** — Major League Baseball
+- **NFL** — National Football League
+- **NBA** — National Basketball Association
+- **College Baseball** — NCAA Division I
+- **College Football** — NCAA FBS
 
-- `https://blazesportsintel.com/mcp` — Blaze Sports Intel live scores across college baseball, MLB, NFL, NBA, and CFB
+## Installation
 
-Use `/mcp` in Claude Code to confirm the server is connected after enabling the plugin.
+```
+/plugin install live-scores@Sports-Plugins
+```
 
-## Representative Prompts
+## Usage
 
-- `Build a college baseball scoreboard component that shows live inning-by-inning line scores for all Big 12 games today.`
-- `Create a cross-sport unified scores page that shows MLB, college baseball, and NFL results for the current day.`
-- `Add a Cloudflare Worker that fetches live SportsDataIO NFL scores every 30 seconds and stores them in KV.`
-- `Build a live score card component with a pulsing indicator for in-progress games and a final badge for completed games.`
-- `Implement a React hook that polls the BSI MCP endpoint for live college baseball scores every 60 seconds.`
+The `fetch-scores` skill activates automatically when you ask about game scores, results, or schedules.
+
+For a quick scoreboard view:
+
+```
+/scoreboard mlb
+/scoreboard college-baseball
+/scoreboard nfl 2026-10-15
+```
+
+## MCP Integration
+
+This plugin connects to public sports score APIs. For Codex or other MCP-compatible assistants, the `.mcp.json` endpoint configuration provides tool-use access to the same data.
+
+## Data Sources
+
+Scores are retrieved from public sports APIs (ESPN, NCAA). No API key is required for basic score data.
