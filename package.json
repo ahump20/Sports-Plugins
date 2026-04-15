@@ -37,7 +37,7 @@
     "check": "npm run typecheck && npm run test && npm run validate"
   },
   "devDependencies": {
-    "@types/node": "^22.15.2",
+    "@types/node": "^25.6.0",
     "eslint": "^9.25.1",
     "typescript": "^5.8.3",
     "typescript-eslint": "^8.31.0",
