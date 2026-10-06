@@ -19,14 +19,13 @@ describe("marketplace.json", () => {
   it("exists and is valid JSON", () => {
     assert.ok(existsSync(marketplacePath), "marketplace.json must exist");
     const data = JSON.parse(readFileSync(marketplacePath, "utf-8"));
-    assert.ok(data.marketplace, "must have marketplace key");
+    assert.ok(data.name && data.owner, "must have name and owner");
     assert.ok(Array.isArray(data.plugins), "must have plugins array");
-    assert.ok(Array.isArray(data.external_plugins), "must have external_plugins array");
   });
 
   it("all listed plugins with a local path have required files", () => {
     const data = JSON.parse(readFileSync(marketplacePath, "utf-8"));
-    const allPlugins = [...data.plugins, ...data.external_plugins];
+    const allPlugins = data.plugins;
 
     for (const plugin of allPlugins) {
       const dir = pluginDir(plugin);
@@ -57,7 +56,7 @@ describe("marketplace.json", () => {
 
   it("all .mcp.json files are valid JSON", () => {
     const data = JSON.parse(readFileSync(marketplacePath, "utf-8"));
-    const allPlugins = [...data.plugins, ...data.external_plugins];
+    const allPlugins = data.plugins;
 
     for (const plugin of allPlugins) {
       const dir = pluginDir(plugin);

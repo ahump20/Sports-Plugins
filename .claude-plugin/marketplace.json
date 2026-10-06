@@ -1,25 +1,14 @@
 {
   "$schema": "https://raw.githubusercontent.com/anthropics/claude-plugins-official/main/.claude-plugin/marketplace.schema.json",
-  "marketplace": {
-    "name": "Sports-Plugins",
-    "version": "1.0.0",
+  "name": "Sports-Plugins",
+  "owner": {
+    "name": "Austin Humphrey",
+    "email": "john.humphrey@blazesportsintel.com",
+    "url": "https://blazesportsintel.com"
+  },
+  "metadata": {
     "description": "A curated marketplace of high-quality community sports plugins for Claude Code, Codex, and AI coding assistants",
-    "homepage": "https://github.com/ahump20/Sports-Plugins",
-    "owner": {
-      "name": "Austin Humphrey",
-      "email": "john.humphrey@blazesportsintel.com",
-      "url": "https://blazesportsintel.com"
-    },
-    "categories": [
-      "live-scores",
-      "sabermetrics",
-      "fantasy-sports",
-      "analytics",
-      "college-sports",
-      "mlb",
-      "nfl",
-      "nba"
-    ]
+    "version": "1.0.0"
   },
   "plugins": [
     {
@@ -28,7 +17,15 @@
       "category": "analytics",
       "source": "./plugins/cbb-sabermetrics",
       "homepage": "https://blazesportsintel.com/mcp",
-      "keywords": ["college-baseball", "ncaa", "sabermetrics", "mcp", "woba", "wrc-plus", "fip"],
+      "keywords": [
+        "college-baseball",
+        "ncaa",
+        "sabermetrics",
+        "mcp",
+        "woba",
+        "wrc-plus",
+        "fip"
+      ],
       "status": "available"
     },
     {
@@ -37,60 +34,103 @@
       "category": "scouting",
       "source": "./plugins/texas-longhorns-intel",
       "homepage": "https://blazesportsintel.com/college-baseball/texas-intelligence/",
-      "keywords": ["texas", "longhorns", "college-baseball", "sec", "scouting", "nil"],
-      "dependencies": ["cbb-sabermetrics"],
+      "keywords": [
+        "texas",
+        "longhorns",
+        "college-baseball",
+        "sec",
+        "scouting",
+        "nil"
+      ],
+      "dependencies": [
+        "cbb-sabermetrics"
+      ],
       "status": "available"
     },
     {
       "name": "live-scores",
-      "path": "plugins/live-scores",
       "description": "Real-time sports scores, schedules, and game updates across MLB, NFL, NBA, and college sports",
-      "categories": ["live-scores", "mlb", "nfl", "nba", "college-sports"],
-      "status": "available"
+      "status": "available",
+      "source": "./plugins/live-scores",
+      "category": "live-scores",
+      "tags": [
+        "live-scores",
+        "mlb",
+        "nfl",
+        "nba",
+        "college-sports"
+      ]
     },
     {
       "name": "college-baseball-sabermetrics",
-      "path": "plugins/college-baseball-sabermetrics",
       "description": "Advanced college baseball sabermetrics — wOBA, FIP, wRC+, barrel rates, and pitch-level analytics",
-      "categories": ["sabermetrics", "analytics", "college-sports"],
-      "status": "available"
+      "status": "available",
+      "source": "./plugins/college-baseball-sabermetrics",
+      "category": "sabermetrics",
+      "tags": [
+        "sabermetrics",
+        "analytics",
+        "college-sports"
+      ]
     },
     {
       "name": "fantasy-sports",
-      "path": "plugins/fantasy-sports",
       "description": "Fantasy sports roster optimization, matchup analysis, trade evaluator, and waiver wire recommendations",
-      "categories": ["fantasy-sports", "analytics"],
-      "status": "available"
+      "status": "available",
+      "source": "./plugins/fantasy-sports",
+      "category": "fantasy-sports",
+      "tags": [
+        "fantasy-sports",
+        "analytics"
+      ]
     },
     {
       "name": "sports-data-explorer",
-      "path": "plugins/sports-data-explorer",
       "description": "Query and explore sports statistics, compare players, and generate data visualizations",
-      "categories": ["analytics", "mlb", "nfl", "nba", "college-sports"],
-      "status": "available"
+      "status": "available",
+      "source": "./plugins/sports-data-explorer",
+      "category": "analytics",
+      "tags": [
+        "analytics",
+        "mlb",
+        "nfl",
+        "nba",
+        "college-sports"
+      ]
     },
     {
       "name": "college-football-intel",
-      "path": "plugins/college-football-intel",
       "description": "College football intelligence — transfer portal tracking, recruiting rankings, conference standings, and Big 12 analytics",
-      "categories": ["analytics", "college-sports"],
-      "status": "available"
+      "status": "available",
+      "source": "./plugins/college-football-intel",
+      "category": "analytics",
+      "tags": [
+        "analytics",
+        "college-sports"
+      ]
     },
     {
       "name": "mlb-the-show",
-      "path": "plugins/mlb-the-show",
       "description": "MLB The Show Diamond Dynasty card analytics — card valuations, market trends, squad builder, and investment picks",
-      "categories": ["analytics", "mlb"],
-      "status": "available"
-    }
-  ],
-  "external_plugins": [
+      "status": "available",
+      "source": "./plugins/mlb-the-show",
+      "category": "analytics",
+      "tags": [
+        "analytics",
+        "mlb"
+      ]
+    },
     {
       "name": "blaze-sports-intel",
-      "path": "external_plugins/blaze-sports-intel",
       "description": "Blaze Sports Intel (BSI) integration — college baseball box scores, Texas Longhorns intel, and advanced analytics via blazesportsintel.com MCP",
       "homepage": "https://blazesportsintel.com",
-      "categories": ["sabermetrics", "college-sports", "analytics"]
+      "source": "./external_plugins/blaze-sports-intel",
+      "category": "sabermetrics",
+      "tags": [
+        "sabermetrics",
+        "college-sports",
+        "analytics"
+      ]
     }
   ]
 }
