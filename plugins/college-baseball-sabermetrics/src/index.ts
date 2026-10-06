@@ -7,6 +7,7 @@
  */
 
 export { computeBatterMetrics, computePitcherMetrics } from './metrics.js';
+export { LEAGUES, type LeagueKey } from '../../../src/utils/sabermetrics.js';
 export { evaluatePitcher, type PitcherEvaluation, type PitchMix } from './pitcher-eval.js';
 export { optimizeLineup, type LineupSlot, type LineupCard } from './lineup.js';
 export { ingestBoxScore, type IngestResult } from './ingest.js';

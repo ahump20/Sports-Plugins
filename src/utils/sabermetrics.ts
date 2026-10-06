@@ -11,6 +11,24 @@
 // ---------------------------------------------------------------------------
 
 /**
+ * League run-environment presets. Linear weights and constants change every
+ * season; MLB values are the 2026 FanGraphs Guts row (lgHrPerFb is an estimate). Refresh
+ * from FanGraphs "Guts" before relying on them.
+ */
+export const LEAGUES = {
+  ncaa: {
+    weights: { bb: 0.69, hbp: 0.72, single: 0.89, double: 1.27, triple: 1.62, hr: 2.10 },
+    lgWoba: 0.320, wobaScale: 1.15, lgRPerPA: 0.11, fipConstant: 3.10, lgHrPerFb: 0.10,
+  },
+  mlb: {
+    weights: { bb: 0.698, hbp: 0.729, single: 0.890, double: 1.261, triple: 1.596, hr: 2.049 },
+    lgWoba: 0.316, wobaScale: 1.238, lgRPerPA: 0.118, fipConstant: 3.101, lgHrPerFb: 0.12,
+  },
+} as const;
+
+export type LeagueKey = keyof typeof LEAGUES;
+
+/**
  * Earned Run Average.
  * ERA = (ER / IP) × 9
  */
