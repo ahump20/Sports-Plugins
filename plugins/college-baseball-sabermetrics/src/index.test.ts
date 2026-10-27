@@ -212,3 +212,13 @@ describe('ingestBoxScore', () => {
     expect(result.warnings[0]).toContain('does not match');
   });
 });
+
+describe('league presets', () => {
+  it('mlb preset changes wRC+ and FIP vs ncaa for the same line', () => {
+    const b = makeBatter();
+    expect(computeBatterMetrics(b, 'mlb').wrcPlus).not.toBe(computeBatterMetrics(b, 'ncaa').wrcPlus);
+    expect(computeBatterMetrics(b, 'mlb').avg).toBe(computeBatterMetrics(b, 'ncaa').avg);
+    const p = makePitcher();
+    expect(Math.abs(computePitcherMetrics(p, 'mlb').fip! - computePitcherMetrics(p, 'ncaa').fip!)).toBeLessThanOrEqual(0.01); // fip rounds to 2dp; constants differ by 0.001
+  });
+});

@@ -85,3 +85,7 @@ When this skill is invoked:
 - Park factors vary wildly between programs
 - Pitcher workload limits differ from pro ball
 - wOBA weights should be recalibrated for the college run environment
+
+## MLB Mode
+
+The same formulas apply to MLB. Only league constants differ (wOBA weights, wOBA scale, league wOBA, runs/PA, FIP constant). Pass `'mlb'` as the league argument to `computeBatterMetrics` / `computePitcherMetrics` (presets in `LEAGUES`). MLB preset = 2026 FanGraphs Guts values (https://www.fangraphs.com/tools/guts?type=cn); update each season. Rate stats (AVG, OBP, BABIP, K%, BB%, ERA, WHIP) are league-independent.

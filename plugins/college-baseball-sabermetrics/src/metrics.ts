@@ -7,6 +7,7 @@
 
 import type { BatterLine, PitcherLine } from '../../../src/types/index.js';
 import * as saber from '../../../src/utils/sabermetrics.js';
+import { LEAGUES, type LeagueKey } from '../../../src/utils/sabermetrics.js';
 import { round } from '../../../src/utils/normalization.js';
 
 // ---------------------------------------------------------------------------
@@ -30,12 +31,15 @@ export interface ComputedBatterMetrics {
  * Compute all standard batting metrics for a single player line.
  *
  * @param line    - Raw batter counting stats.
- * @param lgWoba  - League-average wOBA (defaults to ~0.320 for NCAA).
+ * @param league  - 'ncaa' (default), 'mlb', or a number to override league wOBA
+ *                  (NCAA weights/scale).
  */
 export function computeBatterMetrics(
   line: BatterLine,
-  lgWoba = 0.320,
+  league: LeagueKey | number = 'ncaa',
 ): ComputedBatterMetrics {
+  const env = LEAGUES[typeof league === 'number' ? 'ncaa' : league];
+  const lgWoba = typeof league === 'number' ? league : env.lgWoba;
   const pa = line.ab + line.bb + line.hbp + line.sf;
   const singles = line.h - line.doubles - line.triples - line.hr;
   const tb = saber.totalBases(line.h, line.doubles, line.triples, line.hr);
@@ -48,9 +52,11 @@ export function computeBatterMetrics(
   const babipVal = saber.babip(line.h, line.hr, line.ab, line.k, line.sf);
   const wobaVal = saber.woba(
     line.bb, line.hbp, singles, line.doubles, line.triples, line.hr,
-    line.ab, line.sf,
+    line.ab, line.sf, env.weights,
   );
-  const wrcPlusVal = wobaVal != null ? saber.wrcPlus(wobaVal, lgWoba) : null;
+  const wrcPlusVal = wobaVal != null
+    ? saber.wrcPlus(wobaVal, lgWoba, env.wobaScale, env.lgRPerPA)
+    : null;
 
   return {
     avg: avgVal != null ? round(avgVal, 3) : null,
@@ -83,16 +89,18 @@ export interface ComputedPitcherMetrics {
 /**
  * Compute all standard pitching metrics for a single pitcher line.
  *
- * @param line - Raw pitcher counting stats with innings pitched already normalized.
+ * @param line   - Raw pitcher counting stats with innings pitched already normalized.
+ * @param league - 'ncaa' (default) or 'mlb'; selects the FIP constant.
  */
 export function computePitcherMetrics(
   line: PitcherLine,
+  league: LeagueKey = 'ncaa',
 ): ComputedPitcherMetrics {
   const ip = line.ip;
 
   return {
     era: roundOrNull(saber.era(line.er, ip), 2),
-    fip: roundOrNull(saber.fip(line.hr, line.bb, line.hbp, line.k, ip), 2),
+    fip: roundOrNull(saber.fip(line.hr, line.bb, line.hbp, line.k, ip, LEAGUES[league].fipConstant), 2),
     whip: roundOrNull(saber.whip(line.bb, line.h, ip), 2),
     kPer9: roundOrNull(saber.kPer9(line.k, ip), 1),
     bbPer9: roundOrNull(saber.bbPer9(line.bb, ip), 1),
