@@ -1,6 +1,7 @@
 {
   "name": "cbb-sabermetrics",
-  "description": "Live college baseball sabermetrics for 330 NCAA DI programs. 10 tools covering scores, standings, rankings, team and player advanced metrics, leaderboards, conference power index, matchup detail. Wraps the Blaze Sports Intel MCP at blazesportsintel.com/mcp. Free tier, 30 req/min, no API key required.",
+  "version": "0.2.0",
+  "description": "Live NCAA Division I college baseball through the Blaze Sports Intel MCP (https://sabermetrics.blazesportsintel.com/mcp). Seven tools: scoreboard, standings, Top 25 rankings, player stats, team schedules, game detail and BSI article search. Free, 30 requests a minute, no API key.",
   "author": {
     "name": "Austin Humphrey",
     "email": "john.humphrey@blazesportsintel.com",

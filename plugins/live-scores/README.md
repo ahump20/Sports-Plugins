@@ -26,8 +26,10 @@ Real-time sports scores, schedules, and game updates for AI coding assistants.
 
 ## Installation
 
+Not listed in the marketplace. Load it from a clone:
+
 ```
-/plugin install live-scores@Sports-Plugins
+claude --plugin-dir plugins/live-scores
 ```
 
 ## Usage

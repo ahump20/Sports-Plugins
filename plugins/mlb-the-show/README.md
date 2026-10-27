@@ -28,8 +28,10 @@ Diamond Dynasty card analytics for MLB The Show — card valuations, market tren
 
 ## Installation
 
+Not listed in the marketplace. Load it from a clone:
+
 ```
-/plugin install mlb-the-show@Sports-Plugins
+claude --plugin-dir plugins/mlb-the-show
 ```
 
 ## Usage

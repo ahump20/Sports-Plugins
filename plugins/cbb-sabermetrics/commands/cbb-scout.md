@@ -16,19 +16,20 @@ Produces a scouting report on the named team using live data from the `cbb-saber
 
 ## What it does
 
-1. Calls `bsi_get_team_sabermetrics team={team}` for offensive and pitching advanced metrics.
-2. Calls `bsi_get_standings conference={team's conference}` for position in league.
-3. Calls `bsi_get_team_schedule team={team}` for recent form and next opponent.
-4. Calls `bsi_get_conference_power_index` for SOS context.
-5. If opponent provided, repeats 1 and 3 for opponent and runs matchup comparison.
-6. Routes through the `college-baseball-intelligence` agent, applying the `interpreting-advanced-metrics` and `conference-strength` skills.
+1. Calls `bsi_get_standings conference={team's conference}` for record, run differential, streak and position in league.
+2. Calls `bsi_get_team_schedule team={team}` for recent form and next opponent.
+3. Calls `bsi_get_rankings` for national rank, if any.
+4. Calls `bsi_get_player_stats player={name} team={team}` for the key hitters and pitchers (names from the user or from `bsi_search_intel`), and computes rate metrics such as ISO, BABIP, K%, BB% and FIP from the returned counting stats, with formula and sample size. Metrics whose inputs were not returned are named as not computable.
+5. Optionally calls `bsi_search_intel query="{team} baseball"` for injury, lineup and scouting news.
+6. If opponent provided, repeats 1 to 4 for opponent and runs matchup comparison. If a scoreboard `matchId` for the game is available, `bsi_get_match_detail` adds venue, weather and win predictions.
+7. Routes through the `college-baseball-intelligence` agent, applying the `interpreting-advanced-metrics` and `conference-strength` skills.
 
 ## Output format
 
 Without opponent: structured scouting report
-- Program context (conference, current record, PI rank)
-- Offensive profile (team wRC+, ISO, BB%, K%, key hitters)
-- Pitching profile (team FIP, ERA−, K%, BB%, staff leaders)
+- Program context (conference, current record, conference position, Top 25 rank if any)
+- Offensive profile (runs scored per game, key hitters with computed rate metrics)
+- Pitching profile (runs allowed per game, staff leaders with computed FIP, K%, BB%)
 - Recent form (last 10 games, run differential)
 - Next up (opponent, date, venue)
 - Source attribution and timestamps
@@ -56,6 +57,6 @@ Returns a Texas vs Arkansas matchup preview.
 ## Quality gates applied
 
 - Every statistic cited has source + timestamp from MCP `meta` envelope
-- wRC+ and ERA− preferred over raw wOBA/ERA for cross-program framing
-- SOS-adjustment applied when discussing record
+- Computed metrics show formula and sample size; none are estimated when inputs are missing
+- Record framed with conference context from standings, without claiming a strength-of-schedule adjustment
 - Season-state lens applied before drawing conclusions

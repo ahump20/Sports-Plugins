@@ -7,13 +7,13 @@ This marketplace organizes plugins using the same category vocabulary as [OpenAI
 ### Data
 Structured sports data — stats, rates, rankings, projections. Plugins in this category wrap data sources and expose them as tool calls.
 
-- **cbb-sabermetrics** — 10 tools covering 330 NCAA DI college baseball programs. wOBA, wRC+, FIP, BABIP, ISO, park-adjusted metrics, conference power index. Free tier, 30 req/min.
+- **cbb-sabermetrics** — 7 read-only tools covering 330 NCAA DI college baseball programs: scoreboard, standings, Top 25, player stats, team schedules, game detail, news search. wOBA, FIP, BABIP and ISO computed from returned counting stats; conference strength computed from standings. Free tier, 30 req/min per IP.
 - Coming: MLB sabermetrics wrapper, NFL advanced stats, NBA shot charts.
 
 ### Integrations
 Plugins that wire external services into an AI coding assistant's tool space. For sports, this usually means MCP servers wrapping live data APIs.
 
-- **cbb-sabermetrics** — wraps Blaze Sports Intel MCP at `blazesportsintel.com/mcp`. JSON-RPC 2.0 over HTTPS, 10 tools exposed.
+- **cbb-sabermetrics** — wraps Blaze Sports Intel MCP at `https://sabermetrics.blazesportsintel.com/mcp`. JSON-RPC 2.0 over HTTPS POST, 7 tools exposed.
 - Coming: ESPN, SportsRadar, Highlightly wrappers for sports not yet covered.
 
 ### Knowledge Work
@@ -60,26 +60,26 @@ Testing plugin outputs against known-good answers. For sports, this means checki
 ### Blueprint 1: Scouting Workflow
 **Question:** Give me a scouting report on Texas for this weekend's Arkansas series.
 
-1. User runs `/texas-scout opponent=arkansas` (from `texas-longhorns-intel` plugin).
+1. User runs `/texas-matchup arkansas` (from `texas-longhorns-intel` plugin).
 2. Command routes to `texas-longhorns-baseball-intelligence` agent.
-3. Agent calls `bsi_get_team_sabermetrics team=texas` (from `cbb-sabermetrics`).
-4. Agent calls `bsi_get_team_sabermetrics team=arkansas`.
-5. Agent calls `bsi_get_conference_power_index` for SEC context.
+3. Agent calls `bsi_get_team_schedule team=texas` and `bsi_get_team_schedule team=arkansas` (from `cbb-sabermetrics`) for recent form.
+4. Agent calls `bsi_get_standings conference=SEC` and `bsi_get_rankings` for SEC context.
+5. Agent calls `bsi_get_player_stats` for key players on both sides and computes rate metrics from the returned counting stats.
 6. Agent applies Texas program doctrine + HAV-F framework.
 7. Agent produces structured scouting report: Verified facts → Inference → Recommendation.
 
 ### Blueprint 2: Leaderboard Lookup
-**Question:** Who are the top 10 college baseball hitters by wRC+ in the SEC?
+**Question:** How do these SEC hitters rank by wOBA?
 
-1. User runs `/cbb-leaderboard metric=wrc_plus conference=SEC limit=10`.
-2. Command calls `bsi_get_leaderboard` with those parameters.
-3. Returns a ranked table with source + timestamp metadata.
+1. User runs `/cbb-leaderboard metric=woba type=batting conference=SEC` and names the hitters.
+2. Command calls `bsi_get_player_stats` for each hitter (no tool returns a ranked leaderboard; that BSI route is paused).
+3. Command computes wOBA from the counting stats and returns a ranked table with formula, PA, source + timestamp metadata, labeled as covering only those hitters.
 
 ### Blueprint 3: Matchup Preview
 **Question:** What's the edge in tomorrow's Vanderbilt at LSU game?
 
 1. User runs `/texas-matchup` (or `/cbb-preview` once built).
-2. Agent chain fetches both teams' advanced metrics, ballpark context, recent form, pitcher matchup, bullpen health.
+2. Agent chain fetches both teams' standings, recent form and game detail (`bsi_get_match_detail`), then computes metrics for the pitcher matchup and bullpen from player stats.
 3. Agent applies MMI (momentum timeline) and leverage framework.
 4. Agent returns a pre-series brief.
 

@@ -41,3 +41,31 @@ jobs:
             echo "Checking $f"
             node -e "JSON.parse(require('fs').readFileSync('$f','utf-8'))" || exit 1
           done
+
+  skills:
+    name: Skill scripts · plugin validate
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.9"
+
+      - name: Test skill scripts against published numbers
+        run: |
+          set -e
+          for t in plugins/*/skills/*/tests; do
+            echo "== $t"
+            python -m unittest discover -s "$t" -v
+          done
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+
+      - name: claude plugin validate
+        run: npx -y @anthropic-ai/claude-code plugin validate .

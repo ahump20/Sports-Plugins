@@ -13,10 +13,10 @@ Produces a structured weekly digest on Texas baseball using live data from the B
 
 ## What it does
 
-1. Calls `bsi_get_team_sabermetrics team=texas` for current offensive and pitching profile
-2. Calls `bsi_get_team_schedule team=texas` for recent results and next upcoming games
-3. Calls `bsi_get_standings conference=SEC` for conference position
-4. Calls `bsi_get_conference_power_index` for SEC strength context
+1. Calls `bsi_get_team_schedule team=texas` for recent results and next upcoming games
+2. Calls `bsi_get_standings conference=SEC` for conference position, record, runs scored and allowed, and run differential
+3. Calls `bsi_get_standings` (all conferences) and `bsi_get_rankings` for SEC strength context, computed from standings with the `conference-strength` skill
+4. Calls `bsi_get_player_stats` for the week's key performers and computes rate metrics from the returned counting stats, with formula and sample size
 5. Routes through the `texas-longhorns-baseball-intelligence` agent using the `weeklyDigest` output mode
 6. Assembles the digest in the structured format targeting the BSI hub's `/api/college-baseball/texas-intelligence/digest` endpoint shape
 

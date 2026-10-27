@@ -34,7 +34,8 @@
     "test:watch": "vitest",
     "validate": "node scripts/validate-plugins.mjs",
     "validate:main": "node scripts/validate-plugins.js",
-    "check": "npm run typecheck && npm run test && npm run validate"
+    "check": "npm run typecheck && npm run test && npm run test:py && npm run validate",
+    "test:py": "for t in plugins/*/skills/*/tests; do python3 -m unittest discover -s \"$t\" || exit 1; done"
   },
   "devDependencies": {
     "@eslint/js": "^10.0.1",

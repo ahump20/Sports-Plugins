@@ -9,7 +9,7 @@ description: >
   claims. Not for unrelated programs unless the request is explicitly framed
   through a Texas comparison. Requires the cbb-sabermetrics plugin for live
   data access.
-tools: ["bsi_get_team_sabermetrics", "bsi_get_player_stats", "bsi_get_team_schedule", "bsi_get_match_detail", "bsi_get_standings", "bsi_get_leaderboard", "bsi_get_conference_power_index", "bsi_get_rankings", "bsi_search_intel"]
+tools: ["bsi_get_scoreboard", "bsi_get_player_stats", "bsi_get_team_schedule", "bsi_get_match_detail", "bsi_get_standings", "bsi_get_rankings", "bsi_search_intel"]
 color: "burnt-orange"
 ---
 
@@ -61,4 +61,4 @@ Full doctrine, output templates, and tool contract live in the `texas-longhorns-
 
 ## Dependency
 
-Requires the `cbb-sabermetrics` plugin for the 10 MCP tools listed above. If that plugin is not installed, this agent cannot verify live claims and must limit itself to stable program doctrine or explicitly flag unverified content.
+Requires the `cbb-sabermetrics` plugin for the 7 MCP tools listed above. Advanced metrics are not returned by any tool; compute them from the counting stats `bsi_get_player_stats` returns and label them as computed. If that plugin is not installed, this agent cannot verify live claims and must limit itself to stable program doctrine or explicitly flag unverified content.

@@ -28,8 +28,10 @@ College football intelligence for AI coding assistants — transfer portal track
 
 ## Installation
 
+Not listed in the marketplace. Load it from a clone:
+
 ```
-/plugin install college-football-intel@Sports-Plugins
+claude --plugin-dir plugins/college-football-intel
 ```
 
 ## Usage

@@ -1,121 +1,105 @@
 ---
 name: conference-strength
 description: >
-  Read the BSI Conference Power Index correctly. Interpret strength-of-schedule
-  adjusted conference rankings, cross-conference comparisons, and how SOS
-  adjustments change the story. Use when comparing programs across different
-  conferences, explaining why a team's record alone doesn't tell the full story,
-  or when doing postseason bracket projection. Pairs with
-  bsi_get_conference_power_index from the cbb-sabermetrics plugin.
+  Read conference strength correctly. Build a conference comparison from live
+  BSI standings and the national Top 25, interpret cross-conference
+  comparisons, and explain why a team's record alone doesn't tell the full
+  story. Use when comparing programs across different conferences or when
+  doing postseason bracket projection. Pairs with bsi_get_standings and
+  bsi_get_rankings from the cbb-sabermetrics plugin.
 ---
 
 # Conference Strength Index
 
-Not all wins are equal. A 20-5 record in one conference can be a lesser accomplishment than an 18-7 record in another. This skill reads the BSI Conference Power Index correctly so cross-conference comparisons mean something.
+Not all wins are equal. A 20-5 record in one conference can be a lesser accomplishment than an 18-7 record in another. This skill builds a conference strength read from live standings so cross-conference comparisons mean something.
 
-## What the Power Index Is
+## What This Index Is
 
-The BSI Conference Power Index ranks the 32 DI conferences by **strength-of-schedule-adjusted performance**. It's not based on RPI (which has known biases) and it's not pure record (which ignores opponent quality).
+The BSI MCP does not return a conference power index. That route is paused on the server until its source, method, sample boundaries and update metadata are documented. So this skill computes a conference strength read from two tools that do return data, and labels it as computed from standings, never as "the BSI Conference Power Index".
 
 Inputs:
-- Conference-wide cumulative win percentage in non-conference play
-- Average opponent quality per conference
-- Conference champion postseason performance (multi-year weighted)
-- Conference tournament depth (multiple programs advancing)
+- `bsi_get_standings` (no conference filter): every team's W, L, win pct, runs scored, runs allowed, run differential, streak and games back
+- `bsi_get_rankings`: the national Top 25 with rank, record and movement
 
-Output: a ranked list with `power_index` scores and `rank` position (1-32).
+Computed per conference:
+- Combined W-L and win pct across all its teams
+- Run differential, total and per game
+- Number of teams in the Top 25, and their ranks
 
-## How To Read It
+What it does not include: strength-of-schedule adjustment, opponent quality ratings, or multi-year postseason weighting. No tool returns those, so don't claim them.
 
-Call `bsi_get_conference_power_index`. Response shape:
+## How To Build It
 
-```json
-{
-  "meta": {
-    "source": "BSI Savant",
-    "fetched_at": "2026-04-12T14:30:00Z",
-    "timezone": "America/Chicago"
-  },
-  "data": [
-    {
-      "rank": 1,
-      "conference": "SEC",
-      "power_index": 104.3,
-      "programs": 16,
-      "tournament_teams_projected": 11
-    },
-    ...
-  ]
-}
-```
+1. Call `bsi_get_standings` with no conference argument. Each response carries `meta.source`, `meta.fetched_at` and `meta.timezone` (America/Chicago).
+2. Call `bsi_get_rankings`.
+3. Group teams by conference and compute the three measures above.
+4. Rank conferences, leading with ranked-team count and run differential per game, and using win pct as a tiebreaker.
 
-### Reading the Score
+### Reading the Numbers
 
-- **Power index > 100:** above-average conference. Top 5 usually.
-- **Power index 90–100:** strong conference, sends 4–6 tournament teams
-- **Power index 80–90:** mid-tier, 2–4 tournament teams
-- **Power index < 80:** conference champion likely the only team in the field
+- **Conference win pct:** in-conference games net to .500 for the conference as a whole, so anything above or below .500 comes from non-conference games. Early in the season (mostly non-conference) it's informative; late in the season it flattens toward .500.
+- **Run differential per game:** a less noisy signal than record over small samples. A conference whose teams outscore opponents by more than a run per game is winning its non-conference games convincingly.
+- **Top 25 count:** the most direct read of depth at the top. Several ranked teams usually means several tournament-caliber teams.
 
 ## Cross-Conference Comparisons
 
-This is where the power index earns its keep.
+This is where the comparison earns its keep.
 
 ### Example: "Is 18-6 in the SEC better than 23-4 in the Sun Belt?"
 
-Without SOS adjustment: 23-4 wins the .852 vs .750 win percentage comparison.
+On record alone: 23-4 wins the .852 vs .750 win percentage comparison.
 
-With SOS adjustment using power index:
-- SEC (rank 1, PI 104.3) — every game played against DI top-tier opponents
-- Sun Belt (rank 11, PI 87.2) — mixed opponent quality
+With conference context from the standings and rankings:
+- How many ranked teams each conference has, and whether the 18-6 team played them
+- Each conference's run differential per game against the rest of DI
+- The team's own run differential and position in its conference standings
 
-The 18-6 SEC record represents more adjusted wins than the 23-4 Sun Belt record. The power index quantifies *how much* more.
-
-Rule of thumb: a team's **SOS-adjusted wins** ≈ `record_wins × (opponent_avg_PI / 100)`.
+If the SEC has many ranked teams and a strong run differential while the Sun Belt has few, the 18-6 record came against tougher opposition. State it that way, with the numbers, rather than converting it into "adjusted wins".
 
 ## Postseason Bracket Application
 
-NCAA Tournament selection uses RPI + committee judgment. RPI over-rewards mid-major conference champions and under-rewards second-place teams in elite conferences. The BSI Power Index gives a corrective lens:
+NCAA Tournament selection uses RPI + committee judgment. RPI over-rewards mid-major conference champions and under-rewards second-place teams in deep conferences. The standings-based read gives a corrective lens:
 
-- If a team finishes 4th in a PI > 100 conference with a strong record, they're a real bubble case.
-- If a team finishes 1st in a PI < 85 conference with a great record, they should be the conference's auto-bid but not an at-large consideration.
+- If a team finishes 4th in a conference with several Top 25 teams and a strong record, they're a real bubble case.
+- If a team finishes 1st in a conference with no other ranked teams, they should be the conference's auto-bid but not an at-large consideration.
 
 **Use for:** modeling realistic bracket scenarios that account for conference depth, not RPI surface reads.
 
-## SOS Discipline
+## Conference Context Discipline
 
 When writing about a program's record:
 
-1. Always state the conference PI rank when making cross-conference claims.
-2. Never say "they've got the best record in college baseball" without adjusting for opponent quality.
-3. A Pac-12 leftover program with a 22-3 record against the Patriot League is not elite. A 16-9 SEC program might be.
+1. State the conference's computed measures (ranked-team count, run differential per game) when making cross-conference claims.
+2. Never say "they've got the best record in college baseball" without noting who they played.
+3. A 22-3 record built against weak conference opponents is not proof of elite quality. A 16-9 record in a deep conference might be.
 
 ## Common Mistakes to Avoid
 
 ### The "Top Record" Trap
-"Team X is 28-3, best in the country!" → Always check the PI rank of their conference. If the conference is PI < 85, the record is inflated.
+"Team X is 28-3, best in the country!" → Check how many ranked teams their conference has and its run differential per game. If neither is strong, the record may be inflated.
 
 ### The "Conference Record" Trap
-"Texas is 12-5 in SEC play, that's just middle-of-the-pack" → Middle of the SEC (PI 104.3) is more impressive than leading a mid-major. The team's national ranking should reflect SEC depth, not just SEC position.
+"Texas is 12-5 in SEC play, that's just middle-of-the-pack" → Middle of a conference with many ranked teams can be more impressive than leading a conference with none. The team's national ranking should reflect conference depth, not just conference position.
 
 ### The "Mid-Major Champion" Trap
-A mid-major champion going 22-1 in conference is *not* strong evidence of elite quality — they're going to play most of their games against limited competition. Watch their non-conference performance against PI > 95 opponents for a better signal.
+A mid-major champion going 22-1 in conference is *not* strong evidence of elite quality: they play most of their games against limited competition. Look at their results against ranked opponents in `bsi_get_team_schedule` for a better signal.
 
 ## Quality Gates
 
-- Every cross-conference claim cites the power index rank of both conferences.
-- SOS-adjustment applied before declaring a program "better" than another from a different conference.
-- PI data comes from `bsi_get_conference_power_index` with full meta envelope (source, fetched_at).
-- Never use RPI as the primary adjustment tool — RPI has documented biases the power index corrects.
+- Every cross-conference claim cites the computed measures for both conferences.
+- Output is labeled as computed from `bsi_get_standings` and `bsi_get_rankings`, with full meta envelope (source, fetched_at).
+- No strength-of-schedule adjustment, component score or power index value is claimed.
+- Never use RPI as the primary adjustment tool, since RPI has documented biases.
 
 ## Example Invocations
 
 A user asks: "Is the ACC or the Big 12 stronger this year?"
-1. Call `bsi_get_conference_power_index`
-2. Find ACC and Big 12 entries
-3. Compare PI scores AND tournament teams projected
-4. Return a direct read with both numbers and a one-line analytical call
+1. Call `bsi_get_standings` and `bsi_get_rankings`
+2. Compute ACC and Big 12 win pct, run differential per game and Top 25 count
+3. Compare all three
+4. Return a direct read with the numbers and a one-line analytical call, labeled as computed from standings
 
 A user asks: "Where does Texas rank in real terms given the SEC?"
-1. Call `bsi_get_conference_power_index` → confirm SEC PI and rank
+1. Call `bsi_get_standings` and `bsi_get_rankings` → compute SEC measures and compare with other conferences
 2. Call `bsi_get_standings conference=SEC` → find Texas's position
-3. Combine: "Texas sits Xth in the deepest conference (PI 104.3, 11 projected tournament teams), meaning their SOS-adjusted quality reads as [...]."
+3. Combine: "Texas sits Xth in the SEC, a conference with N Top 25 teams and a +Y run differential per game, so their record reads as [...]."

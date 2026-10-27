@@ -24,8 +24,10 @@ AI-powered fantasy sports assistant for roster decisions, matchup analysis, and 
 
 ## Installation
 
+Not listed in the marketplace. Load it from a clone:
+
 ```
-/plugin install fantasy-sports@Sports-Plugins
+claude --plugin-dir plugins/fantasy-sports
 ```
 
 ## Usage

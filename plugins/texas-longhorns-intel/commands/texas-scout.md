@@ -13,21 +13,21 @@ Produces a full Texas roster scouting breakdown using live MCP data and Texas pr
 
 ## What it does
 
-1. Calls `bsi_get_team_sabermetrics team=texas` for team-level advanced metrics
-2. Calls `bsi_get_leaderboard type=batting conference=SEC` and filters for Texas hitters
-3. Calls `bsi_get_leaderboard type=pitching conference=SEC` and filters for Texas pitchers
-4. Calls `bsi_get_player_stats` for named leaders to get individual detail
+1. Calls `bsi_get_standings conference=SEC` and `bsi_get_team_schedule team=texas` for record, run differential and results
+2. Calls `bsi_get_player_stats player={name} team=texas` for each Texas hitter and pitcher (names from the user or from `bsi_search_intel`, since no tool returns a roster)
+3. Computes rate metrics (wOBA, ISO, BABIP, K%, BB%, FIP) from the returned counting stats with the `college-baseball-sabermetrics` formulas, stating formula and sample size; names any metric whose inputs weren't returned
+4. Ranks Texas hitters and pitchers among the players pulled (no tool returns a leaderboard)
 5. Routes through `texas-longhorns-baseball-intelligence` agent
 6. Applies HAV-F framework to position-group breakdown
 
 ## Output format (default — full scouting)
 
 ### Team Identity
-- Record, SEC position, PI context
+- Record, SEC position, conference context from standings
 - Offensive and pitching profile in one paragraph each
 
 ### Offensive Core
-- Top 3-5 hitters by wRC+ with stat lines
+- Top 3-5 hitters by computed wOBA among those pulled, with stat lines and PA
 - HAV-F scoring applied
 - Weaknesses in the lineup (position-group gaps)
 
