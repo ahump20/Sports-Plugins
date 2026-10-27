@@ -22,7 +22,7 @@ This skill activates when the user:
 When this skill is invoked:
 
 1. Identify the player name and team (if provided)
-2. Query the college baseball stats MCP endpoint
+2. Call `bsi_get_player_stats` (player required, team optional) on the Blaze Sports Intel MCP server, which returns identity, team, position and traditional stats. Compute the advanced metrics below from those counting stats with the `sabermetrics-calc` formulas, and show only the ones whose inputs were returned. Barrel% and wRC+ need batted-ball data or league and park constants the server doesn't return; leave them out unless another documented source supplies them.
 3. Present a comprehensive player profile including:
 
 ### For Position Players
@@ -81,4 +81,4 @@ If the exact player cannot be found:
 
 ## Data Sources
 
-Player data is sourced from the college-baseball-stats MCP endpoint backed by Blaze Sports Intel analytics.
+Player data is sourced from `bsi_get_player_stats` on the Blaze Sports Intel MCP server (`https://sabermetrics.blazesportsintel.com/mcp`); advanced metrics are computed locally from those stats.

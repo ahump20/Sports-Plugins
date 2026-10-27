@@ -49,7 +49,7 @@ const PROVIDERS: Record<Provider, ProviderConfig> = {
     source: 'ncaa-stats',
   },
   'bsi-mcp': {
-    baseUrl: 'https://blazesportsintel.com/mcp',
+    baseUrl: 'https://sabermetrics.blazesportsintel.com/v1',
     source: 'bsi-mcp',
   },
   'espn': {

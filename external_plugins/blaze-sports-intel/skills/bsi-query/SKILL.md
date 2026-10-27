@@ -20,52 +20,69 @@ This skill activates when the user:
 
 ## MCP Endpoint
 
-All queries are routed through: `https://blazesportsintel.com/mcp`
+All queries are routed through: `https://sabermetrics.blazesportsintel.com/mcp`
+
+POST JSON-RPC only, no streaming, no API key, 30 requests per minute per IP. Every response carries `meta.source`, `meta.fetched_at` and `meta.timezone` (America/Chicago). The server exposes 7 read-only college baseball tools, listed below. It has no box score, team stats, leaderboard, power index, or MLB, NFL, NBA or college football tools.
 
 ## Available Queries
 
-### Box Scores
+### Scoreboard
 ```
-Tool: get_box_score
-Params: { "team": "Texas", "date": "2026-04-12" }
+Tool: bsi_get_scoreboard
+Params: { "date": "2026-04-12", "conference": "SEC" }   (both optional)
 
-Returns: Complete box score with:
-  - Line score (runs by inning)
-  - Batting stats (AB, R, H, RBI, BB, SO + wOBA)
-  - Pitching stats (IP, H, R, ER, BB, SO, ERA + FIP)
-  - Game notes and highlights
+Returns: Games for the date with scores, venue and status
+```
+
+### Game Detail
+```
+Tool: bsi_get_match_detail
+Params: { "matchId": "<id from bsi_get_scoreboard>" }
+
+Returns: Venue, weather, win predictions, play-by-play and team stats for one game
 ```
 
 ### Player Stats
 ```
-Tool: get_player_stats
-Params: { "name": "Player Name", "team": "Texas" }
+Tool: bsi_get_player_stats
+Params: { "player": "Player Name", "team": "texas" }   (team optional)
 
-Returns: Full sabermetric profile with:
-  - Traditional stats (AVG, HR, RBI or W-L, ERA, K)
-  - Advanced metrics (wOBA, wRC+, FIP, xFIP, BABIP)
-  - Batted ball / pitch mix data
-  - Splits (vs LHP/RHP, home/away, conference/non-conf)
+Returns: Identity, team, position, and traditional batting or pitching stats
+when the source has them
 ```
 
-### Team Analytics
-```
-Tool: get_team_stats
-Params: { "team": "Texas", "season": 2026 }
+Advanced metrics (wOBA, FIP, BABIP, ISO) are not returned. Compute them from the counting stats with the formulas in the `college-baseball-sabermetrics` plugin (`skills/sabermetrics-calc/SKILL.md`), show the formula and sample size, and say they were computed. If an input such as HBP or SF wasn't returned, say which metric can't be computed.
 
-Returns: Team-level analytics with:
-  - Overall and conference record
-  - Team batting and pitching aggregates
-  - Advanced metrics (team wOBA, FIP, wRC+)
-  - National and conference rank in each category
+### Team Schedule
+```
+Tool: bsi_get_team_schedule
+Params: { "team": "texas" }   (name or slug, like "texas" or "lsu")
+
+Returns: Past results and upcoming games
 ```
 
 ### Standings
 ```
-Tool: get_standings
-Params: { "conference": "Big 12" }
+Tool: bsi_get_standings
+Params: { "conference": "SEC" }   (optional)
 
-Returns: Full conference standings with RPI and advanced metrics
+Returns: W, L, win pct, runs scored, runs allowed, run differential, streak, games back
+```
+
+### Rankings
+```
+Tool: bsi_get_rankings
+Params: {}
+
+Returns: National Top 25 with rank, record and movement
+```
+
+### News and Scouting Context
+```
+Tool: bsi_search_intel
+Params: { "query": "Texas baseball weekend rotation", "limit": 5 }   (limit 1-10, domains optional)
+
+Returns: Web search results from trusted college-baseball sources
 ```
 
 ## Instructions
@@ -74,8 +91,8 @@ When this skill is invoked:
 
 1. Identify what data the user needs
 2. Map it to the appropriate BSI MCP tool
-3. Format the response clearly with both traditional and advanced stats
-4. Add context — conference strength, national ranking, notable trends
+3. Format the response clearly with traditional stats, plus any advanced metrics computed from them (labeled as computed)
+4. Add context — conference standing, national ranking, notable trends
 
 ## Error Handling
 

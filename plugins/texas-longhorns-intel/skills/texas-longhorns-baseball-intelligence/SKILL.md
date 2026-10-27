@@ -16,7 +16,7 @@ description: >
 This skill operates on two layers that must never blur:
 
 - **Program identity layer:** stable Texas baseball doctrine — history, coaching philosophy, roster construction principles, SEC-era recalibration, program standards
-- **Live data layer:** current stats, standings, performance, and analytical output from the College_Baseball_Sabermetrics MCP server (10 tools via the `cbb-sabermetrics` plugin)
+- **Live data layer:** current stats, standings, performance, and analytical output from the Blaze Sports Intel MCP server (7 tools via the `cbb-sabermetrics` plugin)
 
 The agent dispatches questions to this skill. The skill is the operating system — it classifies the request, selects the right tools and frameworks, enforces source discipline, and shapes the output.
 
@@ -37,13 +37,13 @@ If the request is `live`, `mixed`, or `analytical`, do not answer from memory wh
 
 Tool selection heuristic:
 - Player question → `bsi_get_player_stats` (optionally followed by applying the HAV-F framework manually from the returned stats)
-- Team question → `bsi_get_team_sabermetrics` → `bsi_get_leaderboard` → `bsi_get_conference_power_index`
-- Game question → `bsi_get_match_detail` → `bsi_get_team_sabermetrics` (both teams)
+- Team question → `bsi_get_standings conference=SEC` → `bsi_get_team_schedule team=texas` → `bsi_get_player_stats` for key players (advanced metrics computed from the returned counting stats)
+- Game question → `bsi_get_scoreboard` (to find the `matchId`) → `bsi_get_match_detail` → `bsi_get_team_schedule` (both teams)
 - Comparison → `bsi_get_player_stats` (player A) → `bsi_get_player_stats` (player B) → apply comparison framework
 - Schedule question → `bsi_get_team_schedule`
 - Rankings / scoreboard → `bsi_get_rankings`, `bsi_get_scoreboard`, `bsi_get_standings`
 
-Note: HAV-F, MMI, park factor, and compute-what-if logic live in this skill's analytical framework layer, not as direct MCP tools. When a request calls for those, fetch the raw player/team/game stats from the MCP tools above, then apply the framework locally.
+Note: no MCP tool returns advanced team metrics, a leaderboard or a conference power index; those BSI routes are paused until their source and method are documented. Compute wOBA, FIP, BABIP, ISO, K% and BB% from the counting stats `bsi_get_player_stats` returns (formulas in the `college-baseball-sabermetrics` plugin's `skills/sabermetrics-calc/SKILL.md`), state the formula and sample size, and say which metric can't be computed when an input is missing. HAV-F, MMI, park factor, and compute-what-if logic live in this skill's analytical framework layer, not as direct MCP tools. When a request calls for those, fetch the raw player/team/game stats from the MCP tools above, then apply the framework locally.
 
 ### 3. Keep three layers separate
 
@@ -89,25 +89,23 @@ Current coaching context is Jim Schlossnagle (2025-present). Do not use Pierce-e
 
 ## Live Data Layer
 
-The College_Baseball_Sabermetrics MCP server (accessed via the `cbb-sabermetrics` plugin dependency) exposes 10 tools:
+The Blaze Sports Intel MCP server at `https://sabermetrics.blazesportsintel.com/mcp` (accessed via the `cbb-sabermetrics` plugin dependency) exposes 7 read-only tools:
 
 | Tool | Purpose | Key Input |
 |---|---|---|
-| `bsi_get_scoreboard` | Today's scores, live games | date (opt) |
-| `bsi_get_standings` | Conference standings, records | conference (opt) |
-| `bsi_get_rankings` | National Top 25 | none |
-| `bsi_get_team_sabermetrics` | Advanced team metrics | team (slug) |
-| `bsi_get_leaderboard` | National/conference leaders | metric, type, limit, conference |
-| `bsi_get_conference_power_index` | Conference strength rankings | none |
-| `bsi_get_player_stats` | Individual player lookup | player, team (opt) |
-| `bsi_get_team_schedule` | Full season schedule | team (slug) |
-| `bsi_get_match_detail` | Deep game data, play-by-play | matchId |
-| `bsi_search_intel` | Cross-entity search | query |
+| `bsi_get_scoreboard` | Scores, venue, status | date YYYY-MM-DD (opt), conference (opt) |
+| `bsi_get_standings` | W, L, win pct, runs scored/allowed, run differential, streak, games back | conference (opt) |
+| `bsi_get_rankings` | National Top 25 with rank, record, movement | none |
+| `bsi_get_player_stats` | Identity, team, position, traditional batting or pitching stats | player, team (opt) |
+| `bsi_get_team_schedule` | Past results and upcoming games | team (name or slug) |
+| `bsi_get_match_detail` | Venue, weather, win predictions, play-by-play, team stats | matchId (from the scoreboard) |
+| `bsi_search_intel` | Web search of trusted college-baseball sources for news and scouting context | query, limit 1-10 (opt), domains (opt) |
+
+Every response carries `meta.source`, `meta.fetched_at` and `meta.timezone` (America/Chicago).
 
 Source hierarchy (primary → fallback):
 1. Highlightly (live scores, standings, match detail)
-2. BSI Savant (advanced metrics, computed every 6 hours)
-3. ESPN Site API (rankings, schedules — fallback)
+2. ESPN Site API (rankings, schedules, fallback)
 
 ## Analytical Capabilities
 
@@ -116,7 +114,7 @@ Six analytical frameworks applied locally to MCP data:
 - **HAV-F** — holistic player evaluation (hit, approach, value, field composite)
 - **MMI** — game momentum timeline and leverage identification
 - **Park Factors** — venue-adjusted performance, UFCU Disch-Falk context, SEC venue variation
-- **Conference Strength** — SEC positioning, cross-conference calibration (use `conference-strength` skill from `cbb-sabermetrics`)
+- **Conference Strength** — SEC positioning, cross-conference calibration computed from standings and the Top 25 (use `conference-strength` skill from `cbb-sabermetrics`)
 - **Leverage Framework** — managerial decision evaluation at high-WP moments
 - **Program Comparison** — 8-dimension Texas-vs-X structured analysis
 - **NIL Efficiency** — HAV-F-to-NIL ratio, draft leverage quadrants, collective ROI

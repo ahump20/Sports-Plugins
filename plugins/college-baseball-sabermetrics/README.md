@@ -62,7 +62,7 @@ The sabermetrics skills activate automatically when you discuss college baseball
 
 ## MCP Integration
 
-This plugin connects to the Blaze Sports Intel MCP endpoint at `https://blazesportsintel.com/mcp` for real-time college baseball data. For Codex or other MCP-compatible assistants, the `.mcp.json` configuration provides direct tool-use access.
+This plugin connects to the Blaze Sports Intel MCP endpoint at `https://sabermetrics.blazesportsintel.com/mcp` for real-time college baseball data. It exposes 7 read-only tools: `bsi_get_scoreboard`, `bsi_get_standings`, `bsi_get_rankings`, `bsi_get_player_stats`, `bsi_get_team_schedule`, `bsi_get_match_detail` and `bsi_search_intel`. They return traditional stats, standings and game data, not advanced metrics; this plugin's formulas (`src/metrics.ts`, `skills/sabermetrics-calc/SKILL.md`) compute those from the returned counting stats. For Codex or other MCP-compatible assistants, the `.mcp.json` configuration provides direct tool-use access.
 
 ## Data Sources
 

@@ -1,6 +1,7 @@
 name: Live data sources
 
-# The skills point at free public sources (MLB Stats API, nflverse, sportsdataverse).
+# The skills point at free public sources (MLB Stats API, nflverse, sportsdataverse)
+# and the Blaze Sports Intel MCP server.
 # This job catches the day one of them moves or changes shape.
 on:
   schedule:
@@ -32,3 +33,10 @@ jobs:
             python -m unittest discover -s "$t" -v || failed=1
           done
           exit $failed
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+
+      - name: Blaze MCP serves its documented tools
+        run: node --test tests/blaze-mcp.test.mjs

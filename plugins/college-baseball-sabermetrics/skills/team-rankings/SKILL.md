@@ -24,7 +24,7 @@ When this command is invoked:
 
 1. Parse the scope (conference or national)
 2. Parse the optional category filter
-3. Retrieve rankings data from the MCP endpoint
+3. Retrieve rankings data from the Blaze Sports Intel MCP server: `bsi_get_rankings` for the national Top 25, `bsi_get_standings conference={conference}` for conference tables. No tool returns category leaderboards; for a category filter, rank only what can be computed from the returned standings or pulled player stats, and say so
 4. Format as a readable rankings table
 
 ## Output Format

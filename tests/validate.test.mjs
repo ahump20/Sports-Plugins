@@ -3,6 +3,7 @@ import assert from "node:assert/strict";
 import { readFileSync, existsSync } from "node:fs";
 import { join, dirname } from "node:path";
 import { fileURLToPath } from "node:url";
+import { checkMcpConfig, findMcpConfigs } from "../scripts/mcp-config.mjs";
 
 const ROOT = join(dirname(fileURLToPath(import.meta.url)), "..");
 
@@ -68,6 +69,58 @@ describe("marketplace.json", () => {
           () => JSON.parse(readFileSync(mcpPath, "utf-8")),
           `${plugin.name}: .mcp.json is not valid JSON`
         );
+      }
+    }
+  });
+});
+
+describe(".mcp.json shape", () => {
+  const remote = (server) => ({ mcpServers: { bsi: server } });
+
+  it("accepts a remote server and a local one", () => {
+    assert.deepEqual(checkMcpConfig(remote({ type: "http", url: "https://example.com/mcp" })), []);
+    assert.deepEqual(checkMcpConfig(remote({ type: "sse", url: "https://example.com/sse", headers: { A: "b" } })), []);
+    assert.deepEqual(checkMcpConfig(remote({ command: "npx", args: ["-y", "pkg"] })), []);
+  });
+
+  it("rejects servers at the top level instead of under mcpServers", () => {
+    const errors = checkMcpConfig({ "bsi-mcp": { type: "http", url: "https://example.com/mcp" } });
+    assert.ok(errors.some((e) => e.includes('"bsi-mcp"')), errors.join("; "));
+    assert.ok(errors.some((e) => e.includes('missing "mcpServers"')), errors.join("; "));
+  });
+
+  it("rejects tool lists and other keys the format doesn't have", () => {
+    const errors = checkMcpConfig(remote({
+      type: "http", url: "https://example.com/mcp", tools: [], serverInfo: {}, remotes: [],
+    }));
+    for (const key of ["tools", "serverInfo", "remotes"]) {
+      assert.ok(errors.includes(`bsi: unknown key "${key}"`), errors.join("; "));
+    }
+  });
+
+  it("rejects a remote server without an https url", () => {
+    assert.ok(checkMcpConfig(remote({ type: "http", url: "http://example.com/mcp" })).length);
+    assert.ok(checkMcpConfig(remote({ type: "http" })).length);
+    assert.ok(checkMcpConfig(remote({ type: "websocket", url: "https://example.com" })).length);
+    assert.ok(checkMcpConfig({ mcpServers: {} }).length);
+  });
+
+  it("every .mcp.json in the repo passes, listed in the marketplace or not", () => {
+    const paths = findMcpConfigs(ROOT);
+    assert.ok(paths.length > 0, "expected at least one .mcp.json");
+    for (const rel of paths) {
+      const errors = checkMcpConfig(JSON.parse(readFileSync(join(ROOT, rel), "utf-8")));
+      assert.deepEqual(errors, [], `${rel}: ${errors.join("; ")}`);
+    }
+  });
+
+  it("every Blaze config points at the live sabermetrics server", () => {
+    for (const rel of findMcpConfigs(ROOT)) {
+      const { mcpServers } = JSON.parse(readFileSync(join(ROOT, rel), "utf-8"));
+      for (const [name, s] of Object.entries(mcpServers)) {
+        if (s.url && new URL(s.url).hostname.endsWith("blazesportsintel.com")) {
+          assert.equal(s.url, "https://sabermetrics.blazesportsintel.com/mcp", `${rel} ${name}`);
+        }
       }
     }
   });

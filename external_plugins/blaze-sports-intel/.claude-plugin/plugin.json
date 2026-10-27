@@ -1,6 +1,6 @@
 {
   "name": "blaze-sports-intel",
-  "description": "Blaze Sports Intel (BSI) integration — college baseball box scores, Texas Longhorns deep intel, and advanced sabermetrics via blazesportsintel.com MCP",
+  "description": "Blaze Sports Intel live college baseball through its MCP server (https://sabermetrics.blazesportsintel.com/mcp): scoreboard, standings, rankings, players, schedules, game detail and article search.",
   "version": "1.0.0",
   "author": {
     "name": "Blaze Sports Intel",
