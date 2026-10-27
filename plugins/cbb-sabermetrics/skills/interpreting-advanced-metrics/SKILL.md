@@ -17,7 +17,7 @@ When raw sabermetric numbers come back from the BSI MCP, they need framing befor
 
 ### wOBA (weighted On-Base Average)
 - Combines all offensive events (walks, singles, doubles, triples, HR, HBP) with linear weights derived from run expectancy.
-- **Scale:** .290 is roughly league average DI, .350+ is strong, .400+ is elite.
+- **Scale:** league average equals league OBP when wOBA is scaled the FanGraphs way. Division I hit .280/.380/.449 in 2024 ([Pitcher List](https://pitcherlist.com/standardizing-college-statistics-evaluating-pitchers/)), so a DI-average wOBA is about .380, not MLB's .310. Judge a hitter by the gap to that season's league figure (+.040 is strong, +.080 is elite), and check which scale the source uses before comparing.
 - **Why it matters:** OBP treats every time on base as equal; wOBA weights doubles and home runs higher. A player with .380 OBP driven by walks has a different profile than one with .380 OBP driven by extra-base hits. wOBA differentiates.
 - **Use when:** comparing offensive players, building order projections, evaluating recruiting targets.
 
@@ -29,7 +29,7 @@ When raw sabermetric numbers come back from the BSI MCP, they need framing befor
 
 ### FIP (Fielding Independent Pitching)
 - ERA-scaled metric built only from strikeouts, walks, and home runs allowed — the three outcomes a pitcher controls without defensive help.
-- **Scale:** matches ERA scale. 4.00 = DI average-ish, 3.50 = strong, 3.00 = elite.
+- **Scale:** matches ERA scale, so it inherits the college run environment: Division I averaged a 6.14 ERA in 2024. A 4.00 FIP is well above average in DI, not average. Compare to the season's league ERA, or use FIP− where the source provides it.
 - **Why it matters:** A pitcher can have a high ERA because their defense is bad, or a low ERA because their defense is elite. FIP strips defense out. If ERA and FIP diverge, the pitcher's "true talent" is closer to FIP.
 - **Use when:** evaluating pitcher quality absent team defense, projecting forward (FIP is more stable than ERA).
 - **ERA− vs FIP−:** both are park- and league-adjusted. 100 = average, below 100 is better (opposite of wRC+).
@@ -42,7 +42,7 @@ When raw sabermetric numbers come back from the BSI MCP, they need framing befor
 
 ### ISO (Isolated Power)
 - SLG minus AVG. Pure extra-base hit production.
-- **Scale:** .130 = average, .200+ = elite DI power.
+- **Scale:** Division I averaged a .169 ISO in 2024 (.449 SLG − .280 AVG). .220+ is real power; MLB's .156 in 2024 is not the right baseline.
 - **Why it matters:** separates "slap hitters who make contact" from "slugger." Two hitters can both hit .310 — one with .110 ISO (singles hitter) and one with .230 ISO (middle-of-order bat). Profile matters.
 
 ### K% and BB%

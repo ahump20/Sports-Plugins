@@ -62,7 +62,7 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      - name: Every plugin has both manifests
+      - name: Every plugin has a manifest and a README
         run: |
           set -e
           fail=0
@@ -72,10 +72,6 @@ jobs:
                 echo "FAIL: ${plugin_dir} missing .claude-plugin/plugin.json"
                 fail=1
               fi
-              if [ ! -f "${plugin_dir}.codex-plugin/plugin.json" ]; then
-                echo "FAIL: ${plugin_dir} missing .codex-plugin/plugin.json"
-                fail=1
-              fi
               if [ ! -f "${plugin_dir}README.md" ]; then
                 echo "FAIL: ${plugin_dir} missing README.md"
                 fail=1
@@ -83,6 +79,18 @@ jobs:
             fi
           done
           exit $fail
+
+      - name: Every listed plugin has a Codex manifest
+        run: |
+          python3 - <<'EOF'
+          import json, os, sys
+          market = json.load(open(".claude-plugin/marketplace.json"))
+          missing = [p["source"] for p in market["plugins"]
+                     if not os.path.isfile(os.path.join(p["source"], ".codex-plugin", "plugin.json"))]
+          for m in missing:
+              print(f"FAIL: {m} missing .codex-plugin/plugin.json")
+          sys.exit(1 if missing else 0)
+          EOF
 
   no-mock-data:
     name: Banned pattern check

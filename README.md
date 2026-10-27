@@ -1,41 +1,37 @@
 # Sports-Plugins
 
-A curated marketplace of high-quality community sports plugins for [Claude Code](https://code.claude.com), [OpenAI Codex](https://developers.openai.com/codex/use-cases), and AI coding assistants. Covers live scores, sabermetrics, fantasy sports, and sports data analytics.
-
-> **Foundation:** Built on the plugin architecture from [anthropics/claude-plugins-official](https://github.com/anthropics/claude-plugins-official) with MCP (Model Context Protocol) endpoints designed for dual compatibility with Claude Code and OpenAI Codex tool-use patterns.
-
-## Plugins
-
-### Core Plugins (`/plugins`)
-
-| Plugin | Description |
-|--------|-------------|
-| **[live-scores](plugins/live-scores/)** | Real-time scores, schedules, and game updates for MLB, NFL, NBA, and college sports |
-| **[college-baseball-sabermetrics](plugins/college-baseball-sabermetrics/)** | Advanced college baseball sabermetrics — wOBA, FIP, wRC+, barrel rates, pitch analytics |
-| **[fantasy-sports](plugins/fantasy-sports/)** | Fantasy roster optimization, matchup analysis, trade evaluation, and waiver wire picks |
-| **[sports-data-explorer](plugins/sports-data-explorer/)** | Query stats, compare players, and explore data across all major sports |
-| **[college-football-intel](plugins/college-football-intel/)** | College football intel — transfer portal, recruiting rankings, Big 12 standings |
-| **[mlb-the-show](plugins/mlb-the-show/)** | MLB The Show Diamond Dynasty card analytics — valuations, squad builder, investments |
-
-### External Plugins (`/external_plugins`)
-
-| Plugin | Description |
-|--------|-------------|
-| **[blaze-sports-intel](external_plugins/blaze-sports-intel/)** | [BSI](https://blazesportsintel.com) integration — college baseball box scores, Texas Longhorns intel, and advanced analytics via [blazesportsintel.com/mcp](https://blazesportsintel.com/mcp) |
-
-## Installation
-
-Install any plugin directly via Claude Code:
+Claude Code plugins for baseball, football and basketball. Every number a skill produces comes from a script with tests that check it against a published source.
 
 ```
-/plugin install <plugin-name>@Sports-Plugins
+/plugin marketplace add ahump20/Sports-Plugins
+/plugin install baseball@Sports-Plugins
 ```
 
-Or browse available plugins:
+| Plugin | Skills | Checked against |
+|---|---|---|
+| [baseball](plugins/baseball/) | rules, analytics, data | Ohtani 2024 wOBA .431, Skubal 2024 FIP 2.49 (FanGraphs) |
+| [football](plugins/football/) | rules, analytics, data | nflverse player stats to three decimals; passer rating 122.5 (Rodgers 2011) |
+| [basketball](plugins/basketball/) | rules, analytics, data | Curry 2015-16 TS% .669; Warriors ratings within 0.5 of Basketball-Reference |
+| [cbb-sabermetrics](plugins/cbb-sabermetrics/) | live NCAA DI baseball via the Blaze Sports Intel MCP | |
+| [texas-longhorns-intel](plugins/texas-longhorns-intel/) | Texas baseball, built on cbb-sabermetrics | |
 
+Each sport has three skills:
+
+- **rules**: rulings by level (pro, college, international), with rule numbers and the season each rule took effect.
+- **analytics**: a standard-library Python script that computes the metrics, plus what each metric means and when it misleads.
+- **data**: free sources that work today, with exact URLs, field names and the traps in each.
+
+No API keys and no paid services. The scripts need Python 3.9+.
+
+## Tests
+
+```bash
+for t in plugins/*/skills/*/tests; do python3 -m unittest discover -s "$t"; done
+SPORTS_LIVE=1 python3 -m unittest discover -s plugins/football/skills/football-analytics/tests   # downloads real data
+claude plugin validate .
 ```
-/plugin > Discover
-```
+
+CI runs the offline tests on every pull request and the live ones weekly.
 
 ## Plugin Structure
 
