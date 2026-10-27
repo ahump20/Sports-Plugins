@@ -165,11 +165,16 @@ Baseball Reference does not have a public API. Scraping rules:
 
 ### BSI MCP Endpoint
 
-The BSI MCP server at `https://blazesportsintel.com/mcp` exposes college baseball data:
+The BSI MCP server at `https://sabermetrics.blazesportsintel.com/mcp` (POST JSON-RPC, no API key, 30 requests per minute per IP) exposes college baseball data through 7 read-only tools:
 
-- Box scores for tracked D1 programs
-- Live game state during active games
-- Season-to-date aggregate stats for tracked rosters
+- `bsi_get_scoreboard`: scores, venue and status by date (YYYY-MM-DD) and conference
+- `bsi_get_match_detail`: venue, weather, win predictions, play-by-play and team stats for a `matchId` from the scoreboard
+- `bsi_get_player_stats`: identity, team, position, and traditional batting or pitching stats when the source has them
+- `bsi_get_team_schedule`: past results and upcoming games for a team name or slug
+- `bsi_get_standings` and `bsi_get_rankings`: standings with run differential, and the national Top 25
+- `bsi_search_intel`: web search of trusted college-baseball sources for news and context
+
+Every response carries `meta.source`, `meta.fetched_at` and `meta.timezone` (America/Chicago). Advanced metrics are not returned; compute them from the counting stats.
 
 Use the MCP server as the primary source for real-time data during a game. Fall back to NCAA stats for historical archives.
 

@@ -5,13 +5,13 @@ description: >
   K%, BB%) correctly in context. Use when explaining a player's or team's
   advanced stats, when comparing programs, when translating raw numbers into
   analytical conclusions, or when converting a leaderboard into a scouting
-  takeaway. Pairs with bsi_get_team_sabermetrics, bsi_get_player_stats, and
-  bsi_get_leaderboard from the cbb-sabermetrics plugin.
+  takeaway. Pairs with bsi_get_player_stats, bsi_get_standings, and
+  bsi_get_team_schedule from the cbb-sabermetrics plugin.
 ---
 
 # Interpreting Advanced College Baseball Metrics
 
-When raw sabermetric numbers come back from the BSI MCP, they need framing before they mean anything. This skill turns numbers into reads.
+The BSI MCP returns traditional stats (`bsi_get_player_stats`) and team results (`bsi_get_standings`, `bsi_get_team_schedule`), not advanced metrics. The team sabermetrics and leaderboard routes are paused on the server until their source and method are documented. So the advanced metrics below are computed from the returned counting stats, using the formulas in the `college-baseball-sabermetrics` plugin (`skills/sabermetrics-calc/SKILL.md`, `src/metrics.ts`). Say a metric was computed, give the formula and the sample size (PA or IP), and if a needed input wasn't returned (for example HBP or SF), say which metric can't be computed instead of guessing. Then frame it: this skill turns numbers into reads.
 
 ## The Core Metrics
 
@@ -66,7 +66,7 @@ Reading a player's numbers in April with Feb-phase caution is malpractice. Readi
 
 ## Park-Adjusted Metrics
 
-The BSI MCP returns park-adjusted versions (wRC+, ERA−, FIP−) when available. Prefer these over raw wOBA / ERA / FIP for cross-program comparison.
+The BSI MCP does not return park-adjusted metrics (wRC+, ERA−, FIP−) or park factors. Compute them only when you have documented league and park constants to put into the formula, and name the source of those constants. Otherwise present the unadjusted computed metric with a plain-language park note.
 
 Why: UFCU Disch-Falk is a pitcher-friendly park. Alex Box (LSU) plays neutral. Goss Stadium (Oregon State) is pitcher-friendly with marine layer. A .400 wOBA at Disch-Falk is more impressive than .400 at a hitter's park.
 
@@ -76,10 +76,10 @@ Why: UFCU Disch-Falk is a pitcher-friendly park. Alex Box (LSU) plays neutral. G
 > "[Name] posts a .XXX wOBA / XXX wRC+ in [PA] plate appearances across [games] — a [above/below/around] league-average profile. Breakdown: .XXX BABIP (stable/high/low relative to his career), .XXX ISO ([slap hitter / gap power / true slugger] profile), XX% BB rate ([approach-driven / aggressive] bat), XX% K rate ([contact / swing-and-miss] tendency). [Park adjustment note]. [Season-state caveat if Feb/Mar]."
 
 ### Pitcher Read Template
-> "[Name] runs a X.XX FIP (X.XX ERA) in [IP] innings through [date]. XX% K rate (elite / strong / needs work), XX% BB rate (command / erratic). [Gap between ERA and FIP explains defense/luck contribution]. Park-adjusted ERA− of XX means [X]% better/worse than league-average SOS-adjusted. [Arm-count context for May stretch run if applicable]."
+> "[Name] runs a X.XX FIP (X.XX ERA) in [IP] innings through [date]. XX% K rate (elite / strong / needs work), XX% BB rate (command / erratic). [Gap between ERA and FIP explains defense/luck contribution]. [ERA− only if league and park constants are documented: XX means [X]% better/worse than league average]. [Arm-count context for May stretch run if applicable]."
 
 ### Team Read Template
-> "[Team] carries a [XXX] offensive wRC+ (rank X-of-XXX in conference / national) and a [XXX] team ERA− (pitching rank). Run differential of [+/- XX] through [X] games suggests [sustainable / lucky / unlucky] record. Notable strength: [specific metric leader]. Vulnerability: [specific weakness]. SOS-adjusted conference strength index ranks [X]-of-32."
+> "[Team] is [W-L] ([win pct]) and [Xth] in [conference] per `bsi_get_standings`, scoring [X.X] and allowing [X.X] runs per game. Run differential of [+/- XX] through [X] games suggests [sustainable / lucky / unlucky] record. Notable strength: [player with computed metric, formula and sample]. Vulnerability: [specific weakness]. Conference context: [N] Top 25 teams per `bsi_get_rankings`."
 
 ## Quality Gates
 
@@ -92,13 +92,14 @@ Why: UFCU Disch-Falk is a pitcher-friendly park. Alex Box (LSU) plays neutral. G
 ## Example Invocations
 
 A user asks: "How's Texas's offense?"
-1. Call `bsi_get_team_sabermetrics team=texas`
-2. Apply Team Read Template above
-3. Context: SEC-adjusted, UFCU Disch-Falk park context, current season phase
-4. Return a 3-sentence read with source + timestamp
+1. Call `bsi_get_standings conference=SEC` and `bsi_get_team_schedule team=texas` for runs scored, run differential and recent results
+2. Call `bsi_get_player_stats player={name} team=texas` for the key hitters, and compute their rate metrics from the counting stats returned
+3. Apply Team Read Template above
+4. Context: SEC, UFCU Disch-Falk park context, current season phase
+5. Return a 3-sentence read with source + timestamp, noting which metrics were computed
 
 A user asks: "Who are the top DI hitters right now?"
-1. Call `bsi_get_leaderboard metric=wrc_plus type=batting limit=10`
-2. Present ranked list with park-adjusted context
-3. Flag any early-season caveats
-4. Return top 10 with wOBA, wRC+, ISO, BB%, K% for each
+1. No tool returns a national leaderboard; the BSI leaderboard route is paused. Say so.
+2. Offer to rank a set of hitters the user names (or that `bsi_search_intel` surfaces) by pulling each with `bsi_get_player_stats`
+3. Compute wOBA, ISO, BABIP, BB%, K% from the counting stats, with sample size, and label the list as covering only those players
+4. Flag any early-season caveats

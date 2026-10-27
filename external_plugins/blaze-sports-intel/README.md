@@ -4,12 +4,13 @@ Official plugin for [Blaze Sports Intel](https://blazesportsintel.com) — a mob
 
 ## Features
 
-- **College baseball box scores** — Complete, formatted box scores with advanced metrics
+- **College baseball scores and game detail**: Scoreboard plus venue, weather, win predictions, play-by-play and team stats for a game
 - **Texas Longhorns intel** — Deep coverage of UT Austin baseball including player profiles, game recaps, and season analytics
-- **Sabermetric profiles** — wOBA, FIP, wRC+, barrel rates, pitch mix, and more for every D1 player
-- **Live game data** — Real-time scores and in-game analytics
-- **Conference analytics** — Big 12, SEC, ACC, and all D1 conference breakdowns
-- **Cross-sport scores** — MLB, NFL, NBA scoreboard integration
+- **Player stats**: Traditional batting and pitching stats when the source has them; advanced metrics such as wOBA and FIP are computed from those counting stats and labeled as computed
+- **Standings and rankings**: Conference standings with run differential, plus the national Top 25
+- **News and scouting context**: Search of trusted college-baseball sources
+
+College baseball only. The MCP server has no MLB, NFL, NBA or college football tools.
 
 ## Skills
 
@@ -23,22 +24,26 @@ Official plugin for [Blaze Sports Intel](https://blazesportsintel.com) — a mob
 This plugin connects directly to the BSI MCP server:
 
 ```
-https://blazesportsintel.com/mcp
+https://sabermetrics.blazesportsintel.com/mcp
 ```
 
-The MCP endpoint provides tool-use access compatible with both Claude Code and OpenAI Codex assistants.
+The MCP endpoint provides tool-use access compatible with both Claude Code and OpenAI Codex assistants. It takes POST JSON-RPC (MCP protocol 2024-11-05) with no streaming, needs no API key, and allows 30 requests per minute per IP. `https://blazesportsintel.com/mcp` in a browser is a marketing page, not the connector URL.
 
 ### Available MCP Tools
 
+Seven read-only college baseball tools:
+
 | Tool | Description |
 |------|-------------|
-| `get_box_score` | Retrieve a complete box score for a specific game |
-| `get_player_stats` | Advanced sabermetric profile for a player |
-| `get_team_stats` | Team-level analytics with conference context |
-| `get_standings` | Conference and national standings with RPI |
-| `get_schedule` | Team schedule with results and upcoming games |
-| `get_live_scores` | Current live game scores |
-| `search_players` | Search for players by name, team, or position |
+| `bsi_get_scoreboard` | Scores, venue and status (`date` YYYY-MM-DD and `conference` optional) |
+| `bsi_get_standings` | W, L, win pct, runs scored, runs allowed, run differential, streak, games back (`conference` optional) |
+| `bsi_get_rankings` | National Top 25 with rank, record and movement |
+| `bsi_get_player_stats` | Identity, team, position, traditional batting or pitching stats when the source has them (`player` required, `team` optional) |
+| `bsi_get_team_schedule` | Past results and upcoming games (`team` name or slug, like `texas` or `lsu`) |
+| `bsi_get_match_detail` | Venue, weather, win predictions, play-by-play, team stats (`matchId` from the scoreboard) |
+| `bsi_search_intel` | Web search of trusted college-baseball sources for news and scouting context (`query` required, `limit` 1-10, `domains` optional) |
+
+Every response carries `meta.source`, `meta.fetched_at` and `meta.timezone` (America/Chicago).
 
 ## Installation
 

@@ -36,7 +36,7 @@ Texas baseball operates under a national championship standard — six CWS title
 
 - **`texas-longhorns-baseball-intelligence`** — the full operating system. Contains:
   - **Program identity layer** (history, coaching, venue, recruiting, Schlossnagle era)
-  - **Live data layer** (10 MCP tools with selection heuristics)
+  - **Live data layer** (7 MCP tools with selection heuristics)
   - **6 analytical frameworks** (HAV-F, MMI, Park Factors, Conference Strength, Leverage, Program Comparison)
   - **8-dimension comparison framework** for Texas vs any program
   - **NIL Efficiency framework** with HAV-F-to-NIL quadrant analysis
@@ -46,12 +46,12 @@ Texas baseball operates under a national championship standard — six CWS title
 ### 3 Slash Commands
 
 - **`/texas-digest`** — weekly Texas baseball intelligence digest with conference position, recent results, upcoming schedule, analytical read.
-- **`/texas-matchup <opponent>`** — pre-series matchup preview using Opponent Intelligence framework. Park factors, SEC PI context, edge breakdown.
+- **`/texas-matchup <opponent>`** — pre-series matchup preview using Opponent Intelligence framework. Park context, conference context from standings, edge breakdown.
 - **`/texas-scout`** — full roster scouting breakdown. Variants: `focus=offense`, `focus=pitching`, `focus=nil`, `focus=draft`.
 
 ## Dependencies
 
-- **`cbb-sabermetrics`** (REQUIRED) — provides all 10 BSI MCP tools. This plugin cannot function without it. Install `cbb-sabermetrics` first.
+- **`cbb-sabermetrics`** (REQUIRED) — provides all 7 BSI MCP tools. This plugin cannot function without it. Install `cbb-sabermetrics` first.
 
 ## Example Queries
 
@@ -60,7 +60,7 @@ Once installed, try these in your Claude Code or Codex session:
 ```
 How does Texas look this week?
 ```
-→ The agent calls `bsi_get_team_sabermetrics team=texas`, `bsi_get_standings conference=SEC`, applies the program doctrine layer, returns an ops briefing.
+→ The agent calls `bsi_get_team_schedule team=texas`, `bsi_get_standings conference=SEC`, applies the program doctrine layer, returns an ops briefing.
 
 ```
 Break down the Texas vs Arkansas matchup for this weekend.
@@ -75,7 +75,7 @@ Which Texas players are undervalued on their NIL deals?
 ```
 Where does Texas stand in the SEC right now?
 ```
-→ Agent combines `bsi_get_standings conference=SEC`, `bsi_get_conference_power_index`, returns SOS-adjusted positioning.
+→ Agent combines `bsi_get_standings` and `bsi_get_rankings`, returns Texas's SEC position with conference context computed from standings.
 
 ## Data Integrity
 
@@ -104,7 +104,7 @@ Do not use Pierce-era framing as present-tense program identity. Texas shifted t
 - Check that the MCP server connected — look for errors in your session logs.
 
 **Missing data for a current Texas player:**
-- The BSI MCP covers 330 DI programs via Highlightly + BSI Savant. If a specific player is missing, it's likely upstream data — the agent will flag `unknown` rather than fabricate.
+- The BSI MCP covers 330 DI programs via Highlightly with ESPN fallback. If a specific player is missing, it's likely upstream data — the agent will flag `unknown` rather than fabricate.
 
 **Want to see the Texas Intelligence hub pages for reference:**
 - Visit [blazesportsintel.com/college-baseball/texas-intelligence/](https://blazesportsintel.com/college-baseball/texas-intelligence/)

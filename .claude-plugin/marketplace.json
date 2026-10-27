@@ -53,10 +53,10 @@
     },
     {
       "name": "cbb-sabermetrics",
-      "description": "Live college baseball sabermetrics for 330 NCAA DI programs — wOBA, wRC+, FIP, BABIP, ISO, conference power index, SOS-adjusted rankings. Wraps the Blaze Sports Intel MCP at blazesportsintel.com/mcp. Free tier, 30 requests/min, no API key.",
+      "description": "Live NCAA Division I college baseball through the Blaze Sports Intel MCP: scoreboard, standings, Top 25 rankings, player stats, team schedules, game detail and BSI article search, plus wOBA, wRC+, FIP, BABIP and ISO worked from the box score. Free, 30 requests a minute, no API key.",
       "category": "analytics",
       "source": "./plugins/cbb-sabermetrics",
-      "homepage": "https://blazesportsintel.com/mcp",
+      "homepage": "https://sabermetrics.blazesportsintel.com/mcp",
       "keywords": [
         "college-baseball",
         "ncaa",

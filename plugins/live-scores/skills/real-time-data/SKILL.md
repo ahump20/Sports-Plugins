@@ -176,13 +176,13 @@ Never remove existing score data because the provider is temporarily unavailable
 
 ## BSI MCP Integration
 
-The BSI MCP endpoint at `https://blazesportsintel.com/mcp` supports live college baseball game state queries.
+The BSI MCP endpoint at `https://sabermetrics.blazesportsintel.com/mcp` supports college baseball game state queries only (no other sports). It takes POST JSON-RPC with no streaming, so poll it rather than subscribing, and stay under 30 requests per minute per IP.
 
 ```typescript
 // Use the MCP client (Claude Code session) to call:
-// Tool: get_live_games
-// Tool: get_game_state { gameId }
-// Tool: get_team_scores { sport, date }
+// Tool: bsi_get_scoreboard { date?: "YYYY-MM-DD", conference?: string }  -> scores, venue, status
+// Tool: bsi_get_match_detail { matchId }  -> venue, weather, win predictions, play-by-play, team stats
+// Every response carries meta.source, meta.fetched_at and meta.timezone (America/Chicago).
 ```
 
 MCP tools are consumed server-side in Workers only — never from a browser client. The Worker fetches from MCP, stores in KV, and serves the browser from KV.

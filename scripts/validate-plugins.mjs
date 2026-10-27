@@ -8,6 +8,7 @@
 import { readFileSync, existsSync } from "node:fs";
 import { join, dirname } from "node:path";
 import { fileURLToPath } from "node:url";
+import { checkMcpConfig, findMcpConfigs } from "./mcp-config.mjs";
 
 const ROOT = join(dirname(fileURLToPath(import.meta.url)), "..");
 
@@ -55,18 +56,24 @@ function validatePlugin(pluginPath) {
     pass(`${pluginPath}: README.md present`);
   }
 
-  // Optional: .mcp.json — validate JSON if present
-  const mcpPath = join(abs, ".mcp.json");
-  if (existsSync(mcpPath)) {
-    try {
-      JSON.parse(readFileSync(mcpPath, "utf-8"));
-      pass(`${pluginPath}: .mcp.json valid`);
-    } catch (e) {
-      ok = fail(`${pluginPath}: .mcp.json is not valid JSON — ${e.message}`) && ok;
-    }
-  }
+  // Optional: .mcp.json
+  const mcpPath = join(pluginPath, ".mcp.json");
+  if (existsSync(join(ROOT, mcpPath))) ok = validateMcpConfig(mcpPath) && ok;
 
   return ok;
+}
+
+function validateMcpConfig(relPath) {
+  let config;
+  try {
+    config = JSON.parse(readFileSync(join(ROOT, relPath), "utf-8"));
+  } catch (e) {
+    return fail(`${relPath} is not valid JSON — ${e.message}`);
+  }
+  const errors = checkMcpConfig(config);
+  if (errors.length === 0) return pass(`${relPath} valid`);
+  for (const err of errors) fail(`${relPath}: ${err}`);
+  return false;
 }
 
 // Load marketplace
@@ -102,6 +109,20 @@ for (const plugin of marketplace.external_plugins ?? []) {
   }
   console.log(`External: ${plugin.name}`);
   if (!validatePlugin(pPath)) allOk = false;
+  console.log();
+}
+
+// Plugins not listed in the marketplace still ship their .mcp.json
+const listed = new Set(
+  [...(marketplace.plugins ?? []), ...(marketplace.external_plugins ?? [])]
+    .map(resolvePluginPath)
+    .filter(Boolean)
+    .map((p) => join(p, ".mcp.json")),
+);
+const unlisted = findMcpConfigs(ROOT).filter((p) => !listed.has(p));
+if (unlisted.length) {
+  console.log("Unlisted MCP configs");
+  for (const p of unlisted) if (!validateMcpConfig(p)) allOk = false;
   console.log();
 }
 

@@ -20,7 +20,7 @@ General-purpose sports analytics plugin for building cross-sport data pipelines,
 
 This plugin ships a plugin-local `.mcp.json` pointing Claude Code at the BSI MCP endpoint:
 
-- `https://blazesportsintel.com/mcp` — Blaze Sports Intel live data across college baseball, MLB, NFL, NBA, and CFB
+- `https://sabermetrics.blazesportsintel.com/mcp` — Blaze Sports Intel live college baseball (scoreboard, standings, rankings, players, schedules, game detail, article search). It has no MLB, NFL, NBA or college football tools.
 
 Use `/mcp` in Claude Code to confirm the server is connected after enabling the plugin.
 

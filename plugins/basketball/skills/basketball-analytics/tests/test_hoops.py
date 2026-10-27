@@ -2,6 +2,7 @@
 import contextlib
 import csv
 import io
+import json
 import os
 import socket
 import sys
@@ -18,6 +19,10 @@ import hoops  # noqa: E402
 # Stephen Curry 2015-16 regular season (Basketball-Reference: eFG% .630, TS% .669)
 CURRY_2016 = {"FG": 805, "FGA": 1598, "3P": 402, "FT": 363, "FTA": 400, "PTS": 2375}
 GSW_BOXES = os.path.join(HERE, "fixtures", "team_box_2016_GSW.csv")  # ESPN boxes, every GSW game
+BAY_BOXES = os.path.join(HERE, "fixtures", "team_box_2024_BAY.csv")  # ESPN boxes, every Baylor 2023-24 game
+# The 362 ESPN team_ids with a Division I schedule in ESPN's 2023-24 men's file (NCAA: 362 D-I teams).
+with open(os.path.join(HERE, "fixtures", "mbb_2024_division_one.txt")) as _f:
+    D1_2024 = frozenset(_f.read().split())
 
 
 def gsw():
@@ -115,10 +120,10 @@ class TeamRows(unittest.TestCase):
         self.assertIn("Framingham State", err.getvalue())
 
     def test_team_names_people_type(self):
-        t, _ = hoops.season_totals(list(csv.DictReader(open(GSW_BOXES, newline=""))), "GSW")
-        self.assertEqual(t["G"], 82)
-        t, _ = hoops.season_totals(list(csv.DictReader(open(GSW_BOXES, newline=""))), "gs")
-        self.assertEqual(t["G"], 82)
+        with open(GSW_BOXES, newline="") as f:
+            rows = list(csv.DictReader(f))
+        self.assertEqual(hoops.season_totals(rows, "GSW")[0]["G"], 82)
+        self.assertEqual(hoops.season_totals(rows, "gs")[0]["G"], 82)
         rows = [box("1", "DUKE", "UNC", team_id="150", name="Duke Blue Devils", location="Duke"),
                 box("1", "UNC", "DUKE", team_id="153")]
         for name in ("duke", "Duke Blue Devils", "150"):
@@ -134,6 +139,62 @@ class TeamRows(unittest.TestCase):
                 box("1", "LAL", "GS", offensive_rebounds="", defensive_rebounds="")]
         with self.assertRaisesRegex(ValueError, "rebound"):
             hoops.team_ratings(*hoops.season_totals(rows, "GS"))
+
+
+def baylor(**kw):
+    with open(BAY_BOXES, newline="") as f:
+        return hoops.season_totals(list(csv.DictReader(f)), "BAY", ("2", "3"), **kw)
+
+
+def schedule(teams, games_each, rival="D1"):
+    """Rows for a league where every team in `teams` plays `games_each` games against the next team."""
+    rows, n = [], 0
+    for i, team in enumerate(teams):
+        for _ in range(games_each):
+            n += 1
+            opp = teams[(i + 1) % len(teams)]
+            rows += [box(str(n), team, opp, team_id=team), box(str(n), opp, team, team_id=opp)]
+    return rows
+
+
+class College(unittest.TestCase):
+    def test_baylor_2024_all_games_match_baylors_official_totals(self):
+        # baylorbears.com 2023-24 totals (35 games, 24-11): PTS 2814-2489, FG 967-2001, opp FG 904-1987,
+        # 3P 301-773, FT 579-791, ORB 399, AST 514, TOV 421-414. Those count the John Brown game (NAIA).
+        t, o = baylor(opponents=None)
+        self.assertEqual((t["G"], t["W"], t["L"]), (35, 24, 11))
+        self.assertEqual((t["PTS"], o["PTS"]), (2814, 2489))
+        self.assertEqual((t["FG"], t["FGA"], o["FG"], o["FGA"]), (967, 2001, 904, 1987))
+        self.assertEqual((t["3P"], t["3PA"], t["FT"], t["FTA"]), (301, 773, 579, 791))
+        self.assertEqual((t["ORB"], t["AST"], t["TOV"], o["TOV"]), (399, 514, 421, 414))
+
+    def test_baylor_2024_division_one_games_only(self):
+        # Warren Nolan, "games against Division I opponents only": Baylor 23-11. KenPom and
+        # Sports-Reference also leave out the 96-70 win over John Brown on Nov 9, 2023.
+        t, o = baylor(opponents=D1_2024)
+        self.assertEqual((t["G"], t["W"], t["L"]), (34, 23, 11))
+        self.assertEqual((t["PTS"], o["PTS"]), (2814 - 96, 2489 - 70))
+
+    def test_record_in_ratings(self):
+        self.assertEqual(hoops.team_ratings(*baylor(opponents=D1_2024))["record"], "23-11")
+
+    def test_division_one_is_read_from_the_schedule(self):
+        # Division I teams play a full schedule; a non-Division I school shows up only for the
+        # one or two games it played against Division I teams.
+        teams = [f"D{i}" for i in range(hoops.MIN_DIVISION_ONE)]
+        rows = schedule(teams, 15)
+        rows += [box("x1", "NAIA", "D0", team_id="NAIA"), box("x1", "D0", "NAIA", team_id="D0")]
+        d1, settled = hoops.division_one(rows)
+        self.assertTrue(settled)
+        self.assertEqual(d1, set(teams))
+
+    def test_full_2024_file_finds_362_division_one_teams(self):
+        self.assertEqual(len(D1_2024), 362)
+
+    def test_too_early_to_tell(self):
+        rows = schedule([f"D{i}" for i in range(hoops.MIN_DIVISION_ONE)], 2)
+        _, settled = hoops.division_one(rows)
+        self.assertFalse(settled)
 
 
 class Cli(unittest.TestCase):
@@ -159,6 +220,64 @@ class Cli(unittest.TestCase):
         os.unlink(f.name)
         self.assertNotEqual(code, 0)
         self.assertIn("no box scores", err)
+
+    def write_csv(self, rows):
+        with tempfile.NamedTemporaryFile("w", suffix=".csv", delete=False, newline="") as f:
+            w = csv.DictWriter(f, sorted({k for r in rows for k in r}))
+            w.writeheader()
+            w.writerows(rows)
+        self.addCleanup(os.unlink, f.name)
+        return f.name
+
+    def college_season(self):
+        rows = schedule([f"D{i}" for i in range(hoops.MIN_DIVISION_ONE)], 15)
+        return rows + [box("x1", "NAIA", "D0", team_id="NAIA"), box("x1", "D0", "NAIA", team_id="D0")]
+
+    def test_college_leaves_out_non_division_one_games(self):
+        path = self.write_csv(self.college_season())
+        code, out, _ = self.run_cli("team", "--league", "mbb", "--boxes", path, "--team", "D0")
+        self.assertEqual(code, 0)
+        r = json.loads(out)
+        self.assertEqual((r["games"], r["non_division_one_games_left_out"]), (30, 1))
+        code, out, _ = self.run_cli("team", "--league", "mbb", "--boxes", path, "--team", "D0",
+                                    "--include-non-d1")
+        r = json.loads(out)
+        self.assertEqual(r["games"], 31)
+        self.assertNotIn("non_division_one_games_left_out", r)
+
+    def test_nba_is_not_filtered(self):
+        path = self.write_csv(self.college_season())
+        _, out, _ = self.run_cli("team", "--boxes", path, "--team", "D0")
+        self.assertEqual(json.loads(out)["games"], 31)
+
+    def test_early_college_season_uses_last_seasons_division_one(self):
+        early = [box("x1", "NAIA", "D0", team_id="NAIA"), box("x1", "D0", "NAIA", team_id="D0"),
+                 box("x2", "D1", "D0", team_id="D1"), box("x2", "D0", "D1", team_id="D0")]
+        last_season = self.write_csv(self.college_season())
+        this_season = self.write_csv(early)
+        with mock.patch.object(hoops, "box_path", side_effect=lambda lg, s, *a: {
+                2025: this_season, 2024: last_season}[s]):
+            code, out, err = self.run_cli("team", "--league", "mbb", "--season", "2025", "--team", "D0")
+        self.assertEqual(code, 0, err)
+        self.assertEqual(json.loads(out)["games"], 1)
+        self.assertIn("2024", err)
+
+    def test_partial_college_file_counts_everything_and_says_so(self):
+        code, out, err = self.run_cli("team", "--league", "mbb", "--boxes", BAY_BOXES, "--team", "Baylor",
+                                      "--all")
+        self.assertEqual(code, 0, err)
+        self.assertEqual(json.loads(out)["record"], "24-11")
+        self.assertIn("non-Division I", err)
+
+    def test_one_conference_file_does_not_drop_a_division_one_visitor(self):
+        # A conference's schedule plus a nonconference game: the visitor shows up once, like an NAIA
+        # school would, but the file is too small to be ESPN's league-wide export, so count every game.
+        rows = schedule([f"D{i}" for i in range(20)], 10)
+        rows += [box("v1", "VISITOR", "D0", team_id="VISITOR"), box("v1", "D0", "VISITOR", team_id="D0")]
+        code, out, err = self.run_cli("team", "--league", "mbb", "--boxes", self.write_csv(rows), "--team", "D0")
+        self.assertEqual(code, 0, err)
+        self.assertEqual(json.loads(out)["games"], 21)
+        self.assertIn("non-Division I", err)
 
     def test_missing_season_file_is_an_error_message(self):
         def gone(url, path):
@@ -326,6 +445,19 @@ class Live(unittest.TestCase):
             t, o = hoops.season_totals(list(csv.DictReader(f)), "DUKE")
         r = hoops.team_ratings(t, o)
         self.assertTrue(55 < r["possessions_per_game"] < 80)
+
+    def test_mens_2024_division_one_from_the_download(self):
+        with open(hoops.box_path("mbb", 2024), newline="") as f:
+            d1, settled = hoops.division_one(list(csv.DictReader(f)))
+        self.assertTrue(settled)
+        self.assertEqual(d1, D1_2024)
+
+    def test_womens_college_division_one(self):
+        # NCAA: 361 Division I women's teams in 2023-24, give or take reclassifying schools.
+        with open(hoops.box_path("wbb", 2024), newline="") as f:
+            d1, settled = hoops.division_one(list(csv.DictReader(f)))
+        self.assertTrue(settled)
+        self.assertTrue(355 <= len(d1) <= 365, len(d1))
 
 
 if __name__ == "__main__":
