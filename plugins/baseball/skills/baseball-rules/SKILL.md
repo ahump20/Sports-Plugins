@@ -54,7 +54,7 @@ Say plainly when a call is umpire or scorer judgment (ordinary effort, intent, "
 ## Scoring quick hits
 
 - Earned runs: rebuild the inning without errors and passed balls; benefit of the doubt to the pitcher (9.16).
-- A two-out error ends the earned runs for that inning (9.16(a) Comment).
+- When an error with two outs stops the play that would have been the third out, every later run that inning is unearned (9.16(a) Comment). An error that only gives a runner an extra base doesn't end the inning; rebuild it.
 - RBI is credited on an error when, with fewer than two outs, the runner from third would ordinarily have scored (9.04(a)(3)).
 - No RBI on a ground-ball double play (9.04(b)).
 - A sac fly is not an at-bat but is in the OBP denominator. A sac bunt is in neither (9.02, 9.21(f)).

@@ -60,7 +60,9 @@ def parse_ip(ip):
 
 
 def _g(s, k):
-    v = s.get(k, 0) or 0
+    v = s.get(k)
+    if v is None:
+        return 0
     if isinstance(v, bool) or not isinstance(v, (int, float, str)):
         raise ValueError(f"{k} {json.dumps(v)} is not a number")
     if isinstance(v, str):

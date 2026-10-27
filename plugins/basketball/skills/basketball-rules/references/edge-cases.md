@@ -132,7 +132,7 @@ There is no special blocked-shot rule.
 ## Jump ball vs alternating arrow
 
 - **NBA:** jump balls at the nearest circle for a held ball, a ball sent out by both teams, or official doubt (R6-VI). Opening-tap possession sets who inbounds to start Q2–Q4 (R6-I). The WNBA follows the same start-of-period pattern.
-- **NCAA (M/W 6-3, 6-4):** a jump ball only to start the game. All later held balls and simultaneous out-of-bounds go to the alternating-possession arrow.
+- **NCAA (M/W 6-3, 6-4):** a jump ball to start the game and each overtime, and the arrow is set again from that tap. All other held balls and simultaneous out-of-bounds go to the alternating-possession arrow.
 - **FIBA (Art. 12.6):** the same arrow system. The team that does not get first control after the opening jump gets the first arrow throw-in. The arrow holder starts the next quarter or OT from the centre line extended.
 
 ## Three seconds
