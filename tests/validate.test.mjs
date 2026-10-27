@@ -118,7 +118,8 @@ describe(".mcp.json shape", () => {
     for (const rel of findMcpConfigs(ROOT)) {
       const { mcpServers } = JSON.parse(readFileSync(join(ROOT, rel), "utf-8"));
       for (const [name, s] of Object.entries(mcpServers)) {
-        if (s.url && new URL(s.url).hostname.endsWith("blazesportsintel.com")) {
+        const host = s.url ? new URL(s.url).hostname : "";
+        if (host === "blazesportsintel.com" || host.endsWith(".blazesportsintel.com")) {
           assert.equal(s.url, "https://sabermetrics.blazesportsintel.com/mcp", `${rel} ${name}`);
         }
       }
