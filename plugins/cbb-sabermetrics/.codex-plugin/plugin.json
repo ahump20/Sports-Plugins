@@ -1,6 +1,6 @@
 {
   "name": "cbb-sabermetrics",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "Live college baseball sabermetrics for 330 NCAA DI programs via the Blaze Sports Intel MCP. Advanced metrics (wOBA, wRC+, FIP, BABIP, ISO), conference power index, scoreboard, standings, rankings, team and player lookups, matchup detail.",
   "author": {
     "name": "Austin Humphrey",

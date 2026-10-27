@@ -9,8 +9,8 @@ Scouting reports, SEC matchup previews, roster evaluation with HAV-F scoring, NI
 **Claude Code:**
 ```
 /plugin marketplace add ahump20/Sports-Plugins
-/plugin install cbb-sabermetrics
-/plugin install texas-longhorns-intel
+/plugin install cbb-sabermetrics@Sports-Plugins
+/plugin install texas-longhorns-intel@Sports-Plugins
 ```
 
 **Codex CLI:**

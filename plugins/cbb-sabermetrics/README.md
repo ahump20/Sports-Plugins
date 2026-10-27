@@ -4,14 +4,14 @@
 
 Wraps the college-baseball tool family of the [Blaze Sports Intel MCP](https://blazesportsintel.com/mcp) so any developer using Claude Code or OpenAI Codex can query live college baseball intelligence through natural language.
 
-> **Note on scope:** The BSI MCP actually exposes 31 tools across 5 sports (MLB, NFL, NBA, CFB, and NCAA DI college baseball). This plugin surfaces only the 10 college-baseball tools with CBB-specific agents, skills, and commands. For the other sports, see `mlb-sabermetrics`, `nfl-analytics`, `nba-analytics`, and `cfb-analytics` (coming soon).
+> **Note on scope:** The BSI MCP actually exposes 31 tools across 5 sports (MLB, NFL, NBA, CFB, and NCAA DI college baseball). This plugin surfaces only the 10 college-baseball tools with CBB-specific agents, skills, and commands. For MLB, football and basketball fundamentals, see [`baseball`](../baseball/), [`football`](../football/) and [`basketball`](../basketball/).
 
 ## Install
 
 **Claude Code:**
 ```
 /plugin marketplace add ahump20/Sports-Plugins
-/plugin install cbb-sabermetrics
+/plugin install cbb-sabermetrics@Sports-Plugins
 ```
 
 **Codex CLI:**

@@ -1,0 +1,34 @@
+name: Live data sources
+
+# The skills point at free public sources (MLB Stats API, nflverse, sportsdataverse).
+# This job catches the day one of them moves or changes shape.
+on:
+  schedule:
+    - cron: "17 13 * * 1"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  live:
+    name: Skill scripts against live sources
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    env:
+      SPORTS_LIVE: "1"
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Run tests with live downloads
+        run: |
+          failed=0
+          for t in plugins/*/skills/*/tests; do
+            echo "== $t"
+            python -m unittest discover -s "$t" -v || failed=1
+          done
+          exit $failed

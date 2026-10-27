@@ -1,6 +1,6 @@
 {
   "name": "texas-longhorns-intel",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "Texas Longhorns baseball intelligence — program doctrine plus live sabermetrics. Scouting reports, SEC matchup previews, roster evaluation, NIL efficiency analysis, historical framing. Depends on cbb-sabermetrics for live data access.",
   "author": {
     "name": "Austin Humphrey",

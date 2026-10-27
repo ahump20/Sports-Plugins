@@ -4,10 +4,11 @@
 
 ## Plugin(s)
 
-- [ ] `college-baseball-sabermetrics`
-- [ ] `sports-analytics`
-- [ ] `live-scores`
-- [ ] `fantasy-sports`
+- [ ] `baseball`
+- [ ] `football`
+- [ ] `basketball`
+- [ ] `cbb-sabermetrics`
+- [ ] `texas-longhorns-intel`
 - [ ] Shared (`src/`)
 - [ ] Other: ___
 
@@ -17,5 +18,7 @@
 - [ ] `npm run lint` passes
 - [ ] `npm test` passes
 - [ ] `npm run validate` passes
+- [ ] `npm run test:py` passes
+- [ ] `claude plugin validate .` passes
 - [ ] Skill files contain specific, actionable guidance (not generic descriptions)
 - [ ] README updated (if adding/changing a plugin)
