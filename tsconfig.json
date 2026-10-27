@@ -4,6 +4,7 @@
     "module": "Node16",
     "moduleResolution": "Node16",
     "lib": ["ES2022"],
+    "types": ["node"],
     "outDir": "dist",
     "rootDir": ".",
     "strict": true,
@@ -16,8 +17,7 @@
     "sourceMap": true,
     "paths": {
       "@sports-plugins/*": ["./src/*"]
-    },
-    "baseUrl": "."
+    }
   },
   "include": [
     "lib/**/*.ts",

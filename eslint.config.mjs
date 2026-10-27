@@ -1,16 +1,15 @@
 import eslint from '@eslint/js';
-import tseslint from 'typescript-eslint';
 import globals from 'globals';
+import tseslint from 'typescript-eslint';
 
 export default tseslint.config(
   eslint.configs.recommended,
   ...tseslint.configs.recommended,
   {
-    ignores: ['dist/', 'node_modules/', 'scripts/*.js', 'vitest.config.ts', 'eslint.config.mjs'],
+    files: ['**/*.mjs', '**/*.js'],
+    languageOptions: { globals: globals.node },
   },
   {
-    // Scripts and node:test suites run on Node
-    files: ['**/*.mjs'],
-    languageOptions: { globals: globals.node },
+    ignores: ['dist/', 'node_modules/', 'scripts/*.js', 'vitest.config.ts', 'eslint.config.mjs'],
   },
 );
