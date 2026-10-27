@@ -43,6 +43,7 @@ _COLS = {"FG": "field_goals_made", "FGA": "field_goals_attempted", "3P": "three_
 _REQUIRED = ("game_id", "season_type", "team_abbreviation", "team_score")
 REGULAR_SEASON = "2"
 POSTSEASON = "3"
+COLLEGE = ("mbb", "wbb")
 # ESPN files the NBA Cup final as a regular-season game; it counts in no season totals. Later finals
 # are read from ESPN's schedule (type CC); these cover --boxes files and an unreachable schedule.
 NBA_CUP_FINALS = {"401607495", "401734908", "401809839"}  # 2023-24, 2024-25, 2025-26
@@ -109,9 +110,13 @@ def team_ratings(t, o):
     Pace rescales by minutes played, so it runs slightly lower for teams that played overtime."""
     poss = possessions(t, o)
     games = _g(t, "G") or 1
-    out = {"games": int(games), "possessions": round(poss, 1),
-           "possessions_per_game": round(poss / games, 1),
-           "ORtg": round(100 * _g(t, "PTS") / poss, 2), "DRtg": round(100 * _g(o, "PTS") / poss, 2)}
+    out = {"games": int(games)}
+    if "W" in t:
+        out["record"] = f"{t['W']}-{t['L']}"
+    if t.get("left_out"):
+        out["non_division_one_games_left_out"] = t["left_out"]
+    out.update({"possessions": round(poss, 1), "possessions_per_game": round(poss / games, 1),
+                "ORtg": round(100 * _g(t, "PTS") / poss, 2), "DRtg": round(100 * _g(o, "PTS") / poss, 2)})
     out["NRtg"] = round(out["ORtg"] - out["DRtg"], 2)
     out["offense"] = {k: round(v, 3) for k, v in four_factors(t, o).items()}
     out["defense"] = {k: round(v, 3) for k, v in four_factors(o, t).items()}
@@ -267,9 +272,49 @@ def resolve_team(rows, team):
     return best, names[best]
 
 
-def season_totals(rows, team, season_type=REGULAR_SEASON, exclude=frozenset(NBA_CUP_FINALS)):
+def division_one(rows):
+    """Split a college file's teams into Division I and the rest by games played. ESPN's college files
+    hold every game a Division I team played, so a non-Division I school shows up only for the one or
+    few games it played against Division I teams (no 2023-24 men's game has two of them). A team is
+    Division I when it has played at least half as many games as a typical team. Returns the Division I
+    keys and whether that split can be trusted yet: non-Division I schools play up to 8 Division I
+    teams, all before January, so it holds once a typical team has 18 games (mid-January)."""
+    games = collections.defaultdict(set)
+    for r in rows:
+        games[_key(r)].add(r["game_id"])
+    counts = sorted((len(g) for g in games.values()), reverse=True)
+    typical = counts[len(counts) // 4] if counts else 0  # inside the Division I half
+    return {k for k, g in games.items() if len(g) >= typical / 2}, typical >= 18
+
+
+def college_opponents(rows, league, season=None):
+    """Division I team keys for a college file. Until mid-January the schedule can't yet tell an NAIA
+    school with six games from a Division I team with eleven, so take last season's Division I teams
+    (ESPN's team_ids don't change); a school new to Division I this season then counts as non-Division I.
+    Returns None (count every game) when neither works."""
+    d1, settled = division_one(rows)
+    if settled:
+        return d1
+    if season:
+        try:
+            with open(box_path(league, int(season) - 1), newline="") as f:
+                prior, prior_settled = division_one(list(csv.DictReader(f)))
+            if prior_settled:
+                print(f"note: too early in the season to read Division I from the schedule; using "
+                      f"{int(season) - 1}'s {len(prior)} Division I teams", file=sys.stderr)
+                return prior
+        except (LookupError, ValueError, OSError) as e:
+            print(f"warning: no {int(season) - 1} file ({e})", file=sys.stderr)
+    print("warning: can't tell Division I teams from this file (too few games per team); games against "
+          "non-Division I schools are counted", file=sys.stderr)
+    return None
+
+
+def season_totals(rows, team, season_type=REGULAR_SEASON, exclude=frozenset(NBA_CUP_FINALS), opponents=None):
     """Sum a team's and its opponents' box scores. Pairs rows by game so the opponent's
-    rebounds and turnovers come from the opponent's own line. season_type is one code or several."""
+    rebounds and turnovers come from the opponent's own line. season_type is one code or several.
+    opponents, when given, is the set of team keys whose games count (Division I, for college);
+    games against anyone else are left out and counted in t["left_out"]."""
     if not rows:
         raise LookupError("no box scores in the file")
     types = {season_type} if isinstance(season_type, str) else set(season_type)
@@ -278,13 +323,18 @@ def season_totals(rows, team, season_type=REGULAR_SEASON, exclude=frozenset(NBA_
     for r in rows:
         if r.get("season_type") in types and r["game_id"] not in exclude:
             by_game.setdefault(r["game_id"], {})[_key(r)] = r
-    t, o = {"G": 0, "PTS": 0}, {"PTS": 0}
+    t, o = {"G": 0, "W": 0, "L": 0, "PTS": 0, "left_out": 0}, {"PTS": 0}
     for game in by_game.values():
         if key not in game or len(game) != 2:
             continue
         mine = game[key]
-        theirs = next(v for k, v in game.items() if k != key)
+        other, theirs = next((k, v) for k, v in game.items() if k != key)
+        if opponents is not None and other not in opponents:
+            t["left_out"] += 1
+            continue
         t["G"] += 1
+        won = _num(mine["team_score"]) > _num(theirs["team_score"])
+        t["W" if won else "L"] += 1
         for side, src in ((t, mine), (o, theirs)):
             side["PTS"] += _num(src["team_score"])
             for k, col in _COLS.items():
@@ -310,6 +360,9 @@ def main(argv=None):
     p.add_argument("--team")
     p.add_argument("--boxes")
     p.add_argument("--postseason", action="store_true", help="postseason games only")
+    p.add_argument("--include-non-d1", action="store_true",
+                   help="college: count games against non-Division I schools (left out by default, as "
+                        "KenPom, Sports-Reference and the NET do)")
     p.add_argument("--all", action="store_true",
                    help="regular season plus postseason (how Sports-Reference and KenPom total a college season)")
     a = p.parse_args(argv)
@@ -341,7 +394,10 @@ def main(argv=None):
         types = (REGULAR_SEASON, POSTSEASON) if a.all else POSTSEASON if a.postseason else REGULAR_SEASON
         exclude = nba_excluded_games(a.season) if a.league == "nba" and a.season and not a.boxes \
             else NBA_CUP_FINALS
-        t, o = season_totals(complete, a.team, types, exclude)
+        opponents = None
+        if a.league in COLLEGE and not a.include_non_d1:
+            opponents = college_opponents(complete, a.league, None if a.boxes else a.season)
+        t, o = season_totals(complete, a.team, types, exclude, opponents)
         print(json.dumps(team_ratings(t, o), indent=2))
         return 0
     except (LookupError, ValueError, OSError) as e:

@@ -39,6 +39,6 @@ The reference for historical and advanced numbers (per-100, BPM, Win Shares) and
 ## College specifics
 
 - Opponent-adjusted ratings (KenPom, Bart Torvik, the NCAA's NET) are the standard for ranking teams. KenPom is paid; don't promise numbers from it you can't fetch.
-- The 2023-24 men's file has 717 distinct teams, about twice the size of Division I, because games against non-Division I schools are included. Decide whether those games count before computing a rating, and say which you chose.
+- The 2023-24 men's file has 717 distinct teams, about twice the size of Division I, because every game a Division I team played is in it, NAIA and Division II opponents included. KenPom, Sports-Reference and the NET leave those games out (Baylor 2023-24: 24-11 on baylorbears.com, 23-11 against Division I). The file has no division column; a Division I team plays a full schedule while a non-Division I school shows up for at most 8 games, all before January, so games played separates them (362 teams in 2023-24, the NCAA's count). `hoops.py` does this for you.
 - **Abbreviations repeat across schools.** In 2023-24, FSU is Florida State and Framingham State, LOU is Louisville and Lourdes, PENN (women) is Pennsylvania and Penn State-Beaver. Key on `team_id`.
 - `season_type` 3 holds the NCAA tournament and other postseason events; conference tournaments are in 2. Sports-Reference and KenPom count both in a season.
