@@ -49,6 +49,13 @@ class Pitching(unittest.TestCase):
         line = saber.pitching_line({"IP": "6.0", "HR": 0, "BB": 1, "SO": 7, "ER": 0}, saber.constants(2024))
         self.assertEqual(line["ERA"], 0.0)
 
+    def test_api_pitching_object_keeps_hit_batsmen(self):
+        # The Stats API's pitching group can carry hit batters as hitBatsmen.
+        stat = {"inningsPitched": "192.0", "homeRuns": 15, "baseOnBalls": 35, "intentionalWalks": 0,
+                "hitBatsmen": 9, "strikeOuts": 228, "earnedRuns": 51, "battersFaced": 753}
+        line = saber.pitching_line(saber.mlb_stat_to_counts(stat), saber.constants(2024))
+        self.assertEqual(line["FIP"], 2.49)
+
     def test_parse_ip_counts_outs(self):
         self.assertAlmostEqual(saber.parse_ip("6.2"), 6 + 2 / 3)
         self.assertAlmostEqual(saber.parse_ip("192.0"), 192)

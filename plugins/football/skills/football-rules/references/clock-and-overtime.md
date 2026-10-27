@@ -66,7 +66,7 @@ A half (NFL) or a quarter (NCAA) is extended by one untimed down when time expir
 
 Common error: assuming the NFL extends for any offensive foul. It does so only for the listed cases, and an accepted offensive foul often ends the half. NCAA extends for accepted fouls by either team, unless the offended team declines when the offense's foul carries loss of down.
 
-A touchdown as time expires is followed by the try in both codes. NFL tries are untimed. In NCAA, the try is skipped when it can't affect the outcome (8-3-2-a).
+Tries are untimed in both codes, so a touchdown as time expires is followed by a try only when the try can still matter. NFL: no try after a winning touchdown at the end of regulation (since 2018) or after a touchdown that ends overtime. NCAA: the try is skipped when it can't affect the outcome (8-3-2-a).
 
 ## NFL overtime (Rule 16)
 

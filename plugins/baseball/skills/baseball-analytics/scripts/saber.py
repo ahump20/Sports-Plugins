@@ -163,7 +163,11 @@ _MLB_KEYS = {"plateAppearances": "PA", "atBats": "AB", "hits": "H", "doubles": "
 
 def mlb_stat_to_counts(stat):
     """Map an MLB Stats API stat object (stats[0].splits[0].stat) to this module's keys."""
-    return {v: stat[k] for k, v in _MLB_KEYS.items() if k in stat}
+    out = {v: stat[k] for k, v in _MLB_KEYS.items() if k in stat}
+    # The pitching group can name hit batters hitBatsmen instead of hitByPitch.
+    if "HBP" not in out and "hitBatsmen" in stat:
+        out["HBP"] = stat["hitBatsmen"]
+    return out
 
 
 def fetch_mlb(person_id, season, group):

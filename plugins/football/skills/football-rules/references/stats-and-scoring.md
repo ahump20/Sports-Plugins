@@ -20,7 +20,7 @@ Playing-rule values come from the 2026 NFL and NCAA rulebooks. The stat conventi
 | Try: run or pass into the end zone | 2 (snapped from the 2) | 2 |
 | Try: defense returns the ball for a score | 2 (11-3-2-b) | 2 (a touchdown on a try is 2 for either team) |
 | Try: safety | Check 11-3-2 (unverified here) | 1 point (8-1-1) |
-| Try at the end of the game | Played | Not played unless it could affect the outcome (8-3-2-a) |
+| Try at the end of the game | Not played after a winning touchdown at the end of regulation (since 2018) or a touchdown that ends overtime | Not played unless it could affect the outcome (8-3-2-a) |
 
 Overtime scoring is different in NCAA from the second overtime on. See `clock-and-overtime.md`.
 

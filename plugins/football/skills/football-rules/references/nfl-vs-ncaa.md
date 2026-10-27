@@ -19,7 +19,7 @@ Editions: **2026 Official Playing Rules of the National Football League** and **
 |---|---|---|
 | Try spot | Kick snapped from the defense's 15; pass or run from the 2. 11-3-1 | Snapped from the opponent's 3 (on or between the hashes, at or behind the 3). 8-3-2-c |
 | Try values | TD 2, FG 1; defense returning the ball for a score gets 2. 11-3-2-b | TD 2, FG 1, safety 1 (the "one-point safety"); defense can score 2. 8-1-1, 8-3-1 |
-| Try after time expires | — | Not attempted after a TD on the last play of the 4th quarter unless it affects the outcome; a team up by 1 or 2 may forgo it. 8-3-2-a |
+| Try after time expires | Not attempted after a winning TD at the end of regulation (since 2018) or a TD that ends overtime | Not attempted after a TD on the last play of the 4th quarter unless it affects the outcome; a team up by 1 or 2 may forgo it. 8-3-2-a |
 | Free kick after a safety | From own 20; drop kick, place kick or punt. 6-1-1-b, 6-1-2-a | From own 20; punt, drop kick or place kick. 8-5-2 |
 | Touchback spot (general) | 20 (kickoff spots below) | 20, except free kicks: 25. 8-6-2 |
 
