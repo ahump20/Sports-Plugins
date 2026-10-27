@@ -29,6 +29,13 @@ class PlayerTotalsMatchNflverse(unittest.TestCase):
         self.assertAlmostEqual(nflfast.player_summary(rows(), "00-0033873")["cpoe"], 4.19, places=2)
 
 
+class Dropbacks(unittest.TestCase):
+    def test_scrambles_count_as_dropbacks(self):  # 42 passes + 10 scrambles in this game
+        lamar = nflfast.player_summary(rows(), "00-0034796")
+        self.assertEqual(lamar["dropbacks"], 52)
+        self.assertAlmostEqual(lamar["epa_per_dropback"], 0.005, places=3)
+
+
 class TeamEfficiency(unittest.TestCase):
     def setUp(self):
         self.t = nflfast.team_efficiency(rows(), weeks={1})
@@ -75,3 +82,14 @@ class Live(unittest.TestCase):
 
 if __name__ == "__main__":
     unittest.main()
+
+
+class Ranking(unittest.TestCase):
+    def test_zero_net_epa_sorts_between_positive_and_negative(self):
+        play = lambda off, dfn, epa: {"season_type": "REG", "week": "1", "posteam": off,
+                                      "defteam": dfn, "epa": str(epa), "pass": "1"}
+        plays = [play("A", "Z", 1.0), play("B", "Z", 0.0), play("C", "Z", -1.0)]
+        plays += [play("Z", team, 0.0) for team in "ABC"]  # every team needs a defensive snap
+        t = nflfast.team_efficiency(plays, weeks={1})
+        order = [k for k in t if k in ("A", "B", "C")]
+        self.assertEqual(order, ["A", "B", "C"])

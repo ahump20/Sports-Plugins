@@ -147,7 +147,7 @@ def pitching_line(s, c):
     line = {"IP": round(ip, 3), "FIP": round(fip(s, c), 2),
             "K/9": round(9 * _g(s, "SO") / ip, 2), "BB/9": round(9 * _g(s, "BB") / ip, 2),
             "HR/9": round(9 * _g(s, "HR") / ip, 2)}
-    if _g(s, "ER"):
+    if s.get("ER") is not None:
         line["ERA"] = round(9 * _g(s, "ER") / ip, 2)
     if bf:
         line["K%"] = round(_g(s, "SO") / bf, 3)

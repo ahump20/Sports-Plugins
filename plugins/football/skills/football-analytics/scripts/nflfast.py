@@ -101,7 +101,8 @@ def team_efficiency(rows, weeks=None, season_type="REG"):
                                    if row["off_epa_per_play"] is not None and row["def_epa_per_play"] is not None
                                    else None)
         out[team] = row
-    return dict(sorted(out.items(), key=lambda kv: -(kv[1]["net_epa_per_play"] or -99)))
+    return dict(sorted(out.items(), key=lambda kv: (kv[1]["net_epa_per_play"] is None,
+                                                     -(kv[1]["net_epa_per_play"] or 0.0))))
 
 
 def epa_success(r):
@@ -115,6 +116,7 @@ def player_summary(rows, who, weeks=None, season_type="REG"):
     passing_epa: sum of qb_epa on every play with this passer (nflverse's definition).
     rushing_epa: sum of epa on run and kneel plays with this rusher (nflverse's definition).
     qb_epa credits the passer only up to a receiver's fumble; epa charges the whole play.
+    dropbacks: every qb_dropback play, sacks and scrambles included.
     """
     s = defaultdict(float)
     cpoe = []
@@ -127,13 +129,14 @@ def player_summary(rows, who, weeks=None, season_type="REG"):
         if passer:
             name = r.get("passer_player_name") or name
             s["passing_epa"] += _num(r.get("qb_epa")) or 0.0
-            if _flag(r, "qb_dropback") and _num(r.get("epa")) is not None:
-                s["dropbacks"] += 1
-                s["dropback_epa"] += _num(r["qb_epa"]) or 0.0
-                s["dropback_success"] += epa_success(r)
             c = _num(r.get("cpoe"))
             if c is not None:
                 cpoe.append(c)
+        # A scramble is a dropback with the quarterback in the rusher fields and no passer.
+        if (passer or rusher) and _flag(r, "qb_dropback") and _num(r.get("epa")) is not None:
+            s["dropbacks"] += 1
+            s["dropback_epa"] += _num(r.get("qb_epa")) or 0.0
+            s["dropback_success"] += epa_success(r)
         if rusher:
             name = r.get("rusher_player_name") or name
             if r.get("play_type") in ("run", "qb_kneel"):

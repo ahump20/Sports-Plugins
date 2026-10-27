@@ -45,6 +45,10 @@ class Pitching(unittest.TestCase):
         self.assertEqual(line["ERA"], 2.39)
         self.assertEqual((line["K/9"], line["BB/9"], line["HR/9"]), (10.69, 1.64, 0.70))
 
+    def test_scoreless_line_reports_zero_era(self):
+        line = saber.pitching_line({"IP": "6.0", "HR": 0, "BB": 1, "SO": 7, "ER": 0}, saber.constants(2024))
+        self.assertEqual(line["ERA"], 0.0)
+
     def test_parse_ip_counts_outs(self):
         self.assertAlmostEqual(saber.parse_ip("6.2"), 6 + 2 / 3)
         self.assertAlmostEqual(saber.parse_ip("192.0"), 192)
