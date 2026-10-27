@@ -2,6 +2,7 @@
 import gzip
 import io
 import os
+import socket
 import sys
 import tempfile
 import time
@@ -239,6 +240,18 @@ class Cache(unittest.TestCase):
         with mock.patch("urllib.request.urlretrieve", side_effect=fresh):
             nflfast.pbp_path(self.season)
         self.assertEqual(len(calls), 1)
+
+    def test_download_cannot_hang(self):
+        seen = []
+
+        def fresh(url, dest):
+            seen.append(socket.getdefaulttimeout())
+            with open(dest, "wb") as f:
+                f.write(gzip.compress(b"a,b\n3,4\n"))
+        with mock.patch("urllib.request.urlretrieve", side_effect=fresh):
+            nflfast.pbp_path(self.season)
+        self.assertIsNotNone(seen[0])
+        self.assertIsNone(socket.getdefaulttimeout())
 
     def test_stale_cache_is_used_when_the_download_fails(self):
         self.write_cache(gzip.compress(b"a,b\n1,2\n"), age_hours=13)

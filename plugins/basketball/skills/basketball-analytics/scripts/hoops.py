@@ -14,7 +14,9 @@ import argparse
 import collections
 import csv
 import json
+import math
 import os
+import socket
 import sys
 import time
 import urllib.error
@@ -31,6 +33,7 @@ BOX_URL = {
 NBA_SCHEDULE_URL = ("https://github.com/sportsdataverse/sportsdataverse-data/releases/download/"
                     "espn_nba_schedules/nba_schedule_{season}.csv")
 CACHE = os.path.expanduser("~/.cache/sports-plugins/sportsdataverse")
+DOWNLOAD_TIMEOUT = 60  # seconds a download may stall before it fails
 # total_turnovers includes team turnovers (shot-clock and 8-second violations), as Basketball-Reference's
 # TOV does; plain `turnovers` is the players' sum. Blank total_turnovers falls back to turnovers.
 _COLS = {"FG": "field_goals_made", "FGA": "field_goals_attempted", "3P": "three_point_field_goals_made",
@@ -125,6 +128,8 @@ def usage_rate(p, t, team_minutes):
 def normalize_stats(s):
     """Accept box-score spellings (FGM, FG3M, 3PM, FTM, TO, MIN, any case); reject keys we can't place,
     because an unread key would silently count as 0. Derive PTS when it is missing."""
+    if not isinstance(s, dict):
+        raise ValueError('stats must be a JSON object, like {"FG": 805, "FGA": 1598}')
     out, unknown = {}, []
     for k, v in s.items():
         key = str(k).strip().upper()
@@ -132,7 +137,14 @@ def normalize_stats(s):
         if key not in _STATS:
             unknown.append(k)
             continue
-        out[key] = float(v or 0)
+        try:
+            if isinstance(v, bool) or not isinstance(v, (int, float, str, type(None))):
+                raise TypeError
+            out[key] = float(v or 0)
+        except (TypeError, ValueError):
+            raise ValueError(f"{k} {json.dumps(v)} is not a number") from None
+        if not math.isfinite(out[key]):
+            raise ValueError(f"{k} {json.dumps(v)} is not a finite number")
     if unknown:
         raise ValueError(f"unknown stat keys {unknown}; use {sorted(_STATS)} (FGM, FG3M, FTM, TO also work)")
     if "PTS" not in out and "FG" in out:
@@ -163,6 +175,16 @@ def season_over(season):
     return time.mktime((int(season), 8, 1, 0, 0, 0, 0, 0, -1))
 
 
+def _download(url, path):
+    """urlretrieve with a socket timeout, so a stalled server fails instead of hanging."""
+    old = socket.getdefaulttimeout()
+    socket.setdefaulttimeout(DOWNLOAD_TIMEOUT)
+    try:
+        urllib.request.urlretrieve(url, path)
+    finally:
+        socket.setdefaulttimeout(old)
+
+
 def _fetch(url, path, columns, max_age_hours=12, final_after=None):
     """Download url to path unless a cached copy is fresh or was saved after final_after (the season
     is over and the file no longer changes). A failed or bad download never replaces the cache; if a
@@ -174,7 +196,7 @@ def _fetch(url, path, columns, max_age_hours=12, final_after=None):
             return path
     tmp = path + ".part"
     try:
-        urllib.request.urlretrieve(url, tmp)
+        _download(url, tmp)
         _check_csv(tmp, columns)
     except (OSError, ValueError) as e:
         if os.path.exists(tmp):
@@ -224,15 +246,17 @@ def resolve_team(rows, team):
     """Return the row key (ESPN team_id, else abbreviation) and display name for what the user typed.
     ESPN reuses abbreviations across schools (FSU is Florida State and Framingham State); when several
     teams match, take the one with the most games and say so."""
-    q = team.strip().upper()
-    q = NBA_ALIASES.get(q, q)
+    raw = team.strip().upper()
+    fields = ("team_abbreviation", "team_id", "team_location", "team_display_name",
+              "team_short_display_name", "team_name")
     games, names = collections.Counter(), {}
-    for r in rows:
-        fields = ("team_abbreviation", "team_id", "team_location", "team_display_name",
-                  "team_short_display_name", "team_name")
-        if any((r.get(c) or "").strip().upper() == q for c in fields):
-            games[_key(r)] += 1
-            names[_key(r)] = r.get("team_display_name") or r["team_abbreviation"]
+    for q in dict.fromkeys((raw, NBA_ALIASES.get(raw, raw))):  # what was typed first: UTA is UT Arlington
+        for r in rows:
+            if any((r.get(c) or "").strip().upper() == q for c in fields):
+                games[_key(r)] += 1
+                names[_key(r)] = r.get("team_display_name") or r["team_abbreviation"]
+        if games:
+            break
     if not games:
         raise LookupError(f"no team matches {team!r}; use ESPN's abbreviation (GS, NY, SA, DUKE ...), "
                           f"the school or city, or ESPN's team_id")
@@ -299,6 +323,8 @@ def main(argv=None):
                 team = normalize_stats(json.loads(a.team_stats))
                 if not (stats.get("MP") and team.get("MP")):
                     p.error("usage needs MP in --stats and team minutes (MP) in --team-stats")
+                if not (team.get("FGA") or team.get("FTA") or team.get("TOV")):
+                    p.error("usage needs team FGA, FTA or TOV in --team-stats")
                 out["USG%"] = round(usage_rate(stats, team, team["MP"]), 3)
             print(json.dumps(out, indent=2))
             return 0

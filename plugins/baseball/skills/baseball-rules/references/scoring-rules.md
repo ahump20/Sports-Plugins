@@ -18,7 +18,7 @@ Scoring follows the ruling. First settle what happened on the field (SKILL.md pr
 - Credit a hit (9.05(a)) when any of these is true:
   - the batter reaches safely on a fair ball that settles on the ground or clears the fence before a fielder touches it;
   - the ball is hit too hard, or too slowly, to make a play with ordinary effort;
-  - the ball takes an unnatural bounce, or hits the rubber or a base;
+  - the ball takes an unnatural bounce, or hits the rubber or a base before a fielder touches it, so that no fielder can handle it with ordinary effort;
   - the ball reaches the outfield untouched, unless ordinary effort would have retired the batter;
   - the fair ball touches a runner or umpire (unless the runner is out for being touched by an infield fly);
   - a fielder makes a failed play on a preceding runner when the batter would have been safe anyway.

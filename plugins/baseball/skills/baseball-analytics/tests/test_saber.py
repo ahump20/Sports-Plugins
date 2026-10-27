@@ -159,6 +159,11 @@ class LeagueTotalsMissingFields(unittest.TestCase):
         c = saber.league_constants(dict(MLB_2024_TOTALS, ERA=4.0, IP="0.0"))
         self.assertIsNone(c["cfip"])
 
+    def test_era_that_is_not_a_number_is_named(self):
+        for era in ("x", [4.0]):
+            with self.assertRaisesRegex(ValueError, "ERA"):
+                saber.league_constants(dict(MLB_2024_TOTALS, ERA=era, IP="1000.0"))
+
     def test_empty_totals_say_what_is_needed(self):  # raised ZeroDivisionError
         with self.assertRaisesRegex(ValueError, "AB"):
             saber.league_constants({})
@@ -185,6 +190,29 @@ class CliErrors(unittest.TestCase):
         code, _, err = self.run_cli(["league", "--totals", '{"PA":..}'])
         self.assertEqual(code, 2)
         self.assertIn("JSON", err)
+
+    def test_json_that_is_not_an_object_is_a_message(self):
+        for argv in (["batting", "--season", "2024", "--stats", "[1]"],
+                     ["pitching", "--season", "2024", "--stats", "5"],
+                     ["league", "--totals", "[1]"],
+                     ["batting", "--totals", '"x"', "--stats", "{}"]):
+            code, _, err = self.run_cli(argv)
+            self.assertEqual(code, 2, argv)
+            self.assertIn("object", err)
+
+    def test_stdin_that_is_not_an_object_is_a_message(self):
+        import io
+        from unittest import mock
+        with mock.patch("sys.stdin", io.StringIO("[1, 2]")):
+            code, _, err = self.run_cli(["batting", "--season", "2024"])
+        self.assertEqual(code, 2)
+        self.assertIn("object", err)
+
+    def test_values_that_are_not_numbers_are_a_message(self):
+        for value in ("[1]", '{"n": 1}', "true"):
+            code, _, err = self.run_cli(["batting", "--season", "2024", "--stats", '{"AB": %s}' % value])
+            self.assertEqual(code, 2, value)
+            self.assertIn("AB", err)
 
     def test_unreachable_api_is_a_message(self):
         import urllib.error

@@ -11,6 +11,7 @@ A rate whose denominator is zero (0 PA, 0 IP) comes back as null, not 0.
 """
 import argparse
 import json
+import math
 import sys
 import urllib.error
 import urllib.request
@@ -60,11 +61,15 @@ def parse_ip(ip):
 
 def _g(s, k):
     v = s.get(k, 0) or 0
+    if isinstance(v, bool) or not isinstance(v, (int, float, str)):
+        raise ValueError(f"{k} {json.dumps(v)} is not a number")
     if isinstance(v, str):
         try:
             v = float(v) if "." in v else int(v)
         except ValueError:
             raise ValueError(f"{k} {v!r} is not a number") from None
+    if not math.isfinite(v):
+        raise ValueError(f"{k} {v} is not a finite number")
     if v < 0:
         raise ValueError(f"{k} is {v}; counting stats can't be negative")
     return v
@@ -172,8 +177,8 @@ def league_constants(t, reference_season=2024):
                r_w=ref["r_w"], cfip=None)
     ip = parse_ip(t["IP"]) if t.get("IP") not in (None, "") else 0
     if t.get("ERA") is not None and ip:
-        out["cfip"] = float(t["ERA"]) - (13 * _g(t, "HR") + 3 * (_g(t, "BB") + _g(t, "HBP"))
-                                         - 2 * _g(t, "SO")) / ip
+        out["cfip"] = float(_g(t, "ERA")) - (13 * _g(t, "HR") + 3 * (_g(t, "BB") + _g(t, "HBP"))
+                                             - 2 * _g(t, "SO")) / ip
     out["missing"] = [k for k in ("r_pa", "cfip") if out[k] is None]
     return out
 
@@ -258,6 +263,12 @@ def main(argv=None):
         p.exit(2, f"{p.prog}: error: {e.args[0] if e.args else e}\n")
 
 
+def _obj(x, flag):
+    if not isinstance(x, dict):
+        raise ValueError(f'{flag} must be a JSON object, like {{"AB": 636, "H": 197}}')
+    return x
+
+
 def _warn_missing(c):
     why = {"r_pa": "R and PA (wRC+ is null)", "cfip": "ERA and IP (FIP is null)"}
     for k in c.get("missing", ()):
@@ -268,12 +279,12 @@ def _run(p, a):
     if a.mode == "league":
         if not a.totals:
             p.error("league mode needs --totals")
-        c = league_constants(json.loads(a.totals))
+        c = league_constants(_obj(json.loads(a.totals), "--totals"))
         _warn_missing(c)
         print(json.dumps({k: round(v, 4) if isinstance(v, float) else v for k, v in c.items()}, indent=2))
         return 0
     if a.totals:
-        c = league_constants(json.loads(a.totals))
+        c = league_constants(_obj(json.loads(a.totals), "--totals"))
         _warn_missing(c)
     elif a.season:
         c = constants(a.season)
@@ -284,9 +295,9 @@ def _run(p, a):
             p.error("--mlb-person needs --season")
         s = fetch_mlb(a.mlb_person, a.season, "hitting" if a.mode == "batting" else "pitching")
     elif a.stats:
-        s = json.loads(a.stats)
+        s = _obj(json.loads(a.stats), "--stats")
     else:
-        s = json.load(sys.stdin)
+        s = _obj(json.load(sys.stdin), "stdin")
     out = batting_line(s, c, a.park_factor) if a.mode == "batting" else pitching_line(s, c)
     print(json.dumps(out, indent=2))
     return 0

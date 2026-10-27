@@ -42,7 +42,7 @@ When a fact is not in the references and you can't verify it, say "(unverified â
 | Defensive 3 seconds | yes (technical) | yes (technical) | no | no | no |
 | Held ball | jump ball | jump ball (unverified) | arrow | arrow | arrow |
 | Advance after timeout | 28' hash, last 2:00 Q4/OT | 28' hash, last 2:00 | no | 28' line, last 0:59.9 Q4/OT, ball in backcourt after a basket, rebound or change of possession | frontcourt throw-in line, last 2:00 Q4/OT |
-| Coach's challenge | 1, +1 if successful | 1, +1 if successful | 1, +1 if overturned (new 2025-26) | challenge list; no timeout needed, a failed one is a technical | Head Coach's Challenge |
+| Coach's challenge | 1, +1 if successful | 1, +1 if successful | 1, +1 if overturned (new 2025-26) | unlimited appeals; a failed one is a charged timeout, or a technical with none left | Head Coach's Challenge |
 
 For citations, timeouts and shot-clock reset tables, see `references/levels-compared.md`.
 

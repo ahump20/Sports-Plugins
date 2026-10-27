@@ -76,7 +76,7 @@ Rule: the team whose **impetus** put the ball behind a goal line is responsible 
 2. Mechanics (NCAA 2-16-11, new in 2026):
    - The head coach elects it before the ready signal, and can't take it back.
    - A catch in a side zone is moved to the nearest hash mark; the kicking team can't choose another spot.
-   - It is a place kick with no tee, held, or a drop kick.
+   - It is a field-goal place kick with a holder and no tee, or a drop kick.
    - A lines up at least 10 yards away.
    - The game clock starts when the ball is kicked.
 3. NFL: 10-2-4, 11-4-3. Same idea; no tee.

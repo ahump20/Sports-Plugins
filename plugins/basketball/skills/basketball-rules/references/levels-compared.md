@@ -124,9 +124,11 @@ The WNBA uses the same 24/14 structure.
     - Out-of-bounds at any time.
     - Goaltending/basket interference until the last 2:00 of regulation.
     - Secondary-defender restricted-area position until the last 2:00.
-- **NCAA women (W 11-3.2/11-4)**
-  - Coach's challenge from 2025-26. No timeout is needed to challenge; a failed challenge is an administrative technical for an excessive timeout. Challenges per game: (unverified — check current rulebook).
-  - **Challengeable at any time:** out-of-bounds, backcourt violations, whether team control changed before a foul with free throws, and whether a foul was charged to the correct player. Officials may start a review only of the last.
+- **NCAA women (W 11-4, coaches' appeal)**
+  - From 2025-26. No limit on appeals, and a team may appeal with no timeouts left.
+  - A failed appeal is a charged timeout. With no timeouts left it is a technical for an excessive timeout (two free throws and the ball at the point of interruption).
+  - **Appealable at any time:** out-of-bounds, backcourt violations, whether team control changed before a foul (only when it could affect free throws), and whether the foul was charged to the correct player.
+  - Officials may review on their own only whether the foul was charged to the correct player.
 - **FIBA (Appendix F)**
   - Head Coach's Challenge. From OBR 2026 it may be requested at any time, and the replay system (IRS) can review goaltending/basket interference after a foul at any time.
   - Challenges per game: one (unverified — check current rulebook).
@@ -149,7 +151,7 @@ The WNBA uses the same 24/14 structure.
 | Oct 2024 | FIBA | OBR 2024: frontcourt throw-in lines after a late timeout; challenge can be withdrawn; basket interference definition clarified |
 | 2025-26 | NBA | Replay center rules on the proximate foul in out-of-bounds challenges. Separately, a stat-only change: end-of-quarter heaves (Q1–Q3, last 3 s, 36+ ft from the backcourt) count as team attempts, not player attempts |
 | 2025-26 | NCAA M | Coach's challenge; wider continuous motion; Flagrant 1 for groin contact; using the rim for an advantage is basket interference; one shot clock stays on if the other fails |
-| 2025-26 | NCAA W | Coach's challenge (no timeout needed; a failed one is a technical); 20-second reset on a dead-ball change of control with a frontcourt throw-in; jump stop with both feet at "approximately the same time" |
+| 2025-26 | NCAA W | Coaches' appeal (unlimited; a failed one is a charged timeout, or a technical with none left); 20-second reset on a dead-ball change of control with a frontcourt throw-in; jump stop with both feet at "approximately the same time" |
 | 2026-27 | NCAA M | Not a rules-change year: the book changes only logo rules. Quarters were discussed and not adopted. The 2026 committee directed that the 10-second violation be called when the shot clock reaches 19 |
 | Oct 2026 | FIBA | OBR 2026: disruptive foul replaces unsportsmanlike; flagrant foul added; technicals split into Category 1/2; player technicals count as team fouls; act of shooting must start in the frontcourt unless it is the last action of the period |
 

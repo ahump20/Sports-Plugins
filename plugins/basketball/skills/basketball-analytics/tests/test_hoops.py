@@ -3,6 +3,7 @@ import contextlib
 import csv
 import io
 import os
+import socket
 import sys
 import tempfile
 import time
@@ -263,6 +264,54 @@ class Usage(unittest.TestCase):
         team = {"FGA": 80, "FTA": 20, "TOV": 12}
         player = {"FGA": 16, "FTA": 4, "TOV": 2.4, "MP": 48}
         self.assertAlmostEqual(hoops.usage_rate(player, team, 240), 0.2)
+
+
+class BadInput(unittest.TestCase):
+    run_cli = Cli.run_cli
+
+    def test_json_that_is_not_an_object_is_an_error_message(self):
+        for stats in ("[1]", "5", '"FG"'):
+            code, _, err = self.run_cli("player", "--stats", stats)
+            self.assertNotEqual(code, 0, stats)
+            self.assertNotIn("Traceback", err)
+            self.assertIn("object", err)
+
+    def test_values_that_are_not_finite_numbers_are_rejected(self):
+        for value in ("NaN", "Infinity", "1e999", "[1]", "true"):
+            code, _, err = self.run_cli("player", "--stats", '{"FG": %s, "FGA": 10}' % value)
+            self.assertNotEqual(code, 0, value)
+            self.assertIn("FG", err)
+
+    def test_usage_without_team_possessions_is_an_error_message(self):  # divided by zero
+        code, _, err = self.run_cli("player", "--stats", '{"FGA":16,"MP":48}', "--team-stats", '{"MP":240}')
+        self.assertNotEqual(code, 0)
+        self.assertNotIn("Traceback", err)
+        self.assertIn("FGA", err)
+
+    def test_college_abbreviation_is_not_read_as_an_nba_alias(self):
+        # ESPN's men's file: UTA is UT Arlington, UTAH is Utah. The NBA alias UTA -> UTAH took Utah.
+        rows = [box("1", "UTA", "TCU", team_id="250", name="UT Arlington Mavericks"),
+                box("1", "TCU", "UTA", team_id="2628"),
+                box("2", "UTAH", "BYU", team_id="254", name="Utah Utes"),
+                box("2", "BYU", "UTAH", team_id="252")]
+        self.assertEqual(hoops.resolve_team(rows, "UTA"), ("250", "UT Arlington Mavericks"))
+        nba = [box("3", "UTAH", "DEN", team_id="26", name="Utah Jazz"), box("3", "DEN", "UTAH", team_id="7")]
+        self.assertEqual(hoops.resolve_team(nba, "UTA")[1], "Utah Jazz")
+
+
+class Download(unittest.TestCase):
+    def test_download_cannot_hang(self):
+        seen = []
+
+        def fetch(url, path):
+            seen.append(socket.getdefaulttimeout())
+            with open(GSW_BOXES) as src, open(path, "w") as dst:
+                dst.write(src.read())
+        with tempfile.TemporaryDirectory() as d, mock.patch.object(hoops, "CACHE", d), \
+                mock.patch.object(hoops.urllib.request, "urlretrieve", fetch):
+            hoops.box_path("nba", 2016)
+        self.assertIsNotNone(seen[0])
+        self.assertIsNone(socket.getdefaulttimeout())
 
 
 @unittest.skipUnless(os.environ.get("SPORTS_LIVE"), "set SPORTS_LIVE=1 to download sportsdataverse boxes")

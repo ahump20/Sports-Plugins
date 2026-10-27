@@ -15,6 +15,7 @@ import gzip
 import io
 import json
 import os
+import socket
 import sys
 import time
 import urllib.error
@@ -24,6 +25,7 @@ from collections import defaultdict
 
 PBP_URL = "https://github.com/nflverse/nflverse-data/releases/download/pbp/play_by_play_{season}.csv.gz"
 CACHE = os.path.expanduser("~/.cache/sports-plugins/nflverse")
+DOWNLOAD_TIMEOUT = 60  # seconds a download may stall before it fails
 
 
 def season_over(season):
@@ -44,7 +46,12 @@ def pbp_path(season, max_age_hours=12):
             return path
     tmp = path + ".part"
     try:
-        urllib.request.urlretrieve(PBP_URL.format(season=int(season)), tmp)
+        old = socket.getdefaulttimeout()
+        socket.setdefaulttimeout(DOWNLOAD_TIMEOUT)  # a stalled server fails instead of hanging
+        try:
+            urllib.request.urlretrieve(PBP_URL.format(season=int(season)), tmp)
+        finally:
+            socket.setdefaulttimeout(old)
         with gzip.open(tmp, "rb") as f:
             while f.read(1 << 20):
                 pass
