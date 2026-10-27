@@ -272,19 +272,25 @@ def resolve_team(rows, team):
     return best, names[best]
 
 
+MIN_DIVISION_ONE = 300  # fewer Division I teams than this in a file means it isn't league-wide
+
+
 def division_one(rows):
     """Split a college file's teams into Division I and the rest by games played. ESPN's college files
     hold every game a Division I team played, so a non-Division I school shows up only for the one or
     few games it played against Division I teams (no 2023-24 men's game has two of them). A team is
     Division I when it has played at least half as many games as a typical team. Returns the Division I
     keys and whether that split can be trusted yet: non-Division I schools play up to 8 Division I
-    teams, all before January, so it holds once a typical team has 18 games (mid-January)."""
+    teams, all before January, so it holds once a typical team has 18 games (mid-January). It also
+    needs the whole league: in one conference's file a Division I visitor shows up once too, so fewer
+    than MIN_DIVISION_ONE teams (Division I has about 360) means a partial file and no split."""
     games = collections.defaultdict(set)
     for r in rows:
         games[_key(r)].add(r["game_id"])
     counts = sorted((len(g) for g in games.values()), reverse=True)
     typical = counts[len(counts) // 4] if counts else 0  # inside the Division I half
-    return {k for k, g in games.items() if len(g) >= typical / 2}, typical >= 18
+    d1 = {k for k, g in games.items() if len(g) >= typical / 2}
+    return d1, typical >= 18 and len(d1) >= MIN_DIVISION_ONE
 
 
 def college_opponents(rows, league, season=None):
@@ -305,8 +311,8 @@ def college_opponents(rows, league, season=None):
                 return prior
         except (LookupError, ValueError, OSError) as e:
             print(f"warning: no {int(season) - 1} file ({e})", file=sys.stderr)
-    print("warning: can't tell Division I teams from this file (too few games per team); games against "
-          "non-Division I schools are counted", file=sys.stderr)
+    print("warning: can't tell Division I teams from this file (too early in the season, or it doesn't "
+          "cover the whole league); games against non-Division I schools are counted", file=sys.stderr)
     return None
 
 

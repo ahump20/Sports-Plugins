@@ -181,7 +181,7 @@ class College(unittest.TestCase):
     def test_division_one_is_read_from_the_schedule(self):
         # Division I teams play a full schedule; a non-Division I school shows up only for the
         # one or two games it played against Division I teams.
-        teams = [f"D{i}" for i in range(20)]
+        teams = [f"D{i}" for i in range(hoops.MIN_DIVISION_ONE)]
         rows = schedule(teams, 15)
         rows += [box("x1", "NAIA", "D0", team_id="NAIA"), box("x1", "D0", "NAIA", team_id="D0")]
         d1, settled = hoops.division_one(rows)
@@ -192,7 +192,7 @@ class College(unittest.TestCase):
         self.assertEqual(len(D1_2024), 362)
 
     def test_too_early_to_tell(self):
-        rows = schedule([f"D{i}" for i in range(20)], 2)
+        rows = schedule([f"D{i}" for i in range(hoops.MIN_DIVISION_ONE)], 2)
         _, settled = hoops.division_one(rows)
         self.assertFalse(settled)
 
@@ -230,7 +230,7 @@ class Cli(unittest.TestCase):
         return f.name
 
     def college_season(self):
-        rows = schedule([f"D{i}" for i in range(20)], 15)
+        rows = schedule([f"D{i}" for i in range(hoops.MIN_DIVISION_ONE)], 15)
         return rows + [box("x1", "NAIA", "D0", team_id="NAIA"), box("x1", "D0", "NAIA", team_id="D0")]
 
     def test_college_leaves_out_non_division_one_games(self):
@@ -267,6 +267,16 @@ class Cli(unittest.TestCase):
                                       "--all")
         self.assertEqual(code, 0, err)
         self.assertEqual(json.loads(out)["record"], "24-11")
+        self.assertIn("non-Division I", err)
+
+    def test_one_conference_file_does_not_drop_a_division_one_visitor(self):
+        # A conference's schedule plus a nonconference game: the visitor shows up once, like an NAIA
+        # school would, but the file is too small to be ESPN's league-wide export, so count every game.
+        rows = schedule([f"D{i}" for i in range(20)], 10)
+        rows += [box("v1", "VISITOR", "D0", team_id="VISITOR"), box("v1", "D0", "VISITOR", team_id="D0")]
+        code, out, err = self.run_cli("team", "--league", "mbb", "--boxes", self.write_csv(rows), "--team", "D0")
+        self.assertEqual(code, 0, err)
+        self.assertEqual(json.loads(out)["games"], 21)
         self.assertIn("non-Division I", err)
 
     def test_missing_season_file_is_an_error_message(self):
