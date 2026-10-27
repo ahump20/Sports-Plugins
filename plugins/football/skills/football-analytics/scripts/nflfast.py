@@ -6,7 +6,8 @@ Usage:
   nflfast.py player --season 2024 --name "L.Jackson"        # nflverse short name or player id
   nflfast.py rating --cmp 343 --att 502 --yds 4643 --td 45 --int 6 [--ncaa]
   --pbp FILE reads a local CSV/CSV.gz instead of downloading.
-Downloads go to ~/.cache/sports-plugins/nflverse (about 20 MB a season, refreshed after 12 hours).
+Downloads go to ~/.cache/sports-plugins/nflverse (about 20 MB a season). A finished
+season is kept for good; the current one is refreshed after 12 hours.
 """
 import argparse
 import csv
@@ -25,14 +26,22 @@ PBP_URL = "https://github.com/nflverse/nflverse-data/releases/download/pbp/play_
 CACHE = os.path.expanduser("~/.cache/sports-plugins/nflverse")
 
 
+def season_over(season):
+    """When a season's play-by-play stops changing: March 1 after it, past every Super Bowl."""
+    return time.mktime((int(season) + 1, 3, 1, 0, 0, 0, 0, 0, -1))
+
+
 def pbp_path(season, max_age_hours=12):
-    """Cached path to a season's play-by-play, downloading it when missing or older than max_age_hours.
-    A download is checked as a complete gzip before it replaces the cache; if it fails and an older copy
-    exists, that copy is used with a warning on stderr."""
+    """Cached path to a season's play-by-play. A copy saved after the season ended is kept for good; any
+    other copy is downloaded again once it is older than max_age_hours. A download is checked as a complete
+    gzip before it replaces the cache; if it fails and an older copy exists, that copy is used with a
+    warning on stderr."""
     os.makedirs(CACHE, exist_ok=True)
     path = os.path.join(CACHE, f"play_by_play_{int(season)}.csv.gz")
-    if os.path.exists(path) and time.time() - os.path.getmtime(path) <= max_age_hours * 3600:
-        return path
+    if os.path.exists(path):
+        saved = os.path.getmtime(path)
+        if saved >= season_over(season) or time.time() - saved <= max_age_hours * 3600:
+            return path
     tmp = path + ".part"
     try:
         urllib.request.urlretrieve(PBP_URL.format(season=int(season)), tmp)

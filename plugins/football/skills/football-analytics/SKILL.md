@@ -13,7 +13,7 @@ python3 $F rating --cmp 343 --att 502 --yds 4643 --td 45 --int 6          # NFL 
 python3 $F rating --cmp 402 --att 527 --yds 5671 --td 60 --int 6 --ncaa   # NCAA efficiency → 202.0
 ```
 
-The script downloads nflverse play-by-play from GitHub releases (free, no key, about 20 MB a season, cached 12 hours; if a refresh fails it falls back to the cached copy and says so). Its passing and rushing EPA equal nflverse's own player stats to three decimals for every 2023–2026 regular-season passer and rusher; the tests check Lamar Jackson's 2024 season, Josh Allen's 2023 season and one full game.
+The script downloads nflverse play-by-play from GitHub releases (free, no key, about 20 MB a season; a finished season is cached for good, the current one for 12 hours; if a refresh fails it falls back to the cached copy and says so). Its passing and rushing EPA equal nflverse's own player stats to three decimals for every 2023–2026 regular-season passer and rusher; the tests check Lamar Jackson's 2024 season, Josh Allen's 2023 season and one full game.
 
 Short names collide (in 2024 `B.Robinson` is both Bijan and Brian Robinson; `J.Williams` and `Ja.Williams` are one player in different rows), so the script refuses an ambiguous name and lists the ids; pass the id. Weeks 1-18 are the regular season since 2021 and the postseason follows (19-22); use `--season-type POST` or `ALL` for playoff weeks.
 

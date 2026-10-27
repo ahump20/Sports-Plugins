@@ -157,12 +157,21 @@ def _check_csv(path, columns):
         raise ValueError(f"{path} is not a sportsdataverse CSV (missing {', '.join(missing)})")
 
 
-def _fetch(url, path, columns, max_age_hours=12):
-    """Download url to path unless a cached copy is fresh. A failed or bad download never replaces the
-    cache; if a stale copy exists it is used, with a warning."""
+def season_over(season):
+    """When a season's files stop changing: August 1 of the year it ends, past the NBA Finals and
+    both NCAA tournaments."""
+    return time.mktime((int(season), 8, 1, 0, 0, 0, 0, 0, -1))
+
+
+def _fetch(url, path, columns, max_age_hours=12, final_after=None):
+    """Download url to path unless a cached copy is fresh or was saved after final_after (the season
+    is over and the file no longer changes). A failed or bad download never replaces the cache; if a
+    stale copy exists it is used, with a warning."""
     os.makedirs(os.path.dirname(path), exist_ok=True)
-    if os.path.exists(path) and time.time() - os.path.getmtime(path) <= max_age_hours * 3600:
-        return path
+    if os.path.exists(path):
+        saved = os.path.getmtime(path)
+        if (final_after is not None and saved >= final_after) or time.time() - saved <= max_age_hours * 3600:
+            return path
     tmp = path + ".part"
     try:
         urllib.request.urlretrieve(url, tmp)
@@ -183,7 +192,8 @@ def _fetch(url, path, columns, max_age_hours=12):
 
 def box_path(league, season, max_age_hours=12):
     path = os.path.join(CACHE, f"{league}_team_box_{int(season)}.csv")
-    return _fetch(BOX_URL[league].format(season=int(season)), path, _REQUIRED, max_age_hours)
+    return _fetch(BOX_URL[league].format(season=int(season)), path, _REQUIRED, max_age_hours,
+                  season_over(season))
 
 
 def nba_excluded_games(season):
@@ -193,7 +203,8 @@ def nba_excluded_games(season):
         return games
     try:
         path = _fetch(NBA_SCHEDULE_URL.format(season=int(season)),
-                      os.path.join(CACHE, f"nba_schedule_{int(season)}.csv"), ("game_id", "type_abbreviation"))
+                      os.path.join(CACHE, f"nba_schedule_{int(season)}.csv"), ("game_id", "type_abbreviation"),
+                      final_after=season_over(season))
         with open(path, newline="") as f:
             games |= {r["game_id"] for r in csv.DictReader(f) if r.get("type_abbreviation") == "CC"}
     except (OSError, LookupError, ValueError) as e:

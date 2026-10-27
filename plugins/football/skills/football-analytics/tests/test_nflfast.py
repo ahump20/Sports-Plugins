@@ -4,6 +4,7 @@ import io
 import os
 import sys
 import tempfile
+import time
 import unittest
 import urllib.error
 from contextlib import redirect_stderr
@@ -194,21 +195,58 @@ class Cache(unittest.TestCase):
         patcher.start()
         self.addCleanup(patcher.stop)
         self.addCleanup(self.dir.cleanup)
-        self.path = os.path.join(self.dir.name, "play_by_play_2024.csv.gz")
+        self.season = time.localtime().tm_year  # in progress or not yet played: its file still changes
+        self.path = os.path.join(self.dir.name, f"play_by_play_{self.season}.csv.gz")
 
-    def write_cache(self, data, age_hours):
-        with open(self.path, "wb") as f:
+    def write_cache(self, data, age_hours, season=None, written=None):
+        path = self.path if season is None else os.path.join(self.dir.name, f"play_by_play_{season}.csv.gz")
+        with open(path, "wb") as f:
             f.write(data)
-        t = os.path.getmtime(self.path) - age_hours * 3600
-        os.utime(self.path, (t, t))
+        t = written if written is not None else os.path.getmtime(path) - age_hours * 3600
+        os.utime(path, (t, t))
+        return path
+
+    def test_finished_season_is_cached_for_good(self):
+        path = self.write_cache(gzip.compress(b"a,b\n1,2\n"), 0, season=2023,
+                                written=time.mktime((2024, 6, 1, 0, 0, 0, 0, 0, -1)))
+        with mock.patch("urllib.request.urlretrieve", side_effect=AssertionError("re-downloaded 2023")):
+            self.assertEqual(nflfast.pbp_path(2023), path)
+
+    def test_finished_season_cached_before_it_ended_is_refreshed_once(self):
+        path = self.write_cache(gzip.compress(b"a,b\n1,2\n"), 0, season=2023,
+                                written=time.mktime((2024, 1, 1, 0, 0, 0, 0, 0, -1)))  # before the Super Bowl
+        calls = []
+
+        def fresh(url, dest):
+            calls.append(url)
+            with open(dest, "wb") as f:
+                f.write(gzip.compress(b"a,b\n3,4\n"))
+        with mock.patch("urllib.request.urlretrieve", side_effect=fresh):
+            nflfast.pbp_path(2023)
+            nflfast.pbp_path(2023)
+        self.assertEqual(len(calls), 1)
+        with gzip.open(path) as f:
+            self.assertEqual(f.read(), b"a,b\n3,4\n")
+
+    def test_season_in_progress_refreshes_after_12_hours(self):
+        self.write_cache(gzip.compress(b"a,b\n1,2\n"), age_hours=13)
+        calls = []
+
+        def fresh(url, dest):
+            calls.append(url)
+            with open(dest, "wb") as f:
+                f.write(gzip.compress(b"a,b\n3,4\n"))
+        with mock.patch("urllib.request.urlretrieve", side_effect=fresh):
+            nflfast.pbp_path(self.season)
+        self.assertEqual(len(calls), 1)
 
     def test_stale_cache_is_used_when_the_download_fails(self):
         self.write_cache(gzip.compress(b"a,b\n1,2\n"), age_hours=13)
         with mock.patch("urllib.request.urlretrieve", side_effect=urllib.error.URLError("offline")), \
                 redirect_stderr(io.StringIO()) as err:
-            self.assertEqual(nflfast.pbp_path(2024), self.path)
+            self.assertEqual(nflfast.pbp_path(self.season), self.path)
         self.assertIn("offline", err.getvalue())
-        self.assertEqual(os.listdir(self.dir.name), ["play_by_play_2024.csv.gz"])
+        self.assertEqual(os.listdir(self.dir.name), [os.path.basename(self.path)])
 
     def test_missing_season_is_a_clear_error(self):
         e404 = urllib.error.HTTPError("u", 404, "Not Found", None, None)
@@ -225,7 +263,7 @@ class Cache(unittest.TestCase):
             with open(dest, "wb") as f:
                 f.write(gzip.compress(b"a,b\n" + b"1,2\n" * 1000)[:40])
         with mock.patch("urllib.request.urlretrieve", side_effect=truncated), redirect_stderr(io.StringIO()):
-            nflfast.pbp_path(2024)
+            nflfast.pbp_path(self.season)
         with open(self.path, "rb") as f:
             self.assertEqual(f.read(), good)
         self.assertFalse(os.path.exists(self.path + ".part"))
@@ -237,7 +275,7 @@ class Cache(unittest.TestCase):
         self.write_cache(data[:len(data) * 2 // 3], age_hours=0)  # header readable, body cut off
         err = io.StringIO()
         with redirect_stderr(err), self.assertRaises(SystemExit):
-            nflfast.main(["teams", "--season", "2024"])
+            nflfast.main(["teams", "--season", str(self.season)])
         self.assertIn("rerun", err.getvalue())
         self.assertFalse(os.path.exists(self.path))
 

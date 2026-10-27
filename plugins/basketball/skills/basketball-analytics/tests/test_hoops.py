@@ -5,6 +5,7 @@ import io
 import os
 import sys
 import tempfile
+import time
 import unittest
 import urllib.error
 from unittest import mock
@@ -179,6 +180,36 @@ class Cli(unittest.TestCase):
             os.utime(cached, (0, 0))
             with contextlib.redirect_stderr(io.StringIO()):
                 self.assertEqual(hoops.box_path("nba", 2016), cached)
+
+    def test_finished_season_is_cached_for_good(self):
+        def refetch(url, path):
+            raise AssertionError(f"re-downloaded {url}")
+        with tempfile.TemporaryDirectory() as d, mock.patch.object(hoops, "CACHE", d), \
+                mock.patch.object(hoops.urllib.request, "urlretrieve", refetch):
+            cached = os.path.join(d, "nba_team_box_2016.csv")
+            with open(GSW_BOXES) as src, open(cached, "w") as dst:
+                dst.write(src.read())
+            t = time.mktime((2016, 9, 1, 0, 0, 0, 0, 0, -1))  # after the 2016 Finals
+            os.utime(cached, (t, t))
+            self.assertEqual(hoops.box_path("nba", 2016), cached)
+
+    def test_season_in_progress_refreshes_after_12_hours(self):
+        season = time.localtime().tm_year + 1  # 2027 is 2026-27: not over until June 2027
+        calls = []
+
+        def fresh(url, path):
+            calls.append(url)
+            with open(GSW_BOXES) as src, open(path, "w") as dst:
+                dst.write(src.read())
+        with tempfile.TemporaryDirectory() as d, mock.patch.object(hoops, "CACHE", d), \
+                mock.patch.object(hoops.urllib.request, "urlretrieve", fresh):
+            cached = os.path.join(d, f"nba_team_box_{season}.csv")
+            with open(GSW_BOXES) as src, open(cached, "w") as dst:
+                dst.write(src.read())
+            t = time.time() - 13 * 3600
+            os.utime(cached, (t, t))
+            hoops.box_path("nba", season)
+        self.assertEqual(len(calls), 1)
 
     def test_corrupt_download_does_not_replace_the_cache(self):
         def html(url, path):
