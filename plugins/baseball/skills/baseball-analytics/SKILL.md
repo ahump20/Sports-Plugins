@@ -12,10 +12,12 @@ S=${CLAUDE_PLUGIN_ROOT}/skills/baseball-analytics/scripts/saber.py
 python3 $S batting  --season 2024 --stats '{"PA":731,"AB":636,"H":197,"2B":38,"3B":7,"HR":54,"BB":81,"IBB":10,"HBP":6,"SF":5,"SO":162}'
 python3 $S pitching --season 2024 --stats '{"IP":"192.0","HR":15,"BB":35,"HBP":9,"SO":228,"ER":51,"BF":753}'
 python3 $S batting  --season 2024 --mlb-person 660271      # pulls counting stats from the MLB Stats API
-python3 $S league   --totals '{"PA":..,"AB":..,"R":..,"H":..,"2B":..,"3B":..,"HR":..,"BB":..,"IBB":..,"HBP":..,"SF":..,"SO":..,"ERA":..,"IP":".."}'
+python3 $S league   --totals '{"PA":182449,"AB":163687,"R":21343,"H":39823,"2B":7771,"3B":697,"HR":5453,"BB":14929,"IBB":509,"HBP":2020,"SF":1261,"SO":41197}'
 ```
 
-Batting output: AVG/OBP/SLG/OPS, ISO, BABIP, K%, BB%, wOBA, wRAA, wRC+. Pitching: FIP, ERA, K/9, BB/9, HR/9, K%, BB%. Pass `--park-factor 1.05` (FanGraphs basic PF / 100) to park-adjust wRC+.
+The `league` line is MLB 2024 (Baseball-Reference totals); swap in your league's. Add `"ERA"` and `"IP"` (a string, `"14000.1"`) from the same totals to get cFIP. Without `R` and `PA`, wRC+ comes back `null`; without `ERA` and `IP`, FIP does. The script never fills them with MLB's values, and says so on stderr.
+
+Batting output: AVG/OBP/SLG/OPS, ISO, BABIP, K%, BB%, wOBA, wRAA, wRC+. Pitching: FIP, ERA, K/9, BB/9, HR/9, K%, BB%. Pass `--park-factor 1.05` (or FanGraphs' displayed `105`) to park-adjust wRC+. A rate with a zero denominator (0 AB, 0 PA, 0 IP) is `null`, not `.000`. Bad input (IBB above BB, more extra-base hits than hits, negative counts, an unknown season, an unreachable API) exits 2 with a one-line error.
 
 ## Inputs that trip people up
 
@@ -60,7 +62,7 @@ At that sample, observed rate and true talent count about equally; below it, lea
 
 - **Era.** League run scoring moves: MLB wOBA was .320 in 2019–2020 and .310 in 2022 and 2024. Compare players through league-relative stats (wRC+, ERA−, FIP−) or through wOBA minus that season's league wOBA.
 - **Park.** Coors Field inflates offense more than any other MLB park; a road/home split is the quickest sanity check when you have no park factor.
-- **College is a different run environment.** Division I averaged a 6.14 ERA and a .280/.380/.449 line in 2024 ([Pitcher List](https://pitcherlist.com/standardizing-college-statistics-evaluating-pitchers/)), driven partly by BBCOR bats. MLB baselines do not transfer. Build constants from the league's own totals with `league` mode: it sets league wOBA equal to league OBP, derives the wOBA scale, R/PA and cFIP from those totals, and keeps MLB's relative run values (an approximation worth saying out loud).
+- **College is a different run environment.** Division I averaged a 6.14 ERA and a .280/.380/.449 line in 2024 ([Pitcher List](https://pitcherlist.com/standardizing-college-statistics-evaluating-pitchers/)), driven partly by BBCOR bats. MLB baselines do not transfer. Build constants from the league's own totals with `league` mode: it sets league wOBA equal to league OBP with intentional walks removed (FanGraphs' rule; MLB 2024: .310 against a .312 OBP), derives the wOBA scale, R/PA and cFIP from those totals, and keeps MLB's relative run values (an approximation worth saying out loud).
 - **Conference and schedule strength** matter more in college than park does. Weekend Friday starters face a different lineup quality than midweek arms.
 - **Role.** Relievers post lower ERAs and higher K% than starters with the same stuff; don't compare a closer's FIP to a starter's without saying so.
 

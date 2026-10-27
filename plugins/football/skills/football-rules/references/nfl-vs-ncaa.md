@@ -11,7 +11,7 @@ Editions: **2026 Official Playing Rules of the National Football League** and **
 | Ball touches ground after control | — | A catch if control is maintained; slight movement isn't loss of control. 2-4-3-c, d |
 | Runner down | Contacted by an opponent, and touches the ground with any part other than hands (including wrist) or feet (including ankle). 7-2-1-a. Can also declare himself down by falling or kneeling and making no effort to advance. 7-2-1-d | Any part of the ball carrier's body other than hand or foot touches the ground. **No contact needed.** 4-1-3-b. Exception: a player simulating a kick, or holding for a place kick, stays live |
 | Slide | Giving himself up (7-2-1-d) | Ball dead when a ball carrier obviously begins a feet-first slide, or fakes one, at that spot. 4-1-3-r |
-| Helmet off | — (unverified) | Ball dead when the ball carrier's helmet comes completely off. 4-1-3-q |
+| Helmet off | Ball dead when a runner's helmet comes completely off. 7-2-1 (item r in the 2013 book, per footballzebras.com; the 2026 item letter is unverified) | Ball dead when the ball carrier's helmet comes completely off. 4-1-3-q |
 
 ## Scoring and tries
 

@@ -24,7 +24,9 @@ Traps, all checked against the 2023-24 NBA file:
 - **The All-Star Game is in `season_type` 2.** Stephen Curry has 75 regular-season rows that year: 74 Warriors games plus one for "Western Conf All-Stars". The file lists 32 teams, not 30. Drop rows whose team or opponent is an All-Star side before summing. `hoops.py` does this by pairing each game with a real opponent row.
 - Player rows have `did_not_play`, `minutes`, `starter` and `plus_minus`; filter on `did_not_play` before counting games.
 - Keys are ESPN ids (`athlete_id`, `team_id`, `game_id`), not NBA.com or Basketball-Reference ids.
-- These are ESPN's box scores. Team ratings built from them land within about half a point per 100 possessions of Basketball-Reference's, because the underlying box scores differ slightly.
+- **Use `total_turnovers`, not `turnovers`.** `turnovers` is the players' sum and leaves out team turnovers (shot-clock and 8-second violations); `total_turnovers` matches Basketball-Reference's TOV (2015-16 Warriors 1245, not 1219). With it, team ratings from these files match Basketball-Reference to the tenth. One 2025-26 row has `total_turnovers` blank; fall back to `turnovers`.
+- **The NBA Cup final is in `season_type` 2** but counts in no season totals (2023-24 Lakers: 83 rows, 82 games). Find it in the schedule file (`espn_nba_schedules` / `nba_schedule`), where `type_abbreviation` is `CC`; All-Star games there are `ALLSTAR`.
+- The latest NBA file is the season in progress (`team_box_2027.csv` exists in October 2026). A season that isn't published returns 404 (men's and women's college have no 2027 file yet).
 
 ## NBA.com stats: nba_api
 
@@ -38,3 +40,5 @@ The reference for historical and advanced numbers (per-100, BPM, Win Shares) and
 
 - Opponent-adjusted ratings (KenPom, Bart Torvik, the NCAA's NET) are the standard for ranking teams. KenPom is paid; don't promise numbers from it you can't fetch.
 - The 2023-24 men's file has 717 distinct teams, about twice the size of Division I, because games against non-Division I schools are included. Decide whether those games count before computing a rating, and say which you chose.
+- **Abbreviations repeat across schools.** In 2023-24, FSU is Florida State and Framingham State, LOU is Louisville and Lourdes, PENN (women) is Pennsylvania and Penn State-Beaver. Key on `team_id`.
+- `season_type` 3 holds the NCAA tournament and other postseason events; conference tournaments are in 2. Sports-Reference and KenPom count both in a season.

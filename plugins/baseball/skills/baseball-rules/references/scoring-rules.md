@@ -10,7 +10,7 @@ Scoring follows the ruling. First settle what happened on the field (SKILL.md pr
   - award of 1B for interference, obstruction or a shift violation.
 - OBP (9.21(f)) = (H + BB + HBP) / (AB + BB + HBP + SF).
   - Sacrifice bunts are not in the denominator. Sacrifice flies are, so a sac fly lowers OBP.
-  - Reaching on interference, obstruction or a shift violation is ignored, as if the PA never happened.
+  - Reaching on interference, obstruction or a shift violation is left out of OBP entirely (9.21(f) Comment). It is still no AB, and it still counts as a plate appearance for batting-title qualification (9.22(a)).
 - Batting-title qualification (9.22): 3.1 PA per team game in MLB (502 over 162 games); 2.7 in the minors.
 
 ## Hits vs errors

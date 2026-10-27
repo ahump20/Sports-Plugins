@@ -23,10 +23,10 @@ Always confirm which season the user means. The NCAA book changes every two year
 | Balk | Dead ball; ignored if the batter and all runners advance on the pitch (6.02) | Same penalty and exception (9-3). The 9-3 list also names: more than two arm pumps from the windup; more than one stop from the set; free foot breaking the back plane without pitching or throwing to 2B. A pitcher without the ball standing on the dirt circle during a hidden-ball play is a balk (MLB: on or astride the rubber). A ball dropped from the rubber with runners on is a balk (2025-26) | Immediate dead ball (secondary source; unverified — check current rulebook) |
 | Slides | Bona fide slide on DP breakups (6.01(j)) | Force-play slide rule (8-4): any force play except the batter-runner at 1B. Runner must slide on the ground, in a direct line, before the base, or run or slide away from the fielder. Delayed dead ball: with fewer than 2 outs the batter-runner is also out; flagrant contact is an ejection (2025-26) | Force-play slide rule exists (details unverified — check current rulebook) |
 | Catcher's interference on a squeeze or steal of home | Balk plus 1B to the batter (6.01(g)) | Batter to 1B, the run scores, other runners advance on the balk (8-2-e Exception, 2025-26) | |
-| Blocking a base | Catcher collision rule (6.01(i)); obstruction rules | D1 2027-28: a fielder may not block the base without the ball (8-3-e) | |
+| Blocking a base | Catcher collision rule (6.01(i)); obstruction rules | 2027-28, all divisions: a fielder may not block the base without the ball (8-3-e) | |
 | Mound visits | 4 per 9 innings (5.10(m)) | Six charged defensive conferences; a coach may make 3 free trips to the pitcher, plus 1 in extra innings; unused trips carry into extra innings; a coach meeting any defensive player is charged (9-4-a) | 2026: player-to-player meetings separated from charged conferences |
 | Electronic communication | Not covered here | D1 2027-28: defense only; in-dugout analytics allowed, live video delayed at least half an inning | 2027: one-way coach-to-pitcher/catcher communication allowed |
-| Review | Manager challenges plus ABS (2026) | D1 2027-28 adds fair/foul calls and any tag play to video review | None nationally |
+| Review | Manager challenges plus ABS (2026) | 2027-28, all divisions, in games using video review: a fair call that could be overturned to foul, and any tag play anywhere (Appendix E). A ball-strike challenge system is experimental in all divisions for 2027 | None nationally |
 
 ## NCAA details models miss
 
@@ -44,11 +44,12 @@ Always confirm which season the user means. The NCAA book changes every two year
   - Pitcher starting before the batter is alert: one warning. With runners on, the warning also uses the reset.
   - Visible clocks are required in D1 and D2 and recommended in D3.
   - Between innings: 120 s, or 150 s for a relief pitcher, with unlimited warmup pitches inside that time (2025-26).
-- D1 2027-28 additions:
+- 2027-28, all divisions:
+  - Offensive conferences raised to six, including a batter's timeout that resets the action clock; a coach may be in 3 charged offensive conferences, plus 1 in extra innings (6-5-f).
+  - No automatic ejection for leaving a position during an altercation; a game suspension can still apply (5-15-c-3).
+- D1 2027-28 only:
   - 30-second timers between batters, for defensive mound visits and for offensive timeouts. Mound visit: warning, then a ball. Offensive timeout: warning, then a strike.
-  - Offensive conferences raised to six.
   - Base-coach box positioning rules.
-  - No ejection for leaving a position when not involved in a play.
 - Bat testing: under the 2025-26 change, D1 tests bats every date and D2/D3 every series; stickers go on the lineup card. Bat knob sensors are permitted in 2027-28.
 - Wood bats: maximum 2¾ in diameter and 42 in long. Non-one-piece wood bats must be certified (1-12).
 - Discipline (2025-26): a foreign substance ejects the pitcher and the head coach. Ejection suspensions are 2 games for a relief pitcher and 4 for a starter.

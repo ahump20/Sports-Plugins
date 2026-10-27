@@ -8,12 +8,14 @@ description: Measure and interpret football efficiency correctly — EPA per pla
 ```bash
 F=${CLAUDE_PLUGIN_ROOT}/skills/football-analytics/scripts/nflfast.py
 python3 $F teams  --season 2024 --weeks 1-9          # offense and defense EPA/play, success rate, pass vs rush splits
-python3 $F player --season 2024 --name L.Jackson     # nflverse short name or GSIS id (00-0034796)
+python3 $F player --season 2024 --name L.Jackson     # nflverse short name or GSIS id (00-0034796); a short name two players share is refused
 python3 $F rating --cmp 343 --att 502 --yds 4643 --td 45 --int 6          # NFL passer rating → 122.5
 python3 $F rating --cmp 402 --att 527 --yds 5671 --td 60 --int 6 --ncaa   # NCAA efficiency → 202.0
 ```
 
-The script downloads nflverse play-by-play from GitHub releases (free, no key, about 20 MB a season, cached 12 hours). Its player totals equal nflverse's own player stats to three decimals; the tests check that against Lamar Jackson's 2024 season and one full game.
+The script downloads nflverse play-by-play from GitHub releases (free, no key, about 20 MB a season, cached 12 hours; if a refresh fails it falls back to the cached copy and says so). Its passing and rushing EPA equal nflverse's own player stats to three decimals for every 2023–2026 regular-season passer and rusher; the tests check Lamar Jackson's 2024 season, Josh Allen's 2023 season and one full game.
+
+Short names collide (in 2024 `B.Robinson` is both Bijan and Brian Robinson; `J.Williams` and `Ja.Williams` are one player in different rows), so the script refuses an ambiguous name and lists the ids; pass the id. Weeks 1-18 are the regular season since 2021 and the postseason follows (19-22); use `--season-type POST` or `ALL` for playoff weeks.
 
 ## Expected points and EPA
 
@@ -21,7 +23,7 @@ Every snap starts in a state — down, distance, field position, time — that i
 
 - **EPA per play** is the best single efficiency number. Offense is higher-is-better; for defense, lower EPA allowed is better.
 - **Pass and rush EPA separate.** In the 2024 NFL regular season, passes averaged +0.07 EPA per play and runs −0.07 (this script, standard filter). A run-heavy offense needs a reason beyond "establishing the run".
-- **qb_epa vs epa.** When a receiver fumbles after the catch, `epa` charges the whole play to the passer; `qb_epa` credits him up to the fumble. nflverse's `passing_epa` uses `qb_epa`.
+- **qb_epa vs epa.** When a receiver fumbles after the catch, `epa` charges the whole play to the passer; `qb_epa` credits him up to the fumble. nflverse's `passing_epa` sums `qb_epa` over pass and spike plays only, so a two-point try wiped out by a penalty or a fake kick with the kicker throwing doesn't count.
 - **The model is nflverse's** (nflfastR). Values can shift slightly between data releases; cite the season and the date you pulled it.
 
 ## Success rate

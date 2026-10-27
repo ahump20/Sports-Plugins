@@ -75,7 +75,7 @@ Rule: the team whose **impetus** put the ball behind a goal line is responsible 
 1. B may choose to put the ball in play with a **fair catch kick**: a free kick at the goal posts from the spot of the catch.
 2. Mechanics (NCAA 2-16-11, new in 2026):
    - The head coach elects it before the ready signal, and can't take it back.
-   - The ball may be moved to the nearest hash.
+   - A catch in a side zone is moved to the nearest hash mark; the kicking team can't choose another spot.
    - It is a place kick with no tee, held, or a drop kick.
    - A lines up at least 10 yards away.
    - The game clock starts when the ball is kicked.

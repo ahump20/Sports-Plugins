@@ -25,8 +25,9 @@ jobs:
 
       - name: Run tests with live downloads
         run: |
-          set -e
+          failed=0
           for t in plugins/*/skills/*/tests; do
             echo "== $t"
-            python -m unittest discover -s "$t" -v
+            python -m unittest discover -s "$t" -v || failed=1
           done
+          exit $failed

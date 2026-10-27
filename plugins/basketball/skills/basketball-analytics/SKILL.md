@@ -10,9 +10,12 @@ H=${CLAUDE_PLUGIN_ROOT}/skills/basketball-analytics/scripts/hoops.py
 python3 $H player --stats '{"FG":805,"FGA":1598,"3P":402,"3PA":886,"FT":363,"FTA":400,"PTS":2375}'
 python3 $H team --league nba --season 2016 --team GS      # ratings + Four Factors from every box score
 python3 $H team --league mbb --season 2024 --team DUKE    # men's college; wbb for women's
+python3 $H player --stats '{"FGA":1598,"FTA":400,"TOV":262,"MP":2700}' --team-stats '{"FGA":7159,"FTA":1790,"TOV":1245,"MP":19830}'   # usage
 ```
 
-Seasons are named by the year they end (2016 = 2015-16). Team mode downloads ESPN box scores from sportsdataverse's GitHub releases (free, no key, cached 12 hours) and pairs each game with the opponent's own line. Tests check Curry 2015-16 (TS% .669, eFG% .630) and the 2015-16 Warriors (ORtg and DRtg within half a point of Basketball-Reference; the gap is ESPN's box scores against the official ones).
+Seasons are named by the year they end (2016 = 2015-16). Team mode downloads ESPN box scores from sportsdataverse's GitHub releases (free, no key, cached 12 hours; a failed download falls back to the cached copy) and pairs each game with the opponent's own line. `--team` takes ESPN's abbreviation (GS, DUKE), Basketball-Reference's (GSW), the school or city, or ESPN's team_id, in any case; ESPN reuses some college abbreviations (FSU is also Framingham State), so the script picks the team with the most games and names the others. Default is the regular season, without the NBA Cup final; `--postseason` is postseason only and `--all` both (Sports-Reference and KenPom count a college team's NCAA tournament games in its season). Player stats take FG/FGM, 3P/FG3M/3PM, FT/FTM and TOV/TO; unknown keys are an error, not a silent zero.
+
+Tests check Curry 2015-16 (TS% .669, eFG% .630), Jokic 2023-24 (eFG% .612) and the 2015-16 Warriors to the tenth of Basketball-Reference (ORtg 114.5, DRtg 103.8). The 2015-16 Spurs (110.3 / 99.0), 2023-24 Lakers (115.9 / 115.3, 82 games) and 2023-24 Celtics (123.2 / 111.6) also match. Turnovers come from ESPN's `total_turnovers`, which includes team turnovers as Basketball-Reference's TOV does.
 
 ## Think in possessions
 
@@ -20,7 +23,7 @@ Both teams get almost the same number of possessions in a game, so per-game tota
 
 - **Possessions** (Basketball-Reference's estimate): FGA + 0.4·FTA − 1.07·(ORB share)·missed FG + TOV, averaged over both teams. The quick one-team version is FGA − ORB + TOV + 0.475·FTA (KenPom's free-throw weight). Say which you used; the two differ by a possession or two per game.
 - **Offensive / defensive rating** = points scored / allowed per 100 possessions. **Net rating** = the difference, the single best summary of team strength over a season.
-- **Pace** = possessions per 48 minutes (NBA) or per 40 (college). The script reports possessions per game, which overtime inflates slightly.
+- **Pace** = possessions per 48 minutes (NBA) or per 40 (WNBA, college). The script reports possessions per game, not Pace: ESPN's team box scores carry no minutes, so overtime isn't removed (2015-16 Warriors: 100.3 per game against Basketball-Reference's Pace of 99.3).
 - Ratings differ by source. Basketball-Reference, NBA.com and KenPom each count possessions a little differently; quote the source with the number.
 
 ## Four Factors

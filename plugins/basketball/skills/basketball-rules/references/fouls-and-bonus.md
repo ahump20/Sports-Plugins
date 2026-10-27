@@ -22,7 +22,7 @@ A shooting foul is administered the same way at every level, whatever the bonus:
 | WNBA | 6th personal foul | Flagrant 2 and technical accumulation as in the NBA (unverified — check current rulebook) |
 | NCAA men | 5 fouls: personal plus Class A technical; or 3 Flagrant 1s (M 4-12) | Flagrant 2; 2 Class A technicals (unverified — check current rulebook) |
 | NCAA women | 5 fouls: personal, Flagrant 1 and all technicals | Flagrant 2; a 2nd technical; a 2nd Flagrant 1; or 1 technical plus 1 Flagrant 1 |
-| FIBA 2026 | 5 fouls (Art. 41.1) | 2 Category 1 technicals, 2 flagrants, or one of each (Art. 41); disqualifying fouls. Disruptive fouls do not count toward disqualification |
+| FIBA 2026 | 5 fouls of any kind a player commits, disruptive fouls included (Art. 41.1) | Game disqualification: 2 Category 1 technicals, 2 flagrants, or one of each (Art. 36-38); a disqualifying foul. Disruptive fouls count toward the 5 but not toward game disqualification |
 
 ## Flagrant fouls
 
@@ -78,7 +78,7 @@ No transition opportunity exists if the offense doesn't push the pace, has slowe
 - stopping the clock at the end of a quarter;
 - contact from behind on a progressing player with no defender ahead of them.
 
-It does not count toward disqualification, but it is a team foul.
+It is a team foul and counts toward the player's 5 fouls, but not toward game disqualification (2 Category 1 technicals or flagrants). Penalty: 2 FTs on a player not shooting, then a throw-in from the frontcourt throw-in line (Art. 37.2).
 
 **NCAA** has no transition-take rule. Deliberately fouling away from the ball to stop the clock is an F1 example (M 4-15).
 

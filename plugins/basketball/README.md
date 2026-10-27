@@ -16,7 +16,9 @@ Checked against published numbers in `skills/basketball-analytics/tests`:
 | Case | Expected | Source |
 |---|---|---|
 | Stephen Curry 2015-16 TS% / eFG% | .669 / .630 | Basketball-Reference |
-| 2015-16 Warriors ORtg / DRtg | 115.2 / 104.3, within 0.5 | Basketball-Reference |
+| 2015-16 Warriors TOV / opponent TOV | 1245 / 1185 | Basketball-Reference |
+| 2015-16 Warriors ORtg / DRtg / NRtg | 114.5 / 103.8 / +10.7, within 0.05 | Basketball-Reference |
+| Nikola Jokic 2023-24 eFG% | .612 | Basketball-Reference |
 
 ```
 python3 -m unittest discover -s plugins/basketball/skills/basketball-analytics/tests

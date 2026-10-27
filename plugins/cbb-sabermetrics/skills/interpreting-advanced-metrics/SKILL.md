@@ -29,7 +29,7 @@ When raw sabermetric numbers come back from the BSI MCP, they need framing befor
 
 ### FIP (Fielding Independent Pitching)
 - ERA-scaled metric built only from strikeouts, walks, and home runs allowed — the three outcomes a pitcher controls without defensive help.
-- **Scale:** matches ERA scale, so it inherits the college run environment: Division I averaged a 6.14 ERA in 2024. A 4.00 FIP is well above average in DI, not average. Compare to the season's league ERA, or use FIP− where the source provides it.
+- **Scale:** matches ERA scale, so it inherits the college run environment: Division I averaged a 6.14 ERA in 2024. A 4.00 FIP is well below the DI average, which makes it much better than average. Compare to the season's league ERA, or use FIP− where the source provides it.
 - **Why it matters:** A pitcher can have a high ERA because their defense is bad, or a low ERA because their defense is elite. FIP strips defense out. If ERA and FIP diverge, the pitcher's "true talent" is closer to FIP.
 - **Use when:** evaluating pitcher quality absent team defense, projecting forward (FIP is more stable than ERA).
 - **ERA− vs FIP−:** both are park- and league-adjusted. 100 = average, below 100 is better (opposite of wRC+).

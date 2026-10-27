@@ -27,8 +27,10 @@ A general-purpose sports data exploration plugin for querying stats, comparing p
 
 ## Installation
 
+Not listed in the marketplace. Load it from a clone:
+
 ```
-/plugin install sports-data-explorer@Sports-Plugins
+claude --plugin-dir plugins/sports-data-explorer
 ```
 
 ## Usage

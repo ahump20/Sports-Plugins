@@ -135,7 +135,7 @@ The 2026 summary of changes includes:
 
 | Event | Award | Measured from | Rule |
 |---|---|---|---|
-| Fair ball bounces into the stands | 2 bases | Not stated in OBR text; treated as time of pitch by convention (unverified — check current rulebook) | 5.05(a)(6) |
+| Fair ball bounces into the stands | 2 bases | Time of pitch. The OBR text doesn't say; the MLB Umpire Manual does (crew chief Sam Holbrook citing it, MLB.com, Aug 2021) | 5.05(a)(6), 5.06(b)(4)(F) |
 | Fair ball through, under or stuck in a fence, scoreboard or vines | 2 bases | as above | 5.05(a)(7), 5.06(b)(4)(F) |
 | Fielder deflects a bounding fair ball into the stands | 2 bases | | 5.05(a)(8) |
 | Fielder deflects a fair fly into the stands in fair territory | HR (over the fence in foul territory: 2 bases; under 250 ft: 2 bases) | | 5.05(a)(9) |

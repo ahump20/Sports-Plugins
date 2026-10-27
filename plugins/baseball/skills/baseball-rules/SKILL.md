@@ -21,7 +21,7 @@ Say plainly when a call is umpire or scorer judgment (ordinary effort, intent, "
 
 | Situation | Correct ruling | Rule |
 |---|---|---|
-| Infield fly | Only with R1+R2 or bases loaded and fewer than 2 outs; fair fly (not a line drive or bunt) an infielder can catch with ordinary effort. Batter is out caught or not, so the force is removed and runners must be tagged. Ball live; runners advance at risk. Can be called even if an outfielder makes the catch. Not an appeal play. | Definitions (Infield Fly) |
+| Infield fly | Only with R1+R2 or bases loaded and fewer than 2 outs; fair fly (not a line drive or bunt) an infielder can catch with ordinary effort. Batter is out caught or not, so the force is removed and runners must be tagged. Ball live; runners advance at risk. Can be called even if an outfielder makes the catch. Not an appeal play. | Definitions (Infield Fly), 5.09(a)(5); runner touched on his base: 5.09(b)(7) Exception |
 | Dropped third strike | Batter may run only if 1B is empty, or with 2 outs. Otherwise out. A pitch that hits the ground first is not caught. A batter who leaves the dirt circle without running is out. | 5.05(a)(2), 5.09(a)(2)-(3) |
 | Intentionally dropped fly | Fewer than 2 outs, 1B occupied: batter out, ball dead, runners return. Infield fly rule takes precedence when it applies. | 5.09(a)(12) |
 | Hit by pitch | No award if the pitch is in the strike zone (strike) or the batter made no attempt to avoid it (ball or strike). Ball is dead either way, no runner advances. | 5.05(b)(2) |

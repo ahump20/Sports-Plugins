@@ -43,8 +43,10 @@ Advanced sabermetrics and analytics for NCAA Division I college baseball. Built 
 
 ## Installation
 
+Not listed in the marketplace. Load it from a clone:
+
 ```
-/plugin install college-baseball-sabermetrics@Sports-Plugins
+claude --plugin-dir plugins/college-baseball-sabermetrics
 ```
 
 ## Usage

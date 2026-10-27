@@ -27,7 +27,7 @@ Sources: 2026 Official Playing Rules of the NFL (cited "NFL r-s-a") and 2026 NCA
 | Defensive score on a try | 2 points (11-3-2-b) | 2 points; a safety on a try is worth 1 (8-1-1) |
 | Kickoff touchback | 35 if it lands in or is downed in the end zone; 20 if it lands in the landing zone and then goes to the end zone (6-1-5, 2025+) | 25 (8-6-2). A fair catch of a free kick inside the 25 is placed at the 25 (6-5-1-a) |
 | Onside kick | Must be declared to the Referee. Any team, any time, from 2026; 2025 required the kicking team to trail; 2024 required trailing and the fourth quarter (6-1-6) | No declaration. At least four kickers on each side of the kicker (6-1-2-c-3) |
-| Defensive PI | Spot foul, first down; in the end zone, first down at the 1 (8-5) | Spot foul if under 15 yards beyond the previous spot; otherwise 15 yards from the previous spot; first down (7-3-8-c) |
+| Defensive PI | Spot foul, first down; in the end zone, first down at the 1, or half the distance to the goal if the previous spot was inside the 2 (8-5) | Spot foul if under 15 yards beyond the previous spot; otherwise 15 yards from the previous spot; first down (7-3-8-c) |
 | Offensive PI | 10 yards from the previous spot (8-5) | 10 yards from 2026; was 15 through 2025 (7-3-8-b) |
 | Intentional grounding | Loss of down and 10 yards, or at the spot if that is farther; safety if thrown from the end zone (8-2-1) | Loss of down at the spot (7-3-2-h) |
 | Throw-away exemption | Passer outside the **pocket area**; ball lands at or beyond the line of scrimmage extended (8-2-1 Item 1) | Passer outside the **tackle box**; ball crosses or lands beyond the neutral zone extended (7-3-2 Exc.) |

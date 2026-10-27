@@ -14,7 +14,7 @@ Editions:
 |---|---|---|---|---|---|
 | Periods | 4×12 min (R5-II) | 4×10 | 2×20 halves (M 5-6) | 4×10 quarters (W 5-6) | 4×10 (Art. 8.1) |
 | Overtime | 5 min (R5-II/IV) | 5 min | 5 min, extension of 2nd half (M 5-9) | 5 min, extension of Q4 (W 5-9) | 5 min, as many as needed (Art. 8.7) |
-| Start of periods | Jump ball starts the game and each OT. The tap loser inbounds to start Q2 and Q3; the tap winner inbounds to start Q4 (R6-I) | Jump ball to start the game; endline throw-ins start Q2 and Q3 | Jump ball, then the alternating arrow (M 6-3/6-4) | Same as men | Jump ball, then alternating possession (Art. 12.6) |
+| Start of periods | Jump ball starts the game and each OT. The tap loser inbounds to start Q2 and Q3; the tap winner inbounds to start Q4 (R6-I) | Jump ball to start the game and each OT; the tap loser inbounds to start Q2 and Q3, the tap winner Q4, as in the NBA (unverified — check current rulebook) | Jump ball, then the alternating arrow (M 6-3/6-4) | Same as men | Jump ball, then alternating possession (Art. 12.6) |
 | 3-pt line | 23'9" arc; 22' in corners, lines 3' from the sideline (R1-I) | 22'1¾" arc; corner lines 36" from the sideline | 22'1¾"; 21'7⅞" corners (M 1-7) | Same as men | 6.75 m arc; lines 0.90 m from the sideline, giving about 6.60 m corners (Art. 2.5.4) |
 | Lane | 16 ft (R10-VII) | 16 ft | 12 ft (M 1-6) | 12 ft | Outer edges 2.45 m from the endline midpoint, so 4.90 m wide (Art. 2.5.3) |
 | Restricted area | 4-ft half-circle from the center of the ring (R1-I) | 4 ft | 4-ft arc (M 1-8) | Area under the basket from the front of the ring to the backboard; no arc (W 1-8) | No-charge semicircle, 1.30 m to the outer edge (Art. 2.5.7) |
@@ -96,7 +96,7 @@ The WNBA uses the same 24/14 structure.
   - **Advance:** none.
 - **NCAA women (W 5-14)**
   - Media games: three 30-second and one 60-second timeout. Non-media games: three 30-second and two 60-second.
-  - **Advance:** after a timeout in the last 59.9 s of Q4 or OT, the ball may be inbounded at the 28-ft line.
+  - **Advance:** in the last 59.9 s of Q4 or OT, a team that has the ball in its backcourt after a made basket, a rebound or a change of possession, and calls a timeout before advancing it, may inbound at the 28-ft line on the scorer's side.
 - **FIBA (Art. 18.2.5)**
   - 2 timeouts in the 1st half.
   - 3 in the 2nd half, at most 2 when the clock shows 2:00 or less in Q4.
@@ -125,9 +125,8 @@ The WNBA uses the same 24/14 structure.
     - Goaltending/basket interference until the last 2:00 of regulation.
     - Secondary-defender restricted-area position until the last 2:00.
 - **NCAA women (W 11-3.2/11-4)**
-  - A list of coach's appeals rather than a fixed challenge count.
-  - 2025-26 added out-of-bounds, backcourt violations, team control before a foul (free-throw eligibility), and correct player charged.
-  - An unsuccessful appeal costs a timeout.
+  - Coach's challenge from 2025-26. No timeout is needed to challenge; a failed challenge is an administrative technical for an excessive timeout. Challenges per game: (unverified — check current rulebook).
+  - **Challengeable at any time:** out-of-bounds, backcourt violations, whether team control changed before a foul with free throws, and whether a foul was charged to the correct player. Officials may start a review only of the last.
 - **FIBA (Appendix F)**
   - Head Coach's Challenge. From OBR 2026 it may be requested at any time, and the replay system (IRS) can review goaltending/basket interference after a foul at any time.
   - Challenges per game: one (unverified — check current rulebook).
@@ -139,7 +138,8 @@ The WNBA uses the same 24/14 structure.
 | 2013-14 | NCAA W | 10-second backcourt count adopted |
 | 2015-16 | NCAA M | 30-second shot clock |
 | 2015-16 | NCAA W | Four 10-minute quarters; 28-ft advance after a late timeout |
-| 2017-18 | NCAA W | Restricted-area arc widened from 3 ft (2011-12) to 4 ft. The current book defines the area as under the basket only |
+| 2017-18 | NCAA W | Restricted-area arc widened from 3 ft (2011-12) to 4 ft |
+| 2023-24 | NCAA W | Restricted area cut to the area directly under the basket (no arc); flopping technical |
 | 2019-20 | NCAA M | 22'1¾" line (D-I; D-II/III 2020-21); 20-second reset on offensive rebounds; live-ball timeout restriction |
 | 2021-22 | NCAA W | 22'1¾" line |
 | 2022-23 | NBA | Transition take foul |
@@ -149,7 +149,7 @@ The WNBA uses the same 24/14 structure.
 | Oct 2024 | FIBA | OBR 2024: frontcourt throw-in lines after a late timeout; challenge can be withdrawn; basket interference definition clarified |
 | 2025-26 | NBA | Replay center rules on the proximate foul in out-of-bounds challenges. Separately, a stat-only change: end-of-quarter heaves (Q1–Q3, last 3 s, 36+ ft from the backcourt) count as team attempts, not player attempts |
 | 2025-26 | NCAA M | Coach's challenge; wider continuous motion; Flagrant 1 for groin contact; using the rim for an advantage is basket interference; one shot clock stays on if the other fails |
-| 2025-26 | NCAA W | Appeals list expanded; 20-second reset on a dead-ball change of control with a frontcourt throw-in; jump stop with both feet at "approximately the same time" |
+| 2025-26 | NCAA W | Coach's challenge (no timeout needed; a failed one is a technical); 20-second reset on a dead-ball change of control with a frontcourt throw-in; jump stop with both feet at "approximately the same time" |
 | 2026-27 | NCAA M | Not a rules-change year: the book changes only logo rules. Quarters were discussed and not adopted. The 2026 committee directed that the 10-second violation be called when the shot clock reaches 19 |
 | Oct 2026 | FIBA | OBR 2026: disruptive foul replaces unsportsmanlike; flagrant foul added; technicals split into Category 1/2; player technicals count as team fouls; act of shooting must start in the frontcourt unless it is the last action of the period |
 

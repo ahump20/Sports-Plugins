@@ -41,8 +41,8 @@ When a fact is not in the references and you can't verify it, say "(unverified â
 | Team-foul penalty | 5th foul/qtr: 2 FT (OT: 4th) | same as NBA | 7th/half 1-and-1; 10th 2 FT | 5th/qtr 2 FT | 5th/qtr 2 FT; OT = 4th qtr |
 | Defensive 3 seconds | yes (technical) | yes (technical) | no | no | no |
 | Held ball | jump ball | jump ball (unverified) | arrow | arrow | arrow |
-| Advance after timeout | 28' hash, last 2:00 Q4/OT | 28' hash, last 2:00 | no | 28' line, last 0:59.9 Q4/OT | frontcourt throw-in line, last 2:00 Q4/OT |
-| Coach's challenge | 1, +1 if successful | 1, +1 if successful | 1, +1 if overturned (new 2025-26) | coach's appeals list | Head Coach's Challenge |
+| Advance after timeout | 28' hash, last 2:00 Q4/OT | 28' hash, last 2:00 | no | 28' line, last 0:59.9 Q4/OT, ball in backcourt after a basket, rebound or change of possession | frontcourt throw-in line, last 2:00 Q4/OT |
+| Coach's challenge | 1, +1 if successful | 1, +1 if successful | 1, +1 if overturned (new 2025-26) | challenge list; no timeout needed, a failed one is a technical | Head Coach's Challenge |
 
 For citations, timeouts and shot-clock reset tables, see `references/levels-compared.md`.
 
@@ -52,10 +52,10 @@ For citations, timeouts and shot-clock reset tables, see `references/levels-comp
   - NBA/WNBA: 4 team fouls per quarter are "free"; the 5th gives 2 FTs.
   - NCAA men: one-and-one on the 7th team foul of the half, 2 FTs from the 10th. Fouls reset at halftime only.
   - NCAA women: 2 FTs from the 5th team foul of each quarter, with no one-and-one.
-  - FIBA counts every OT as part of the 4th quarter. As of 2026, technical, disruptive and flagrant fouls also count as team fouls.
+  - FIBA counts every OT as part of the 4th quarter. As of 2026, disruptive, flagrant and player technical fouls also count as team fouls; a technical charged to the head coach (bench) does not.
 - **Fouling out.** NBA/WNBA 6; everywhere else 5.
   - NCAA men count personal fouls plus Class A technicals; NCAA women count personal fouls, Flagrant 1s and all technicals.
-  - FIBA 2026: disruptive fouls do not count toward disqualification. Two Category 1 technicals, two flagrants, or one of each disqualify (Art. 41).
+  - FIBA 2026: every foul a player commits (personal, disruptive, flagrant, technical) counts toward the 5 (Art. 41.1). Separately, two Category 1 technicals, two flagrants, or one of each disqualify for the game; disruptive fouls don't count toward that (Art. 36-38).
 - **Goaltending vs basket interference.**
   - NBA: touching the ball on the rim, or reaching through the rim, is a violation.
   - FIBA: goaltending restrictions end once the ball touches the ring (Art. 31.2.3), so a player may legally tap a ball that is rolling on the rim. Basket interference rules still apply.

@@ -11,7 +11,7 @@ Claude Code plugins for baseball, football and basketball. Every number a skill 
 |---|---|---|
 | [baseball](plugins/baseball/) | rules, analytics, data | Ohtani 2024 wOBA .431, Skubal 2024 FIP 2.49 (FanGraphs) |
 | [football](plugins/football/) | rules, analytics, data | nflverse player stats to three decimals; passer rating 122.5 (Rodgers 2011) |
-| [basketball](plugins/basketball/) | rules, analytics, data | Curry 2015-16 TS% .669; Warriors ratings within 0.5 of Basketball-Reference |
+| [basketball](plugins/basketball/) | rules, analytics, data | Curry 2015-16 TS% .669; Warriors ratings 114.5 / 103.8 (Basketball-Reference) |
 | [cbb-sabermetrics](plugins/cbb-sabermetrics/) | live NCAA DI baseball via the Blaze Sports Intel MCP | |
 | [texas-longhorns-intel](plugins/texas-longhorns-intel/) | Texas baseball, built on cbb-sabermetrics | |
 
@@ -26,7 +26,7 @@ No API keys and no paid services. The scripts need Python 3.9+.
 ## Tests
 
 ```bash
-for t in plugins/*/skills/*/tests; do python3 -m unittest discover -s "$t"; done
+npm run test:py
 SPORTS_LIVE=1 python3 -m unittest discover -s plugins/football/skills/football-analytics/tests   # downloads real data
 claude plugin validate .
 ```
@@ -50,14 +50,14 @@ plugin-name/
 └── README.md            # Documentation (required)
 ```
 
-### Dual Compatibility: Claude Code + OpenAI Codex
+### Codex
 
-Plugins in this marketplace are designed for **both** Claude Code and OpenAI Codex:
+Each listed plugin also has a `.codex-plugin/plugin.json`, and Codex reads this repo's marketplace file:
 
-- **Claude Code** — Native plugin support via `.claude-plugin/` metadata and `skills/` definitions
-- **OpenAI Codex** — MCP server endpoints (`.mcp.json`) provide tool-use access compatible with Codex's function-calling patterns
-
-The [Model Context Protocol](https://modelcontextprotocol.io/) (MCP) serves as the bridge — any plugin with an `.mcp.json` endpoint works seamlessly with any MCP-compatible AI coding assistant.
+```bash
+codex plugin marketplace add ahump20/Sports-Plugins
+codex plugin add baseball@Sports-Plugins
+```
 
 ## Validation
 

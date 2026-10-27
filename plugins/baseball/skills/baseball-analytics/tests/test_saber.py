@@ -100,6 +100,125 @@ class Cli(unittest.TestCase):
         self.assertEqual(json.loads(buf.getvalue())["FIP"], 2.49)
 
 
+class EdgeCases(unittest.TestCase):
+    """Inputs that used to crash or return nonsense instead of an answer or a clear error."""
+
+    def test_zero_pa_leaves_run_values_undefined(self):  # --stats '{}' raised ZeroDivisionError
+        line = saber.batting_line({}, saber.constants(2024))
+        self.assertIsNone(line["AVG"])
+        self.assertIsNone(line["wOBA"])
+        self.assertIsNone(line["wRC+"])
+
+    def test_zero_ip_leaves_rates_undefined(self):  # {"IP":"0.0"} raised ZeroDivisionError
+        line = saber.pitching_line({"IP": "0.0", "BB": 1, "ER": 3, "BF": 2}, saber.constants(2024))
+        self.assertIsNone(line["FIP"])
+        self.assertIsNone(line["ERA"])
+        self.assertIsNone(line["K/9"])
+        self.assertEqual(line["BB%"], 0.5)
+
+    def test_ibb_above_bb_is_rejected(self):  # gave a negative unintentional-walk count
+        with self.assertRaisesRegex(ValueError, "IBB"):
+            saber.batting_line({"AB": 10, "H": 3, "BB": 1, "IBB": 4}, saber.constants(2024))
+
+    def test_impossible_counts_are_rejected(self):
+        for s in ({"AB": 10, "H": -3}, {"AB": 10, "H": 2, "HR": 3}, {"AB": 2, "H": 3}):
+            with self.assertRaises(ValueError, msg=s):
+                saber.batting_line(s, saber.constants(2024))
+        for ip in ("-5.0", ""):
+            with self.assertRaises(ValueError, msg=ip):
+                saber.parse_ip(ip)
+
+    def test_numeric_strings_are_read_as_numbers(self):  # '{"AB":"636"}' raised TypeError
+        as_text = {k: str(v) for k, v in saber.mlb_stat_to_counts(OHTANI_2024_API).items()}
+        self.assertEqual(saber.batting_line(as_text, saber.constants(2024))["wOBA"], 0.431)
+
+    def test_park_factor_on_fangraphs_100_scale(self):  # 105 gave wRC+ -10217
+        s, c = saber.mlb_stat_to_counts(OHTANI_2024_API), saber.constants(2024)
+        self.assertEqual(saber.batting_line(s, c, 105), saber.batting_line(s, c, 1.05))
+        with self.assertRaises(ValueError):
+            saber.batting_line(s, c, 0)
+
+
+class LeagueTotalsMissingFields(unittest.TestCase):
+    BAT = {k: v for k, v in MLB_2024_TOTALS.items() if k not in ("R",)}
+
+    def test_no_era_means_no_cfip_not_mlb_cfip(self):  # silently kept MLB 2024 cFIP 3.166
+        c = saber.league_constants(MLB_2024_TOTALS)
+        self.assertIsNone(c["cfip"])
+        self.assertIn("cfip", c["missing"])
+        self.assertIsNone(saber.pitching_line(SKUBAL_2024, c)["FIP"])
+
+    def test_no_runs_means_no_wrc_plus(self):  # PA without R gave R/PA 0, then ZeroDivisionError
+        c = saber.league_constants(self.BAT)
+        self.assertIsNone(c["r_pa"])
+        line = saber.batting_line(saber.mlb_stat_to_counts(OHTANI_2024_API), c)
+        self.assertEqual(line["wOBA"], 0.431)
+        self.assertIsNone(line["wRC+"])
+
+    def test_zero_ip_with_era_does_not_crash(self):
+        c = saber.league_constants(dict(MLB_2024_TOTALS, ERA=4.0, IP="0.0"))
+        self.assertIsNone(c["cfip"])
+
+    def test_empty_totals_say_what_is_needed(self):  # raised ZeroDivisionError
+        with self.assertRaisesRegex(ValueError, "AB"):
+            saber.league_constants({})
+
+
+class CliErrors(unittest.TestCase):
+    def run_cli(self, argv):
+        import io
+        from contextlib import redirect_stderr, redirect_stdout
+        out, err = io.StringIO(), io.StringIO()
+        with redirect_stdout(out), redirect_stderr(err):
+            try:
+                code = saber.main(argv)
+            except SystemExit as e:
+                code = e.code
+        return code, out.getvalue(), err.getvalue()
+
+    def test_unknown_season_is_a_message_not_a_traceback(self):
+        code, _, err = self.run_cli(["batting", "--season", "1999", "--stats", '{"AB":1}'])
+        self.assertEqual(code, 2)
+        self.assertIn("no FanGraphs constants for 1999", err)
+
+    def test_bad_json_is_a_message(self):
+        code, _, err = self.run_cli(["league", "--totals", '{"PA":..}'])
+        self.assertEqual(code, 2)
+        self.assertIn("JSON", err)
+
+    def test_unreachable_api_is_a_message(self):
+        import urllib.error
+        from unittest import mock
+        with mock.patch("urllib.request.urlopen", side_effect=urllib.error.URLError("blocked")):
+            code, _, err = self.run_cli(["batting", "--season", "2024", "--mlb-person", "660271"])
+        self.assertEqual(code, 2)
+        self.assertIn("MLB Stats API", err)
+
+    def test_league_without_era_still_prints_and_warns(self):
+        import json
+        code, out, err = self.run_cli(["league", "--totals", json.dumps(MLB_2024_TOTALS)])
+        self.assertEqual(code, 0)
+        self.assertIsNone(json.loads(out)["cfip"])
+        self.assertIn("ERA", err)
+
+
+class TradedPlayer(unittest.TestCase):
+    def test_takes_combined_split(self):
+        # Shape of /people/665862/stats?stats=season&season=2024&group=hitting (Jazz Chisholm, MIA then NYY):
+        # the combined split has numTeams and no team key.
+        import io
+        import json
+        from unittest import mock
+        body = {"stats": [{"splits": [
+            {"season": "2024", "numTeams": 2, "stat": {"plateAppearances": 621, "atBats": 562, "hits": 144}},
+            {"season": "2024", "team": {"name": "Miami Marlins"}, "stat": {"plateAppearances": 430}},
+            {"season": "2024", "team": {"name": "New York Yankees"}, "stat": {"plateAppearances": 191}}]}]}
+        resp = mock.MagicMock()
+        resp.__enter__.return_value = io.BytesIO(json.dumps(body).encode())
+        with mock.patch("urllib.request.urlopen", return_value=resp):
+            self.assertEqual(saber.fetch_mlb(665862, 2024, "hitting")["PA"], 621)
+
+
 @unittest.skipUnless(os.environ.get("SPORTS_LIVE"), "set SPORTS_LIVE=1 to hit the MLB Stats API")
 class Live(unittest.TestCase):
     def test_mlb_stats_api_ohtani(self):
