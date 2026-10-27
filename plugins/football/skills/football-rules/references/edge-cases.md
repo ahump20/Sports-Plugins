@@ -123,7 +123,7 @@ Rule: the team whose **impetus** put the ball behind a goal line is responsible 
 | B accepts the holding penalty | Half ends; no untimed down for an ordinary offensive foul | Untimed down, after 10 yards are enforced |
 | What B should do | Accept or decline; the half is over either way | **Decline** the penalty and the half ends. Accepting gives A another snap |
 
-Reverse case: a **defensive** foul on the last play. Both codes extend the half with one untimed down if A accepts the penalty. NFL double fouls on the last down also extend the half, with exceptions in 4-8-2-h: both fouls dead-ball; a 5-vs-15 where the 15 is the offense's or is a dead-ball foul; the defense's only foul is dead-ball.
+Reverse case: a **defensive** foul on the last play. Both codes extend the half with one untimed down if A accepts the penalty. NFL double fouls on the last down also extend the half, with exceptions in 4-8-2-h: both fouls dead-ball; a 5-vs-15 where the 15 is the offense's or is a dead-ball foul; the defense's only foul is dead-ball; a double foul with a change of possession that doesn't replay the down (clean hands, 14-5-2).
 
 ## 10. Tuck rule (history; repealed 2013)
 
@@ -164,7 +164,7 @@ Unlike the NFL, a receiver **going to the ground in the act of catching** must k
 - **NCAA** (9-1-9):
   - Roughing the passer: 15 yards plus an automatic first down. On a completed pass whose run ends beyond the neutral zone, the penalty is added to the end of the run.
   - Contact with the passer's head or neck that meets the **targeting** standard (9-1-3, 9-1-4) is also targeting: replay must confirm it, and the player is disqualified.
-  - 2026 trial: a first targeting foul disqualifies for the rest of the game only. Check 9-1-4 for later offenses.
+  - 2026 experimental rule (9-1-3, 9-1-4): an upheld targeting foul disqualifies for the rest of that game only; the second-half carryover is gone. A player's second in the same season adds the first half of the team's next game, and a third or later a one-game suspension. The conference may ask the national coordinator to review a second or later foul, and the suspension is vacated only if the disqualification was clearly wrong.
 - One hit can be both roughing and targeting in college. In the NFL it is roughing, and maybe an unnecessary-roughness or defenseless-player foul, but never targeting.
 
 ## 13. Horse-collar and hip-drop tackles

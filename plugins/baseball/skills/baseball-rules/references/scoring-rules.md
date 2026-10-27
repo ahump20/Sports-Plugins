@@ -1,6 +1,6 @@
 # Official scoring (OBR 2026, Rule 9)
 
-Scoring follows the ruling. First settle what happened on the field (SKILL.md procedure), then credit it. The scorer's judgment calls are always "ordinary effort" and benefit of the doubt. State which way the rule leans.
+Scoring follows the ruling. First settle what happened on the field (SKILL.md procedure), then credit it. Most judgment calls turn on "ordinary effort"; the benefit of the doubt goes where a rule names it (to the batter on hits and sacrifices, to the pitcher when rebuilding an inning for earned runs). Defensive indifference and choosing the winning reliever use their own tests. State which way the rule leans.
 
 ## At-bats and OBP
 
@@ -26,8 +26,9 @@ Scoring follows the ruling. First settle what happened on the field (SKILL.md pr
 - No hit (9.05(b)) when any of these is true:
   - a runner is forced out, or would have been but for an error;
   - a forced runner is out on appeal for missing the first base he was forced to;
-  - a preceding runner is put out, or would have been with ordinary effort;
-  - the batter is out for interference.
+  - the pitcher, catcher or an infielder fields the ball and puts out a preceding runner trying to advance one base or return to his base, or would have but for a fielding error (a runner thrown out trying for an extra base doesn't cost the batter a hit);
+  - a fielder fails to put out a preceding runner and the batter-runner could have been put out at first (9.05(b)(4));
+  - the batter is out for interference, unless he would have been safe without it.
 - Hit value (9.06):
   - Missing a base on appeal credits the hit up to the last base safely reached. Missing 1B means an AB and no hit.
   - Bases awarded under 5.06(b)(4) or 6.01(h) count as a hit of that value (9.06(e)).
@@ -44,9 +45,9 @@ Scoring follows the ruling. First settle what happened on the field (SKILL.md pr
   - Only one error per wild throw (9.12(b)).
   - Interference, obstruction or a shift violation: one error on that fielder (9.12(c)). None if obstruction did not affect the play.
 - No error (9.12(d)-(f)):
-  - a catcher's wild throw on a steal, unless it lets the runner take an extra base;
-  - a wild throw when the runner would have been safe anyway;
-  - a wild throw on a double-play pivot, unless a runner takes an extra base (a dropped DP throw is an error on the receiver);
+  - a catcher's wild throw on a steal, unless it lets the stealing runner take an extra base or lets any other runner advance;
+  - a wild throw when the runner would have been safe anyway, unless any runner advances past the base a good throw would have held him to;
+  - a wild throw trying to complete a double or triple play, unless any runner advances past the base a good throw would have held him to (a dropped DP throw is an error on the receiver);
   - a fielder who fumbles but recovers in time to force a runner;
   - walks, HBPs, and advances already scored as a WP or PB.
   - On ball four or a third strike that is a WP or PB with extra advances, score both.
@@ -91,7 +92,7 @@ Scoring follows the ruling. First settle what happened on the field (SKILL.md pr
 - Sacrifice bunt: fewer than 2 outs, a runner advances, and the batter is out or would have been but for an error.
   - Not a sacrifice if the batter was bunting for a hit. Benefit of the doubt goes to the batter.
   - A failed attempt to retire a lead runner is still a sacrifice, unless ordinary effort would not have retired the batter; then it is a hit.
-  - No sacrifice if any runner is put out advancing one base.
+  - No sacrifice if any runner is put out advancing one base, or would have been but for a fielding error (9.08(c)); charge an AB.
 - Sacrifice fly: fewer than 2 outs, a fly (fair or foul) caught by an outfielder or by an infielder running in the outfield, with a run scoring after the catch.
   - Also a sac fly when the ball is dropped and the runner scores, if he could have scored after a catch.
 
@@ -129,7 +130,7 @@ Scoring follows the ruling. First settle what happened on the field (SKILL.md pr
 - Starter's win (9.17(b)): the starter needs 5 complete innings in a game of 6 or more defensive innings, or 4 in a 5-inning game.
   - If he falls short, the win goes to the only reliever, or to the reliever the scorer judges most effective.
   - Comment: that reliever should normally pitch at least an inning or get crucial outs. The first reliever is not presumed; in a tie between relievers, the earlier pitcher gets it.
-- Ineffective brief reliever (9.17(c)): not credited with the win. Guideline: under 1 inning with 2 or more earned runs, even if those runs were charged to a previous pitcher.
+- Ineffective brief reliever (9.17(c)): when a later reliever pitches effectively to help hold the lead, the brief, ineffective one doesn't get the win; the most effective later reliever does. Guideline, not a requirement: under 1 inning with 2 or more earned runs, even if those runs were charged to a previous pitcher.
 - Loss (9.17(d)): the pitcher charged with the go-ahead run that was never relinquished. This can be the pitcher responsible for an automatic runner.
 - All-Star Game exception (9.17(e)). The 2026 WBC also uses it.
 - Save (9.19). All four conditions must hold:
@@ -140,7 +141,7 @@ Scoring follows the ruling. First settle what happened on the field (SKILL.md pr
      - entered with a lead of 3 runs or fewer and pitched at least 1 inning;
      - entered with the tying run on base, at bat or on deck;
      - pitched at least 3 innings.
-- Shutout (9.18): a complete game, or entering with none out in the 1st before any score and finishing.
+- Shutout (9.18): a complete game, or entering with none out in the 1st before any score, retiring the side without a run and pitching the rest of the game without allowing one.
 - Quality start: at least 6 IP and 3 or fewer ER. Not an official statistic; coined by John Lowe in 1985 (MLB.com glossary).
 - Holds and blown saves do not appear in the OBR text; they are data-provider statistics, and their definitions vary by provider.
 
