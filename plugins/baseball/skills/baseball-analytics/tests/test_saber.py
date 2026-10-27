@@ -128,6 +128,11 @@ class EdgeCases(unittest.TestCase):
             with self.assertRaises(ValueError, msg=ip):
                 saber.parse_ip(ip)
 
+    def test_falsy_non_numbers_are_rejected(self):  # false, [], {} and "" were read as 0
+        for bad in (False, [], {}, ""):
+            with self.assertRaises(ValueError, msg=repr(bad)):
+                saber.batting_line({"AB": 10, "H": 3, "BB": bad}, saber.constants(2024))
+
     def test_numeric_strings_are_read_as_numbers(self):  # '{"AB":"636"}' raised TypeError
         as_text = {k: str(v) for k, v in saber.mlb_stat_to_counts(OHTANI_2024_API).items()}
         self.assertEqual(saber.batting_line(as_text, saber.constants(2024))["wOBA"], 0.431)

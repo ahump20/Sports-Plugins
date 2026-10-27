@@ -1,6 +1,6 @@
 # Official scoring (OBR 2026, Rule 9)
 
-Scoring follows the ruling. First settle what happened on the field (SKILL.md procedure), then credit it. Most judgment calls turn on "ordinary effort"; the benefit of the doubt goes where a rule names it (to the batter on hits and sacrifices, to the pitcher when rebuilding an inning for earned runs). Defensive indifference and choosing the winning reliever use their own tests. State which way the rule leans.
+Scoring follows the ruling. First settle what happened on the field (SKILL.md procedure), then credit it. Most judgment calls turn on "ordinary effort"; the benefit of the doubt goes where a rule names it (to the batter on hits and on whether a bunt was a sacrifice, to the pitcher when rebuilding an inning for earned runs). Defensive indifference and choosing the winning reliever use their own tests. State which way the rule leans.
 
 ## At-bats and OBP
 
@@ -101,7 +101,7 @@ Scoring follows the ruling. First settle what happened on the field (SKILL.md pr
 - Method: reconstruct the inning as if there had been no errors and no passed balls. Catcher's interference is excluded from "errors" here. Give the pitcher the benefit of the doubt.
 - An intentional walk counts like any other walk.
 - A run is earned (a) if it scores by hits, sacrifices, steals, putouts, fielder's choices, walks, HBPs, balks or wild pitches (including a third-strike WP), before fielding chances to retire the side. A defensive interference penalty counts as a fielding chance.
-- Two-out error: once the reconstructed inning would have ended, every later run is unearned. Example: two outs, an error, then home runs: 0 earned (Comment).
+- Two-out error: once the reconstructed inning would have ended (the error stopped what would have been the third out), every later run is unearned. Example: two outs, an error, then home runs: 0 earned (Comment).
 - Catcher's interference: the batter who reached on CI cannot score an earned run, but the scorer may not assume he would have made an out. Rule example: two outs, CI, then a HR: one earned run (the batter's).
 - Not earned:
   - the runner reached on an error, on a muffed foul fly that prolonged the AB, or on interference, obstruction or a shift violation ((b));
