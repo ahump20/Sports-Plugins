@@ -114,7 +114,7 @@ The 2026 summary of changes includes:
 | Umpire, on a batted ball | Fair ball hits him before touching or passing an infielder (other than the pitcher) | Dead | Batter to 1B; runners advance only if forced | 5.06(c)(6), 5.05(b)(4) |
 | Authorized person (photographer, groundskeeper) | Unintentional | Live | None | 6.01(d) |
 | Authorized person | Intentional | Dead | Umpire nullifies | 6.01(d) |
-| Obstruction, play on runner | Fielder without the ball impedes | Dead now | At least 1 base past the last base legally touched; a throw already in flight gets the wild-throw award | 6.01(h)(1) |
+| Obstruction, play on runner, or batter-runner before 1B | Fielder without the ball impedes | Dead now | At least 1 base past the last base legally touched; a throw already in flight gets the wild-throw award | 6.01(h)(1) |
 | Obstruction, no play | Same | Delayed | Umpire awards bases to nullify; past the protected base is at the runner's own peril | 6.01(h)(2) |
 
 - The catcher without the ball has no right to block the base path. A fielder is no longer "in the act of fielding" once he misses the ball.
