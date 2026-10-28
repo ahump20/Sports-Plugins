@@ -10,7 +10,7 @@ Claude Code plugins for baseball, football and basketball. Every number a skill 
 | Plugin | Skills | Checked against |
 |---|---|---|
 | [baseball](plugins/baseball/) | rules, analytics, data | Ohtani 2024 wOBA .431, Skubal 2024 FIP 2.49 (FanGraphs) |
-| [football](plugins/football/) | rules, analytics, data | nflverse player stats to three decimals; passer rating 122.5 (Rodgers 2011) |
+| [football](plugins/football/) | rules, analytics, data, NFL and college | nflverse player stats to three decimals; Texas 2024 EPA (sportsdataverse game boxes); Ewers 2024 NCAA efficiency 148.98 |
 | [basketball](plugins/basketball/) | rules, analytics, data | Curry 2015-16 TS% .669; Warriors ratings 114.5 / 103.8 (Basketball-Reference) |
 | [cbb-sabermetrics](plugins/cbb-sabermetrics/) | live NCAA DI baseball via the Blaze Sports Intel MCP | |
 | [texas-longhorns-intel](plugins/texas-longhorns-intel/) | Texas baseball, built on cbb-sabermetrics | |

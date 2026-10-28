@@ -1,6 +1,6 @@
 ---
 name: football-analytics
-description: Measure and interpret football efficiency correctly — EPA per play, success rate, CPOE, passer rating, NCAA passing efficiency, early-down passing, garbage time, and why yards and points mislead — using nflverse play-by-play for the NFL and the same concepts for college. Use when ranking offenses or defenses, evaluating a quarterback, explaining why a team's record and its efficiency disagree, or computing a passer rating.
+description: Measure and interpret football efficiency correctly — EPA per play, success rate, CPOE, passer rating, NCAA passing efficiency, early-down passing, garbage time, and why yards and points mislead — using nflverse play-by-play for the NFL and sportsdataverse play-by-play for college. Use when ranking offenses or defenses, evaluating a quarterback, explaining why a team's record and its efficiency disagree, or computing a passer rating.
 ---
 
 # Football analytics
@@ -13,9 +13,18 @@ python3 $F rating --cmp 343 --att 502 --yds 4643 --td 45 --int 6          # NFL 
 python3 $F rating --cmp 402 --att 527 --yds 5671 --td 60 --int 6 --ncaa   # NCAA efficiency → 202.0
 ```
 
-The script downloads nflverse play-by-play from GitHub releases (free, no key, about 20 MB a season; a finished season is cached for good, the current one for 12 hours; if a refresh fails it falls back to the cached copy and says so). Its passing and rushing EPA match nflverse's own player stats to three decimals; the tests check Lamar Jackson's 2024 season, Josh Allen's 2023 season and one full game.
+The NFL script downloads nflverse play-by-play from GitHub releases (free, no key, about 20 MB a season; a finished season is cached for good, the current one for 12 hours; if a refresh fails it falls back to the cached copy and says so). Its passing and rushing EPA match nflverse's own player stats to three decimals; the tests check Lamar Jackson's 2024 season, Josh Allen's 2023 season and one full game.
 
 Short names collide (in 2024 `B.Robinson` is both Bijan and Brian Robinson; `J.Williams` and `Ja.Williams` are one player in different rows), so the script refuses an ambiguous name and lists the ids; pass the id. Weeks 1-18 are the regular season since 2021 and the postseason follows (19-22); use `--season-type POST` or `ALL` for playoff weeks.
+
+College, from sportsdataverse play-by-play (every FBS game, the current season included):
+
+```bash
+C=${CLAUDE_PLUGIN_ROOT}/skills/football-analytics/scripts/cfbfast.py
+python3 $C teams  --season 2024 --team Texas         # school, full name, abbreviation (TEX) or ESPN id (251); omit --team to rank every team
+python3 $C teams  --season 2026 --weeks 1-6 --season-type REG
+python3 $C player --season 2024 --name "Quinn Ewers" # passing and rushing EPA, plus the official box-score line and NCAA efficiency → 148.98
+```
 
 ## Expected points and EPA
 
@@ -62,4 +71,8 @@ Common optional cuts:
 
 - **Schedule strength dominates.** Raw EPA in college mostly measures opponents; prefer opponent-adjusted ratings (SP+, FPI) when you can get them, and say whose.
 - **Clock rules differ.** Since 2023 the college clock no longer stops after a first down except in the last two minutes of each half. Compare college offenses per play, never per game.
-- **Data.** nflverse covers the NFL only. College play-by-play with EPA and success rate comes from College Football Data (free key, 1,000 calls a month); see the football-data skill.
+- **The college script.** `cfbfast.py` reads sportsdataverse's ESPN play-by-play (free, no key; about 550 MB a season, trimmed to a few MB in the cache; a finished season is kept for good, the current one is refreshed after 24 hours). Its filter is the publisher's: every scrimmage play with an EPA value, so penalties ESPN files as their own plays are out (unlike the NFL script) and a fumble returned for a score is in. Texas' 2024 offense and defense match sportsdataverse's published game boxes game for game; Quinn Ewers' 2024 box-score line matches the official NCAA line (293/445, 3,472 yards, 31 TD, 12 INT, 148.98).
+- **Passing lines come from the box score.** ESPN's play-by-play drops a few plays a season (it has 443 Ewers attempts in 2024 against 445 official), so `player` reports EPA from the plays and attempts, yards, touchdowns and efficiency from ESPN's box scores, which add up to the official totals.
+- **Season types.** College season totals include bowls and the playoff, so the script's default is `--season-type ALL`. ESPN files every postseason game as week 1; `--weeks` always means regular-season weeks.
+- **Success rate** in the script is EPA > 0, the publisher's definition. College Football Data and SP+ use Connelly's yardage thresholds; don't mix them.
+- **Opponent adjustment.** The script's EPA is raw. sportsdataverse publishes opponent-adjusted EPA ratings (see football-data); use those to compare teams across conferences.
