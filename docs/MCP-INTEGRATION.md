@@ -29,7 +29,7 @@ All 7 tools are read-only.
 | `bsi_get_match_detail` | `matchId` (required, from the scoreboard) | Venue, weather, win predictions, play-by-play, team stats |
 | `bsi_search_intel` | `query` (required), `limit` (1-10), `domains` (optional) | Web search of trusted college-baseball sources for news and scouting context |
 
-The server has no MLB, NFL, NBA or college football tools. Team sabermetrics, leaderboards and the conference power index are paused on purpose: the server answers those routes with "This metric route is paused until its source, method, sample boundaries, and update metadata are documented" (code `closed_until_sourced`). Plugins compute advanced metrics from the counting stats `bsi_get_player_stats` returns (formulas in `plugins/college-baseball-sabermetrics/src/metrics.ts`) and label them as computed.
+The server has no MLB, NFL, NBA or college football tools. Team sabermetrics, leaderboards and the conference power index are paused on purpose: the server answers those routes with "This metric route is paused until its source, method, sample boundaries, and update metadata are documented" (code `closed_until_sourced`). Plugins compute advanced metrics from the counting stats `bsi_get_player_stats` returns (with `plugins/baseball/skills/baseball-analytics/scripts/saber.py`, run on Division I totals) and label them as computed.
 
 Every response envelope includes `meta`:
 

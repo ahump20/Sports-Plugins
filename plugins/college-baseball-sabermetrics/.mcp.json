@@ -1,8 +1,0 @@
-{
-  "mcpServers": {
-    "blaze-sports-intel": {
-      "type": "http",
-      "url": "https://sabermetrics.blazesportsintel.com/mcp"
-    }
-  }
-}

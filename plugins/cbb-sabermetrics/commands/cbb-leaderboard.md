@@ -25,7 +25,7 @@ Builds a ranked list by advanced metric from players or teams it actually pulls 
 1. Decides which players or teams to pull. The user names them, or the command takes teams from `bsi_get_rankings` (Top 25) or `bsi_get_standings conference={conference}` (teams in a conference). No tool returns a roster, so for player lists the user names the players, or `bsi_search_intel` is used to find names to look up.
 2. For `type=batting` or `type=pitching`, calls `bsi_get_player_stats player={name} team={team}` for each player and takes the traditional counting stats returned.
 3. For `type=team`, calls `bsi_get_standings conference={conference}` for W, L, run differential and runs scored or allowed, and `bsi_get_team_schedule team={team}` for game results.
-4. Computes the metric from those counting stats with the formulas in the `college-baseball-sabermetrics` plugin (`skills/sabermetrics-calc/SKILL.md`, `src/metrics.ts`), and states the formula and sample size (PA or IP) next to each value.
+4. Computes the metric from those counting stats with the baseball plugin's `baseball-analytics` script (`saber.py`), run with `--totals` set to that season's Division I totals so the constants come from the college run environment, and states the formula and sample size (PA or IP) next to each value.
 5. If a metric needs a stat the source did not return (for example HBP or SF for wOBA, or league and park constants for wRC+ and ERA-), says that metric cannot be computed for that player instead of estimating it.
 6. Routes through the `college-baseball-intelligence` agent and applies the `interpreting-advanced-metrics` skill to contextualize numbers.
 7. Formats the output as a ranked table.

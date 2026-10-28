@@ -65,6 +65,9 @@
         "woba",
         "wrc-plus",
         "fip"
+      ],
+      "dependencies": [
+        "baseball"
       ]
     },
     {

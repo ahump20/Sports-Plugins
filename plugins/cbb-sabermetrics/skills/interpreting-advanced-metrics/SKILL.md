@@ -11,7 +11,7 @@ description: >
 
 # Interpreting Advanced College Baseball Metrics
 
-The BSI MCP returns traditional stats (`bsi_get_player_stats`) and team results (`bsi_get_standings`, `bsi_get_team_schedule`), not advanced metrics. The team sabermetrics and leaderboard routes are paused on the server until their source and method are documented. So the advanced metrics below are computed from the returned counting stats, using the formulas in the `college-baseball-sabermetrics` plugin (`skills/sabermetrics-calc/SKILL.md`, `src/metrics.ts`). Say a metric was computed, give the formula and the sample size (PA or IP), and if a needed input wasn't returned (for example HBP or SF), say which metric can't be computed instead of guessing. Then frame it: this skill turns numbers into reads.
+The BSI MCP returns traditional stats (`bsi_get_player_stats`) and team results (`bsi_get_standings`, `bsi_get_team_schedule`), not advanced metrics. The team sabermetrics and leaderboard routes are paused on the server until their source and method are documented. So the advanced metrics below are computed from the returned counting stats, with the baseball plugin's `baseball-analytics` script (`saber.py`), run with `--totals` set to that season's Division I totals so the constants come from the college run environment. Say a metric was computed, give the formula and the sample size (PA or IP), and if a needed input wasn't returned (for example HBP or SF), say which metric can't be computed instead of guessing. Then frame it: this skill turns numbers into reads.
 
 ## The Core Metrics
 
