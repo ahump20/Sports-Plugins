@@ -232,6 +232,17 @@ class Cache(unittest.TestCase):
         self.assertIn("offline", err.getvalue())
         self.assertEqual(os.listdir(self.dir.name), [os.path.basename(self.path)])
 
+    def test_connection_cut_short_never_replaces_the_cache(self):
+        # The source is plain CSV, so nothing like gzip's own check catches a body that ends early:
+        # a response advertising more bytes than it delivers must fail, not cache a partial season.
+        body = (self.HEADER + self.ROW).encode()
+        resp = io.BytesIO(body)
+        resp.headers = {"Content-Length": str(len(body) + 10000)}
+        with mock.patch("urllib.request.urlopen", return_value=resp), self.assertRaises(RuntimeError) as e:
+            cfbfast.box_path(self.season)
+        self.assertIn("ended early", str(e.exception))
+        self.assertEqual(os.listdir(self.dir.name), [])
+
     def test_changed_layout_never_replaces_the_cache(self):
         with self.serve("game_id,season\n1,2024\n"), self.assertRaises(RuntimeError) as e:
             cfbfast.box_path(self.season)

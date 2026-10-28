@@ -42,6 +42,22 @@ REQUIRED = ("seasonType", "week", "pos_team", "def_pos_team", "EPA", "scrimmage_
 SEASON_TYPES = {"2": "REG", "3": "POST"}
 
 
+class _Counted(io.RawIOBase):
+    """Counts the bytes read from a response, so a body cut short can be told from a whole one."""
+
+    def __init__(self, resp):
+        self.resp, self.n = resp, 0
+
+    def readable(self):
+        return True
+
+    def readinto(self, b):
+        data = self.resp.read(len(b))
+        b[:len(data)] = data
+        self.n += len(data)
+        return len(data)
+
+
 def season_over(season):
     """When a season's files stop changing: February 1 after it, past every bowl and the title game."""
     return time.mktime((int(season) + 1, 2, 1, 0, 0, 0, 0, 0, -1))
@@ -49,8 +65,8 @@ def season_over(season):
 
 def cached(url, name, season, columns, max_age_hours=24):
     """Cached gzip CSV of `columns` from `url`. The download is streamed, trimmed to those columns, checked
-    as a complete gzip and only then replaces the cache; if it fails and an older copy exists, that copy is
-    used with a warning on stderr."""
+    against the length the server sent and as a complete gzip, and only then replaces the cache; if it fails
+    and an older copy exists, that copy is used with a warning on stderr."""
     os.makedirs(CACHE, exist_ok=True)
     path = os.path.join(CACHE, f"{name}_{int(season)}.csv.gz")
     if os.path.exists(path):
@@ -64,7 +80,8 @@ def cached(url, name, season, columns, max_age_hours=24):
         try:
             with urllib.request.urlopen(url.format(season=int(season))) as resp, \
                     gzip.open(tmp, "wt", newline="") as out:
-                reader = csv.DictReader(io.TextIOWrapper(resp, encoding="utf-8", newline=""))
+                body = _Counted(resp)
+                reader = csv.DictReader(io.TextIOWrapper(io.BufferedReader(body), encoding="utf-8", newline=""))
                 missing = [c for c in columns if c not in (reader.fieldnames or ())]
                 if missing:
                     raise ValueError(f"{name} {int(season)} is missing columns: {', '.join(missing)}")
@@ -72,6 +89,10 @@ def cached(url, name, season, columns, max_age_hours=24):
                 writer.writerow(columns)
                 for r in reader:
                     writer.writerow([r[c] for c in columns])
+                # A plain CSV has no checksum, and a connection closed early just looks like the end of the file.
+                expected = (getattr(resp, "headers", None) or {}).get("Content-Length")
+                if expected and expected.isdigit() and body.n != int(expected):
+                    raise OSError(f"the download ended early ({body.n:,} of {int(expected):,} bytes)")
         finally:
             socket.setdefaulttimeout(old)
         with gzip.open(tmp, "rb") as f:
