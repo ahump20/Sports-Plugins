@@ -1,12 +1,20 @@
 {
   "name": "football",
-  "version": "1.0.0",
-  "description": "Football fundamentals: rules, EPA and success rate from nflverse play-by-play, quarterback evaluation, passer rating, college context, and free data sources.",
+  "version": "1.1.0",
+  "description": "Football fundamentals for the NFL and college: rules, EPA and success rate from nflverse and sportsdataverse play-by-play, quarterback evaluation, passer rating and NCAA efficiency, and free data sources.",
   "author": {
     "name": "Austin Humphrey",
     "url": "https://github.com/ahump20/Sports-Plugins"
   },
   "repository": "https://github.com/ahump20/Sports-Plugins",
   "license": "MIT",
-  "keywords": ["football","nfl","college-football","epa","nflverse","analytics"]
+  "keywords": [
+    "football",
+    "nfl",
+    "college-football",
+    "epa",
+    "sportsdataverse",
+    "nflverse",
+    "analytics"
+  ]
 }

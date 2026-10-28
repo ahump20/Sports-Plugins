@@ -27,7 +27,7 @@
     },
     {
       "name": "football",
-      "description": "Rules, EPA, success rate and quarterback evaluation for the NFL and college. A tested script computes team and player efficiency from nflverse play-by-play and passer ratings; guides cover filters, context and free data sources.",
+      "description": "Rules, EPA, success rate and quarterback evaluation for the NFL and college. Tested scripts compute team and player efficiency from nflverse and sportsdataverse play-by-play, official college passing lines and passer ratings; guides cover filters, context and free data sources.",
       "category": "sports",
       "source": "./plugins/football",
       "keywords": [
@@ -35,7 +35,8 @@
         "nfl",
         "college-football",
         "epa",
-        "nflverse"
+        "nflverse",
+        "sportsdataverse"
       ]
     },
     {
