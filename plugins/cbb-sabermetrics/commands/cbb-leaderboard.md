@@ -6,7 +6,7 @@ arguments:
     description: Metric to rank by. Options — hitters — wrc_plus, woba, iso, babip, k_rate, bb_rate. Pitchers — fip, era_minus, k_rate, bb_rate, whip
     required: true
   - name: type
-    description: "batting" or "pitching" or "team"
+    description: '"batting" or "pitching" or "team"'
     required: true
   - name: conference
     description: Optional — filter to one conference (SEC, ACC, Big 12, Big Ten, etc.)

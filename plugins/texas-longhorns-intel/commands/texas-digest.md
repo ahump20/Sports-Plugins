@@ -3,7 +3,7 @@ name: texas-digest
 description: Generate the weekly Texas baseball intelligence digest — live stats, conference position, recent results, upcoming schedule, analytical read.
 arguments:
   - name: timeframe
-    description: "week" (default) or "month" or "season"
+    description: '"week" (default) or "month" or "season"'
     required: false
 ---
 
