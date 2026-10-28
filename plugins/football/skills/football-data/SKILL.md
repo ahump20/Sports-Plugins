@@ -1,6 +1,6 @@
 ---
 name: football-data
-description: Pull NFL and college football data from free sources — nflverse play-by-play, weekly player stats, schedules with scores and betting lines, rosters and player ids, and College Football Data for the college game — with exact URLs, column meanings, sign conventions and limits. Use when you need real football numbers, are joining data across sources, or are building a pipeline.
+description: Pull NFL and college football data from free sources — nflverse play-by-play, weekly player stats, schedules with scores and betting lines, rosters and player ids; sportsdataverse college play-by-play, box scores and opponent-adjusted ratings; College Football Data for rankings, recruiting and the transfer portal — with exact URLs, column meanings, sign conventions and limits. Use when you need real football numbers, are joining data across sources, or are building a pipeline.
 ---
 
 # Football data
@@ -25,11 +25,40 @@ Keys and conventions:
 - Team abbreviations follow nflverse (`LA` is the Rams, `LAC` the Chargers, `LV` the Raiders).
 - Play-by-play for the current season updates through the week; cite the date you pulled it.
 
-## College: College Football Data
+## College: sportsdataverse (GitHub releases, CSV, no key)
 
-[College Football Data](https://api.collegefootballdata.com/getting-started.md) is the standard source for college games, plays, drives, recruiting and opponent-adjusted stats. Base URL `https://api.collegefootballdata.com`, header `Authorization: Bearer $CFBD_API_KEY`. The key is free (email sign-up, no card) and the free tier is capped at 1,000 calls a month, so pull season-level endpoints and cache them rather than calling per game. Ask the user for their key; never invent one or proceed without telling them it's needed.
+| Need | URL |
+|---|---|
+| Play-by-play with EPA and win probability | `https://github.com/sportsdataverse/sportsdataverse-data/releases/download/espn_cfb_pbp/play_by_play_2024.csv` |
+| Player box scores (official lines) | `https://github.com/sportsdataverse/sportsdataverse-data/releases/download/espn_cfb_player_box/player_box_2024.csv` |
+| Team box scores | `https://github.com/sportsdataverse/sportsdataverse-data/releases/download/espn_cfb_team_box/team_box_2024.csv` |
+| Advanced game boxes (EPA, success, explosiveness) | `.../espn_cfb_adv_team/adv_team_2024.csv`, `.../espn_cfb_adv_passing/adv_passing_2024.csv`, `.../espn_cfb_adv_situational/adv_situational_2024.csv` |
+| Opponent-adjusted EPA ratings | `https://github.com/sportsdataverse/sportsdataverse-data/releases/download/cfb_ratings/cfb_ratings_2026.csv` |
+| ESPN FPI by week | `https://github.com/sportsdataverse/sportsdataverse-data/releases/download/cfb_fpi_weekly/cfb_fpi_weekly_2026.csv` |
 
-College numbers need the same care as NFL ones plus more: success rate there usually means Connelly's yardage definition, not EPA > 0, and schedule strength dominates any raw efficiency number (see football-analytics).
+The football-analytics script downloads, trims and caches the play-by-play and player box for you. The play-by-play file is about 550 MB a season with 500 columns; don't load it whole when a few columns will do.
+
+Keys and conventions:
+- Teams are keyed by ESPN id (`251` is Texas, `130` Michigan); players by ESPN athlete id (`4889929` is Quinn Ewers). `pos_team` is the full name ("Texas Longhorns"); `homeTeamName` is the school ("Texas") and `homeTeamAbbrev` the abbreviation ("TEX").
+- `seasonType` is `2` for the regular season and `3` for the postseason, and every postseason game is week 1.
+- Flags are the strings `true` and `false`. `scrimmage_play` is false for kneels, penalties and kicks; `EPA_success` is EPA > 0.
+- The advanced boxes round EPA totals to two decimals. Summing them reproduces a season within a few hundredths.
+- The ratings file adjusts EPA for opponents (`adj_off_epa`, `adj_def_epa`, `adj_net`, with ranks) and updates through the season; `games` says how many games it has seen.
+- These files are rebuilt from ESPN as the season goes, and a rebuild can move old values slightly. Cite the date you pulled them.
+
+## College: College Football Data (free key)
+
+[College Football Data](https://api.collegefootballdata.com/getting-started.md) covers what sportsdataverse doesn't: poll rankings, recruiting and the transfer portal. Base URL `https://api.collegefootballdata.com`, header `Authorization: Bearer $CFBD_API_KEY`. The key is free (email sign-up). Ask the user for their key; never invent one or proceed without telling them it's needed. Pull season-level endpoints and cache them rather than calling per game.
+
+| Need | Endpoint |
+|---|---|
+| AP, Coaches and CFP polls | `/rankings` |
+| Recruits and class rankings | `/recruiting/players`, `/recruiting/teams` |
+| Transfer portal | `/player/portal` |
+| SP+, FPI, SRS, Elo | `/ratings/sp`, `/ratings/fpi`, `/ratings/srs`, `/ratings/elo` |
+| Roster talent composite | `/talent` |
+
+Recruiting stars and portal entries change by the day; give the date with any list. College Football Data's success rate uses Connelly's yardage thresholds and its "PPA" is its own expected-points model, so neither matches sportsdataverse's EPA figures.
 
 ## What not to use
 
