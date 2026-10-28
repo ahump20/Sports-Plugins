@@ -107,7 +107,7 @@ This plugin enforces the BSI data integrity standard:
 
 ## Dependencies
 
-None. This is the anchor plugin in the Sports-Plugins marketplace. Other plugins (like `texas-longhorns-intel`) depend on this.
+[`baseball`](../baseball/), for the tested `saber.py` that computes the advanced metrics. Other plugins (like `texas-longhorns-intel`) depend on this one.
 
 ## Related Plugins
 

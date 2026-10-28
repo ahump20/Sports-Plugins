@@ -51,7 +51,7 @@ Returns: Identity, team, position, and traditional batting or pitching stats
 when the source has them
 ```
 
-Advanced metrics (wOBA, FIP, BABIP, ISO) are not returned. Compute them from the counting stats with the baseball plugin's `baseball-analytics` script (`saber.py`), run with `--totals` set to that season's Division I totals so the constants come from the college run environment, show the formula and sample size, and say they were computed. If an input such as HBP or SF wasn't returned, say which metric can't be computed.
+Advanced metrics (wOBA, FIP, BABIP, ISO) are not returned. Compute them from the counting stats with the baseball plugin's `saber.py`. wOBA and FIP need that season's Division I totals passed with `--totals` (never the script's MLB constants); without them, say those two can't be computed, and with them, note that wOBA's relative run values are still MLB's. Then show the formula and sample size, and say they were computed. If an input such as HBP or SF wasn't returned, say which metric can't be computed.
 
 ### Team Schedule
 ```
