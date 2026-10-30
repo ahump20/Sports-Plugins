@@ -15,7 +15,7 @@ Produces a full Texas roster scouting breakdown using live MCP data and Texas pr
 
 1. Calls `bsi_get_standings conference=SEC` and `bsi_get_team_schedule team=texas` for record, run differential and results
 2. Calls `bsi_get_player_stats player={name} team=texas` for each Texas hitter and pitcher (names from the user or from `bsi_search_intel`, since no tool returns a roster)
-3. Computes rate metrics (wOBA, ISO, BABIP, K%, BB%, FIP) from the returned counting stats with the `college-baseball-sabermetrics` formulas, stating formula and sample size; names any metric whose inputs weren't returned
+3. Computes rate metrics (wOBA, ISO, BABIP, K%, BB%, FIP) from the returned counting stats with the baseball plugin's `saber.py`, as the `interpreting-advanced-metrics` skill sets out (wOBA, wRC+ and FIP need that season's Division I totals or are reported as not computable), stating formula and sample size; names any metric whose inputs weren't returned
 4. Ranks Texas hitters and pitchers among the players pulled (no tool returns a leaderboard)
 5. Routes through `texas-longhorns-baseball-intelligence` agent
 6. Applies HAV-F framework to position-group breakdown

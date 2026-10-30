@@ -6,5 +6,8 @@
     "name": "Austin Humphrey",
     "email": "john.humphrey@blazesportsintel.com",
     "url": "https://blazesportsintel.com"
-  }
+  },
+  "dependencies": [
+    "baseball"
+  ]
 }

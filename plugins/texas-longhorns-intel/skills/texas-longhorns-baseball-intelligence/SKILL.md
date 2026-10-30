@@ -43,7 +43,7 @@ Tool selection heuristic:
 - Schedule question → `bsi_get_team_schedule`
 - Rankings / scoreboard → `bsi_get_rankings`, `bsi_get_scoreboard`, `bsi_get_standings`
 
-Note: no MCP tool returns advanced team metrics, a leaderboard or a conference power index; those BSI routes are paused until their source and method are documented. Compute wOBA, FIP, BABIP, ISO, K% and BB% from the counting stats `bsi_get_player_stats` returns (formulas in the `college-baseball-sabermetrics` plugin's `skills/sabermetrics-calc/SKILL.md`), state the formula and sample size, and say which metric can't be computed when an input is missing. HAV-F, MMI, park factor, and compute-what-if logic live in this skill's analytical framework layer, not as direct MCP tools. When a request calls for those, fetch the raw player/team/game stats from the MCP tools above, then apply the framework locally.
+Note: no MCP tool returns advanced team metrics, a leaderboard or a conference power index; those BSI routes are paused until their source and method are documented. Compute wOBA, FIP, BABIP, ISO, K% and BB% from the counting stats `bsi_get_player_stats` returns with the baseball plugin's `saber.py`, as the `interpreting-advanced-metrics` skill sets out (wOBA, wRC+ and FIP need that season's Division I totals or are reported as not computable), state the formula and sample size, and say which metric can't be computed when an input is missing. HAV-F, MMI, park factor, and compute-what-if logic live in this skill's analytical framework layer, not as direct MCP tools. When a request calls for those, fetch the raw player/team/game stats from the MCP tools above, then apply the framework locally.
 
 ### 3. Keep three layers separate
 

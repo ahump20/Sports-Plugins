@@ -4,9 +4,6 @@
  * This module wraps the ESPN "site" API endpoints which are publicly
  * available and don't require an API key.  They return JSON for
  * current scoreboards, schedules, and team information.
- *
- * These endpoints are used by the `live-scores` plugin to feed the
- * `fetch-scores` skill and `/scoreboard` command.
  */
 
 import type { GameScore, GameStatus, League, TeamScore } from "./types.js";

@@ -1,9 +1,8 @@
 /**
  * Core sabermetric computation functions.
  *
- * Every formula mirrors the definitions in the college-baseball-sabermetrics
- * SKILL.md files. Functions accept raw counting stats and return computed
- * metrics — never raw database rows.
+ * Functions accept raw counting stats and return computed metrics — never raw
+ * database rows.
  */
 
 // ---------------------------------------------------------------------------

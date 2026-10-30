@@ -36,7 +36,7 @@ After install, the MCP server auto-registers and 7 tools become available in you
 | `bsi_get_match_detail` | Venue, weather, win predictions, play-by-play, team stats (`matchId` from the scoreboard) |
 | `bsi_search_intel` | Web search of trusted college-baseball sources for news and scouting context (`query`, `limit` 1-10, `domains` optional) |
 
-Advanced metrics (wOBA, FIP, BABIP, ISO and the like) are not returned by any tool. The BSI team sabermetrics, leaderboard and conference power index routes are paused until their source, method, sample boundaries and update metadata are documented. The agent and skills compute advanced metrics from the counting stats `bsi_get_player_stats` returns, using the formulas in [`college-baseball-sabermetrics`](../college-baseball-sabermetrics/), and label them as computed.
+Advanced metrics (wOBA, FIP, BABIP, ISO and the like) are not returned by any tool. The BSI team sabermetrics, leaderboard and conference power index routes are paused until their source, method, sample boundaries and update metadata are documented. The agent and skills compute advanced metrics from the counting stats `bsi_get_player_stats` returns, with the [baseball](../baseball/) plugin's tested `saber.py`, run on that season's Division I totals, and label them as computed. Installing cbb-sabermetrics installs baseball with it.
 
 ### 1 Agent
 
@@ -107,7 +107,7 @@ This plugin enforces the BSI data integrity standard:
 
 ## Dependencies
 
-None. This is the anchor plugin in the Sports-Plugins marketplace. Other plugins (like `texas-longhorns-intel`) depend on this.
+[`baseball`](../baseball/), for the tested `saber.py` that computes the advanced metrics. Other plugins (like `texas-longhorns-intel`) depend on this one.
 
 ## Related Plugins
 
