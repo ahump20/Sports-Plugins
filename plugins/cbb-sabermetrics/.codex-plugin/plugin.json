@@ -1,7 +1,7 @@
 {
   "name": "cbb-sabermetrics",
-  "version": "0.2.0",
-  "description": "Live NCAA Division I college baseball through the Blaze Sports Intel MCP: scoreboard, standings, Top 25 rankings, player stats, team schedules, game detail and BSI article search, plus advanced metrics worked from the box score.",
+  "version": "0.3.0",
+  "description": "Source-attributed NCAA baseball observations and explicit-input metric interpretation.",
   "author": {
     "name": "Austin Humphrey",
     "email": "john.humphrey@blazesportsintel.com",
@@ -26,8 +26,8 @@
   "mcpServers": "./.mcp.json",
   "interface": {
     "displayName": "College Baseball Sabermetrics",
-    "shortDescription": "Live NCAA DI college baseball sabermetrics via Blaze Sports Intel MCP",
-    "longDescription": "Query live Division I college baseball through the Blaze Sports Intel MCP server at https://sabermetrics.blazesportsintel.com/mcp: the daily scoreboard, conference standings, Top 25 rankings, player stats, team schedules, full game detail and a search across BSI articles. Advanced metrics (wOBA, wRC+, FIP, BABIP, ISO) are worked from the box score with the formulas in the skills. Free, 30 requests a minute, no API key.",
+    "shortDescription": "Source-attributed NCAA baseball observations and explicit-input metric interpretation.",
+    "longDescription": "Source-attributed NCAA baseball observations and explicit-input metric interpretation. Live data is read-only and may be incomplete; no calibrated forecasts or automatic publication are supplied.",
     "developerName": "Austin Humphrey / Blaze Sports Intel",
     "category": "Analytics",
     "capabilities": [

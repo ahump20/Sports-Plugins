@@ -7,13 +7,13 @@
     "url": "https://blazesportsintel.com"
   },
   "metadata": {
-    "description": "Baseball, football and basketball plugins whose numbers are computed by tested scripts and checked against published sources.",
-    "version": "2.0.0"
+    "description": "Tested sports analytics, game-day source packets and editorial evidence workflows for Claude Code and Codex.",
+    "version": "2.1.0"
   },
   "plugins": [
     {
       "name": "baseball",
-      "description": "Rules, scoring and sabermetrics for MLB and college baseball. A tested script computes wOBA, wRC+ and FIP with FanGraphs' constants and builds league constants for college; guides cover reliability, context and free data sources.",
+      "description": "Baseball fundamentals: rules and scoring, wOBA, wRC+, FIP and sample-size reliability computed by a tested script with FanGraphs constants, MLB and college run environments, and free data sources.",
       "category": "sports",
       "source": "./plugins/baseball",
       "keywords": [
@@ -27,7 +27,7 @@
     },
     {
       "name": "football",
-      "description": "Rules, EPA, success rate and quarterback evaluation for the NFL and college. Tested scripts compute team and player efficiency from nflverse and sportsdataverse play-by-play, official college passing lines and passer ratings; guides cover filters, context and free data sources.",
+      "description": "Football fundamentals for the NFL and college: rules, EPA and success rate from nflverse and sportsdataverse play-by-play, quarterback evaluation, passer rating and NCAA efficiency, and free data sources.",
       "category": "sports",
       "source": "./plugins/football",
       "keywords": [
@@ -41,7 +41,7 @@
     },
     {
       "name": "basketball",
-      "description": "Rules, possessions, ratings and the Four Factors for the NBA and college. A tested script builds team ratings from real box scores and computes true shooting and usage; guides cover context and free data sources.",
+      "description": "Basketball fundamentals: rules, possessions, offensive and defensive rating, Four Factors and true shooting from real box scores for the NBA and college, and free data sources.",
       "category": "sports",
       "source": "./plugins/basketball",
       "keywords": [
@@ -54,7 +54,7 @@
     },
     {
       "name": "cbb-sabermetrics",
-      "description": "Live NCAA Division I college baseball through the Blaze Sports Intel MCP: scoreboard, standings, Top 25 rankings, player stats, team schedules, game detail and BSI article search, plus wOBA, wRC+, FIP, BABIP and ISO worked from the box score. Free, 30 requests a minute, no API key.",
+      "description": "Source-attributed NCAA baseball observations and explicit-input metric interpretation.",
       "category": "analytics",
       "source": "./plugins/cbb-sabermetrics",
       "homepage": "https://sabermetrics.blazesportsintel.com/mcp",
@@ -73,7 +73,7 @@
     },
     {
       "name": "texas-longhorns-intel",
-      "description": "Texas Longhorns baseball intelligence — scouting reports, SEC matchup previews, roster evaluation, NIL efficiency analysis, program history. Depends on cbb-sabermetrics.",
+      "description": "Source-attributed Texas baseball scouting, opponent previews and editorial briefings.",
       "category": "scouting",
       "source": "./plugins/texas-longhorns-intel",
       "homepage": "https://blazesportsintel.com/college-baseball/texas-intelligence/",
@@ -87,6 +87,28 @@
       ],
       "dependencies": [
         "cbb-sabermetrics"
+      ]
+    },
+    {
+      "name": "gameday-ops",
+      "description": "Build sourced game packets with tested status and score handling.",
+      "source": "./plugins/gameday-ops",
+      "category": "analytics",
+      "keywords": [
+        "sports",
+        "provenance",
+        "gameday"
+      ]
+    },
+    {
+      "name": "editorial-desk",
+      "description": "Audit claim provenance, quotations, freshness and arithmetic.",
+      "source": "./plugins/editorial-desk",
+      "category": "analytics",
+      "keywords": [
+        "sports",
+        "provenance",
+        "editorial"
       ]
     }
   ]

@@ -1,6 +1,6 @@
 {
   "name": "basketball",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Basketball fundamentals: rules, possessions, offensive and defensive rating, Four Factors and true shooting from real box scores for the NBA and college, and free data sources.",
   "author": {
     "name": "Austin Humphrey",
@@ -8,5 +8,12 @@
   },
   "repository": "https://github.com/ahump20/Sports-Plugins",
   "license": "MIT",
-  "keywords": ["basketball","nba","college-basketball","four-factors","efficiency","analytics"]
+  "keywords": [
+    "basketball",
+    "nba",
+    "college-basketball",
+    "four-factors",
+    "efficiency",
+    "analytics"
+  ]
 }

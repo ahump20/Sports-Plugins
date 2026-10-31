@@ -40,7 +40,7 @@ A markdown table:
 Headed by one line saying the list covers only the players or teams pulled for this request, not all of DI.
 
 Followed by a brief analytical note:
-- What the leaderboard says (e.g., "SEC dominates the top — 6 of top 10")
+- What the explicitly selected sample shows, without generalizing to all players or conferences
 - Any early-season caveats (e.g., small sample for Feb rankings)
 - Notable omissions or surprises
 
@@ -59,12 +59,14 @@ Followed by a brief analytical note:
 ```
 /cbb-leaderboard metric=woba type=team conference=ACC
 ```
-→ ACC teams ranked by what the standings and schedules support (runs scored per game, run differential). Team wOBA is computed only if team counting stats are returned.
+→ Report team wOBA unavailable unless all required team counting stats and league constants are available. Offer a separately labeled descriptive standings table rather than silently replacing the requested metric.
 
 ## Quality gates applied
 
 - Every computed value shows its formula and sample size
 - Metrics whose inputs were not returned are named as not computable, never estimated
 - The list is labeled as covering only the players or teams pulled
-- Every entry has source + timestamp from the MCP `meta` envelope
+- Every entry records source, season and coverage; missing metadata is explicit
 - Early-season caveats surfaced when applicable
+
+If a requested field or tool is unavailable, state that limitation. A provider win prediction, when returned, is not a prediction calibrated by this plugin.

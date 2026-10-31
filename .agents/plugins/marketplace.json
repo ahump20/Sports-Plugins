@@ -1,0 +1,92 @@
+{
+  "name": "Sports-Plugins",
+  "interface": {
+    "displayName": "Sports Plugins"
+  },
+  "plugins": [
+    {
+      "name": "baseball",
+      "source": {
+        "source": "local",
+        "path": "./plugins/baseball"
+      },
+      "policy": {
+        "installation": "AVAILABLE",
+        "authentication": "ON_INSTALL"
+      },
+      "category": "Productivity"
+    },
+    {
+      "name": "football",
+      "source": {
+        "source": "local",
+        "path": "./plugins/football"
+      },
+      "policy": {
+        "installation": "AVAILABLE",
+        "authentication": "ON_INSTALL"
+      },
+      "category": "Productivity"
+    },
+    {
+      "name": "basketball",
+      "source": {
+        "source": "local",
+        "path": "./plugins/basketball"
+      },
+      "policy": {
+        "installation": "AVAILABLE",
+        "authentication": "ON_INSTALL"
+      },
+      "category": "Productivity"
+    },
+    {
+      "name": "cbb-sabermetrics",
+      "source": {
+        "source": "local",
+        "path": "./plugins/cbb-sabermetrics"
+      },
+      "policy": {
+        "installation": "AVAILABLE",
+        "authentication": "ON_INSTALL"
+      },
+      "category": "Productivity"
+    },
+    {
+      "name": "texas-longhorns-intel",
+      "source": {
+        "source": "local",
+        "path": "./plugins/texas-longhorns-intel"
+      },
+      "policy": {
+        "installation": "AVAILABLE",
+        "authentication": "ON_INSTALL"
+      },
+      "category": "Productivity"
+    },
+    {
+      "name": "gameday-ops",
+      "source": {
+        "source": "local",
+        "path": "./plugins/gameday-ops"
+      },
+      "policy": {
+        "installation": "AVAILABLE",
+        "authentication": "ON_INSTALL"
+      },
+      "category": "Productivity"
+    },
+    {
+      "name": "editorial-desk",
+      "source": {
+        "source": "local",
+        "path": "./plugins/editorial-desk"
+      },
+      "policy": {
+        "installation": "AVAILABLE",
+        "authentication": "ON_INSTALL"
+      },
+      "category": "Productivity"
+    }
+  ]
+}

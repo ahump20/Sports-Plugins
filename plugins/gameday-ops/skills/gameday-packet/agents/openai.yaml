@@ -1,0 +1,4 @@
+interface:
+  display_name: "Game-day Operations"
+  short_description: "Build sourced game packets with tested status and score handlin"
+  default_prompt: "Use $gameday-packet to prepare a sourced report from my supplied data."

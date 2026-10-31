@@ -1,0 +1,1790 @@
+{
+  "schemaVersion": 1,
+  "tool": {
+    "name": "plugin-eval",
+    "version": "0.1.0"
+  },
+  "createdAt": "2026-10-31T09:34:14.064Z",
+  "target": {
+    "kind": "plugin",
+    "path": "<workspace>/staging/Sports-Plugins/plugins/football",
+    "entryPath": "<workspace>/staging/Sports-Plugins/plugins/football/.codex-plugin/plugin.json",
+    "name": "football",
+    "relativePath": "staging/Sports-Plugins/plugins/football"
+  },
+  "summary": {
+    "score": 21,
+    "grade": "F",
+    "riskLevel": "high",
+    "riskReasons": [
+      "Contains 5 failing error checks (deferred_cost_tokens-budget-high, interface-missing-privacyPolicyURL, interface-missing-termsOfServiceURL).",
+      "Overall score is below 70, which the evaluator treats as high risk."
+    ],
+    "scoreBreakdown": {
+      "startingScore": 100,
+      "totalDeductions": 79.25,
+      "finalScore": 21,
+      "gradeThresholds": {
+        "A": 93,
+        "B": 85,
+        "C": 70,
+        "D": 55
+      }
+    },
+    "checkCounts": {
+      "total": 8,
+      "pass": 0,
+      "warn": 2,
+      "fail": 5,
+      "info": 2,
+      "error": 5,
+      "warning": 2
+    },
+    "deductions": [
+      {
+        "id": "deferred_cost_tokens-budget-high",
+        "category": "budget",
+        "severity": "error",
+        "status": "fail",
+        "message": "deferred_cost_tokens is excessive relative to the current Codex baseline.",
+        "penalty": 14,
+        "remediation": [
+          "Reduce repeated instruction text and move detail into deferred supporting files."
+        ],
+        "source": "core"
+      },
+      {
+        "id": "interface-missing-privacyPolicyURL",
+        "category": "manifest",
+        "severity": "error",
+        "status": "fail",
+        "message": "plugin.json interface is missing `privacyPolicyURL`.",
+        "penalty": 14,
+        "remediation": [
+          "Add interface.privacyPolicyURL to plugin.json."
+        ],
+        "source": "core",
+        "targetPath": "staging/Sports-Plugins/plugins/football"
+      },
+      {
+        "id": "interface-missing-termsOfServiceURL",
+        "category": "manifest",
+        "severity": "error",
+        "status": "fail",
+        "message": "plugin.json interface is missing `termsOfServiceURL`.",
+        "penalty": 14,
+        "remediation": [
+          "Add interface.termsOfServiceURL to plugin.json."
+        ],
+        "source": "core",
+        "targetPath": "staging/Sports-Plugins/plugins/football"
+      },
+      {
+        "id": "invoke_cost_tokens-budget-high",
+        "category": "budget",
+        "severity": "error",
+        "status": "fail",
+        "message": "invoke_cost_tokens is excessive relative to the current Codex baseline.",
+        "penalty": 14,
+        "remediation": [
+          "Reduce repeated instruction text and move detail into deferred supporting files."
+        ],
+        "source": "core"
+      },
+      {
+        "id": "trigger_cost_tokens-budget-high",
+        "category": "budget",
+        "severity": "error",
+        "status": "fail",
+        "message": "trigger_cost_tokens is excessive relative to the current Codex baseline.",
+        "penalty": 14,
+        "remediation": [
+          "Reduce repeated instruction text and move detail into deferred supporting files."
+        ],
+        "source": "core"
+      },
+      {
+        "id": "py-complexity-high",
+        "category": "complexity",
+        "severity": "warning",
+        "status": "warn",
+        "message": "At least one Python function has high cyclomatic complexity.",
+        "penalty": 4.5,
+        "remediation": [
+          "Split complex functions into smaller helpers or guard clauses."
+        ],
+        "source": "core"
+      },
+      {
+        "id": "py-long-lines",
+        "category": "readability",
+        "severity": "warning",
+        "status": "warn",
+        "message": "Some Python lines exceed 120 characters.",
+        "penalty": 4.5,
+        "remediation": [
+          "Wrap long expressions and keep docstrings or SQL fragments easier to scan."
+        ],
+        "source": "core"
+      },
+      {
+        "id": "coverage-artifacts-unavailable",
+        "category": "coverage",
+        "severity": "info",
+        "status": "info",
+        "message": "No coverage artifacts were found for this target.",
+        "penalty": 0.25,
+        "remediation": [
+          "Generate `lcov.info`, `coverage.xml`, or an Istanbul coverage JSON file if you want coverage scoring."
+        ],
+        "source": "core"
+      }
+    ],
+    "categoryDeductions": [
+      {
+        "category": "budget",
+        "totalPenalty": 42,
+        "checks": 3
+      },
+      {
+        "category": "manifest",
+        "totalPenalty": 28,
+        "checks": 2
+      },
+      {
+        "category": "complexity",
+        "totalPenalty": 4.5,
+        "checks": 1
+      },
+      {
+        "category": "readability",
+        "totalPenalty": 4.5,
+        "checks": 1
+      },
+      {
+        "category": "coverage",
+        "totalPenalty": 0.25,
+        "checks": 1
+      }
+    ],
+    "topRecommendations": [
+      "Add interface.privacyPolicyURL to plugin.json.",
+      "Add interface.termsOfServiceURL to plugin.json.",
+      "Reduce repeated instruction text and move detail into deferred supporting files."
+    ],
+    "whyBullets": [
+      "5 failing error checks are driving the highest-confidence problems.",
+      "2 warning signals still need cleanup before this feels polished.",
+      "budget is the largest source of score loss at -42 points.",
+      "Active budget pressure is high enough that token cost may dominate the user experience.",
+      "No observed usage is attached yet, so budget conclusions are still based on static estimates."
+    ],
+    "fixFirst": [
+      {
+        "id": "interface-missing-privacyPolicyURL",
+        "category": "manifest",
+        "severity": "error",
+        "status": "fail",
+        "message": "plugin.json interface is missing `privacyPolicyURL`.",
+        "why": "Manifest issues reduce trust because Codex may not discover or represent the plugin correctly.",
+        "remediation": [
+          "Add interface.privacyPolicyURL to plugin.json."
+        ],
+        "penalty": 14,
+        "source": "core",
+        "targetPath": "staging/Sports-Plugins/plugins/football"
+      },
+      {
+        "id": "interface-missing-termsOfServiceURL",
+        "category": "manifest",
+        "severity": "error",
+        "status": "fail",
+        "message": "plugin.json interface is missing `termsOfServiceURL`.",
+        "why": "Manifest issues reduce trust because Codex may not discover or represent the plugin correctly.",
+        "remediation": [
+          "Add interface.termsOfServiceURL to plugin.json."
+        ],
+        "penalty": 14,
+        "source": "core",
+        "targetPath": "staging/Sports-Plugins/plugins/football"
+      },
+      {
+        "id": "deferred_cost_tokens-budget-high",
+        "category": "budget",
+        "severity": "error",
+        "status": "fail",
+        "message": "deferred_cost_tokens is excessive relative to the current Codex baseline.",
+        "why": "Budget pressure matters because always-loaded or frequently-loaded text can make the workflow feel expensive fast.",
+        "remediation": [
+          "Reduce repeated instruction text and move detail into deferred supporting files."
+        ],
+        "penalty": 14,
+        "source": "core"
+      }
+    ],
+    "watchNext": [
+      {
+        "id": "invoke_cost_tokens-budget-high",
+        "category": "budget",
+        "severity": "error",
+        "status": "fail",
+        "message": "invoke_cost_tokens is excessive relative to the current Codex baseline.",
+        "why": "Budget pressure matters because always-loaded or frequently-loaded text can make the workflow feel expensive fast.",
+        "remediation": [
+          "Reduce repeated instruction text and move detail into deferred supporting files."
+        ],
+        "penalty": 14,
+        "source": "core"
+      },
+      {
+        "id": "trigger_cost_tokens-budget-high",
+        "category": "budget",
+        "severity": "error",
+        "status": "fail",
+        "message": "trigger_cost_tokens is excessive relative to the current Codex baseline.",
+        "why": "Budget pressure matters because always-loaded or frequently-loaded text can make the workflow feel expensive fast.",
+        "remediation": [
+          "Reduce repeated instruction text and move detail into deferred supporting files."
+        ],
+        "penalty": 14,
+        "source": "core"
+      },
+      {
+        "id": "py-complexity-high",
+        "category": "complexity",
+        "severity": "warning",
+        "status": "warn",
+        "message": "At least one Python function has high cyclomatic complexity.",
+        "why": "Complexity findings matter because they increase review cost and make generated or helper code harder to change safely.",
+        "remediation": [
+          "Split complex functions into smaller helpers or guard clauses."
+        ],
+        "penalty": 4.5,
+        "source": "core"
+      }
+    ]
+  },
+  "budgets": {
+    "method": "estimated-static",
+    "invocation_policy": {
+      "implicit_skill_count": 3,
+      "explicit_only_skill_count": 0,
+      "implicit_skills": [
+        "football-analytics",
+        "football-data",
+        "football-rules"
+      ],
+      "explicit_only_skills": []
+    },
+    "trigger_cost_tokens": {
+      "value": 449,
+      "band": "excessive",
+      "thresholds": {
+        "goodMax": 120,
+        "moderateMax": 260,
+        "heavyMax": 420
+      },
+      "components": [
+        {
+          "label": "plugin-description",
+          "path": "<workspace>/staging/Sports-Plugins/plugins/football/.codex-plugin/plugin.json",
+          "tokens": 51,
+          "note": "Plugin marketplace summary"
+        },
+        {
+          "label": "default-prompts",
+          "path": "<workspace>/staging/Sports-Plugins/plugins/football/.codex-plugin/plugin.json",
+          "tokens": 25,
+          "note": "Starter prompts visible in the UI"
+        },
+        {
+          "label": "football-analytics-description",
+          "path": "<workspace>/staging/Sports-Plugins/plugins/football/skills/football-analytics/SKILL.md",
+          "tokens": 110,
+          "note": "Skill trigger description exposed through the plugin"
+        },
+        {
+          "label": "football-data-description",
+          "path": "<workspace>/staging/Sports-Plugins/plugins/football/skills/football-data/SKILL.md",
+          "tokens": 121,
+          "note": "Skill trigger description exposed through the plugin"
+        },
+        {
+          "label": "football-rules-description",
+          "path": "<workspace>/staging/Sports-Plugins/plugins/football/skills/football-rules/SKILL.md",
+          "tokens": 142,
+          "note": "Skill trigger description exposed through the plugin"
+        }
+      ]
+    },
+    "invoke_cost_tokens": {
+      "value": 6390,
+      "band": "excessive",
+      "thresholds": {
+        "goodMax": 500,
+        "moderateMax": 1200,
+        "heavyMax": 2400
+      },
+      "components": [
+        {
+          "label": "plugin-manifest",
+          "path": "<workspace>/staging/Sports-Plugins/plugins/football/.codex-plugin/plugin.json",
+          "tokens": 334,
+          "note": "Manifest load cost"
+        },
+        {
+          "label": "football-analytics-skill-file",
+          "path": "<workspace>/staging/Sports-Plugins/plugins/football/skills/football-analytics/SKILL.md",
+          "tokens": 1978,
+          "note": "Implicit skill invocation cost ceiling"
+        },
+        {
+          "label": "football-data-skill-file",
+          "path": "<workspace>/staging/Sports-Plugins/plugins/football/skills/football-data/SKILL.md",
+          "tokens": 1461,
+          "note": "Implicit skill invocation cost ceiling"
+        },
+        {
+          "label": "football-rules-skill-file",
+          "path": "<workspace>/staging/Sports-Plugins/plugins/football/skills/football-rules/SKILL.md",
+          "tokens": 2617,
+          "note": "Implicit skill invocation cost ceiling"
+        }
+      ]
+    },
+    "deferred_cost_tokens": {
+      "value": 33593,
+      "band": "excessive",
+      "thresholds": {
+        "goodMax": 320,
+        "moderateMax": 900,
+        "heavyMax": 2200
+      },
+      "components": [
+        {
+          "label": ".claude-plugin/plugin.json",
+          "path": "<workspace>/staging/Sports-Plugins/plugins/football/.claude-plugin/plugin.json",
+          "tokens": 149,
+          "note": "Deferred supporting file"
+        },
+        {
+          "label": "README.md",
+          "path": "<workspace>/staging/Sports-Plugins/plugins/football/README.md",
+          "tokens": 450,
+          "note": "Deferred supporting file"
+        },
+        {
+          "label": "plugin.json",
+          "path": "<workspace>/staging/Sports-Plugins/plugins/football/plugin.json",
+          "tokens": 371,
+          "note": "Deferred supporting file"
+        },
+        {
+          "label": "skills/football-analytics/scripts/cfbfast.py",
+          "path": "<workspace>/staging/Sports-Plugins/plugins/football/skills/football-analytics/scripts/cfbfast.py",
+          "tokens": 4044,
+          "note": "Deferred supporting file"
+        },
+        {
+          "label": "skills/football-analytics/scripts/nflfast.py",
+          "path": "<workspace>/staging/Sports-Plugins/plugins/football/skills/football-analytics/scripts/nflfast.py",
+          "tokens": 3277,
+          "note": "Deferred supporting file"
+        },
+        {
+          "label": "skills/football-analytics/tests/fixtures/pbp_2024_BAL_KC_week1.csv",
+          "path": "<workspace>/staging/Sports-Plugins/plugins/football/skills/football-analytics/tests/fixtures/pbp_2024_BAL_KC_week1.csv",
+          "tokens": 5975,
+          "note": "Deferred supporting file"
+        },
+        {
+          "label": "skills/football-analytics/tests/fixtures/player_box_2024_texas_passing.csv",
+          "path": "<workspace>/staging/Sports-Plugins/plugins/football/skills/football-analytics/tests/fixtures/player_box_2024_texas_passing.csv",
+          "tokens": 372,
+          "note": "Deferred supporting file"
+        },
+        {
+          "label": "skills/football-analytics/tests/test_cfbfast.py",
+          "path": "<workspace>/staging/Sports-Plugins/plugins/football/skills/football-analytics/tests/test_cfbfast.py",
+          "tokens": 3666,
+          "note": "Deferred supporting file"
+        },
+        {
+          "label": "skills/football-analytics/tests/test_nflfast.py",
+          "path": "<workspace>/staging/Sports-Plugins/plugins/football/skills/football-analytics/tests/test_nflfast.py",
+          "tokens": 3514,
+          "note": "Deferred supporting file"
+        },
+        {
+          "label": "skills/football-rules/references/clock-and-overtime.md",
+          "path": "<workspace>/staging/Sports-Plugins/plugins/football/skills/football-rules/references/clock-and-overtime.md",
+          "tokens": 2533,
+          "note": "Deferred supporting file"
+        },
+        {
+          "label": "skills/football-rules/references/edge-cases.md",
+          "path": "<workspace>/staging/Sports-Plugins/plugins/football/skills/football-rules/references/edge-cases.md",
+          "tokens": 3915,
+          "note": "Deferred supporting file"
+        },
+        {
+          "label": "skills/football-rules/references/nfl-vs-ncaa.md",
+          "path": "<workspace>/staging/Sports-Plugins/plugins/football/skills/football-rules/references/nfl-vs-ncaa.md",
+          "tokens": 3892,
+          "note": "Deferred supporting file"
+        },
+        {
+          "label": "skills/football-rules/references/stats-and-scoring.md",
+          "path": "<workspace>/staging/Sports-Plugins/plugins/football/skills/football-rules/references/stats-and-scoring.md",
+          "tokens": 1435,
+          "note": "Deferred supporting file"
+        }
+      ]
+    },
+    "explicit_only_invoke_cost_tokens": {
+      "value": 0,
+      "band": "good",
+      "thresholds": {
+        "goodMax": 500,
+        "moderateMax": 1200,
+        "heavyMax": 2400
+      },
+      "components": []
+    },
+    "total_tokens": {
+      "value": 40432,
+      "band": "excessive"
+    }
+  },
+  "observedUsage": null,
+  "checks": [
+    {
+      "id": "interface-missing-privacyPolicyURL",
+      "category": "manifest",
+      "severity": "error",
+      "status": "fail",
+      "message": "plugin.json interface is missing `privacyPolicyURL`.",
+      "evidence": [
+        "<workspace>/staging/Sports-Plugins/plugins/football/.codex-plugin/plugin.json"
+      ],
+      "remediation": [
+        "Add interface.privacyPolicyURL to plugin.json."
+      ],
+      "source": "core",
+      "targetPath": "staging/Sports-Plugins/plugins/football"
+    },
+    {
+      "id": "interface-missing-termsOfServiceURL",
+      "category": "manifest",
+      "severity": "error",
+      "status": "fail",
+      "message": "plugin.json interface is missing `termsOfServiceURL`.",
+      "evidence": [
+        "<workspace>/staging/Sports-Plugins/plugins/football/.codex-plugin/plugin.json"
+      ],
+      "remediation": [
+        "Add interface.termsOfServiceURL to plugin.json."
+      ],
+      "source": "core",
+      "targetPath": "staging/Sports-Plugins/plugins/football"
+    },
+    {
+      "id": "trigger_cost_tokens-budget-high",
+      "category": "budget",
+      "severity": "error",
+      "status": "fail",
+      "message": "trigger_cost_tokens is excessive relative to the current Codex baseline.",
+      "evidence": [
+        "Value: 449 tokens",
+        "Baseline samples: skills=41, plugins=0"
+      ],
+      "remediation": [
+        "Reduce repeated instruction text and move detail into deferred supporting files."
+      ],
+      "source": "core"
+    },
+    {
+      "id": "invoke_cost_tokens-budget-high",
+      "category": "budget",
+      "severity": "error",
+      "status": "fail",
+      "message": "invoke_cost_tokens is excessive relative to the current Codex baseline.",
+      "evidence": [
+        "Value: 6390 tokens",
+        "Baseline samples: skills=41, plugins=0"
+      ],
+      "remediation": [
+        "Reduce repeated instruction text and move detail into deferred supporting files."
+      ],
+      "source": "core"
+    },
+    {
+      "id": "deferred_cost_tokens-budget-high",
+      "category": "budget",
+      "severity": "error",
+      "status": "fail",
+      "message": "deferred_cost_tokens is excessive relative to the current Codex baseline.",
+      "evidence": [
+        "Value: 33593 tokens",
+        "Baseline samples: skills=41, plugins=0"
+      ],
+      "remediation": [
+        "Reduce repeated instruction text and move detail into deferred supporting files."
+      ],
+      "source": "core"
+    },
+    {
+      "id": "py-complexity-high",
+      "category": "complexity",
+      "severity": "warning",
+      "status": "warn",
+      "message": "At least one Python function has high cyclomatic complexity.",
+      "evidence": [
+        "Max complexity: 156"
+      ],
+      "remediation": [
+        "Split complex functions into smaller helpers or guard clauses."
+      ],
+      "source": "core"
+    },
+    {
+      "id": "py-long-lines",
+      "category": "readability",
+      "severity": "warning",
+      "status": "warn",
+      "message": "Some Python lines exceed 120 characters.",
+      "evidence": [
+        "Long lines: 1"
+      ],
+      "remediation": [
+        "Wrap long expressions and keep docstrings or SQL fragments easier to scan."
+      ],
+      "source": "core"
+    },
+    {
+      "id": "coverage-artifacts-unavailable",
+      "category": "coverage",
+      "severity": "info",
+      "status": "info",
+      "message": "No coverage artifacts were found for this target.",
+      "evidence": [
+        "staging/Sports-Plugins/plugins/football"
+      ],
+      "remediation": [
+        "Generate `lcov.info`, `coverage.xml`, or an Istanbul coverage JSON file if you want coverage scoring."
+      ],
+      "source": "core"
+    }
+  ],
+  "metrics": [
+    {
+      "id": "skill:football-analytics:skill_line_count",
+      "category": "budget",
+      "value": 79,
+      "unit": "lines",
+      "band": "good",
+      "source": "core",
+      "targetPath": "staging/Sports-Plugins/plugins/football/skills/football-analytics"
+    },
+    {
+      "id": "skill:football-analytics:description_length_chars",
+      "category": "budget",
+      "value": 437,
+      "unit": "chars",
+      "band": "good",
+      "source": "core",
+      "targetPath": "staging/Sports-Plugins/plugins/football/skills/football-analytics"
+    },
+    {
+      "id": "skill:football-analytics:relative_link_count",
+      "category": "documentation",
+      "value": 0,
+      "unit": "links",
+      "band": "good",
+      "source": "core",
+      "targetPath": "staging/Sports-Plugins/plugins/football/skills/football-analytics"
+    },
+    {
+      "id": "skill:football-analytics:code_fence_count",
+      "category": "readability",
+      "value": 2,
+      "unit": "blocks",
+      "band": "good",
+      "source": "core",
+      "targetPath": "staging/Sports-Plugins/plugins/football/skills/football-analytics"
+    },
+    {
+      "id": "skill:football-analytics:support_file_count",
+      "category": "documentation",
+      "value": 7,
+      "unit": "files",
+      "band": "good",
+      "source": "core",
+      "targetPath": "staging/Sports-Plugins/plugins/football/skills/football-analytics"
+    },
+    {
+      "id": "skill:football-data:skill_line_count",
+      "category": "budget",
+      "value": 67,
+      "unit": "lines",
+      "band": "good",
+      "source": "core",
+      "targetPath": "staging/Sports-Plugins/plugins/football/skills/football-data"
+    },
+    {
+      "id": "skill:football-data:description_length_chars",
+      "category": "budget",
+      "value": 481,
+      "unit": "chars",
+      "band": "good",
+      "source": "core",
+      "targetPath": "staging/Sports-Plugins/plugins/football/skills/football-data"
+    },
+    {
+      "id": "skill:football-data:relative_link_count",
+      "category": "documentation",
+      "value": 0,
+      "unit": "links",
+      "band": "good",
+      "source": "core",
+      "targetPath": "staging/Sports-Plugins/plugins/football/skills/football-data"
+    },
+    {
+      "id": "skill:football-data:code_fence_count",
+      "category": "readability",
+      "value": 0,
+      "unit": "blocks",
+      "band": "good",
+      "source": "core",
+      "targetPath": "staging/Sports-Plugins/plugins/football/skills/football-data"
+    },
+    {
+      "id": "skill:football-data:support_file_count",
+      "category": "documentation",
+      "value": 0,
+      "unit": "files",
+      "band": "info",
+      "source": "core",
+      "targetPath": "staging/Sports-Plugins/plugins/football/skills/football-data"
+    },
+    {
+      "id": "skill:football-rules:skill_line_count",
+      "category": "budget",
+      "value": 83,
+      "unit": "lines",
+      "band": "good",
+      "source": "core",
+      "targetPath": "staging/Sports-Plugins/plugins/football/skills/football-rules"
+    },
+    {
+      "id": "skill:football-rules:description_length_chars",
+      "category": "budget",
+      "value": 568,
+      "unit": "chars",
+      "band": "moderate",
+      "source": "core",
+      "targetPath": "staging/Sports-Plugins/plugins/football/skills/football-rules"
+    },
+    {
+      "id": "skill:football-rules:relative_link_count",
+      "category": "documentation",
+      "value": 0,
+      "unit": "links",
+      "band": "good",
+      "source": "core",
+      "targetPath": "staging/Sports-Plugins/plugins/football/skills/football-rules"
+    },
+    {
+      "id": "skill:football-rules:code_fence_count",
+      "category": "readability",
+      "value": 0,
+      "unit": "blocks",
+      "band": "good",
+      "source": "core",
+      "targetPath": "staging/Sports-Plugins/plugins/football/skills/football-rules"
+    },
+    {
+      "id": "skill:football-rules:support_file_count",
+      "category": "documentation",
+      "value": 4,
+      "unit": "files",
+      "band": "good",
+      "source": "core",
+      "targetPath": "staging/Sports-Plugins/plugins/football/skills/football-rules"
+    },
+    {
+      "id": "plugin_skill_count",
+      "category": "manifest",
+      "value": 3,
+      "unit": "skills",
+      "band": "good",
+      "source": "core",
+      "targetPath": "staging/Sports-Plugins/plugins/football"
+    },
+    {
+      "id": "plugin_keyword_count",
+      "category": "manifest",
+      "value": 7,
+      "unit": "keywords",
+      "band": "good",
+      "source": "core",
+      "targetPath": "staging/Sports-Plugins/plugins/football"
+    },
+    {
+      "id": "plugin_default_prompt_count",
+      "category": "manifest",
+      "value": 0,
+      "unit": "prompts",
+      "band": "moderate",
+      "source": "core",
+      "targetPath": "staging/Sports-Plugins/plugins/football"
+    },
+    {
+      "id": "trigger_cost_tokens",
+      "category": "budget",
+      "value": 449,
+      "unit": "tokens",
+      "band": "excessive",
+      "source": "core"
+    },
+    {
+      "id": "invoke_cost_tokens",
+      "category": "budget",
+      "value": 6390,
+      "unit": "tokens",
+      "band": "excessive",
+      "source": "core"
+    },
+    {
+      "id": "deferred_cost_tokens",
+      "category": "budget",
+      "value": 33593,
+      "unit": "tokens",
+      "band": "excessive",
+      "source": "core"
+    },
+    {
+      "id": "explicit_only_invoke_cost_tokens",
+      "category": "budget",
+      "value": 0,
+      "unit": "tokens",
+      "band": "good",
+      "source": "core"
+    },
+    {
+      "id": "py_file_count",
+      "category": "code-quality",
+      "value": 4,
+      "unit": "files",
+      "band": "good",
+      "source": "core"
+    },
+    {
+      "id": "py_function_count",
+      "category": "code-quality",
+      "value": 111,
+      "unit": "functions",
+      "band": "good",
+      "source": "core"
+    },
+    {
+      "id": "py_max_cyclomatic_complexity",
+      "category": "complexity",
+      "value": 156,
+      "unit": "score",
+      "band": "heavy",
+      "source": "core"
+    },
+    {
+      "id": "py_average_function_length",
+      "category": "readability",
+      "value": 8.37,
+      "unit": "lines",
+      "band": "good",
+      "source": "core"
+    },
+    {
+      "id": "py_max_nesting_depth",
+      "category": "complexity",
+      "value": 15,
+      "unit": "levels",
+      "band": "heavy",
+      "source": "core"
+    },
+    {
+      "id": "py_comment_ratio",
+      "category": "readability",
+      "value": 0.026,
+      "unit": "ratio",
+      "band": "moderate",
+      "source": "core"
+    },
+    {
+      "id": "py_test_file_count",
+      "category": "best-practice",
+      "value": 2,
+      "unit": "files",
+      "band": "good",
+      "source": "core"
+    },
+    {
+      "id": "coverage_artifact_count",
+      "category": "coverage",
+      "value": 0,
+      "unit": "files",
+      "band": "info",
+      "source": "core"
+    }
+  ],
+  "artifacts": [
+    {
+      "id": "skill:football-analytics:skill-link-inventory",
+      "type": "inventory",
+      "label": "Skill relative links",
+      "description": "Relative links found in SKILL.md.",
+      "source": "core",
+      "data": {
+        "links": []
+      }
+    },
+    {
+      "id": "skill:football-data:skill-link-inventory",
+      "type": "inventory",
+      "label": "Skill relative links",
+      "description": "Relative links found in SKILL.md.",
+      "source": "core",
+      "data": {
+        "links": []
+      }
+    },
+    {
+      "id": "skill:football-rules:skill-link-inventory",
+      "type": "inventory",
+      "label": "Skill relative links",
+      "description": "Relative links found in SKILL.md.",
+      "source": "core",
+      "data": {
+        "links": []
+      }
+    },
+    {
+      "id": "plugin-skill-inventory",
+      "type": "inventory",
+      "label": "Plugin skills",
+      "description": "Discoverable skills under the plugin.",
+      "source": "core",
+      "data": {
+        "skills": [
+          "skills/football-analytics",
+          "skills/football-data",
+          "skills/football-rules"
+        ]
+      }
+    },
+    {
+      "id": "budget-breakdown",
+      "type": "budget",
+      "label": "Budget breakdown",
+      "description": "Trigger, invoke, and deferred token budget analysis.",
+      "source": "core",
+      "data": {
+        "budgets": {
+          "method": "estimated-static",
+          "invocation_policy": {
+            "implicit_skill_count": 3,
+            "explicit_only_skill_count": 0,
+            "implicit_skills": [
+              "football-analytics",
+              "football-data",
+              "football-rules"
+            ],
+            "explicit_only_skills": []
+          },
+          "trigger_cost_tokens": {
+            "value": 449,
+            "band": "excessive",
+            "thresholds": {
+              "goodMax": 120,
+              "moderateMax": 260,
+              "heavyMax": 420
+            },
+            "components": [
+              {
+                "label": "plugin-description",
+                "path": "<workspace>/staging/Sports-Plugins/plugins/football/.codex-plugin/plugin.json",
+                "tokens": 51,
+                "note": "Plugin marketplace summary"
+              },
+              {
+                "label": "default-prompts",
+                "path": "<workspace>/staging/Sports-Plugins/plugins/football/.codex-plugin/plugin.json",
+                "tokens": 25,
+                "note": "Starter prompts visible in the UI"
+              },
+              {
+                "label": "football-analytics-description",
+                "path": "<workspace>/staging/Sports-Plugins/plugins/football/skills/football-analytics/SKILL.md",
+                "tokens": 110,
+                "note": "Skill trigger description exposed through the plugin"
+              },
+              {
+                "label": "football-data-description",
+                "path": "<workspace>/staging/Sports-Plugins/plugins/football/skills/football-data/SKILL.md",
+                "tokens": 121,
+                "note": "Skill trigger description exposed through the plugin"
+              },
+              {
+                "label": "football-rules-description",
+                "path": "<workspace>/staging/Sports-Plugins/plugins/football/skills/football-rules/SKILL.md",
+                "tokens": 142,
+                "note": "Skill trigger description exposed through the plugin"
+              }
+            ]
+          },
+          "invoke_cost_tokens": {
+            "value": 6390,
+            "band": "excessive",
+            "thresholds": {
+              "goodMax": 500,
+              "moderateMax": 1200,
+              "heavyMax": 2400
+            },
+            "components": [
+              {
+                "label": "plugin-manifest",
+                "path": "<workspace>/staging/Sports-Plugins/plugins/football/.codex-plugin/plugin.json",
+                "tokens": 334,
+                "note": "Manifest load cost"
+              },
+              {
+                "label": "football-analytics-skill-file",
+                "path": "<workspace>/staging/Sports-Plugins/plugins/football/skills/football-analytics/SKILL.md",
+                "tokens": 1978,
+                "note": "Implicit skill invocation cost ceiling"
+              },
+              {
+                "label": "football-data-skill-file",
+                "path": "<workspace>/staging/Sports-Plugins/plugins/football/skills/football-data/SKILL.md",
+                "tokens": 1461,
+                "note": "Implicit skill invocation cost ceiling"
+              },
+              {
+                "label": "football-rules-skill-file",
+                "path": "<workspace>/staging/Sports-Plugins/plugins/football/skills/football-rules/SKILL.md",
+                "tokens": 2617,
+                "note": "Implicit skill invocation cost ceiling"
+              }
+            ]
+          },
+          "deferred_cost_tokens": {
+            "value": 33593,
+            "band": "excessive",
+            "thresholds": {
+              "goodMax": 320,
+              "moderateMax": 900,
+              "heavyMax": 2200
+            },
+            "components": [
+              {
+                "label": ".claude-plugin/plugin.json",
+                "path": "<workspace>/staging/Sports-Plugins/plugins/football/.claude-plugin/plugin.json",
+                "tokens": 149,
+                "note": "Deferred supporting file"
+              },
+              {
+                "label": "README.md",
+                "path": "<workspace>/staging/Sports-Plugins/plugins/football/README.md",
+                "tokens": 450,
+                "note": "Deferred supporting file"
+              },
+              {
+                "label": "plugin.json",
+                "path": "<workspace>/staging/Sports-Plugins/plugins/football/plugin.json",
+                "tokens": 371,
+                "note": "Deferred supporting file"
+              },
+              {
+                "label": "skills/football-analytics/scripts/cfbfast.py",
+                "path": "<workspace>/staging/Sports-Plugins/plugins/football/skills/football-analytics/scripts/cfbfast.py",
+                "tokens": 4044,
+                "note": "Deferred supporting file"
+              },
+              {
+                "label": "skills/football-analytics/scripts/nflfast.py",
+                "path": "<workspace>/staging/Sports-Plugins/plugins/football/skills/football-analytics/scripts/nflfast.py",
+                "tokens": 3277,
+                "note": "Deferred supporting file"
+              },
+              {
+                "label": "skills/football-analytics/tests/fixtures/pbp_2024_BAL_KC_week1.csv",
+                "path": "<workspace>/staging/Sports-Plugins/plugins/football/skills/football-analytics/tests/fixtures/pbp_2024_BAL_KC_week1.csv",
+                "tokens": 5975,
+                "note": "Deferred supporting file"
+              },
+              {
+                "label": "skills/football-analytics/tests/fixtures/player_box_2024_texas_passing.csv",
+                "path": "<workspace>/staging/Sports-Plugins/plugins/football/skills/football-analytics/tests/fixtures/player_box_2024_texas_passing.csv",
+                "tokens": 372,
+                "note": "Deferred supporting file"
+              },
+              {
+                "label": "skills/football-analytics/tests/test_cfbfast.py",
+                "path": "<workspace>/staging/Sports-Plugins/plugins/football/skills/football-analytics/tests/test_cfbfast.py",
+                "tokens": 3666,
+                "note": "Deferred supporting file"
+              },
+              {
+                "label": "skills/football-analytics/tests/test_nflfast.py",
+                "path": "<workspace>/staging/Sports-Plugins/plugins/football/skills/football-analytics/tests/test_nflfast.py",
+                "tokens": 3514,
+                "note": "Deferred supporting file"
+              },
+              {
+                "label": "skills/football-rules/references/clock-and-overtime.md",
+                "path": "<workspace>/staging/Sports-Plugins/plugins/football/skills/football-rules/references/clock-and-overtime.md",
+                "tokens": 2533,
+                "note": "Deferred supporting file"
+              },
+              {
+                "label": "skills/football-rules/references/edge-cases.md",
+                "path": "<workspace>/staging/Sports-Plugins/plugins/football/skills/football-rules/references/edge-cases.md",
+                "tokens": 3915,
+                "note": "Deferred supporting file"
+              },
+              {
+                "label": "skills/football-rules/references/nfl-vs-ncaa.md",
+                "path": "<workspace>/staging/Sports-Plugins/plugins/football/skills/football-rules/references/nfl-vs-ncaa.md",
+                "tokens": 3892,
+                "note": "Deferred supporting file"
+              },
+              {
+                "label": "skills/football-rules/references/stats-and-scoring.md",
+                "path": "<workspace>/staging/Sports-Plugins/plugins/football/skills/football-rules/references/stats-and-scoring.md",
+                "tokens": 1435,
+                "note": "Deferred supporting file"
+              }
+            ]
+          },
+          "explicit_only_invoke_cost_tokens": {
+            "value": 0,
+            "band": "good",
+            "thresholds": {
+              "goodMax": 500,
+              "moderateMax": 1200,
+              "heavyMax": 2400
+            },
+            "components": []
+          },
+          "total_tokens": {
+            "value": 40432,
+            "band": "excessive"
+          }
+        },
+        "baselineEvidence": {
+          "skillSamples": 41,
+          "pluginSamples": 0,
+          "sourceRoots": [
+            "../../.codex/skills",
+            "../../.codex/plugins/cache/openai-curated",
+            "../../.codex/.tmp/plugins/plugins"
+          ]
+        }
+      }
+    },
+    {
+      "id": "py-per-file-analysis",
+      "type": "analysis",
+      "label": "Python per-file analysis",
+      "description": "Heuristic Python quality and complexity breakdown by file.",
+      "source": "core",
+      "data": {
+        "files": [
+          {
+            "path": "skills/football-analytics/scripts/cfbfast.py",
+            "functionCount": 19,
+            "complexity": 156,
+            "maxFunctionLength": 55,
+            "maxNesting": 15,
+            "longLines": 0
+          },
+          {
+            "path": "skills/football-analytics/scripts/nflfast.py",
+            "functionCount": 15,
+            "complexity": 130,
+            "maxFunctionLength": 58,
+            "maxNesting": 13,
+            "longLines": 1
+          },
+          {
+            "path": "skills/football-analytics/tests/test_cfbfast.py",
+            "functionCount": 36,
+            "complexity": 22,
+            "maxFunctionLength": 14,
+            "maxNesting": 14,
+            "longLines": 0
+          },
+          {
+            "path": "skills/football-analytics/tests/test_nflfast.py",
+            "functionCount": 41,
+            "complexity": 19,
+            "maxFunctionLength": 15,
+            "maxNesting": 11,
+            "longLines": 0
+          }
+        ]
+      }
+    },
+    {
+      "id": "measurement-plan",
+      "type": "measurement-plan",
+      "label": "Measurement plan",
+      "description": "Recommended toolsets for measuring the real-world effect of this skill or plugin.",
+      "source": "core",
+      "data": {
+        "recommendedToolsets": [
+          "token-usage-observer",
+          "task-outcome-scorecard",
+          "tool-call-audit",
+          "latency-efficiency"
+        ],
+        "toolsets": [
+          {
+            "id": "token-usage-observer",
+            "label": "Token Usage Observer",
+            "priority": "high",
+            "goal": "Measure how many tokens the skill or plugin actually burns in representative runs.",
+            "why": "Static estimates are useful guardrails, but observed usage is what tells you whether a real workflow is affordable and whether caching or reasoning changes the picture.",
+            "signals": [
+              "observed_usage_sample_count",
+              "observed_input_tokens_avg",
+              "observed_total_tokens_avg",
+              "estimate_vs_observed_input_ratio"
+            ],
+            "evidenceSources": [
+              "Responses API usage logs",
+              "Codex-like session exports",
+              "JSONL traces captured from local benchmarking harnesses"
+            ],
+            "starterPack": {
+              "manifestName": "token-usage-pack",
+              "focus": "Validate sample size, cold-start versus warm-cache behavior, and estimate drift over time."
+            }
+          },
+          {
+            "id": "task-outcome-scorecard",
+            "label": "Task Outcome Scorecard",
+            "priority": "high",
+            "goal": "Measure whether the skill helps users finish the intended job with fewer retries and less cleanup.",
+            "why": "A low-token skill is still a miss if it fails the task, and a verbose skill may be worth it if it consistently improves first-pass success.",
+            "signals": [
+              "task_success_rate",
+              "first_pass_success_rate",
+              "retry_rate",
+              "human_override_rate"
+            ],
+            "evidenceSources": [
+              "Task run logs",
+              "Structured user acceptance checklist",
+              "Before/after comparison runs on the same prompts"
+            ],
+            "starterPack": {
+              "manifestName": "task-outcomes-pack",
+              "focus": "Score success, retries, and manual intervention across a fixed prompt set."
+            }
+          },
+          {
+            "id": "tool-call-audit",
+            "label": "Tool Call Audit",
+            "priority": "high",
+            "goal": "Check whether the agent uses the right tools, arguments, and sequencing when the skill is active.",
+            "why": "For Codex plugins and many higher-agency skills, tool correctness is often the real determinant of user value.",
+            "signals": [
+              "tool_call_success_rate",
+              "invalid_tool_argument_rate",
+              "recoverable_tool_failure_rate"
+            ],
+            "evidenceSources": [
+              "Tool invocation traces",
+              "Recorded sessions",
+              "Golden-path scenario replays"
+            ],
+            "starterPack": {
+              "manifestName": "tool-audit-pack",
+              "focus": "Flag wrong tool selection, malformed args, and missing follow-up calls."
+            }
+          },
+          {
+            "id": "latency-efficiency",
+            "label": "Latency And Efficiency",
+            "priority": "high",
+            "goal": "Track whether the skill speeds users up enough to justify its cost.",
+            "why": "DX improvements usually win when they reduce waiting or rework, not only when they reduce absolute token counts.",
+            "signals": [
+              "p50_time_to_first_acceptable_answer_seconds",
+              "p95_time_to_task_completion_seconds",
+              "tokens_per_successful_run"
+            ],
+            "evidenceSources": [
+              "Benchmark harness timings",
+              "Manual stopwatch runs on canonical tasks",
+              "Responses API timestamps combined with usage logs"
+            ],
+            "starterPack": {
+              "manifestName": "latency-efficiency-pack",
+              "focus": "Measure time-to-value and cost-per-success on a stable prompt suite."
+            }
+          },
+          {
+            "id": "human-rubric-review",
+            "label": "Human Rubric Review",
+            "priority": "medium",
+            "goal": "Capture clarity, trust, and usefulness signals that automated checks will miss.",
+            "why": "The best skills often reduce confusion and editing effort in ways that do not show up in static lint-like checks.",
+            "signals": [
+              "clarity_score_avg",
+              "confidence_score_avg",
+              "follow_up_question_rate"
+            ],
+            "evidenceSources": [
+              "Reviewer scorecards",
+              "Team rubric sheets",
+              "Annotated transcripts"
+            ],
+            "starterPack": {
+              "manifestName": "human-rubric-pack",
+              "focus": "Collect 1 to 5 scores for clarity, trust, and edit burden across a small evaluator panel."
+            }
+          },
+          {
+            "id": "regression-suite",
+            "label": "Regression Suite",
+            "priority": "medium",
+            "goal": "Protect the repository behavior that the skill is supposed to improve.",
+            "why": "If a skill is meant to help coding workflows, outcomes should be paired with deterministic repo checks so quality gains do not come from cutting corners.",
+            "signals": [
+              "test_pass_rate",
+              "lint_pass_rate",
+              "regression_escape_count"
+            ],
+            "evidenceSources": [
+              "Unit and integration test runs",
+              "Coverage deltas",
+              "Snapshot or golden-file checks"
+            ],
+            "starterPack": {
+              "manifestName": "regression-pack",
+              "focus": "Blend repository test outcomes with evaluation-task success metrics."
+            }
+          }
+        ]
+      }
+    }
+  ],
+  "extensions": [],
+  "measurementPlan": {
+    "kind": "measurement-plan",
+    "createdAt": "2026-10-31T09:34:14.346Z",
+    "target": {
+      "kind": "plugin",
+      "path": "<workspace>/staging/Sports-Plugins/plugins/football",
+      "entryPath": "<workspace>/staging/Sports-Plugins/plugins/football/.codex-plugin/plugin.json",
+      "name": "football",
+      "relativePath": "staging/Sports-Plugins/plugins/football"
+    },
+    "title": "Measurement plan for football",
+    "summary": "Combine cost, outcome, and trust signals so you can tell whether the skill or plugin is genuinely helping instead of only looking well-structured on paper.",
+    "recommendedToolsets": [
+      "token-usage-observer",
+      "task-outcome-scorecard",
+      "tool-call-audit",
+      "latency-efficiency"
+    ],
+    "toolsets": [
+      {
+        "id": "token-usage-observer",
+        "label": "Token Usage Observer",
+        "priority": "high",
+        "goal": "Measure how many tokens the skill or plugin actually burns in representative runs.",
+        "why": "Static estimates are useful guardrails, but observed usage is what tells you whether a real workflow is affordable and whether caching or reasoning changes the picture.",
+        "signals": [
+          "observed_usage_sample_count",
+          "observed_input_tokens_avg",
+          "observed_total_tokens_avg",
+          "estimate_vs_observed_input_ratio"
+        ],
+        "evidenceSources": [
+          "Responses API usage logs",
+          "Codex-like session exports",
+          "JSONL traces captured from local benchmarking harnesses"
+        ],
+        "starterPack": {
+          "manifestName": "token-usage-pack",
+          "focus": "Validate sample size, cold-start versus warm-cache behavior, and estimate drift over time."
+        }
+      },
+      {
+        "id": "task-outcome-scorecard",
+        "label": "Task Outcome Scorecard",
+        "priority": "high",
+        "goal": "Measure whether the skill helps users finish the intended job with fewer retries and less cleanup.",
+        "why": "A low-token skill is still a miss if it fails the task, and a verbose skill may be worth it if it consistently improves first-pass success.",
+        "signals": [
+          "task_success_rate",
+          "first_pass_success_rate",
+          "retry_rate",
+          "human_override_rate"
+        ],
+        "evidenceSources": [
+          "Task run logs",
+          "Structured user acceptance checklist",
+          "Before/after comparison runs on the same prompts"
+        ],
+        "starterPack": {
+          "manifestName": "task-outcomes-pack",
+          "focus": "Score success, retries, and manual intervention across a fixed prompt set."
+        }
+      },
+      {
+        "id": "tool-call-audit",
+        "label": "Tool Call Audit",
+        "priority": "high",
+        "goal": "Check whether the agent uses the right tools, arguments, and sequencing when the skill is active.",
+        "why": "For Codex plugins and many higher-agency skills, tool correctness is often the real determinant of user value.",
+        "signals": [
+          "tool_call_success_rate",
+          "invalid_tool_argument_rate",
+          "recoverable_tool_failure_rate"
+        ],
+        "evidenceSources": [
+          "Tool invocation traces",
+          "Recorded sessions",
+          "Golden-path scenario replays"
+        ],
+        "starterPack": {
+          "manifestName": "tool-audit-pack",
+          "focus": "Flag wrong tool selection, malformed args, and missing follow-up calls."
+        }
+      },
+      {
+        "id": "latency-efficiency",
+        "label": "Latency And Efficiency",
+        "priority": "high",
+        "goal": "Track whether the skill speeds users up enough to justify its cost.",
+        "why": "DX improvements usually win when they reduce waiting or rework, not only when they reduce absolute token counts.",
+        "signals": [
+          "p50_time_to_first_acceptable_answer_seconds",
+          "p95_time_to_task_completion_seconds",
+          "tokens_per_successful_run"
+        ],
+        "evidenceSources": [
+          "Benchmark harness timings",
+          "Manual stopwatch runs on canonical tasks",
+          "Responses API timestamps combined with usage logs"
+        ],
+        "starterPack": {
+          "manifestName": "latency-efficiency-pack",
+          "focus": "Measure time-to-value and cost-per-success on a stable prompt suite."
+        }
+      },
+      {
+        "id": "human-rubric-review",
+        "label": "Human Rubric Review",
+        "priority": "medium",
+        "goal": "Capture clarity, trust, and usefulness signals that automated checks will miss.",
+        "why": "The best skills often reduce confusion and editing effort in ways that do not show up in static lint-like checks.",
+        "signals": [
+          "clarity_score_avg",
+          "confidence_score_avg",
+          "follow_up_question_rate"
+        ],
+        "evidenceSources": [
+          "Reviewer scorecards",
+          "Team rubric sheets",
+          "Annotated transcripts"
+        ],
+        "starterPack": {
+          "manifestName": "human-rubric-pack",
+          "focus": "Collect 1 to 5 scores for clarity, trust, and edit burden across a small evaluator panel."
+        }
+      },
+      {
+        "id": "regression-suite",
+        "label": "Regression Suite",
+        "priority": "medium",
+        "goal": "Protect the repository behavior that the skill is supposed to improve.",
+        "why": "If a skill is meant to help coding workflows, outcomes should be paired with deterministic repo checks so quality gains do not come from cutting corners.",
+        "signals": [
+          "test_pass_rate",
+          "lint_pass_rate",
+          "regression_escape_count"
+        ],
+        "evidenceSources": [
+          "Unit and integration test runs",
+          "Coverage deltas",
+          "Snapshot or golden-file checks"
+        ],
+        "starterPack": {
+          "manifestName": "regression-pack",
+          "focus": "Blend repository test outcomes with evaluation-task success metrics."
+        }
+      }
+    ],
+    "artifact": {
+      "id": "measurement-plan",
+      "type": "measurement-plan",
+      "label": "Measurement plan",
+      "description": "Recommended toolsets for measuring the real-world effect of this skill or plugin.",
+      "source": "core",
+      "data": {
+        "recommendedToolsets": [
+          "token-usage-observer",
+          "task-outcome-scorecard",
+          "tool-call-audit",
+          "latency-efficiency"
+        ],
+        "toolsets": [
+          {
+            "id": "token-usage-observer",
+            "label": "Token Usage Observer",
+            "priority": "high",
+            "goal": "Measure how many tokens the skill or plugin actually burns in representative runs.",
+            "why": "Static estimates are useful guardrails, but observed usage is what tells you whether a real workflow is affordable and whether caching or reasoning changes the picture.",
+            "signals": [
+              "observed_usage_sample_count",
+              "observed_input_tokens_avg",
+              "observed_total_tokens_avg",
+              "estimate_vs_observed_input_ratio"
+            ],
+            "evidenceSources": [
+              "Responses API usage logs",
+              "Codex-like session exports",
+              "JSONL traces captured from local benchmarking harnesses"
+            ],
+            "starterPack": {
+              "manifestName": "token-usage-pack",
+              "focus": "Validate sample size, cold-start versus warm-cache behavior, and estimate drift over time."
+            }
+          },
+          {
+            "id": "task-outcome-scorecard",
+            "label": "Task Outcome Scorecard",
+            "priority": "high",
+            "goal": "Measure whether the skill helps users finish the intended job with fewer retries and less cleanup.",
+            "why": "A low-token skill is still a miss if it fails the task, and a verbose skill may be worth it if it consistently improves first-pass success.",
+            "signals": [
+              "task_success_rate",
+              "first_pass_success_rate",
+              "retry_rate",
+              "human_override_rate"
+            ],
+            "evidenceSources": [
+              "Task run logs",
+              "Structured user acceptance checklist",
+              "Before/after comparison runs on the same prompts"
+            ],
+            "starterPack": {
+              "manifestName": "task-outcomes-pack",
+              "focus": "Score success, retries, and manual intervention across a fixed prompt set."
+            }
+          },
+          {
+            "id": "tool-call-audit",
+            "label": "Tool Call Audit",
+            "priority": "high",
+            "goal": "Check whether the agent uses the right tools, arguments, and sequencing when the skill is active.",
+            "why": "For Codex plugins and many higher-agency skills, tool correctness is often the real determinant of user value.",
+            "signals": [
+              "tool_call_success_rate",
+              "invalid_tool_argument_rate",
+              "recoverable_tool_failure_rate"
+            ],
+            "evidenceSources": [
+              "Tool invocation traces",
+              "Recorded sessions",
+              "Golden-path scenario replays"
+            ],
+            "starterPack": {
+              "manifestName": "tool-audit-pack",
+              "focus": "Flag wrong tool selection, malformed args, and missing follow-up calls."
+            }
+          },
+          {
+            "id": "latency-efficiency",
+            "label": "Latency And Efficiency",
+            "priority": "high",
+            "goal": "Track whether the skill speeds users up enough to justify its cost.",
+            "why": "DX improvements usually win when they reduce waiting or rework, not only when they reduce absolute token counts.",
+            "signals": [
+              "p50_time_to_first_acceptable_answer_seconds",
+              "p95_time_to_task_completion_seconds",
+              "tokens_per_successful_run"
+            ],
+            "evidenceSources": [
+              "Benchmark harness timings",
+              "Manual stopwatch runs on canonical tasks",
+              "Responses API timestamps combined with usage logs"
+            ],
+            "starterPack": {
+              "manifestName": "latency-efficiency-pack",
+              "focus": "Measure time-to-value and cost-per-success on a stable prompt suite."
+            }
+          },
+          {
+            "id": "human-rubric-review",
+            "label": "Human Rubric Review",
+            "priority": "medium",
+            "goal": "Capture clarity, trust, and usefulness signals that automated checks will miss.",
+            "why": "The best skills often reduce confusion and editing effort in ways that do not show up in static lint-like checks.",
+            "signals": [
+              "clarity_score_avg",
+              "confidence_score_avg",
+              "follow_up_question_rate"
+            ],
+            "evidenceSources": [
+              "Reviewer scorecards",
+              "Team rubric sheets",
+              "Annotated transcripts"
+            ],
+            "starterPack": {
+              "manifestName": "human-rubric-pack",
+              "focus": "Collect 1 to 5 scores for clarity, trust, and edit burden across a small evaluator panel."
+            }
+          },
+          {
+            "id": "regression-suite",
+            "label": "Regression Suite",
+            "priority": "medium",
+            "goal": "Protect the repository behavior that the skill is supposed to improve.",
+            "why": "If a skill is meant to help coding workflows, outcomes should be paired with deterministic repo checks so quality gains do not come from cutting corners.",
+            "signals": [
+              "test_pass_rate",
+              "lint_pass_rate",
+              "regression_escape_count"
+            ],
+            "evidenceSources": [
+              "Unit and integration test runs",
+              "Coverage deltas",
+              "Snapshot or golden-file checks"
+            ],
+            "starterPack": {
+              "manifestName": "regression-pack",
+              "focus": "Blend repository test outcomes with evaluation-task success metrics."
+            }
+          }
+        ]
+      }
+    },
+    "nextAction": {
+      "label": "Start with Token Usage Observer",
+      "why": "Measure how many tokens the skill or plugin actually burns in representative runs.",
+      "command": "plugin-eval start ~/Documents/sports-plugin-upgrade-20261031/staging/Sports-Plugins/plugins/football --request 'What should I run next?' --format markdown",
+      "chatPrompt": "What should I run next?",
+      "toolsetId": "token-usage-observer"
+    }
+  },
+  "improvementBrief": {
+    "title": "Improve football",
+    "target": {
+      "kind": "plugin",
+      "path": "<workspace>/staging/Sports-Plugins/plugins/football",
+      "entryPath": "<workspace>/staging/Sports-Plugins/plugins/football/.codex-plugin/plugin.json",
+      "name": "football",
+      "relativePath": "staging/Sports-Plugins/plugins/football"
+    },
+    "summary": "Raise the evaluation from grade F (21/100) with a focus on the highest-signal structural and budget issues first.",
+    "goals": [
+      "Add interface.privacyPolicyURL to plugin.json.",
+      "Add interface.termsOfServiceURL to plugin.json.",
+      "Reduce repeated instruction text and move detail into deferred supporting files."
+    ],
+    "measurementGoals": [
+      "token-usage-observer",
+      "task-outcome-scorecard",
+      "tool-call-audit",
+      "latency-efficiency"
+    ],
+    "requiredFixes": [
+      {
+        "id": "interface-missing-privacyPolicyURL",
+        "message": "plugin.json interface is missing `privacyPolicyURL`.",
+        "remediation": [
+          "Add interface.privacyPolicyURL to plugin.json."
+        ]
+      },
+      {
+        "id": "interface-missing-termsOfServiceURL",
+        "message": "plugin.json interface is missing `termsOfServiceURL`.",
+        "remediation": [
+          "Add interface.termsOfServiceURL to plugin.json."
+        ]
+      },
+      {
+        "id": "trigger_cost_tokens-budget-high",
+        "message": "trigger_cost_tokens is excessive relative to the current Codex baseline.",
+        "remediation": [
+          "Reduce repeated instruction text and move detail into deferred supporting files."
+        ]
+      },
+      {
+        "id": "invoke_cost_tokens-budget-high",
+        "message": "invoke_cost_tokens is excessive relative to the current Codex baseline.",
+        "remediation": [
+          "Reduce repeated instruction text and move detail into deferred supporting files."
+        ]
+      },
+      {
+        "id": "deferred_cost_tokens-budget-high",
+        "message": "deferred_cost_tokens is excessive relative to the current Codex baseline.",
+        "remediation": [
+          "Reduce repeated instruction text and move detail into deferred supporting files."
+        ]
+      }
+    ],
+    "recommendedFixes": [
+      {
+        "id": "py-complexity-high",
+        "message": "At least one Python function has high cyclomatic complexity.",
+        "remediation": [
+          "Split complex functions into smaller helpers or guard clauses."
+        ]
+      },
+      {
+        "id": "py-long-lines",
+        "message": "Some Python lines exceed 120 characters.",
+        "remediation": [
+          "Wrap long expressions and keep docstrings or SQL fragments easier to scan."
+        ]
+      }
+    ],
+    "suggestedPrompt": "Use the skill-creator guidance to improve football. Keep the structure compact and move bulky details into references or scripts. Define success measures with these toolsets: token-usage-observer, task-outcome-scorecard, tool-call-audit, latency-efficiency. Address interface-missing-privacyPolicyURL: plugin.json interface is missing `privacyPolicyURL`. Address interface-missing-termsOfServiceURL: plugin.json interface is missing `termsOfServiceURL`. Address trigger_cost_tokens-budget-high: trigger_cost_tokens is excessive relative to the current Codex baseline. Address invoke_cost_tokens-budget-high: invoke_cost_tokens is excessive relative to the current Codex baseline. Address deferred_cost_tokens-budget-high: deferred_cost_tokens is excessive relative to the current Codex baseline. Address py-complexity-high: At least one Python function has high cyclomatic complexity. Address py-long-lines: Some Python lines exceed 120 characters."
+  },
+  "nextAction": {
+    "label": "Fix structural issues first",
+    "why": "Failing manifest or skill structure issues reduce trust and can invalidate later measurements.",
+    "command": "plugin-eval start ~/Documents/sports-plugin-upgrade-20261031/staging/Sports-Plugins/plugins/football --request 'What should I fix first?' --format markdown",
+    "chatPrompt": "What should I fix first?"
+  },
+  "workflowGuide": {
+    "kind": "workflow-guide",
+    "createdAt": "2026-10-31T09:34:14.348Z",
+    "target": {
+      "kind": "plugin",
+      "path": "<workspace>/staging/Sports-Plugins/plugins/football",
+      "entryPath": "<workspace>/staging/Sports-Plugins/plugins/football/.codex-plugin/plugin.json",
+      "name": "football",
+      "relativePath": "staging/Sports-Plugins/plugins/football"
+    },
+    "requestedGoal": "evaluate",
+    "requestedChatPrompt": null,
+    "requestRouting": null,
+    "recommendedWorkflowId": "evaluate",
+    "recommendedWorkflow": {
+      "id": "evaluate",
+      "label": "Evaluate Plugin",
+      "chatPrompt": "Evaluate this plugin.",
+      "summary": "Start here when you want the overall report for a plugin, including structure, budgets, and code checks.",
+      "firstCommand": "plugin-eval analyze ~/Documents/sports-plugin-upgrade-20261031/staging/Sports-Plugins/plugins/football --format markdown",
+      "commands": [
+        "plugin-eval analyze ~/Documents/sports-plugin-upgrade-20261031/staging/Sports-Plugins/plugins/football --format markdown"
+      ],
+      "startCommand": "plugin-eval start ~/Documents/sports-plugin-upgrade-20261031/staging/Sports-Plugins/plugins/football --request 'Evaluate this plugin.' --format markdown"
+    },
+    "workflowStatus": {
+      "hasBenchmarkConfig": false,
+      "hasUsageLog": false
+    },
+    "beginnerSummary": "Start with a natural chat request, then let plugin-eval show the exact local command sequence behind it.",
+    "startHere": {
+      "chatPrompt": "Evaluate this plugin.",
+      "label": "Evaluate Plugin",
+      "summary": "Start here when you want the overall report for a plugin, including structure, budgets, and code checks.",
+      "routingExplanation": "Plugin Eval recommended Evaluate Plugin from the current local state for this plugin.",
+      "startCommand": "plugin-eval start ~/Documents/sports-plugin-upgrade-20261031/staging/Sports-Plugins/plugins/football --request 'Evaluate this plugin.' --format markdown",
+      "firstCommand": "plugin-eval analyze ~/Documents/sports-plugin-upgrade-20261031/staging/Sports-Plugins/plugins/football --format markdown",
+      "commands": [
+        "plugin-eval analyze ~/Documents/sports-plugin-upgrade-20261031/staging/Sports-Plugins/plugins/football --format markdown"
+      ]
+    },
+    "entrypoints": [
+      {
+        "id": "analysis",
+        "label": "Full Plugin Analysis",
+        "chatPrompt": "Give me a full analysis of this plugin, including benchmark setup.",
+        "summary": "Use this when you want the full report and starter benchmark setup for this plugin in one guided path.",
+        "firstCommand": "plugin-eval analyze ~/Documents/sports-plugin-upgrade-20261031/staging/Sports-Plugins/plugins/football --format markdown",
+        "commands": [
+          "plugin-eval analyze ~/Documents/sports-plugin-upgrade-20261031/staging/Sports-Plugins/plugins/football --format markdown",
+          "plugin-eval init-benchmark ~/Documents/sports-plugin-upgrade-20261031/staging/Sports-Plugins/plugins/football",
+          "plugin-eval benchmark ~/Documents/sports-plugin-upgrade-20261031/staging/Sports-Plugins/plugins/football --config ~/Documents/sports-plugin-upgrade-20261031/staging/Sports-Plugins/plugins/football/.plugin-eval/benchmark.json"
+        ],
+        "startCommand": "plugin-eval start ~/Documents/sports-plugin-upgrade-20261031/staging/Sports-Plugins/plugins/football --request 'Give me a full analysis of this plugin, including benchmark setup.' --format markdown"
+      },
+      {
+        "id": "evaluate",
+        "label": "Evaluate Plugin",
+        "chatPrompt": "Evaluate this plugin.",
+        "summary": "Start here when you want the overall report for a plugin, including structure, budgets, and code checks.",
+        "firstCommand": "plugin-eval analyze ~/Documents/sports-plugin-upgrade-20261031/staging/Sports-Plugins/plugins/football --format markdown",
+        "commands": [
+          "plugin-eval analyze ~/Documents/sports-plugin-upgrade-20261031/staging/Sports-Plugins/plugins/football --format markdown"
+        ],
+        "startCommand": "plugin-eval start ~/Documents/sports-plugin-upgrade-20261031/staging/Sports-Plugins/plugins/football --request 'Evaluate this plugin.' --format markdown"
+      },
+      {
+        "id": "budget",
+        "label": "Explain Token Budget",
+        "chatPrompt": "Explain the token budget for this plugin.",
+        "summary": "Use this when the main question is why the plugin feels expensive before you collect any live measurements.",
+        "firstCommand": "plugin-eval explain-budget ~/Documents/sports-plugin-upgrade-20261031/staging/Sports-Plugins/plugins/football --format markdown",
+        "commands": [
+          "plugin-eval explain-budget ~/Documents/sports-plugin-upgrade-20261031/staging/Sports-Plugins/plugins/football --format markdown"
+        ],
+        "startCommand": "plugin-eval start ~/Documents/sports-plugin-upgrade-20261031/staging/Sports-Plugins/plugins/football --request 'Explain the token budget for this plugin.' --format markdown"
+      },
+      {
+        "id": "measure",
+        "label": "Measure Real Token Usage",
+        "chatPrompt": "Measure the real token usage of this plugin.",
+        "summary": "Use this when you want real token usage instead of only the static estimate.",
+        "firstCommand": "plugin-eval init-benchmark ~/Documents/sports-plugin-upgrade-20261031/staging/Sports-Plugins/plugins/football",
+        "commands": [
+          "plugin-eval init-benchmark ~/Documents/sports-plugin-upgrade-20261031/staging/Sports-Plugins/plugins/football",
+          "plugin-eval benchmark ~/Documents/sports-plugin-upgrade-20261031/staging/Sports-Plugins/plugins/football --config ~/Documents/sports-plugin-upgrade-20261031/staging/Sports-Plugins/plugins/football/.plugin-eval/benchmark.json",
+          "plugin-eval analyze ~/Documents/sports-plugin-upgrade-20261031/staging/Sports-Plugins/plugins/football --observed-usage ~/Documents/sports-plugin-upgrade-20261031/staging/Sports-Plugins/plugins/football/.plugin-eval/benchmark-usage.jsonl --format markdown"
+        ],
+        "startCommand": "plugin-eval start ~/Documents/sports-plugin-upgrade-20261031/staging/Sports-Plugins/plugins/football --request 'Measure the real token usage of this plugin.' --format markdown"
+      },
+      {
+        "id": "benchmark",
+        "label": "Benchmark With Starter Scenarios",
+        "chatPrompt": "Help me benchmark this plugin.",
+        "summary": "Use this when you want starter scenarios and a repeatable real-Codex benchmark run for this plugin.",
+        "firstCommand": "plugin-eval init-benchmark ~/Documents/sports-plugin-upgrade-20261031/staging/Sports-Plugins/plugins/football",
+        "commands": [
+          "plugin-eval init-benchmark ~/Documents/sports-plugin-upgrade-20261031/staging/Sports-Plugins/plugins/football"
+        ],
+        "startCommand": "plugin-eval start ~/Documents/sports-plugin-upgrade-20261031/staging/Sports-Plugins/plugins/football --request 'Help me benchmark this plugin.' --format markdown"
+      },
+      {
+        "id": "next",
+        "label": "Start Here",
+        "chatPrompt": "What should I run next?",
+        "summary": "If you are new to plugin-eval, start with the overall evaluation report for this plugin.",
+        "firstCommand": "plugin-eval analyze ~/Documents/sports-plugin-upgrade-20261031/staging/Sports-Plugins/plugins/football --format markdown",
+        "commands": [
+          "plugin-eval analyze ~/Documents/sports-plugin-upgrade-20261031/staging/Sports-Plugins/plugins/football --format markdown"
+        ],
+        "startCommand": "plugin-eval start ~/Documents/sports-plugin-upgrade-20261031/staging/Sports-Plugins/plugins/football --request 'What should I run next?' --format markdown"
+      }
+    ],
+    "nextSteps": [
+      "plugin-eval analyze ~/Documents/sports-plugin-upgrade-20261031/staging/Sports-Plugins/plugins/football --format markdown"
+    ],
+    "nextAction": {
+      "label": "Evaluate Plugin",
+      "why": "Plugin Eval recommended Evaluate Plugin from the current local state for this plugin.",
+      "command": "plugin-eval analyze ~/Documents/sports-plugin-upgrade-20261031/staging/Sports-Plugins/plugins/football --format markdown",
+      "chatPrompt": "Evaluate this plugin."
+    }
+  }
+}

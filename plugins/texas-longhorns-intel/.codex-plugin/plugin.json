@@ -1,7 +1,7 @@
 {
   "name": "texas-longhorns-intel",
-  "version": "0.2.0",
-  "description": "Texas Longhorns baseball intelligence — program doctrine plus live sabermetrics. Scouting reports, SEC matchup previews, roster evaluation, NIL efficiency analysis, historical framing. Depends on cbb-sabermetrics for live data access.",
+  "version": "0.3.0",
+  "description": "Source-attributed Texas baseball scouting, opponent previews and editorial briefings.",
   "author": {
     "name": "Austin Humphrey",
     "email": "john.humphrey@blazesportsintel.com",
@@ -22,12 +22,12 @@
   ],
   "skills": "./skills/",
   "dependencies": {
-    "cbb-sabermetrics": "^0.1.0"
+    "cbb-sabermetrics": "^0.3.0"
   },
   "interface": {
     "displayName": "Texas Longhorns Baseball Intel",
-    "shortDescription": "Texas baseball scouting, matchup previews, NIL analysis",
-    "longDescription": "Use Texas Longhorns Baseball Intel for Texas-specific college baseball analysis that combines stable program doctrine (six CWS titles, 38 CWS appearances, UFCU Disch-Falk context, Jim Schlossnagle era) with live sabermetrics data from the cbb-sabermetrics plugin. Produces scouting reports on Texas and its SEC opponents, pre-series matchup previews, roster evaluation with HAV-F scoring, NIL-to-performance efficiency analysis, and historical comparative framing. Every current-season claim verified against the BSI MCP — no fabrication.",
+    "shortDescription": "Source-attributed Texas baseball scouting, opponent previews and editorial briefings.",
+    "longDescription": "Source-attributed Texas baseball scouting, opponent previews and editorial briefings. Live data is read-only and may be incomplete; no calibrated forecasts or automatic publication are supplied.",
     "developerName": "Austin Humphrey / Blaze Sports Intel",
     "category": "Scouting",
     "capabilities": [

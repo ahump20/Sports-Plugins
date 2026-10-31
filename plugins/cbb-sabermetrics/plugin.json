@@ -1,0 +1,47 @@
+{
+  "$schema": "https://agent-plugins.org/schemas/1.0.0/plugin.schema.json",
+  "name": "cbb-sabermetrics",
+  "version": "0.3.0",
+  "description": "Source-attributed NCAA baseball observations and explicit-input metric interpretation.",
+  "author": {
+    "name": "Austin Humphrey",
+    "email": "john.humphrey@blazesportsintel.com",
+    "url": "https://blazesportsintel.com"
+  },
+  "repository": "https://github.com/ahump20/Sports-Plugins",
+  "license": "MIT",
+  "keywords": [
+    "college-baseball",
+    "ncaa",
+    "sabermetrics",
+    "mcp",
+    "woba",
+    "wrc-plus",
+    "fip",
+    "babip",
+    "power-index",
+    "sos"
+  ],
+  "extensions": {
+    "com.openai": {
+      "interface": {
+        "displayName": "College Baseball Sabermetrics",
+        "shortDescription": "Source-attributed NCAA baseball observations and explicit-input metric interpretation.",
+        "longDescription": "Source-attributed NCAA baseball observations and explicit-input metric interpretation. Live data is read-only and may be incomplete; no calibrated forecasts or automatic publication are supplied.",
+        "developerName": "Austin Humphrey / Blaze Sports Intel",
+        "category": "Analytics",
+        "capabilities": [
+          "Read",
+          "Interactive"
+        ],
+        "websiteURL": "https://blazesportsintel.com",
+        "privacyPolicyURL": "https://blazesportsintel.com/privacy",
+        "termsOfServiceURL": "https://blazesportsintel.com/terms",
+        "defaultPrompt": "Pull the current SEC standings and this week's Top 25.",
+        "brandColor": "#BF5700",
+        "composerIcon": "./assets/icon-small.svg",
+        "screenshots": []
+      }
+    }
+  }
+}

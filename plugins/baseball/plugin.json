@@ -1,0 +1,37 @@
+{
+  "$schema": "https://agent-plugins.org/schemas/1.0.0/plugin.schema.json",
+  "name": "baseball",
+  "version": "1.0.1",
+  "description": "Baseball fundamentals: rules and scoring, wOBA, wRC+, FIP and sample-size reliability computed by a tested script with FanGraphs constants, MLB and college run environments, and free data sources.",
+  "author": {
+    "name": "Austin Humphrey",
+    "url": "https://github.com/ahump20/Sports-Plugins"
+  },
+  "repository": "https://github.com/ahump20/Sports-Plugins",
+  "license": "MIT",
+  "keywords": [
+    "baseball",
+    "mlb",
+    "college-baseball",
+    "sabermetrics",
+    "woba",
+    "fip",
+    "statcast"
+  ],
+  "extensions": {
+    "com.openai": {
+      "interface": {
+        "displayName": "Baseball",
+        "shortDescription": "Baseball rules, wOBA, wRC+ and FIP from a tested script, and free MLB and college data sources",
+        "developerName": "Austin Humphrey",
+        "category": "Analytics",
+        "capabilities": [
+          "Read"
+        ],
+        "defaultPrompt": "Rule this play under MLB rules, then compute Ohtani's 2024 wOBA and wRC+.",
+        "longDescription": "Baseball fundamentals: rules and scoring, wOBA, wRC+, FIP and sample-size reliability computed by a tested script with FanGraphs constants, MLB and college run environments, and free data sources.",
+        "websiteURL": "https://github.com/ahump20/Sports-Plugins"
+      }
+    }
+  }
+}
