@@ -1,118 +1,27 @@
-# texas-longhorns-intel
+# Texas Longhorns Intelligence
 
-**Texas Longhorns baseball intelligence — program doctrine plus live sabermetrics. Built on top of [`cbb-sabermetrics`](../cbb-sabermetrics/).**
+Source-attributed Texas baseball scouting, opponent previews and one-time editorial briefings.
 
-Scouting reports, SEC matchup previews, roster evaluation with HAV-F scoring, NIL efficiency analysis, pre-series opponent briefs, and weekly intelligence digests. Every current-season claim verified against the live BSI MCP — no fabrication.
+Version 0.3.0 includes portable, Claude Code and Codex manifests. The workflows distinguish observations, interpretation and editorial opinion. They do not promise calibrated forecasts, complete rosters, NIL valuations or automatic publication.
 
-## Install
+## Use
 
-**Claude Code:**
+Install from the Sports-Plugins marketplace. Texas intelligence uses the cbb-sabermetrics live connection. The college calculation path additionally uses the baseball plugin's tested Python helper; install that dependency before claiming a calculation ran. Standalone review packages preserve these dependencies explicitly in documentation.
+
+The BSI connection is read-only. Discover available tools before calling them. The October 31, 2026 catalog contained scoreboard, standings, rankings, player statistics, team schedule, match detail and intelligence search. Required tool inputs and result coverage must be checked at runtime. No fixed rate-limit guarantee is made by this package.
+
+## Boundaries
+
+A fresh fetch is not a current season. Missing data remains unavailable. An HTTP success does not establish source truth. No skill in this package independently calibrates a power index, psychological score, championship model or player compensation model. Legacy command names are retained where useful, with corrected descriptive behavior.
+
+Use the optional gameday-ops and editorial-desk plugins for executable game packets and evidence-ledger checks. The companion [Texas analytical library](https://github.com/ahump20/Texas-Longhorns-Baseball-Intelligence) provides an actual HTTP source-packet CLI; it is a separate install, not bundled here.
+
+## Verification
+
+Run repository `npm run check`, `claude plugin validate .`, and the skill-specific tests. The repository verification record documents static evaluation limits and real endpoint observations. Standalone archives include the runtime components, not the full repository evidence archive.
+
+## Claude Code installation
+
+```text
+/plugin install texas-longhorns-intel --marketplace ahump20/Sports-Plugins
 ```
-/plugin marketplace add ahump20/Sports-Plugins
-/plugin install cbb-sabermetrics@Sports-Plugins
-/plugin install texas-longhorns-intel@Sports-Plugins
-```
-
-**Codex CLI:**
-```
-codex plugins add ahump20/Sports-Plugins
-codex plugins install cbb-sabermetrics
-codex plugins install texas-longhorns-intel
-```
-
-Plugin automatically resolves the `cbb-sabermetrics` dependency.
-
-## Why This Exists
-
-Texas baseball operates under a national championship standard — six CWS titles, 38 CWS appearances, 100+ MLB draft picks — and under current SEC conditions (joined 2024, Jim Schlossnagle head coach 2025-present). Generic college baseball analysis misses Texas-specific context: UFCU Disch-Falk Field park factors, SEC-era recalibration, NIL collective dynamics, Austin recruiting market. This plugin handles that context so the analysis is Texas-literate from the first sentence.
-
-## What You Get
-
-### 1 Agent
-
-- **`texas-longhorns-baseball-intelligence`** — dispatches Texas-specific baseball questions with the program doctrine layer and live MCP data. Classifies requests into historical / live / mixed / analytical. Selects the right output mode. Enforces source discipline.
-
-### 1 Skill (substantial)
-
-- **`texas-longhorns-baseball-intelligence`** — the full operating system. Contains:
-  - **Program identity layer** (history, coaching, venue, recruiting, Schlossnagle era)
-  - **Live data layer** (7 MCP tools with selection heuristics)
-  - **6 analytical frameworks** (HAV-F, MMI, Park Factors, Conference Strength, Leverage, Program Comparison)
-  - **8-dimension comparison framework** for Texas vs any program
-  - **NIL Efficiency framework** with HAV-F-to-NIL quadrant analysis
-  - **8 output modes** (opsBriefing, internalMeeting, scoutingReport, editorialPiece, socialClip, hubContent, weeklyDigest, pressConferencePrep)
-  - **Audience routing** (Austin, fans, coaches, NIL front offices, researchers)
-
-### 3 Slash Commands
-
-- **`/texas-digest`** — weekly Texas baseball intelligence digest with conference position, recent results, upcoming schedule, analytical read.
-- **`/texas-matchup <opponent>`** — pre-series matchup preview using Opponent Intelligence framework. Park context, conference context from standings, edge breakdown.
-- **`/texas-scout`** — full roster scouting breakdown. Variants: `focus=offense`, `focus=pitching`, `focus=nil`, `focus=draft`.
-
-## Dependencies
-
-- **`cbb-sabermetrics`** (REQUIRED) — provides all 7 BSI MCP tools. This plugin cannot function without it. Install `cbb-sabermetrics` first.
-
-## Example Queries
-
-Once installed, try these in your Claude Code or Codex session:
-
-```
-How does Texas look this week?
-```
-→ The agent calls `bsi_get_team_schedule team=texas`, `bsi_get_standings conference=SEC`, applies the program doctrine layer, returns an ops briefing.
-
-```
-Break down the Texas vs Arkansas matchup for this weekend.
-```
-→ Routes to `/texas-matchup arkansas`, fetches both teams' data, applies Opponent Intelligence framework, returns structured brief.
-
-```
-Which Texas players are undervalued on their NIL deals?
-```
-→ Routes to `/texas-scout focus=nil`, fetches roster stats, applies NIL Efficiency framework, returns Elite ROI and Overpaid quadrant plots.
-
-```
-Where does Texas stand in the SEC right now?
-```
-→ Agent combines `bsi_get_standings` and `bsi_get_rankings`, returns Texas's SEC position with conference context computed from standings.
-
-## Data Integrity
-
-This plugin inherits and extends the `cbb-sabermetrics` integrity standard:
-
-- **No fabrication.** If a tool returns empty, the agent says so.
-- **Source attribution on every claim.** Every statistical assertion cites `meta.source` and `meta.fetched_at`.
-- **Three-layer separation.** Every output separates Verified Facts / Inference / Recommendation.
-- **Program doctrine as context only.** History informs expectations but never serves as proof of current-state quality.
-- **No hometown discount.** Weaknesses named directly — if the bullpen is unstable, that's what we say.
-
-## The Schlossnagle Context
-
-Do not use Pierce-era framing as present-tense program identity. Texas shifted to Jim Schlossnagle in 2025. Coaching identity, roster construction priorities, and staff dynamics have recalibrated accordingly. The plugin keeps this current.
-
-## Related Plugins
-
-- [`cbb-sabermetrics`](../cbb-sabermetrics/) — the live-data foundation. Required dependency.
-- Coming: `sports-storytelling` — for Texas editorial long-form content.
-- Coming: `sports-viz` — for Texas-specific Savant-style charts.
-
-## Troubleshooting
-
-**Agent says tools are unavailable:**
-- Confirm `cbb-sabermetrics` is installed in the same session.
-- Check that the MCP server connected — look for errors in your session logs.
-
-**Missing data for a current Texas player:**
-- The BSI MCP covers 330 DI programs via Highlightly with ESPN fallback. If a specific player is missing, it's likely upstream data — the agent will flag `unknown` rather than fabricate.
-
-**Want to see the Texas Intelligence hub pages for reference:**
-- Visit [blazesportsintel.com/college-baseball/texas-intelligence/](https://blazesportsintel.com/college-baseball/texas-intelligence/)
-
-## License
-
-[MIT](../../LICENSE) — use, fork, adapt, ship.
-
-## Credit
-
-Built by [Austin Humphrey](https://blazesportsintel.com) / Blaze Sports Intel. Texas baseball operating doctrine refined over multiple seasons of BSI coverage. Hook 'em.

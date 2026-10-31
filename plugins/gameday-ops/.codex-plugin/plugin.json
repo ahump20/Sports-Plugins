@@ -1,0 +1,30 @@
+{
+  "name": "gameday-ops",
+  "version": "1.0.0",
+  "description": "Build sourced game packets with tested status and score handling.",
+  "author": {
+    "name": "Austin Humphrey",
+    "url": "https://github.com/ahump20/Sports-Plugins"
+  },
+  "repository": "https://github.com/ahump20/Sports-Plugins",
+  "license": "MIT",
+  "keywords": [
+    "sports",
+    "evidence",
+    "gameday"
+  ],
+  "skills": "./skills/",
+  "interface": {
+    "displayName": "Game-day Operations",
+    "shortDescription": "Build sourced game packets with tested status and score handling.",
+    "longDescription": "Build sourced game packets with tested status and score handling. Runs locally on supplied JSON using Python standard-library code. Does not publish content or manufacture unavailable data.",
+    "developerName": "Austin Humphrey",
+    "category": "Analytics",
+    "capabilities": [
+      "Read"
+    ],
+    "websiteURL": "https://github.com/ahump20/Sports-Plugins",
+    "defaultPrompt": "Use $gameday-packet to prepare a source-attributed report from my supplied data.",
+    "brandColor": "#BF5700"
+  }
+}

@@ -1,7 +1,7 @@
 {
   "name": "cbb-sabermetrics",
-  "version": "0.2.0",
-  "description": "Live NCAA Division I college baseball through the Blaze Sports Intel MCP (https://sabermetrics.blazesportsintel.com/mcp). Seven tools: scoreboard, standings, Top 25 rankings, player stats, team schedules, game detail and BSI article search. Free, 30 requests a minute, no API key.",
+  "version": "0.3.0",
+  "description": "Source-attributed NCAA baseball observations and explicit-input metric interpretation.",
   "author": {
     "name": "Austin Humphrey",
     "email": "john.humphrey@blazesportsintel.com",

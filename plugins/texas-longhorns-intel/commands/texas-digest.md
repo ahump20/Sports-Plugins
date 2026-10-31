@@ -1,58 +1,16 @@
 ---
 name: texas-digest
-description: Generate the weekly Texas baseball intelligence digest — live stats, conference position, recent results, upcoming schedule, analytical read.
+description: Draft a one-time Texas baseball digest covering an explicit week, month or season, with sources and missing-data limits.
 arguments:
   - name: timeframe
-    description: '"week" (default) or "month" or "season"'
+    description: week, month or season; default week
     required: false
 ---
 
 # /texas-digest
 
-Produces a structured weekly digest on Texas baseball using live data from the BSI MCP.
+Load `texas-longhorns-baseball-intelligence` and use its weeklyDigest output mode. Resolve explicit start/end dates and the relevant season before filtering the schedule. Read standings and rankings with their coverage metadata; do not infer a complete week's individual stats from season totals.
 
-## What it does
+Return a supported headline, source observations, labeled interpretation, editorial recommendation, upcoming games and provenance. Missing conference records or season coverage remain unavailable. In the offseason, do not present historical results as games played this week.
 
-1. Calls `bsi_get_team_schedule team=texas` for recent results and next upcoming games
-2. Calls `bsi_get_standings conference=SEC` for conference position, record, runs scored and allowed, and run differential
-3. Calls `bsi_get_standings` (all conferences) and `bsi_get_rankings` for SEC strength context, computed from standings with the `conference-strength` skill
-4. Calls `bsi_get_player_stats` for the week's key performers and computes rate metrics from the returned counting stats, with formula and sample size
-5. Routes through the `texas-longhorns-baseball-intelligence` agent using the `weeklyDigest` output mode
-6. Assembles the digest in the structured format targeting the BSI hub's `/api/college-baseball/texas-intelligence/digest` endpoint shape
-
-## Output format
-
-Markdown digest with sections:
-
-1. **This Week's Headline** — the structural story (e.g., "Texas wins weekend series vs Arkansas despite bullpen struggles")
-2. **Verified Facts** — conference record, key wins/losses, individual performances with stats and sources
-3. **Inference** — what the data suggests about trajectory
-4. **Recommendation** — operational take: what should the program prioritize this week
-5. **Upcoming Week** — next opponents with matchup-specific angles
-6. **Source Attribution** — every number's source and as-of timestamp
-
-## Examples
-
-```
-/texas-digest
-```
-→ Weekly digest (default).
-
-```
-/texas-digest timeframe=month
-```
-→ Full month review with trend analysis.
-
-```
-/texas-digest timeframe=season
-```
-→ Season-to-date overview.
-
-## Quality gates applied
-
-- Every statistical claim verified via MCP before inclusion
-- Three-layer separation: Verified Facts / Inference / Recommendation
-- Season-state lens applied to any metric interpretation
-- SEC context provided via conference-strength framework
-- No hometown discount — weaknesses named directly
-- Program doctrine framed as history context only, not current-state evidence
+This command produces a one-time Markdown draft, not a deployed API payload or a scheduled service. For publication review, use `editorial-evidence` when installed. Do not post or send the digest automatically.

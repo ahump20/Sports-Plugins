@@ -1,0 +1,45 @@
+{
+  "$schema": "https://agent-plugins.org/schemas/1.0.0/plugin.schema.json",
+  "name": "texas-longhorns-intel",
+  "version": "0.3.0",
+  "description": "Source-attributed Texas baseball scouting, opponent previews and editorial briefings.",
+  "author": {
+    "name": "Austin Humphrey",
+    "email": "john.humphrey@blazesportsintel.com",
+    "url": "https://blazesportsintel.com"
+  },
+  "repository": "https://github.com/ahump20/Sports-Plugins",
+  "license": "MIT",
+  "keywords": [
+    "texas",
+    "longhorns",
+    "college-baseball",
+    "sec",
+    "scouting",
+    "nil",
+    "woba",
+    "wrc-plus"
+  ],
+  "extensions": {
+    "com.openai": {
+      "interface": {
+        "displayName": "Texas Longhorns Baseball Intel",
+        "shortDescription": "Source-attributed Texas baseball scouting, opponent previews and editorial briefings.",
+        "longDescription": "Source-attributed Texas baseball scouting, opponent previews and editorial briefings. Live data is read-only and may be incomplete; no calibrated forecasts or automatic publication are supplied.",
+        "developerName": "Austin Humphrey / Blaze Sports Intel",
+        "category": "Scouting",
+        "capabilities": [
+          "Read",
+          "Interactive"
+        ],
+        "websiteURL": "https://blazesportsintel.com/college-baseball/texas-intelligence/",
+        "privacyPolicyURL": "https://blazesportsintel.com/privacy",
+        "termsOfServiceURL": "https://blazesportsintel.com/terms",
+        "defaultPrompt": "Give me the Texas scouting report for this weekend's SEC series.",
+        "brandColor": "#BF5700",
+        "composerIcon": "./assets/icon-small.svg",
+        "screenshots": []
+      }
+    }
+  }
+}

@@ -1,0 +1,4 @@
+interface:
+  display_name: "Editorial Desk"
+  short_description: "Audit claim provenance, quotations, freshness and arithmetic."
+  default_prompt: "Use $editorial-evidence to prepare a sourced report from my supplied data."

@@ -1,0 +1,50 @@
+{
+  "status": "collected",
+  "generatedAt": "2026-10-31T09:30:33.437Z",
+  "executedFrom": "extracted npm tarball, not the repository source directory",
+  "tools": [
+    {
+      "toolName": "bsi_get_standings",
+      "endpoint": "https://sabermetrics.blazesportsintel.com/mcp",
+      "arguments": {
+        "conference": "SEC"
+      },
+      "retrievedAt": "2026-10-31T09:30:32.382Z",
+      "providerMeta": {
+        "source": "espn-fallback",
+        "fetched_at": "2026-10-31T09:30:32.184Z",
+        "timezone": "America/Chicago"
+      }
+    },
+    {
+      "toolName": "bsi_get_team_schedule",
+      "endpoint": "https://sabermetrics.blazesportsintel.com/mcp",
+      "arguments": {
+        "team": "texas"
+      },
+      "retrievedAt": "2026-10-31T09:30:32.915Z",
+      "providerMeta": {
+        "source": "espn",
+        "fetched_at": "2026-10-31T09:11:22.284Z",
+        "timezone": "America/Chicago"
+      }
+    },
+    {
+      "toolName": "bsi_get_rankings",
+      "endpoint": "https://sabermetrics.blazesportsintel.com/mcp",
+      "arguments": {},
+      "retrievedAt": "2026-10-31T09:30:33.437Z",
+      "providerMeta": {
+        "source": "ncaa.com",
+        "fetched_at": "2026-10-31T09:11:23.343Z",
+        "timezone": "America/Chicago"
+      }
+    }
+  ],
+  "failures": [],
+  "limitations": [
+    "Retrieval time does not establish the season or statistical coverage date. No conference strength, win probability, NIL value or advanced metric is inferred from missing inputs.",
+    "The standings row does not supply an explicit season; the current calendar year was not substituted.",
+    "Conference wins or losses are unavailable; percentages were not reverse-engineered into a record."
+  ]
+}

@@ -1,0 +1,9 @@
+{
+  "$schema": "https://agent-plugins.org/schemas/1.0.0/mcp.schema.json",
+  "mcpServers": {
+    "blaze-sports-intel": {
+      "type": "streamable-http",
+      "url": "https://sabermetrics.blazesportsintel.com/mcp"
+    }
+  }
+}
