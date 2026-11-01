@@ -1,6 +1,6 @@
 {
   "name": "baseball",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Baseball fundamentals: rules and scoring, wOBA, wRC+, FIP and sample-size reliability computed by a tested script with FanGraphs constants, MLB and college run environments, and free data sources.",
   "author": {
     "name": "Austin Humphrey",
@@ -26,6 +26,8 @@
     "capabilities": [
       "Read"
     ],
-    "defaultPrompt": "Rule this play under MLB rules, then compute Ohtani's 2024 wOBA and wRC+."
+    "defaultPrompt": "Rule this play under MLB rules, then compute Ohtani's 2024 wOBA and wRC+.",
+    "longDescription": "Baseball fundamentals: rules and scoring, wOBA, wRC+, FIP and sample-size reliability computed by a tested script with FanGraphs constants, MLB and college run environments, and free data sources.",
+    "websiteURL": "https://github.com/ahump20/Sports-Plugins"
   }
 }

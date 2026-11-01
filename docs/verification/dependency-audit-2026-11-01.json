@@ -1,0 +1,35 @@
+{
+  "checkedAt": "2026-11-01",
+  "method": "npm audit --json; npm audit --omit=dev --json; npm ci --ignore-scripts with explicit supported-version overrides followed by project checks",
+  "before": {
+    "info": 0,
+    "low": 0,
+    "moderate": 11,
+    "high": 0,
+    "critical": 0,
+    "total": 11
+  },
+  "after": {
+    "info": 0,
+    "low": 0,
+    "moderate": 0,
+    "high": 0,
+    "critical": 0,
+    "total": 0
+  },
+  "runtime": {
+    "info": 0,
+    "low": 0,
+    "moderate": 0,
+    "high": 0,
+    "critical": 0,
+    "total": 0
+  },
+  "overrides": {
+    "minimatch": "^11.0.3"
+  },
+  "remainingPackages": [],
+  "limitations": [
+    "Audits reflect the advisory database at retrieval time; they are not a complete security certification."
+  ]
+}

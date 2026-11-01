@@ -1,0 +1,37 @@
+{
+  "$schema": "https://agent-plugins.org/schemas/1.0.0/plugin.schema.json",
+  "name": "football",
+  "version": "1.0.1",
+  "description": "Football fundamentals for the NFL and college: rules, EPA and success rate from nflverse and sportsdataverse play-by-play, quarterback evaluation, passer rating and NCAA efficiency, and free data sources.",
+  "author": {
+    "name": "Austin Humphrey",
+    "url": "https://github.com/ahump20/Sports-Plugins"
+  },
+  "repository": "https://github.com/ahump20/Sports-Plugins",
+  "license": "MIT",
+  "keywords": [
+    "football",
+    "nfl",
+    "college-football",
+    "epa",
+    "sportsdataverse",
+    "nflverse",
+    "analytics"
+  ],
+  "extensions": {
+    "com.openai": {
+      "interface": {
+        "displayName": "Football",
+        "shortDescription": "Football rules, EPA and success rate from NFL and college play-by-play, passer rating, and free data sources",
+        "developerName": "Austin Humphrey",
+        "category": "Analytics",
+        "capabilities": [
+          "Read"
+        ],
+        "defaultPrompt": "Rank the 2024 NFL offenses by EPA per play and explain the gap between Baltimore and Kansas City.",
+        "longDescription": "Football fundamentals for the NFL and college: rules, EPA and success rate from nflverse and sportsdataverse play-by-play, quarterback evaluation, passer rating and NCAA efficiency, and free data sources.",
+        "websiteURL": "https://github.com/ahump20/Sports-Plugins"
+      }
+    }
+  }
+}

@@ -10,6 +10,8 @@ import { join, dirname } from "node:path";
 import { fileURLToPath } from "node:url";
 import { checkMcpConfig, findMcpConfigs } from "./mcp-config.mjs";
 
+import { checkPackage, checkCatalog } from "./package-contract.mjs";
+
 const ROOT = join(dirname(fileURLToPath(import.meta.url)), "..");
 
 function fail(msg) {
@@ -32,6 +34,12 @@ function resolvePluginPath(plugin) {
 function validatePlugin(pluginPath) {
   const abs = join(ROOT, pluginPath);
   let ok = true;
+
+  if (pluginPath.startsWith("plugins/")) {
+    const problems = checkPackage(abs);
+    for (const problem of problems) { fail(`${pluginPath}: ${problem}`); ok = false; }
+    if (problems.length === 0) pass(`${pluginPath}: portable, Claude and Codex components agree`);
+  }
 
   // Required: .claude-plugin/plugin.json
   const metaPath = join(abs, ".claude-plugin", "plugin.json");
@@ -85,6 +93,7 @@ if (!existsSync(marketplacePath)) {
 
 const marketplace = JSON.parse(readFileSync(marketplacePath, "utf-8"));
 let allOk = true;
+for (const problem of checkCatalog(ROOT)) { fail(problem); allOk = false; }
 
 console.log("Validating plugins...\n");
 

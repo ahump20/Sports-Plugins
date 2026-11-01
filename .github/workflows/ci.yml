@@ -35,11 +35,29 @@ jobs:
       - name: Validate plugin structure
         run: node scripts/validate-plugins.mjs
 
+      - name: Setup Python for archive checks
+        uses: actions/setup-python@v7
+        with:
+          python-version: "3.9"
+
       - name: Run unit tests
         run: node --test tests/*.test.mjs
 
       - name: Run Vitest suites
         run: npm run test:vitest
+
+      - name: Build standalone plugin packages
+        run: |
+          mkdir -p dist/plugin-packages
+          python3 scripts/package-plugins.py --output dist/plugin-packages > dist/plugin-packages/checksums.json
+
+      - name: Save standalone plugin packages
+        uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
+        with:
+          name: sports-plugin-packages
+          path: dist/plugin-packages/
+          if-no-files-found: error
+          retention-days: 7
 
       - name: Verify JSON files are valid
         run: |
@@ -60,7 +78,7 @@ jobs:
         with:
           python-version: "3.9"
 
-      - name: Test skill scripts against published numbers
+      - name: Test source-backed calculations and synthetic workflow edge cases
         run: |
           set -e
           for t in plugins/*/skills/*/tests; do

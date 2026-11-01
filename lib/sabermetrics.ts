@@ -12,13 +12,13 @@
 import type { BattingLine, PitchingLine, BattingAdvanced, PitchingAdvanced } from "./types.js";
 
 /* ------------------------------------------------------------------ */
-/*  Constants — linear weights (NCAA-calibrated 2024-26 averages)     */
+/*  Legacy illustrative defaults (not NCAA-calibrated)     */
 /* ------------------------------------------------------------------ */
 
 /**
- * NCAA DI linear weights for wOBA.  These are slightly different from
- * MLB because the college run environment is higher (BBCOR bats, but
- * smaller parks, weaker pitching depth).  Recalibrate each season.
+ * Legacy illustrative weights retained for compatibility, not calibrated NCAA constants.
+ * For sourced season-specific metrics use baseball-analytics/scripts/saber.py
+ * with published league totals. These defaults must not be labeled official.
  */
 export const NCAA_WOBA_WEIGHTS = {
   uBB: 0.69,
@@ -35,7 +35,7 @@ export const WOBA_SCALE = 1.15;
 /** League-average wOBA (NCAA DI — approximate). */
 export const LG_WOBA = 0.32;
 
-/** League-average runs per plate appearance (NCAA DI). */
+/** Illustrative runs per plate appearance; not a measured NCAA league average. */
 export const LG_R_PER_PA = 0.126;
 
 /** FIP constant — recalculated each season so league FIP ≈ league ERA. */

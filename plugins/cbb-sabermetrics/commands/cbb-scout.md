@@ -56,7 +56,9 @@ Returns a Texas vs Arkansas matchup preview.
 
 ## Quality gates applied
 
-- Every statistic cited has source + timestamp from MCP `meta` envelope
+- Every statistical claim records source, season and coverage; retrieval time alone is insufficient
 - Computed metrics show formula and sample size; none are estimated when inputs are missing
 - Record framed with conference context from standings, without claiming a strength-of-schedule adjustment
 - Season-state lens applied before drawing conclusions
+
+If a requested field or tool is unavailable, state that limitation. A provider win prediction, when returned, is not a prediction calibrated by this plugin.

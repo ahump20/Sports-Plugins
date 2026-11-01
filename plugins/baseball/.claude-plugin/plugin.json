@@ -1,6 +1,6 @@
 {
   "name": "baseball",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Baseball fundamentals: rules and scoring, wOBA, wRC+, FIP and sample-size reliability computed by a tested script with FanGraphs constants, MLB and college run environments, and free data sources.",
   "author": {
     "name": "Austin Humphrey",
@@ -8,5 +8,13 @@
   },
   "repository": "https://github.com/ahump20/Sports-Plugins",
   "license": "MIT",
-  "keywords": ["baseball","mlb","college-baseball","sabermetrics","woba","fip","statcast"]
+  "keywords": [
+    "baseball",
+    "mlb",
+    "college-baseball",
+    "sabermetrics",
+    "woba",
+    "fip",
+    "statcast"
+  ]
 }
