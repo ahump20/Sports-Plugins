@@ -16,6 +16,10 @@ The project check runs TypeScript checking, ESLint, Node tests, Vitest, all Pyth
 
 The candidate set installed all seven packages in a clean Claude configuration. One initial host invocation loaded its skill correctly but its calculator command was denied because it appended an extra shell command outside the narrowly allowed pattern; that was an explicit tool-permission failure, not successful execution. Final merged-release installation, individual invocation and natural-language trigger results belong in the release evidence and must be checked independently of that candidate smoke test.
 
+Fourteen explicit candidate skill invocations and seven natural-language selections completed in Claude; a fresh Codex app-server discovered all fourteen skills in seven packages. Functional probes executed the packaged sport calculators and editorial checker. Initial harness mistakes (a variadic CLI argument boundary, an unapproved remote tool, and a noncanonical game status) were distinguished from plugin defects and corrected for the final probes.
+
+The live Texas model response also made an incorrect comparative ranking despite retrieving the actual source successfully. That is a retained answer-quality failure, not a passing accuracy benchmark. The Texas skill now requires an explicit provider rank or an executed comparison over the relevant rows before stating numerical order. A stronger evidence-to-claim validator remains proposed integration work; prompt instructions alone do not prove the full numerical-accuracy gate. The fifty-request catalog remains unmeasured.
+
 ## Dependencies and boundaries
 
 The minimatch override selects a patched version while retaining the declared toolchain. The current full and runtime npm audits report zero advisories. Project checks exercise the override under the existing supported Node contract; remote CI checks the Node 22 environment.

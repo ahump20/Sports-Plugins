@@ -26,6 +26,8 @@ Use exact team identity, not a substring that also matches Texas A&M. Preserve p
 
 For metric calculations, use `interpreting-advanced-metrics` and the installed `baseball-analytics` helper. If the helper or required league totals are missing, state the dependency; do not improvise constants. For conference comparisons, use the descriptive `conference-strength` workflow rather than assigning a reputation multiplier.
 
+For an ordinal rank, "ahead of" claim, or other numerical comparison, use an explicit provider rank or execute a calculation and sort the complete relevant returned rows. Preserve the compared values and source scope; table order alone is not a rank. If execution or comparable coverage is unavailable, omit the comparison and report individual observations. Never calculate ranks or derived values in prose from memory.
+
 Texas entered the SEC institutionally in 2024; its first SEC baseball season was 2025. The 2024 baseball season belongs to the Big 12. Confirm current coach, roster, venue details and ongoing achievement totals against official Texas sources when needed. Source: https://texaslonghorns.com/news/2024/9/12/baseball-announces-2025-sec-schedule.
 
 Do not manufacture HAV-F, momentum, psychological-readiness, NIL-return, park-factor or draft-probability scores. A qualitative scouting opinion needs an identified basis and limitations. Do not infer injuries or bullpen availability from usage alone. Historical program benchmarks are editorial expectations, not validated championship thresholds.
