@@ -22,8 +22,7 @@ DIRECTORIES = {
 EXCLUDED = {"__pycache__", ".git", "node_modules", ".DS_Store"}
 
 
-def package_plugin(name, output):
-    source = ROOT / "plugins" / name
+def package_plugin(name, source, output):
     if output == source or source in output.parents:
         raise ValueError("Archive output must be outside the plugin source")
     metadata = json.loads((source / "plugin.json").read_text(encoding="utf-8"))
@@ -92,17 +91,19 @@ def main(argv=None):
         catalog = json.loads(
             (ROOT / ".claude-plugin/marketplace.json").read_text(encoding="utf-8")
         )
-        known = {entry["name"] for entry in catalog["plugins"]}
-        selected = args.plugin or sorted(known)
+        sources = {
+            entry["name"]: (ROOT / entry["source"]).resolve()
+            for entry in catalog["plugins"]
+        }
+        selected = args.plugin or sorted(sources)
         for name in selected:
-            if name not in known:
+            if name not in sources:
                 raise ValueError("Unknown plugin: " + name)
         output = Path(args.output).resolve()
-        for entry in catalog["plugins"]:
-            source = (ROOT / entry["source"]).resolve()
+        for source in sources.values():
             if output == source or source in output.parents:
                 raise ValueError("Archive output must be outside plugin sources")
-        result = [package_plugin(name, output) for name in sorted(set(selected))]
+        result = [package_plugin(name, sources[name], output) for name in sorted(set(selected))]
         print(json.dumps(result, indent=2))
         return 0
     except (OSError, ValueError, KeyError) as error:

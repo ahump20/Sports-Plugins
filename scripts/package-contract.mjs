@@ -1,14 +1,50 @@
 /** Verify actual package files, not only a manifest's name and description. */
-import { existsSync, readFileSync, readdirSync, realpathSync, statSync } from 'node:fs';
-import { resolve, relative, isAbsolute, join } from 'node:path';
+import { existsSync, readFileSync, readdirSync, realpathSync, statSync, lstatSync, readlinkSync } from 'node:fs';
+import { resolve, relative, isAbsolute, join, dirname, parse, sep } from 'node:path';
+import { isDeepStrictEqual } from 'node:util';
 const SCHEMA = 'https://agent-plugins.org/schemas/1.0.0/plugin.schema.json';
 const MCP_SCHEMA = 'https://agent-plugins.org/schemas/1.0.0/mcp.schema.json';
 const SEMVER = /^(0|[1-9]\d*)\.(0|[1-9]\d*)\.(0|[1-9]\d*)(?:-[0-9A-Za-z.-]+)?(?:\+[0-9A-Za-z.-]+)?$/;
 const text = value => typeof value === 'string' && value.trim().length > 0;
 const object = value => value !== null && typeof value === 'object' && !Array.isArray(value);
 const stringMap = value => object(value) && Object.values(value).every(item => typeof item === 'string');
-/** Shape rules from the portable 1.0.0 MCP schema, independent of host config formats. */
-function checkPortableMcp(config) {
+/** Resolve links before parent traversal; missing descendants retain their resolved ancestor. */
+function filesystemPath(candidate) {
+  let current = parse(candidate).root; let links = 0;
+  const separator = sep === '/' ? /\// : /[\\/]/;
+  const pending = candidate.slice(current.length).split(separator);
+  while (pending.length) {
+    const part = pending.shift();
+    if (!part || part === '.') continue;
+    if (part === '..') { current = dirname(current); continue; }
+    const next = join(current, part);
+    const entry = lstatSync(next, {throwIfNoEntry: false});
+    if (entry?.isSymbolicLink()) {
+      if (++links > 40) throw new Error('Too many symbolic links');
+      const target = readlinkSync(next); const anchor = parse(target).root;
+      if (anchor) current = anchor;
+      pending.unshift(...target.slice(anchor.length).split(separator));
+    } else current = entry ? realpathSync(next) : next;
+  }
+  return current;
+}
+function packageCwd(root, cwd) {
+  const expanded = cwd.replaceAll('${PLUGIN_ROOT}', root);
+  return filesystemPath(cwd.startsWith('./') ? `${root}/${expanded}` : expanded);
+}
+function mcpConnection(server, root) {
+  const type = server.type === 'http' ? 'streamable-http' : server.type ?? (server.command ? 'stdio' : undefined);
+  if (type !== 'stdio') return {type, url: server.url};
+  let cwd = server.cwd === undefined ? root : server.cwd;
+  if (typeof cwd === 'string' && /^(?:\.\/|\$\{PLUGIN_ROOT\}(?:\/|$))/.test(cwd)) cwd = packageCwd(root, cwd);
+  return {
+    type, command: server.command, cwd,
+    args: server.args === undefined ? [] : server.args,
+    env: server.env === undefined ? {} : server.env,
+  };
+}
+/** Portable 1.0.0 MCP shape rules and package working-directory containment. */
+function checkPortableMcp(config, root) {
   if (!object(config)) return ['mcp.json: configuration must be an object'];
   const errors = [];
   if (config.$schema !== MCP_SCHEMA) errors.push('mcp.json: portable schema declaration missing or incorrect');
@@ -33,7 +69,16 @@ function checkPortableMcp(config) {
           if (Object.hasOwn(server.env, key)) errors.push(`${label}: env must not override ${key}`);
         }
       }
-      if (server.cwd !== undefined && (typeof server.cwd !== 'string' || !/^(?:\.\/|\$\{PLUGIN_ROOT\}(?:\/|$)|\$\{PLUGIN_DATA\}(?:\/|$))/.test(server.cwd))) errors.push(`${label}: cwd must be plugin-relative or rooted in PLUGIN_ROOT or PLUGIN_DATA`);
+      if (server.cwd !== undefined) {
+        const cwd = server.cwd;
+        if (typeof cwd !== 'string' || !/^(?:\.\/|\$\{PLUGIN_ROOT\}(?:\/|$)|\$\{PLUGIN_DATA\}(?:\/|$))/.test(cwd)) errors.push(`${label}: cwd must be plugin-relative or rooted in PLUGIN_ROOT or PLUGIN_DATA`);
+        else if (!cwd.startsWith('${PLUGIN_DATA}')) {
+          // PLUGIN_DATA has a client-managed runtime base, separate from this package root.
+          try {
+            if (!within(root, packageCwd(root, cwd))) errors.push(`${label}: cwd must remain within the package after resolution`);
+          } catch { errors.push(`${label}: cwd cannot be resolved within the package`); }
+        }
+      }
     } else {
       if (typeof server.url !== 'string' || !server.url.length) errors.push(`${label}: url must be a nonempty string`);
       if (server.headers !== undefined && !stringMap(server.headers)) errors.push(`${label}: headers must be an object of strings`);
@@ -43,7 +88,7 @@ function checkPortableMcp(config) {
 }
 function within(root, candidate) {
   const rel = relative(root, candidate);
-  return !rel.startsWith('..') && !isAbsolute(rel);
+  return rel !== '..' && !rel.startsWith('..' + sep) && !isAbsolute(rel);
 }
 export function checkPackage(packageRoot) {
   const errors = []; const root = resolve(packageRoot);
@@ -76,7 +121,8 @@ export function checkPackage(packageRoot) {
   }
   if (new Set(manifests.map(m => m.name)).size > 1) errors.push('Manifest name identity mismatch');
   if (new Set(manifests.map(m => m.version)).size > 1) errors.push('Manifest version mismatch');
-  localPath('./LICENSE', 'LICENSE');
+  const license = localPath('./LICENSE', 'LICENSE');
+  if (license && lstatSync(license).isSymbolicLink()) errors.push('LICENSE: symlinks are not accepted in release archives');
   const skills = join(root, 'skills'); const names = new Set(); let count = 0;
   if (existsSync(skills)) for (const entry of readdirSync(skills, {withFileTypes: true})) {
     if (!entry.isDirectory() || entry.name.startsWith('.')) continue;
@@ -96,7 +142,7 @@ export function checkPackage(packageRoot) {
   if (existsSync(join(root, 'mcp.json'))) {
     try {
       const config = JSON.parse(readFileSync(join(root, 'mcp.json'), 'utf8'));
-      const problems = checkPortableMcp(config);
+      const problems = checkPortableMcp(config, realRoot);
       errors.push(...problems);
       if (!problems.length) portable = config;
     } catch { errors.push('mcp.json: portable MCP configuration is invalid'); }
@@ -107,7 +153,7 @@ export function checkPackage(packageRoot) {
       if (JSON.stringify(Object.keys(portable.mcpServers ?? {}).sort()) !== JSON.stringify(Object.keys(legacy.mcpServers ?? {}).sort())) errors.push('Portable and legacy MCP server names differ');
       for (const [name, server] of Object.entries(legacy.mcpServers ?? {})) {
         const target = portable.mcpServers?.[name];
-        if (!target || target.url !== server.url || target.type !== (server.type === 'http' ? 'streamable-http' : server.type)) errors.push(`MCP connection ${name} differs between package formats`);
+        if (!target || !isDeepStrictEqual(mcpConnection(target, realRoot), mcpConnection(server, realRoot))) errors.push(`MCP connection ${name} differs between package formats`);
       }
     } catch { errors.push('.mcp.json: legacy MCP configuration is invalid'); }
   }

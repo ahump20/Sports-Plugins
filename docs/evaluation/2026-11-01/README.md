@@ -2,14 +2,16 @@
 
 These seven reports are static analysis, not measured sports-answer quality. The installed Plugin Eval plugin release is 0.1.2; its internal package and report version are 0.1.0. As documented in the [earlier report](../2026-10-31/README.md), a temporary copy needs one string-or-array prompt compatibility correction. The installed plugin was not edited. Source/evaluator paths alone are replaced by placeholders; findings, deductions and summary counts are retained.
 
+Redaction covers absolute paths and their `~/...` spellings in all fields, including suggested commands. Replace `<workspace>` with the actual checkout root and `<copied-evaluator>` with the temporary evaluator directory before running an archived command.
+
 | Plugin | Static score | Remaining failing checks |
 |---|---:|---|
 | baseball | 54 | Listing privacy policy and terms URLs |
 | basketball | 45 | Listing privacy policy and terms URLs |
 | cbb-sabermetrics | 100 | None |
-| editorial-desk | 58 | Listing privacy policy and terms URLs |
+| editorial-desk | 54 | Listing privacy policy and terms URLs |
 | football | 49 | Listing privacy policy and terms URLs |
-| gameday-ops | 58 | Listing privacy policy and terms URLs |
+| gameday-ops | 54 | Listing privacy policy and terms URLs |
 | texas-longhorns-intel | 100 | None |
 
 Read each JSON report for all warnings, including long functions, complexity and line lengths. The evaluator's informational count still double-counts checks with both severity and status `info`. Count the checks array for the actual number of informational findings.

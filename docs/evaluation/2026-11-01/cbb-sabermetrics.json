@@ -4,13 +4,13 @@
     "name": "plugin-eval",
     "version": "0.1.0"
   },
-  "createdAt": "2026-11-01T05:43:44.615Z",
+  "createdAt": "2026-11-01T06:08:05.689Z",
   "target": {
     "kind": "plugin",
     "path": "<workspace>/plugins/cbb-sabermetrics",
     "entryPath": "<workspace>/plugins/cbb-sabermetrics/.codex-plugin/plugin.json",
     "name": "cbb-sabermetrics",
-    "relativePath": "sports-plugins/plugins/cbb-sabermetrics"
+    "relativePath": "plugins/cbb-sabermetrics"
   },
   "summary": {
     "score": 100,
@@ -239,7 +239,7 @@
       "status": "info",
       "message": "No coverage artifacts were found for this target.",
       "evidence": [
-        "sports-plugins/plugins/cbb-sabermetrics"
+        "plugins/cbb-sabermetrics"
       ],
       "remediation": [
         "Generate `lcov.info`, `coverage.xml`, or an Istanbul coverage JSON file if you want coverage scoring."
@@ -255,7 +255,7 @@
       "unit": "lines",
       "band": "good",
       "source": "core",
-      "targetPath": "sports-plugins/plugins/cbb-sabermetrics/skills/conference-strength"
+      "targetPath": "plugins/cbb-sabermetrics/skills/conference-strength"
     },
     {
       "id": "skill:conference-strength:description_length_chars",
@@ -264,7 +264,7 @@
       "unit": "chars",
       "band": "good",
       "source": "core",
-      "targetPath": "sports-plugins/plugins/cbb-sabermetrics/skills/conference-strength"
+      "targetPath": "plugins/cbb-sabermetrics/skills/conference-strength"
     },
     {
       "id": "skill:conference-strength:relative_link_count",
@@ -273,7 +273,7 @@
       "unit": "links",
       "band": "good",
       "source": "core",
-      "targetPath": "sports-plugins/plugins/cbb-sabermetrics/skills/conference-strength"
+      "targetPath": "plugins/cbb-sabermetrics/skills/conference-strength"
     },
     {
       "id": "skill:conference-strength:code_fence_count",
@@ -282,7 +282,7 @@
       "unit": "blocks",
       "band": "good",
       "source": "core",
-      "targetPath": "sports-plugins/plugins/cbb-sabermetrics/skills/conference-strength"
+      "targetPath": "plugins/cbb-sabermetrics/skills/conference-strength"
     },
     {
       "id": "skill:conference-strength:support_file_count",
@@ -291,7 +291,7 @@
       "unit": "files",
       "band": "info",
       "source": "core",
-      "targetPath": "sports-plugins/plugins/cbb-sabermetrics/skills/conference-strength"
+      "targetPath": "plugins/cbb-sabermetrics/skills/conference-strength"
     },
     {
       "id": "skill:interpreting-advanced-metrics:skill_line_count",
@@ -300,7 +300,7 @@
       "unit": "lines",
       "band": "good",
       "source": "core",
-      "targetPath": "sports-plugins/plugins/cbb-sabermetrics/skills/interpreting-advanced-metrics"
+      "targetPath": "plugins/cbb-sabermetrics/skills/interpreting-advanced-metrics"
     },
     {
       "id": "skill:interpreting-advanced-metrics:description_length_chars",
@@ -309,7 +309,7 @@
       "unit": "chars",
       "band": "good",
       "source": "core",
-      "targetPath": "sports-plugins/plugins/cbb-sabermetrics/skills/interpreting-advanced-metrics"
+      "targetPath": "plugins/cbb-sabermetrics/skills/interpreting-advanced-metrics"
     },
     {
       "id": "skill:interpreting-advanced-metrics:relative_link_count",
@@ -318,7 +318,7 @@
       "unit": "links",
       "band": "good",
       "source": "core",
-      "targetPath": "sports-plugins/plugins/cbb-sabermetrics/skills/interpreting-advanced-metrics"
+      "targetPath": "plugins/cbb-sabermetrics/skills/interpreting-advanced-metrics"
     },
     {
       "id": "skill:interpreting-advanced-metrics:code_fence_count",
@@ -327,7 +327,7 @@
       "unit": "blocks",
       "band": "good",
       "source": "core",
-      "targetPath": "sports-plugins/plugins/cbb-sabermetrics/skills/interpreting-advanced-metrics"
+      "targetPath": "plugins/cbb-sabermetrics/skills/interpreting-advanced-metrics"
     },
     {
       "id": "skill:interpreting-advanced-metrics:support_file_count",
@@ -336,7 +336,7 @@
       "unit": "files",
       "band": "info",
       "source": "core",
-      "targetPath": "sports-plugins/plugins/cbb-sabermetrics/skills/interpreting-advanced-metrics"
+      "targetPath": "plugins/cbb-sabermetrics/skills/interpreting-advanced-metrics"
     },
     {
       "id": "plugin_skill_count",
@@ -345,7 +345,7 @@
       "unit": "skills",
       "band": "good",
       "source": "core",
-      "targetPath": "sports-plugins/plugins/cbb-sabermetrics"
+      "targetPath": "plugins/cbb-sabermetrics"
     },
     {
       "id": "plugin_keyword_count",
@@ -354,7 +354,7 @@
       "unit": "keywords",
       "band": "good",
       "source": "core",
-      "targetPath": "sports-plugins/plugins/cbb-sabermetrics"
+      "targetPath": "plugins/cbb-sabermetrics"
     },
     {
       "id": "plugin_default_prompt_count",
@@ -363,7 +363,7 @@
       "unit": "prompts",
       "band": "moderate",
       "source": "core",
-      "targetPath": "sports-plugins/plugins/cbb-sabermetrics"
+      "targetPath": "plugins/cbb-sabermetrics"
     },
     {
       "id": "trigger_cost_tokens",
@@ -612,9 +612,9 @@
           "skillSamples": 60,
           "pluginSamples": 180,
           "sourceRoots": [
-            "../../../../.codex/skills",
-            "../../../../.codex/plugins/cache/openai-curated",
-            "../../../../.codex/.tmp/plugins/plugins"
+            "../../../../../.codex/skills",
+            "../../../../../.codex/plugins/cache/openai-curated",
+            "../../../../../.codex/.tmp/plugins/plugins"
           ]
         }
       }
@@ -746,13 +746,13 @@
   "extensions": [],
   "measurementPlan": {
     "kind": "measurement-plan",
-    "createdAt": "2026-11-01T05:43:48.277Z",
+    "createdAt": "2026-11-01T06:08:09.228Z",
     "target": {
       "kind": "plugin",
       "path": "<workspace>/plugins/cbb-sabermetrics",
       "entryPath": "<workspace>/plugins/cbb-sabermetrics/.codex-plugin/plugin.json",
       "name": "cbb-sabermetrics",
-      "relativePath": "sports-plugins/plugins/cbb-sabermetrics"
+      "relativePath": "plugins/cbb-sabermetrics"
     },
     "title": "Measurement plan for cbb-sabermetrics",
     "summary": "Combine cost, outcome, and trust signals so you can tell whether the skill or plugin is genuinely helping instead of only looking well-structured on paper.",
@@ -996,7 +996,7 @@
     "nextAction": {
       "label": "Start with Token Usage Observer",
       "why": "Measure how many tokens the skill or plugin actually burns in representative runs.",
-      "command": "plugin-eval start ~/Documents/Codex/2026-11-01/the-next-logical-step-is-to/sports-plugins/plugins/cbb-sabermetrics --request 'What should I run next?' --format markdown",
+      "command": "plugin-eval start <workspace>/plugins/cbb-sabermetrics --request 'What should I run next?' --format markdown",
       "chatPrompt": "What should I run next?",
       "toolsetId": "token-usage-observer"
     }
@@ -1008,7 +1008,7 @@
       "path": "<workspace>/plugins/cbb-sabermetrics",
       "entryPath": "<workspace>/plugins/cbb-sabermetrics/.codex-plugin/plugin.json",
       "name": "cbb-sabermetrics",
-      "relativePath": "sports-plugins/plugins/cbb-sabermetrics"
+      "relativePath": "plugins/cbb-sabermetrics"
     },
     "summary": "Raise the evaluation from grade A (100/100) with a focus on the highest-signal structural and budget issues first.",
     "goals": [],
@@ -1024,18 +1024,18 @@
   "nextAction": {
     "label": "Choose the next workflow from chat",
     "why": "The report is clean enough that the best next step depends on whether you want budgets, benchmarks, or comparisons.",
-    "command": "plugin-eval start ~/Documents/Codex/2026-11-01/the-next-logical-step-is-to/sports-plugins/plugins/cbb-sabermetrics --request 'What should I run next?' --format markdown",
+    "command": "plugin-eval start <workspace>/plugins/cbb-sabermetrics --request 'What should I run next?' --format markdown",
     "chatPrompt": "What should I run next?"
   },
   "workflowGuide": {
     "kind": "workflow-guide",
-    "createdAt": "2026-11-01T05:43:48.279Z",
+    "createdAt": "2026-11-01T06:08:09.230Z",
     "target": {
       "kind": "plugin",
       "path": "<workspace>/plugins/cbb-sabermetrics",
       "entryPath": "<workspace>/plugins/cbb-sabermetrics/.codex-plugin/plugin.json",
       "name": "cbb-sabermetrics",
-      "relativePath": "sports-plugins/plugins/cbb-sabermetrics"
+      "relativePath": "plugins/cbb-sabermetrics"
     },
     "requestedGoal": "evaluate",
     "requestedChatPrompt": null,
@@ -1046,11 +1046,11 @@
       "label": "Evaluate Plugin",
       "chatPrompt": "Evaluate this plugin.",
       "summary": "Start here when you want the overall report for a plugin, including structure, budgets, and code checks.",
-      "firstCommand": "plugin-eval analyze ~/Documents/Codex/2026-11-01/the-next-logical-step-is-to/sports-plugins/plugins/cbb-sabermetrics --format markdown",
+      "firstCommand": "plugin-eval analyze <workspace>/plugins/cbb-sabermetrics --format markdown",
       "commands": [
-        "plugin-eval analyze ~/Documents/Codex/2026-11-01/the-next-logical-step-is-to/sports-plugins/plugins/cbb-sabermetrics --format markdown"
+        "plugin-eval analyze <workspace>/plugins/cbb-sabermetrics --format markdown"
       ],
-      "startCommand": "plugin-eval start ~/Documents/Codex/2026-11-01/the-next-logical-step-is-to/sports-plugins/plugins/cbb-sabermetrics --request 'Evaluate this plugin.' --format markdown"
+      "startCommand": "plugin-eval start <workspace>/plugins/cbb-sabermetrics --request 'Evaluate this plugin.' --format markdown"
     },
     "workflowStatus": {
       "hasBenchmarkConfig": false,
@@ -1062,10 +1062,10 @@
       "label": "Evaluate Plugin",
       "summary": "Start here when you want the overall report for a plugin, including structure, budgets, and code checks.",
       "routingExplanation": "Plugin Eval recommended Evaluate Plugin from the current local state for this plugin.",
-      "startCommand": "plugin-eval start ~/Documents/Codex/2026-11-01/the-next-logical-step-is-to/sports-plugins/plugins/cbb-sabermetrics --request 'Evaluate this plugin.' --format markdown",
-      "firstCommand": "plugin-eval analyze ~/Documents/Codex/2026-11-01/the-next-logical-step-is-to/sports-plugins/plugins/cbb-sabermetrics --format markdown",
+      "startCommand": "plugin-eval start <workspace>/plugins/cbb-sabermetrics --request 'Evaluate this plugin.' --format markdown",
+      "firstCommand": "plugin-eval analyze <workspace>/plugins/cbb-sabermetrics --format markdown",
       "commands": [
-        "plugin-eval analyze ~/Documents/Codex/2026-11-01/the-next-logical-step-is-to/sports-plugins/plugins/cbb-sabermetrics --format markdown"
+        "plugin-eval analyze <workspace>/plugins/cbb-sabermetrics --format markdown"
       ]
     },
     "entrypoints": [
@@ -1074,79 +1074,79 @@
         "label": "Full Plugin Analysis",
         "chatPrompt": "Give me a full analysis of this plugin, including benchmark setup.",
         "summary": "Use this when you want the full report and starter benchmark setup for this plugin in one guided path.",
-        "firstCommand": "plugin-eval analyze ~/Documents/Codex/2026-11-01/the-next-logical-step-is-to/sports-plugins/plugins/cbb-sabermetrics --format markdown",
+        "firstCommand": "plugin-eval analyze <workspace>/plugins/cbb-sabermetrics --format markdown",
         "commands": [
-          "plugin-eval analyze ~/Documents/Codex/2026-11-01/the-next-logical-step-is-to/sports-plugins/plugins/cbb-sabermetrics --format markdown",
-          "plugin-eval init-benchmark ~/Documents/Codex/2026-11-01/the-next-logical-step-is-to/sports-plugins/plugins/cbb-sabermetrics",
-          "plugin-eval benchmark ~/Documents/Codex/2026-11-01/the-next-logical-step-is-to/sports-plugins/plugins/cbb-sabermetrics --config ~/Documents/Codex/2026-11-01/the-next-logical-step-is-to/sports-plugins/plugins/cbb-sabermetrics/.plugin-eval/benchmark.json"
+          "plugin-eval analyze <workspace>/plugins/cbb-sabermetrics --format markdown",
+          "plugin-eval init-benchmark <workspace>/plugins/cbb-sabermetrics",
+          "plugin-eval benchmark <workspace>/plugins/cbb-sabermetrics --config <workspace>/plugins/cbb-sabermetrics/.plugin-eval/benchmark.json"
         ],
-        "startCommand": "plugin-eval start ~/Documents/Codex/2026-11-01/the-next-logical-step-is-to/sports-plugins/plugins/cbb-sabermetrics --request 'Give me a full analysis of this plugin, including benchmark setup.' --format markdown"
+        "startCommand": "plugin-eval start <workspace>/plugins/cbb-sabermetrics --request 'Give me a full analysis of this plugin, including benchmark setup.' --format markdown"
       },
       {
         "id": "evaluate",
         "label": "Evaluate Plugin",
         "chatPrompt": "Evaluate this plugin.",
         "summary": "Start here when you want the overall report for a plugin, including structure, budgets, and code checks.",
-        "firstCommand": "plugin-eval analyze ~/Documents/Codex/2026-11-01/the-next-logical-step-is-to/sports-plugins/plugins/cbb-sabermetrics --format markdown",
+        "firstCommand": "plugin-eval analyze <workspace>/plugins/cbb-sabermetrics --format markdown",
         "commands": [
-          "plugin-eval analyze ~/Documents/Codex/2026-11-01/the-next-logical-step-is-to/sports-plugins/plugins/cbb-sabermetrics --format markdown"
+          "plugin-eval analyze <workspace>/plugins/cbb-sabermetrics --format markdown"
         ],
-        "startCommand": "plugin-eval start ~/Documents/Codex/2026-11-01/the-next-logical-step-is-to/sports-plugins/plugins/cbb-sabermetrics --request 'Evaluate this plugin.' --format markdown"
+        "startCommand": "plugin-eval start <workspace>/plugins/cbb-sabermetrics --request 'Evaluate this plugin.' --format markdown"
       },
       {
         "id": "budget",
         "label": "Explain Token Budget",
         "chatPrompt": "Explain the token budget for this plugin.",
         "summary": "Use this when the main question is why the plugin feels expensive before you collect any live measurements.",
-        "firstCommand": "plugin-eval explain-budget ~/Documents/Codex/2026-11-01/the-next-logical-step-is-to/sports-plugins/plugins/cbb-sabermetrics --format markdown",
+        "firstCommand": "plugin-eval explain-budget <workspace>/plugins/cbb-sabermetrics --format markdown",
         "commands": [
-          "plugin-eval explain-budget ~/Documents/Codex/2026-11-01/the-next-logical-step-is-to/sports-plugins/plugins/cbb-sabermetrics --format markdown"
+          "plugin-eval explain-budget <workspace>/plugins/cbb-sabermetrics --format markdown"
         ],
-        "startCommand": "plugin-eval start ~/Documents/Codex/2026-11-01/the-next-logical-step-is-to/sports-plugins/plugins/cbb-sabermetrics --request 'Explain the token budget for this plugin.' --format markdown"
+        "startCommand": "plugin-eval start <workspace>/plugins/cbb-sabermetrics --request 'Explain the token budget for this plugin.' --format markdown"
       },
       {
         "id": "measure",
         "label": "Measure Real Token Usage",
         "chatPrompt": "Measure the real token usage of this plugin.",
         "summary": "Use this when you want real token usage instead of only the static estimate.",
-        "firstCommand": "plugin-eval init-benchmark ~/Documents/Codex/2026-11-01/the-next-logical-step-is-to/sports-plugins/plugins/cbb-sabermetrics",
+        "firstCommand": "plugin-eval init-benchmark <workspace>/plugins/cbb-sabermetrics",
         "commands": [
-          "plugin-eval init-benchmark ~/Documents/Codex/2026-11-01/the-next-logical-step-is-to/sports-plugins/plugins/cbb-sabermetrics",
-          "plugin-eval benchmark ~/Documents/Codex/2026-11-01/the-next-logical-step-is-to/sports-plugins/plugins/cbb-sabermetrics --config ~/Documents/Codex/2026-11-01/the-next-logical-step-is-to/sports-plugins/plugins/cbb-sabermetrics/.plugin-eval/benchmark.json",
-          "plugin-eval analyze ~/Documents/Codex/2026-11-01/the-next-logical-step-is-to/sports-plugins/plugins/cbb-sabermetrics --observed-usage ~/Documents/Codex/2026-11-01/the-next-logical-step-is-to/sports-plugins/plugins/cbb-sabermetrics/.plugin-eval/benchmark-usage.jsonl --format markdown"
+          "plugin-eval init-benchmark <workspace>/plugins/cbb-sabermetrics",
+          "plugin-eval benchmark <workspace>/plugins/cbb-sabermetrics --config <workspace>/plugins/cbb-sabermetrics/.plugin-eval/benchmark.json",
+          "plugin-eval analyze <workspace>/plugins/cbb-sabermetrics --observed-usage <workspace>/plugins/cbb-sabermetrics/.plugin-eval/benchmark-usage.jsonl --format markdown"
         ],
-        "startCommand": "plugin-eval start ~/Documents/Codex/2026-11-01/the-next-logical-step-is-to/sports-plugins/plugins/cbb-sabermetrics --request 'Measure the real token usage of this plugin.' --format markdown"
+        "startCommand": "plugin-eval start <workspace>/plugins/cbb-sabermetrics --request 'Measure the real token usage of this plugin.' --format markdown"
       },
       {
         "id": "benchmark",
         "label": "Benchmark With Starter Scenarios",
         "chatPrompt": "Help me benchmark this plugin.",
         "summary": "Use this when you want starter scenarios and a repeatable real-Codex benchmark run for this plugin.",
-        "firstCommand": "plugin-eval init-benchmark ~/Documents/Codex/2026-11-01/the-next-logical-step-is-to/sports-plugins/plugins/cbb-sabermetrics",
+        "firstCommand": "plugin-eval init-benchmark <workspace>/plugins/cbb-sabermetrics",
         "commands": [
-          "plugin-eval init-benchmark ~/Documents/Codex/2026-11-01/the-next-logical-step-is-to/sports-plugins/plugins/cbb-sabermetrics"
+          "plugin-eval init-benchmark <workspace>/plugins/cbb-sabermetrics"
         ],
-        "startCommand": "plugin-eval start ~/Documents/Codex/2026-11-01/the-next-logical-step-is-to/sports-plugins/plugins/cbb-sabermetrics --request 'Help me benchmark this plugin.' --format markdown"
+        "startCommand": "plugin-eval start <workspace>/plugins/cbb-sabermetrics --request 'Help me benchmark this plugin.' --format markdown"
       },
       {
         "id": "next",
         "label": "Start Here",
         "chatPrompt": "What should I run next?",
         "summary": "If you are new to plugin-eval, start with the overall evaluation report for this plugin.",
-        "firstCommand": "plugin-eval analyze ~/Documents/Codex/2026-11-01/the-next-logical-step-is-to/sports-plugins/plugins/cbb-sabermetrics --format markdown",
+        "firstCommand": "plugin-eval analyze <workspace>/plugins/cbb-sabermetrics --format markdown",
         "commands": [
-          "plugin-eval analyze ~/Documents/Codex/2026-11-01/the-next-logical-step-is-to/sports-plugins/plugins/cbb-sabermetrics --format markdown"
+          "plugin-eval analyze <workspace>/plugins/cbb-sabermetrics --format markdown"
         ],
-        "startCommand": "plugin-eval start ~/Documents/Codex/2026-11-01/the-next-logical-step-is-to/sports-plugins/plugins/cbb-sabermetrics --request 'What should I run next?' --format markdown"
+        "startCommand": "plugin-eval start <workspace>/plugins/cbb-sabermetrics --request 'What should I run next?' --format markdown"
       }
     ],
     "nextSteps": [
-      "plugin-eval analyze ~/Documents/Codex/2026-11-01/the-next-logical-step-is-to/sports-plugins/plugins/cbb-sabermetrics --format markdown"
+      "plugin-eval analyze <workspace>/plugins/cbb-sabermetrics --format markdown"
     ],
     "nextAction": {
       "label": "Evaluate Plugin",
       "why": "Plugin Eval recommended Evaluate Plugin from the current local state for this plugin.",
-      "command": "plugin-eval analyze ~/Documents/Codex/2026-11-01/the-next-logical-step-is-to/sports-plugins/plugins/cbb-sabermetrics --format markdown",
+      "command": "plugin-eval analyze <workspace>/plugins/cbb-sabermetrics --format markdown",
       "chatPrompt": "Evaluate this plugin."
     }
   }

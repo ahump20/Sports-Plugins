@@ -10,9 +10,13 @@ Package validation now requires LICENSE, matching skill/directory identity, a co
 
 Independent review found an additional editorial Markdown-link/image issue and it was fixed with literal-text and exact-quotation regressions. Full evaluator reports retain their findings, with archived command-path redaction and an explanation of the evaluator's version and informational-count defects.
 
+The follow-up CodeRabbit review also corrected GFM tilde/CR rendering, null quote excerpts, check-to-write output races, relocated catalog sources, filesystem-resolved stdio working directories, stdio launch-field parity, and symlinked LICENSE validation. Both report writers now stage output in a private directory beside the destination and atomically replace the output entry, with regression proof that a racing input symlink/hardlink cannot truncate the input. Current report redaction includes both absolute and tilde-form paths in command strings.
+
 ## Verification
 
 The project check runs TypeScript checking, ESLint, Node tests, Vitest, all Python skill suites and catalog/package validation. Native Claude validates the marketplace and each of seven plugin manifests. Standalone ZIP construction and extraction are exercised separately. See [evaluation reports](evaluation/2026-11-01/README.md) and [the fresh dependency audit](verification/dependency-audit-2026-11-01.json).
+
+The final follow-up has 127 Node tests, 42 Vitest tests, and 199 Python tests of which nine require live-network opt-in and are skipped offline: 359 passed and nine skipped. Main-branch CI and final released-host proofs remain separate evidence.
 
 The candidate set installed all seven packages in a clean Claude configuration. One initial host invocation loaded its skill correctly but its calculator command was denied because it appended an extra shell command outside the narrowly allowed pattern; that was an explicit tool-permission failure, not successful execution. Final merged-release installation, individual invocation and natural-language trigger results belong in the release evidence and must be checked independently of that candidate smoke test.
 

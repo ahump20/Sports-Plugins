@@ -1,6 +1,6 @@
 import {test} from 'node:test';
 import assert from 'node:assert/strict';
-import {existsSync, mkdtempSync, rmSync, readFileSync, mkdirSync, copyFileSync, writeFileSync, readdirSync, symlinkSync} from 'node:fs';
+import {existsSync, mkdtempSync, rmSync, readFileSync, mkdirSync, copyFileSync, cpSync, writeFileSync, readdirSync, symlinkSync} from 'node:fs';
 import {createHash} from 'node:crypto';
 import {spawnSync} from 'node:child_process';
 import {tmpdir} from 'node:os';
@@ -100,6 +100,28 @@ test('packager uses catalog source paths when rejecting archive output', () => {
     assert.ok(!existsSync(output));
   } finally {rmSync(repository, {recursive: true, force: true});}
 });
+for (const staleCopy of [false, true]) {
+  test(`packager reads the relocated catalog source ${staleCopy ? 'instead of a stale conventional copy' : 'without a conventional directory'}`, () => {
+    const repository = archiveFixture('./plugins/relocated-zulu');
+    const source = join(repository, 'plugins/relocated-zulu');
+    const output = join(repository, 'dist');
+    try {
+      if (staleCopy) {
+        cpSync(source, join(repository, 'plugins/zulu'), {recursive: true});
+        writeFileSync(join(repository, 'plugins/zulu/README.md'), 'Stale conventional source\n');
+      }
+      writeFileSync(join(source, 'README.md'), 'Current catalog source\n');
+      const result = run(output, 'zulu', repository);
+      assert.equal(result.status, 0, result.stderr);
+      const manifest = JSON.parse(result.stdout);
+      assert.equal(manifest.length, 1);
+      const archive = join(output, manifest[0].file);
+      const inspect = spawnSync('python3', ['-c', 'import sys,zipfile; z=zipfile.ZipFile(sys.argv[1]); sys.stdout.write(z.read("README.md").decode())', archive], {encoding: 'utf8'});
+      assert.equal(inspect.status, 0, inspect.stderr);
+      assert.equal(inspect.stdout, 'Current catalog source\n');
+    } finally {rmSync(repository, {recursive: true, force: true});}
+  });
+}
 test('packager rejects a symlink alias into another plugin source', () => {
   const repository = archiveFixture(); const alias = join(repository, 'source-alias');
   const output = join(alias, 'skills/releases');

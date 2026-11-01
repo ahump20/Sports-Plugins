@@ -1,6 +1,8 @@
-import importlib.util, json, os, subprocess, sys, tempfile, unittest
+import importlib.util, io, json, os, subprocess, sys, tempfile, unittest
+from contextlib import redirect_stderr
 from pathlib import Path
 from datetime import datetime, timezone
+from unittest.mock import patch
 
 SCRIPT = Path(__file__).resolve().parents[1] / "scripts/evidence_ledger.py"
 NOW = datetime(2026, 10, 31, 12, tzinfo=timezone.utc)
@@ -37,6 +39,15 @@ class EvidenceLedgerTests(unittest.TestCase):
         self.module = importlib.util.module_from_spec(spec)
         spec.loader.exec_module(self.module)
 
+    def _run_output_cli(self, path, output):
+        errors = io.StringIO()
+        with redirect_stderr(errors):
+            code = self.module.main([
+                "--input", str(path), "--output", str(output), "--format", "json",
+                "--now", NOW.isoformat(),
+            ])
+        return code, errors.getvalue()
+
     def test_complete_is_documentation_not_truth_verification(self):
         result = self.module.audit_ledger(fixture(), now=NOW)
         self.assertTrue(result["complete"])
@@ -55,6 +66,25 @@ class EvidenceLedgerTests(unittest.TestCase):
         self.assertTrue(self.module.audit_ledger(data, now=NOW)["complete"])
         data["claims"][0]["text"] = "We were perfect."
         self.assertFalse(self.module.audit_ledger(data, now=NOW)["complete"])
+
+    def test_cli_strict_marks_quote_with_null_excerpt_unresolved(self):
+        with tempfile.TemporaryDirectory() as temp:
+            data = fixture()
+            data["sources"][0]["excerpt"] = None
+            data["claims"][0].update(kind="quote", text="We played well.")
+            path = Path(temp) / "input.json"
+            path.write_text(json.dumps(data), encoding="utf-8")
+            run = subprocess.run(
+                [sys.executable, str(SCRIPT), "--input", str(path), "--format", "json",
+                 "--strict", "--now", NOW.isoformat()],
+                capture_output=True,
+                text=True,
+            )
+            self.assertEqual(run.returncode, 1, run.stderr)
+            result = json.loads(run.stdout)
+            self.assertFalse(result["complete"])
+            self.assertEqual(result["claims"][0]["status"], "unresolved")
+            self.assertIsNone(result["sources"][0]["excerpt"])
 
     def test_padded_citations_resolve_for_quotes_and_output_uses_normalized_ids(self):
         data = fixture()
@@ -81,6 +111,19 @@ class EvidenceLedgerTests(unittest.TestCase):
             r"s1: !\[Tracking pixel\](https://unrelated.example/pixel) \*bold\* \_em\_ \`code\` &lt;b&gt;tag&lt;/b&gt; line <https://example.org/box>",
             self.module.render_markdown(result),
         )
+
+    def test_markdown_keeps_strikethrough_markers_literal_in_titles_and_claims(self):
+        data = fixture()
+        data["sources"][0]["title"] = r"~~corrected~~ \~"
+        data["sources"][0]["excerpt"] = "~~exact quote~~"
+        data["claims"][0].update(kind="quote", text="~~exact quote~~")
+        result = self.module.audit_ledger(data, now=NOW)
+        self.assertTrue(result["complete"], result["issues"])
+        markdown = self.module.render_markdown(result)
+        self.assertIn(r"s1: \~\~corrected\~\~ \\\~ <https://example.org/box>", markdown)
+        self.assertIn(r"| c1: \~\~exact quote\~\~ | quote | documented | s1 |", markdown)
+        self.assertEqual(result["sources"][0]["title"], r"~~corrected~~ \~")
+        self.assertEqual(result["claims"][0]["text"], "~~exact quote~~")
 
     def test_markdown_renders_fact_links_and_backslash_before_pipe_as_literal_text(self):
         data = fixture()
@@ -301,6 +344,124 @@ class EvidenceLedgerTests(unittest.TestCase):
             self.assertEqual(run.returncode, 0, run.stderr)
             self.assertEqual(path.read_bytes(), original)
             self.assertTrue(json.loads(output.read_text(encoding="utf-8"))["complete"])
+
+    def test_cli_racing_output_alias_cannot_change_input_bytes_or_inode(self):
+        for alias in ["symlink", "hardlink"]:
+            with self.subTest(alias=alias), tempfile.TemporaryDirectory() as temp:
+                path, output = Path(temp) / "input.json", Path(temp) / "output.json"
+                original = json.dumps(fixture()).encode("utf-8")
+                path.write_bytes(original)
+                input_inode = path.stat().st_ino
+                output.write_text("previous report", encoding="utf-8")
+                samefile = Path.samefile
+                checked_outputs = {output, output.parent.resolve() / output.name}
+                raced = []
+
+                def replace_after_alias_check(candidate, other):
+                    result = samefile(candidate, other)
+                    if candidate in checked_outputs and not raced:
+                        candidate.unlink()
+                        if alias == "symlink":
+                            candidate.symlink_to(path)
+                        else:
+                            os.link(path, candidate)
+                        self.assertTrue(samefile(candidate, path))
+                        raced.append(alias)
+                    return result
+
+                with patch.object(Path, "samefile", replace_after_alias_check):
+                    code, errors = self._run_output_cli(path, output)
+                self.assertEqual(raced, [alias])
+                self.assertEqual(code, 0, errors)
+                self.assertEqual(path.read_bytes(), original)
+                self.assertEqual(path.stat().st_ino, input_inode)
+                self.assertFalse(output.samefile(path))
+                self.assertTrue(json.loads(output.read_text(encoding="utf-8"))["complete"])
+                self.assertEqual({p.name for p in Path(temp).iterdir()}, {"input.json", "output.json"})
+
+    def test_cli_keeps_selected_destination_when_public_parent_symlink_is_retargeted(self):
+        with tempfile.TemporaryDirectory() as temp:
+            root = Path(temp)
+            input_dir, selected_dir = root / "input", root / "selected"
+            input_dir.mkdir()
+            selected_dir.mkdir()
+            path, selected_report = input_dir / "report.json", selected_dir / "report.json"
+            original = json.dumps(fixture()).encode("utf-8")
+            path.write_bytes(original)
+            input_inode = path.stat().st_ino
+            selected_report.write_text("previous report", encoding="utf-8")
+            public_parent = root / "destination"
+            public_parent.symlink_to(selected_dir, target_is_directory=True)
+            output = public_parent / "report.json"
+            checked_outputs = {output, selected_report.resolve()}
+            samefile = Path.samefile
+            raced = []
+
+            def retarget_parent_after_alias_check(candidate, other):
+                result = samefile(candidate, other)
+                if candidate in checked_outputs and not raced:
+                    public_parent.unlink()
+                    public_parent.symlink_to(input_dir, target_is_directory=True)
+                    raced.append("retargeted")
+                return result
+
+            with patch.object(Path, "samefile", retarget_parent_after_alias_check):
+                code, errors = self._run_output_cli(path, output)
+            self.assertEqual(raced, ["retargeted"])
+            self.assertEqual(code, 0, errors)
+            self.assertEqual(path.read_bytes(), original)
+            self.assertEqual(path.stat().st_ino, input_inode)
+            self.assertTrue(json.loads(selected_report.read_text(encoding="utf-8"))["complete"])
+            self.assertEqual({p.name for p in selected_dir.iterdir()}, {"report.json"})
+            self.assertEqual({p.name for p in input_dir.iterdir()}, {"report.json"})
+            self.assertEqual(public_parent.resolve(), input_dir.resolve())
+
+    def test_cli_failed_report_write_preserves_previous_output_and_cleans_temporary_files(self):
+        with tempfile.TemporaryDirectory() as temp:
+            path, output = Path(temp) / "input.json", Path(temp) / "output.json"
+            original = json.dumps(fixture()).encode("utf-8")
+            path.write_bytes(original)
+            output.write_bytes(b"previous report")
+            write_text = Path.write_text
+
+            def fail_after_partial_write(candidate, value, **kwargs):
+                write_text(candidate, "partial report", **kwargs)
+                raise OSError("Simulated report write failure")
+
+            with patch.object(Path, "write_text", fail_after_partial_write):
+                code, errors = self._run_output_cli(path, output)
+            self.assertEqual(code, 2, errors)
+            self.assertEqual(path.read_bytes(), original)
+            self.assertEqual(output.read_bytes(), b"previous report")
+            self.assertEqual({p.name for p in Path(temp).iterdir()}, {"input.json", "output.json"})
+
+    def test_cli_failed_replace_preserves_previous_output_and_cleans_temporary_files(self):
+        with tempfile.TemporaryDirectory() as temp:
+            path, output = Path(temp) / "input.json", Path(temp) / "output.json"
+            original = json.dumps(fixture()).encode("utf-8")
+            path.write_bytes(original)
+            output.write_bytes(b"previous report")
+            with patch.object(os, "replace", side_effect=OSError("Simulated rename failure")):
+                code, errors = self._run_output_cli(path, output)
+            self.assertEqual(code, 2, errors)
+            self.assertEqual(path.read_bytes(), original)
+            self.assertEqual(output.read_bytes(), b"previous report")
+            self.assertEqual({p.name for p in Path(temp).iterdir()}, {"input.json", "output.json"})
+
+    def test_cli_preserves_existing_output_mode_and_new_file_default_permissions(self):
+        for existing in [False, True]:
+            with self.subTest(existing=existing), tempfile.TemporaryDirectory() as temp:
+                path, output = Path(temp) / "input.json", Path(temp) / "output.json"
+                path.write_text(json.dumps(fixture()), encoding="utf-8")
+                expected_mode = path.stat().st_mode & 0o777
+                if existing:
+                    output.write_text("previous report", encoding="utf-8")
+                    output.chmod(0o640)
+                    expected_mode = 0o640
+                code, errors = self._run_output_cli(path, output)
+                self.assertEqual(code, 0, errors)
+                self.assertEqual(output.stat().st_mode & 0o777, expected_mode)
+                self.assertTrue(json.loads(output.read_text(encoding="utf-8"))["complete"])
 
 
 if __name__ == "__main__":

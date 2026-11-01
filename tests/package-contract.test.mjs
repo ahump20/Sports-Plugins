@@ -62,6 +62,15 @@ test('rejects a LICENSE symlink outside the package', async () => {
     rmSync(outside, {recursive: true, force: true});
   }
 });
+test('rejects a LICENSE symlink even when its target is inside the package', async () => {
+  const check = await checker(); const dir = fixture();
+  try {
+    writeFileSync(join(dir, 'license-text.txt'), 'Example package license\n');
+    rmSync(join(dir, 'LICENSE'));
+    symlinkSync('license-text.txt', join(dir, 'LICENSE'));
+    assert.ok(check(dir).some(e => /LICENSE.*symlink/i.test(e)));
+  } finally { rmSync(dir, {recursive: true, force: true}); }
+});
 test('rejects a skill frontmatter name that differs from its directory', async () => {
   const check = await checker(); const dir = fixture();
   try {
@@ -107,6 +116,8 @@ const invalidPortableMcp = [
   ['reserved data env', portableMcp({example: {type: 'stdio', command: 'node', env: {PLUGIN_DATA: './'}}}), /example.*PLUGIN_DATA/],
   ['absolute cwd', portableMcp({example: {type: 'stdio', command: 'node', cwd: '/tmp'}}), /example.*cwd/],
   ['non-string cwd', portableMcp({example: {type: 'stdio', command: 'node', cwd: 1}}), /example.*cwd/],
+  ['relative cwd escape', portableMcp({example: {type: 'stdio', command: 'node', cwd: './../../outside'}}), /example.*cwd.*(?:escape|inside|within)/],
+  ['PLUGIN_ROOT cwd escape', portableMcp({example: {type: 'stdio', command: 'node', cwd: '${PLUGIN_ROOT}/../outside'}}), /example.*cwd.*(?:escape|inside|within)/],
   ['remote field on stdio', portableMcp({example: {type: 'stdio', command: 'node', url: 'https://example.test'}}), /example.*url/],
   ['missing remote url', portableMcp({example: {type: 'streamable-http'}}), /example.*url/],
   ['empty remote url', portableMcp({example: {...remoteServer, url: ''}}), /example.*url/],
@@ -125,6 +136,71 @@ for (const [label, configuration, expectedError] of invalidPortableMcp) {
     } finally { rmSync(dir, {recursive: true, force: true}); }
   });
 }
+function setStdioCwd(dir, cwd) {
+  writeFileSync(join(dir, 'mcp.json'), JSON.stringify(portableMcp({example: {type: 'stdio', command: 'node', cwd}})));
+}
+for (const [label, cwd, missingTarget] of [
+  ['relative link', './outside-link', false],
+  ['PLUGIN_ROOT link', '${PLUGIN_ROOT}/outside-link', false],
+  ['relative link with missing descendants', './outside-link/missing/run', false],
+  ['PLUGIN_ROOT link with missing descendants', '${PLUGIN_ROOT}/outside-link/missing/run', false],
+  ['relative link followed by parent traversal', './outside-link/..', false],
+  ['PLUGIN_ROOT link followed by parent traversal', '${PLUGIN_ROOT}/outside-link/..', false],
+  ['relative dangling link', './outside-link', true],
+  ['PLUGIN_ROOT dangling link', '${PLUGIN_ROOT}/outside-link', true],
+]) {
+  test(`rejects portable MCP cwd escape through a ${label}`, async () => {
+    const check = await checker(); const dir = fixture();
+    const outside = mkdtempSync(join(tmpdir(), 'sports-cwd-outside-'));
+    try {
+      if (!missingTarget) mkdirSync(join(outside, 'target'));
+      symlinkSync(join(outside, 'target'), join(dir, 'outside-link'), 'dir');
+      setStdioCwd(dir, cwd);
+      const errors = check(dir);
+      assert.ok(errors.some(e => /mcp\.json.*example.*cwd.*(?:escape|inside|within)/.test(e)), errors.join('; '));
+    } finally {
+      rmSync(dir, {recursive: true, force: true});
+      rmSync(outside, {recursive: true, force: true});
+    }
+  });
+}
+test('accepts existing and nonexistent portable MCP cwd paths inside the resolved package root', async () => {
+  const check = await checker(); const dir = fixture();
+  try {
+    mkdirSync(join(dir, 'runtime'));
+    mkdirSync(join(dir, '..cache'));
+    symlinkSync(join(dir, 'runtime'), join(dir, 'runtime-link'), 'dir');
+    symlinkSync(join(dir, 'planned'), join(dir, 'planned-link'), 'dir');
+    for (const cwd of [
+      './', '${PLUGIN_ROOT}', './skills', '${PLUGIN_ROOT}/skills',
+      './missing/child', '${PLUGIN_ROOT}/missing/child',
+      './missing/../skills', '${PLUGIN_ROOT}/missing/../skills',
+      './runtime-link', '${PLUGIN_ROOT}/runtime-link',
+      './runtime-link/missing/child', '${PLUGIN_ROOT}/runtime-link/missing/child',
+      './planned-link/child', '${PLUGIN_ROOT}/planned-link/child',
+      './..cache', '${PLUGIN_ROOT}/..cache',
+      '${PLUGIN_DATA}', '${PLUGIN_DATA}/cache',
+    ]) {
+      setStdioCwd(dir, cwd);
+      assert.deepEqual(check(dir), [], cwd);
+    }
+  } finally { rmSync(dir, {recursive: true, force: true}); }
+});
+test('uses the real package root when checking cwd through a package directory alias', async () => {
+  const check = await checker(); const dir = fixture();
+  const aliases = mkdtempSync(join(tmpdir(), 'sports-cwd-alias-'));
+  try {
+    const alias = join(aliases, 'package');
+    symlinkSync(dir, alias, 'dir');
+    for (const cwd of ['./skills', '${PLUGIN_ROOT}/skills', './missing/child', '${PLUGIN_ROOT}/missing/child']) {
+      setStdioCwd(dir, cwd);
+      assert.deepEqual(check(alias), [], cwd);
+    }
+  } finally {
+    rmSync(aliases, {recursive: true, force: true});
+    rmSync(dir, {recursive: true, force: true});
+  }
+});
 test('accepts portable MCP transports and optional fields without a legacy configuration', async () => {
   const check = await checker(); const dir = fixture();
   try {
@@ -162,6 +238,56 @@ test('compares MCP server names and connections when both formats exist', async 
     assert.ok(check(dir).some(e => /connection example differs/.test(e)));
     writeFileSync(legacyPath, JSON.stringify({mcpServers: {example: {...remoteServer, type: 'sse'}}}));
     assert.ok(check(dir).some(e => /connection example differs/.test(e)));
+  } finally { rmSync(dir, {recursive: true, force: true}); }
+});
+const stdioServer = {type: 'stdio', command: 'node', args: ['./server.mjs', '--port', '3000'], cwd: './runtime', env: {MODE: 'release', PORT: '3000'}};
+for (const [field, legacyServer] of [
+  ['command', {...stdioServer, command: 'python3'}],
+  ['args', {...stdioServer, args: ['--port', './server.mjs', '3000']}],
+  ['cwd', {...stdioServer, cwd: './other'}],
+  ['env', {...stdioServer, env: {MODE: 'release', PORT: '4000'}}],
+]) {
+  test(`rejects differing stdio ${field} between portable and legacy MCP configurations`, async () => {
+    const check = await checker(); const dir = fixture();
+    try {
+      writeFileSync(join(dir, 'mcp.json'), JSON.stringify(portableMcp({example: stdioServer})));
+      writeFileSync(join(dir, '.mcp.json'), JSON.stringify({mcpServers: {example: legacyServer}}));
+      assert.ok(check(dir).some(e => /MCP connection example differs/.test(e)));
+    } finally { rmSync(dir, {recursive: true, force: true}); }
+  });
+}
+test('accepts matching stdio launches with environment keys in a different order', async () => {
+  const check = await checker(); const dir = fixture();
+  try {
+    writeFileSync(join(dir, 'mcp.json'), JSON.stringify(portableMcp({example: stdioServer})));
+    writeFileSync(join(dir, '.mcp.json'), JSON.stringify({mcpServers: {example: {...stdioServer, env: {PORT: '3000', MODE: 'release'}}}}));
+    assert.deepEqual(check(dir), []);
+  } finally { rmSync(dir, {recursive: true, force: true}); }
+});
+test('accepts a matching legacy stdio launch with an implicit transport type', async () => {
+  const check = await checker(); const dir = fixture();
+  try {
+    const legacyServer = {...stdioServer};
+    delete legacyServer.type;
+    writeFileSync(join(dir, 'mcp.json'), JSON.stringify(portableMcp({example: stdioServer})));
+    writeFileSync(join(dir, '.mcp.json'), JSON.stringify({mcpServers: {example: legacyServer}}));
+    assert.deepEqual(check(dir), []);
+  } finally { rmSync(dir, {recursive: true, force: true}); }
+});
+test('accepts equivalent default stdio fields and resolved package cwd paths', async () => {
+  const check = await checker(); const dir = fixture();
+  try {
+    mkdirSync(join(dir, 'runtime'));
+    symlinkSync('runtime', join(dir, 'runtime-link'), 'dir');
+    for (const [portableServer, legacyServer] of [
+      [{type: 'stdio', command: 'node'}, {type: 'stdio', command: 'node', args: [], env: {}, cwd: '${PLUGIN_ROOT}'}],
+      [{...stdioServer, cwd: './missing/../skills'}, {...stdioServer, cwd: '${PLUGIN_ROOT}/skills'}],
+      [{...stdioServer, cwd: './runtime-link'}, {...stdioServer, cwd: '${PLUGIN_ROOT}/runtime'}],
+    ]) {
+      writeFileSync(join(dir, 'mcp.json'), JSON.stringify(portableMcp({example: portableServer})));
+      writeFileSync(join(dir, '.mcp.json'), JSON.stringify({mcpServers: {example: legacyServer}}));
+      assert.deepEqual(check(dir), [], JSON.stringify([portableServer, legacyServer]));
+    }
   } finally { rmSync(dir, {recursive: true, force: true}); }
 });
 test('rejects path traversal, absent components and mismatched identities', async () => {

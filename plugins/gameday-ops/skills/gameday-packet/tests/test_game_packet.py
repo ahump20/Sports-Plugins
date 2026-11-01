@@ -1,6 +1,8 @@
-import copy, importlib.util, json, os, subprocess, sys, tempfile, unittest
+import copy, importlib.util, io, json, os, subprocess, sys, tempfile, unittest
+from contextlib import redirect_stderr
 from pathlib import Path
 from datetime import datetime, timezone
+from unittest.mock import patch
 
 SCRIPT = Path(__file__).resolve().parents[1] / "scripts/game_packet.py"
 NOW = datetime(2026, 10, 31, 12, tzinfo=timezone.utc)
@@ -30,6 +32,15 @@ class GamePacketTests(unittest.TestCase):
         spec = importlib.util.spec_from_file_location("game_packet", SCRIPT)
         self.module = importlib.util.module_from_spec(spec)
         spec.loader.exec_module(self.module)
+
+    def _run_output_cli(self, path, output):
+        errors = io.StringIO()
+        with redirect_stderr(errors):
+            code = self.module.main([
+                "--input", str(path), "--output", str(output), "--format", "json",
+                "--now", NOW.isoformat(),
+            ])
+        return code, errors.getvalue()
 
     def test_final_score_margin_and_winner(self):
         packet = self.module.build_packet(fixture(), now=NOW)
@@ -162,6 +173,41 @@ class GamePacketTests(unittest.TestCase):
             markdown,
         )
 
+    def test_markdown_keeps_strikethrough_markers_literal_in_provider_and_teams(self):
+        data = fixture()
+        data["source"]["provider"] = "~~Provider~~"
+        data["games"][0]["home"]["name"] = r"~~Home~~ \~"
+        data["games"][0]["away"]["name"] = "~~Away~~"
+        packet = self.module.build_packet(data, now=NOW)
+        markdown = self.module.render_markdown(packet)
+        self.assertIn(r"Provider: \~\~Provider\~\~", markdown)
+        self.assertIn(
+            r"| \~\~Away\~\~: 2 | \~\~Home\~\~ \\\~: 5 | final | \~\~Home\~\~ \\\~ won by 3 |",
+            markdown,
+        )
+        self.assertEqual(packet["source"]["provider"], "~~Provider~~")
+        self.assertEqual(packet["games"][0]["winner"], r"~~Home~~ \~")
+
+    def test_markdown_normalizes_line_endings_in_provider_and_team_names(self):
+        for newline in ["\r", "\r\n", "\n"]:
+            with self.subTest(newline=repr(newline)):
+                data = fixture()
+                data["source"]["provider"] = "Provider" + newline + "Fixture"
+                data["games"][0]["home"]["name"] = "Home" + newline + "Fixture"
+                data["games"][0]["away"]["name"] = "Away" + newline + "Fixture"
+                packet = self.module.build_packet(data, now=NOW)
+                markdown = self.module.render_markdown(packet)
+                self.assertNotIn("\r", markdown)
+                self.assertIn("Provider: Provider Fixture\n", markdown)
+                self.assertIn(
+                    "| Away Fixture: 2 | Home Fixture: 5 | final | Home Fixture won by 3 |\n",
+                    markdown,
+                )
+                self.assertEqual(
+                    len([line for line in markdown.splitlines() if line.startswith("|")]), 3
+                )
+                self.assertEqual(packet["games"][0]["winner"], "Home" + newline + "Fixture")
+
     def test_markdown_shows_supplied_coverage_separately_from_retrieval(self):
         data = fixture()
         data["source"]["data_as_of"] = "2025-04-01T15:00:00Z"
@@ -266,6 +312,124 @@ class GamePacketTests(unittest.TestCase):
             self.assertEqual(
                 json.loads(output.read_text(encoding="utf-8"))["games"][0]["margin"], 3
             )
+
+    def test_cli_racing_output_alias_cannot_change_input_bytes_or_inode(self):
+        for alias in ["symlink", "hardlink"]:
+            with self.subTest(alias=alias), tempfile.TemporaryDirectory() as temp:
+                path, output = Path(temp) / "input.json", Path(temp) / "output.json"
+                original = json.dumps(fixture()).encode("utf-8")
+                path.write_bytes(original)
+                input_inode = path.stat().st_ino
+                output.write_text("previous report", encoding="utf-8")
+                samefile = Path.samefile
+                checked_outputs = {output, output.parent.resolve() / output.name}
+                raced = []
+
+                def replace_after_alias_check(candidate, other):
+                    result = samefile(candidate, other)
+                    if candidate in checked_outputs and not raced:
+                        candidate.unlink()
+                        if alias == "symlink":
+                            candidate.symlink_to(path)
+                        else:
+                            os.link(path, candidate)
+                        self.assertTrue(samefile(candidate, path))
+                        raced.append(alias)
+                    return result
+
+                with patch.object(Path, "samefile", replace_after_alias_check):
+                    code, errors = self._run_output_cli(path, output)
+                self.assertEqual(raced, [alias])
+                self.assertEqual(code, 0, errors)
+                self.assertEqual(path.read_bytes(), original)
+                self.assertEqual(path.stat().st_ino, input_inode)
+                self.assertFalse(output.samefile(path))
+                self.assertEqual(json.loads(output.read_text(encoding="utf-8"))["games"][0]["margin"], 3)
+                self.assertEqual({p.name for p in Path(temp).iterdir()}, {"input.json", "output.json"})
+
+    def test_cli_keeps_selected_destination_when_public_parent_symlink_is_retargeted(self):
+        with tempfile.TemporaryDirectory() as temp:
+            root = Path(temp)
+            input_dir, selected_dir = root / "input", root / "selected"
+            input_dir.mkdir()
+            selected_dir.mkdir()
+            path, selected_report = input_dir / "report.json", selected_dir / "report.json"
+            original = json.dumps(fixture()).encode("utf-8")
+            path.write_bytes(original)
+            input_inode = path.stat().st_ino
+            selected_report.write_text("previous report", encoding="utf-8")
+            public_parent = root / "destination"
+            public_parent.symlink_to(selected_dir, target_is_directory=True)
+            output = public_parent / "report.json"
+            checked_outputs = {output, selected_report.resolve()}
+            samefile = Path.samefile
+            raced = []
+
+            def retarget_parent_after_alias_check(candidate, other):
+                result = samefile(candidate, other)
+                if candidate in checked_outputs and not raced:
+                    public_parent.unlink()
+                    public_parent.symlink_to(input_dir, target_is_directory=True)
+                    raced.append("retargeted")
+                return result
+
+            with patch.object(Path, "samefile", retarget_parent_after_alias_check):
+                code, errors = self._run_output_cli(path, output)
+            self.assertEqual(raced, ["retargeted"])
+            self.assertEqual(code, 0, errors)
+            self.assertEqual(path.read_bytes(), original)
+            self.assertEqual(path.stat().st_ino, input_inode)
+            self.assertEqual(json.loads(selected_report.read_text(encoding="utf-8"))["games"][0]["margin"], 3)
+            self.assertEqual({p.name for p in selected_dir.iterdir()}, {"report.json"})
+            self.assertEqual({p.name for p in input_dir.iterdir()}, {"report.json"})
+            self.assertEqual(public_parent.resolve(), input_dir.resolve())
+
+    def test_cli_failed_report_write_preserves_previous_output_and_cleans_temporary_files(self):
+        with tempfile.TemporaryDirectory() as temp:
+            path, output = Path(temp) / "input.json", Path(temp) / "output.json"
+            original = json.dumps(fixture()).encode("utf-8")
+            path.write_bytes(original)
+            output.write_bytes(b"previous report")
+            write_text = Path.write_text
+
+            def fail_after_partial_write(candidate, value, **kwargs):
+                write_text(candidate, "partial report", **kwargs)
+                raise OSError("Simulated report write failure")
+
+            with patch.object(Path, "write_text", fail_after_partial_write):
+                code, errors = self._run_output_cli(path, output)
+            self.assertEqual(code, 2, errors)
+            self.assertEqual(path.read_bytes(), original)
+            self.assertEqual(output.read_bytes(), b"previous report")
+            self.assertEqual({p.name for p in Path(temp).iterdir()}, {"input.json", "output.json"})
+
+    def test_cli_failed_replace_preserves_previous_output_and_cleans_temporary_files(self):
+        with tempfile.TemporaryDirectory() as temp:
+            path, output = Path(temp) / "input.json", Path(temp) / "output.json"
+            original = json.dumps(fixture()).encode("utf-8")
+            path.write_bytes(original)
+            output.write_bytes(b"previous report")
+            with patch.object(os, "replace", side_effect=OSError("Simulated rename failure")):
+                code, errors = self._run_output_cli(path, output)
+            self.assertEqual(code, 2, errors)
+            self.assertEqual(path.read_bytes(), original)
+            self.assertEqual(output.read_bytes(), b"previous report")
+            self.assertEqual({p.name for p in Path(temp).iterdir()}, {"input.json", "output.json"})
+
+    def test_cli_preserves_existing_output_mode_and_new_file_default_permissions(self):
+        for existing in [False, True]:
+            with self.subTest(existing=existing), tempfile.TemporaryDirectory() as temp:
+                path, output = Path(temp) / "input.json", Path(temp) / "output.json"
+                path.write_text(json.dumps(fixture()), encoding="utf-8")
+                expected_mode = path.stat().st_mode & 0o777
+                if existing:
+                    output.write_text("previous report", encoding="utf-8")
+                    output.chmod(0o640)
+                    expected_mode = 0o640
+                code, errors = self._run_output_cli(path, output)
+                self.assertEqual(code, 0, errors)
+                self.assertEqual(output.stat().st_mode & 0o777, expected_mode)
+                self.assertEqual(json.loads(output.read_text(encoding="utf-8"))["games"][0]["margin"], 3)
 
 
 if __name__ == "__main__":

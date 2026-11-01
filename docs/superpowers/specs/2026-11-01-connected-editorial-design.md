@@ -1,6 +1,6 @@
 # Connected Editorial Intelligence Desk
 
-Status: proposed implementation design, pending Austin's approval. This document does not claim an integrated workflow has shipped.
+Status: Austin requested revisions on November 1. The original proposal below is retained for review and is not approved for implementation. The requested revision direction is being clarified. This document does not claim an integrated workflow has shipped.
 
 ## Outcome
 

@@ -5,7 +5,9 @@ import argparse
 import html
 import json
 import math
+import os
 import sys
+import tempfile
 from datetime import datetime, timezone
 from pathlib import Path
 from urllib.parse import urlparse
@@ -156,7 +158,7 @@ def audit_ledger(payload, now=None, max_age_hours=24):
                     "Current claim relies on a stale retrieval: " + source_id
                 )
         if kind == "quote" and not any(
-            statement in sources[s].get("excerpt", "")
+            statement in (sources[s].get("excerpt") or "")
             for s in source_ids
             if s in sources
         ):
@@ -203,7 +205,7 @@ def audit_ledger(payload, now=None, max_age_hours=24):
 def render_markdown(result):
     def safe(value):
         escaped = html.escape(str(value))
-        for character in ("\\", "[", "]", "`", "*", "_", "|"):
+        for character in ("\\", "[", "]", "`", "*", "_", "|", "~"):
             escaped = escaped.replace(character, "\\" + character)
         return escaped.replace("\r\n", " ").replace("\r", " ").replace("\n", " ")
 
@@ -278,11 +280,22 @@ def main(argv=None):
         )
         if args.output:
             input_path, output_path = Path(args.input), Path(args.output)
+            output_path = output_path.parent.resolve() / output_path.name
             if output_path.resolve() == input_path.resolve() or (
                 output_path.exists() and output_path.samefile(input_path)
             ):
                 raise ValueError("--output must differ from --input")
-            output_path.write_text(output, encoding="utf-8")
+            output_mode = (
+                output_path.stat().st_mode & 0o777 if output_path.exists() else None
+            )
+            with tempfile.TemporaryDirectory(
+                dir=output_path.parent, prefix=".report-"
+            ) as temporary_dir:
+                temporary_path = Path(temporary_dir) / "report"
+                temporary_path.write_text(output, encoding="utf-8")
+                if output_mode is not None:
+                    temporary_path.chmod(output_mode)
+                os.replace(temporary_path, output_path)
         else:
             print(output, end="")
         return 1 if args.strict and not result["complete"] else 0

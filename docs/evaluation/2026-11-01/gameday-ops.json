@@ -4,17 +4,17 @@
     "name": "plugin-eval",
     "version": "0.1.0"
   },
-  "createdAt": "2026-11-01T05:43:48.420Z",
+  "createdAt": "2026-11-01T06:08:09.401Z",
   "target": {
     "kind": "plugin",
     "path": "<workspace>/plugins/gameday-ops",
     "entryPath": "<workspace>/plugins/gameday-ops/.codex-plugin/plugin.json",
     "name": "gameday-ops",
-    "relativePath": "sports-plugins/plugins/gameday-ops"
+    "relativePath": "plugins/gameday-ops"
   },
   "summary": {
-    "score": 58,
-    "grade": "D",
+    "score": 54,
+    "grade": "F",
     "riskLevel": "high",
     "riskReasons": [
       "Contains 2 failing error checks (interface-missing-privacyPolicyURL, interface-missing-termsOfServiceURL).",
@@ -22,8 +22,8 @@
     ],
     "scoreBreakdown": {
       "startingScore": 100,
-      "totalDeductions": 41.75,
-      "finalScore": 58,
+      "totalDeductions": 46.25,
+      "finalScore": 54,
       "gradeThresholds": {
         "A": 93,
         "B": 85,
@@ -32,13 +32,13 @@
       }
     },
     "checkCounts": {
-      "total": 6,
+      "total": 7,
       "pass": 0,
-      "warn": 3,
+      "warn": 4,
       "fail": 2,
       "info": 2,
       "error": 2,
-      "warning": 3
+      "warning": 4
     },
     "deductions": [
       {
@@ -52,7 +52,7 @@
           "Add interface.privacyPolicyURL to plugin.json."
         ],
         "source": "core",
-        "targetPath": "sports-plugins/plugins/gameday-ops"
+        "targetPath": "plugins/gameday-ops"
       },
       {
         "id": "interface-missing-termsOfServiceURL",
@@ -65,7 +65,19 @@
           "Add interface.termsOfServiceURL to plugin.json."
         ],
         "source": "core",
-        "targetPath": "sports-plugins/plugins/gameday-ops"
+        "targetPath": "plugins/gameday-ops"
+      },
+      {
+        "id": "deferred_cost_tokens-budget-high",
+        "category": "budget",
+        "severity": "warning",
+        "status": "warn",
+        "message": "deferred_cost_tokens is heavy relative to the current Codex baseline.",
+        "penalty": 4.5,
+        "remediation": [
+          "Reduce repeated instruction text and move detail into deferred supporting files."
+        ],
+        "source": "core"
       },
       {
         "id": "py-complexity-high",
@@ -128,6 +140,11 @@
         "checks": 2
       },
       {
+        "category": "budget",
+        "totalPenalty": 4.5,
+        "checks": 1
+      },
+      {
         "category": "complexity",
         "totalPenalty": 4.5,
         "checks": 1
@@ -141,13 +158,13 @@
     "topRecommendations": [
       "Add interface.privacyPolicyURL to plugin.json.",
       "Add interface.termsOfServiceURL to plugin.json.",
+      "Reduce repeated instruction text and move detail into deferred supporting files.",
       "Split complex functions into smaller helpers or guard clauses.",
-      "Break large functions into smaller helpers with clear names.",
-      "Wrap long expressions and keep docstrings or SQL fragments easier to scan."
+      "Break large functions into smaller helpers with clear names."
     ],
     "whyBullets": [
       "2 failing error checks are driving the highest-confidence problems.",
-      "3 warning signals still need cleanup before this feels polished.",
+      "4 warning signals still need cleanup before this feels polished.",
       "manifest is the largest source of score loss at -28 points.",
       "Budget pressure is not the dominant issue right now.",
       "No observed usage is attached yet, so budget conclusions are still based on static estimates."
@@ -165,7 +182,7 @@
         ],
         "penalty": 14,
         "source": "core",
-        "targetPath": "sports-plugins/plugins/gameday-ops"
+        "targetPath": "plugins/gameday-ops"
       },
       {
         "id": "interface-missing-termsOfServiceURL",
@@ -179,8 +196,23 @@
         ],
         "penalty": 14,
         "source": "core",
-        "targetPath": "sports-plugins/plugins/gameday-ops"
+        "targetPath": "plugins/gameday-ops"
       },
+      {
+        "id": "deferred_cost_tokens-budget-high",
+        "category": "budget",
+        "severity": "warning",
+        "status": "warn",
+        "message": "deferred_cost_tokens is heavy relative to the current Codex baseline.",
+        "why": "Budget pressure matters because always-loaded or frequently-loaded text can make the workflow feel expensive fast.",
+        "remediation": [
+          "Reduce repeated instruction text and move detail into deferred supporting files."
+        ],
+        "penalty": 4.5,
+        "source": "core"
+      }
+    ],
+    "watchNext": [
       {
         "id": "py-complexity-high",
         "category": "complexity",
@@ -193,9 +225,7 @@
         ],
         "penalty": 4.5,
         "source": "core"
-      }
-    ],
-    "watchNext": [
+      },
       {
         "id": "py-function-length-high",
         "category": "readability",
@@ -287,8 +317,8 @@
       ]
     },
     "deferred_cost_tokens": {
-      "value": 6489,
-      "band": "moderate",
+      "value": 8887,
+      "band": "heavy",
       "thresholds": {
         "goodMax": 27,
         "moderateMax": 7987,
@@ -328,13 +358,13 @@
         {
           "label": "skills/gameday-packet/scripts/game_packet.py",
           "path": "<workspace>/plugins/gameday-ops/skills/gameday-packet/scripts/game_packet.py",
-          "tokens": 2394,
+          "tokens": 2552,
           "note": "Deferred supporting file"
         },
         {
           "label": "skills/gameday-packet/tests/test_game_packet.py",
           "path": "<workspace>/plugins/gameday-ops/skills/gameday-packet/tests/test_game_packet.py",
-          "tokens": 2948,
+          "tokens": 5188,
           "note": "Deferred supporting file"
         }
       ]
@@ -350,8 +380,8 @@
       "components": []
     },
     "total_tokens": {
-      "value": 7390,
-      "band": "moderate"
+      "value": 9788,
+      "band": "heavy"
     }
   },
   "observedUsage": null,
@@ -369,7 +399,7 @@
         "Add interface.privacyPolicyURL to plugin.json."
       ],
       "source": "core",
-      "targetPath": "sports-plugins/plugins/gameday-ops"
+      "targetPath": "plugins/gameday-ops"
     },
     {
       "id": "interface-missing-termsOfServiceURL",
@@ -384,7 +414,22 @@
         "Add interface.termsOfServiceURL to plugin.json."
       ],
       "source": "core",
-      "targetPath": "sports-plugins/plugins/gameday-ops"
+      "targetPath": "plugins/gameday-ops"
+    },
+    {
+      "id": "deferred_cost_tokens-budget-high",
+      "category": "budget",
+      "severity": "warning",
+      "status": "warn",
+      "message": "deferred_cost_tokens is heavy relative to the current Codex baseline.",
+      "evidence": [
+        "Value: 8887 tokens",
+        "Baseline samples: skills=60, plugins=180"
+      ],
+      "remediation": [
+        "Reduce repeated instruction text and move detail into deferred supporting files."
+      ],
+      "source": "core"
     },
     {
       "id": "py-complexity-high",
@@ -393,7 +438,7 @@
       "status": "warn",
       "message": "At least one Python function has high cyclomatic complexity.",
       "evidence": [
-        "Max complexity: 81"
+        "Max complexity: 83"
       ],
       "remediation": [
         "Split complex functions into smaller helpers or guard clauses."
@@ -435,7 +480,7 @@
       "status": "info",
       "message": "No coverage artifacts were found for this target.",
       "evidence": [
-        "sports-plugins/plugins/gameday-ops"
+        "plugins/gameday-ops"
       ],
       "remediation": [
         "Generate `lcov.info`, `coverage.xml`, or an Istanbul coverage JSON file if you want coverage scoring."
@@ -451,7 +496,7 @@
       "unit": "lines",
       "band": "good",
       "source": "core",
-      "targetPath": "sports-plugins/plugins/gameday-ops/skills/gameday-packet"
+      "targetPath": "plugins/gameday-ops/skills/gameday-packet"
     },
     {
       "id": "skill:gameday-packet:description_length_chars",
@@ -460,7 +505,7 @@
       "unit": "chars",
       "band": "good",
       "source": "core",
-      "targetPath": "sports-plugins/plugins/gameday-ops/skills/gameday-packet"
+      "targetPath": "plugins/gameday-ops/skills/gameday-packet"
     },
     {
       "id": "skill:gameday-packet:relative_link_count",
@@ -469,7 +514,7 @@
       "unit": "links",
       "band": "good",
       "source": "core",
-      "targetPath": "sports-plugins/plugins/gameday-ops/skills/gameday-packet"
+      "targetPath": "plugins/gameday-ops/skills/gameday-packet"
     },
     {
       "id": "skill:gameday-packet:code_fence_count",
@@ -478,7 +523,7 @@
       "unit": "blocks",
       "band": "good",
       "source": "core",
-      "targetPath": "sports-plugins/plugins/gameday-ops/skills/gameday-packet"
+      "targetPath": "plugins/gameday-ops/skills/gameday-packet"
     },
     {
       "id": "skill:gameday-packet:support_file_count",
@@ -487,7 +532,7 @@
       "unit": "files",
       "band": "good",
       "source": "core",
-      "targetPath": "sports-plugins/plugins/gameday-ops/skills/gameday-packet"
+      "targetPath": "plugins/gameday-ops/skills/gameday-packet"
     },
     {
       "id": "plugin_skill_count",
@@ -496,7 +541,7 @@
       "unit": "skills",
       "band": "good",
       "source": "core",
-      "targetPath": "sports-plugins/plugins/gameday-ops"
+      "targetPath": "plugins/gameday-ops"
     },
     {
       "id": "plugin_keyword_count",
@@ -505,7 +550,7 @@
       "unit": "keywords",
       "band": "good",
       "source": "core",
-      "targetPath": "sports-plugins/plugins/gameday-ops"
+      "targetPath": "plugins/gameday-ops"
     },
     {
       "id": "plugin_default_prompt_count",
@@ -514,7 +559,7 @@
       "unit": "prompts",
       "band": "moderate",
       "source": "core",
-      "targetPath": "sports-plugins/plugins/gameday-ops"
+      "targetPath": "plugins/gameday-ops"
     },
     {
       "id": "trigger_cost_tokens",
@@ -535,9 +580,9 @@
     {
       "id": "deferred_cost_tokens",
       "category": "budget",
-      "value": 6489,
+      "value": 8887,
       "unit": "tokens",
-      "band": "moderate",
+      "band": "heavy",
       "source": "core"
     },
     {
@@ -559,7 +604,7 @@
     {
       "id": "py_function_count",
       "category": "code-quality",
-      "value": 32,
+      "value": 43,
       "unit": "functions",
       "band": "good",
       "source": "core"
@@ -567,7 +612,7 @@
     {
       "id": "py_max_cyclomatic_complexity",
       "category": "complexity",
-      "value": 81,
+      "value": 83,
       "unit": "score",
       "band": "heavy",
       "source": "core"
@@ -575,7 +620,7 @@
     {
       "id": "py_average_function_length",
       "category": "readability",
-      "value": 15.06,
+      "value": 15.53,
       "unit": "lines",
       "band": "good",
       "source": "core"
@@ -708,8 +753,8 @@
             ]
           },
           "deferred_cost_tokens": {
-            "value": 6489,
-            "band": "moderate",
+            "value": 8887,
+            "band": "heavy",
             "thresholds": {
               "goodMax": 27,
               "moderateMax": 7987,
@@ -749,13 +794,13 @@
               {
                 "label": "skills/gameday-packet/scripts/game_packet.py",
                 "path": "<workspace>/plugins/gameday-ops/skills/gameday-packet/scripts/game_packet.py",
-                "tokens": 2394,
+                "tokens": 2552,
                 "note": "Deferred supporting file"
               },
               {
                 "label": "skills/gameday-packet/tests/test_game_packet.py",
                 "path": "<workspace>/plugins/gameday-ops/skills/gameday-packet/tests/test_game_packet.py",
-                "tokens": 2948,
+                "tokens": 5188,
                 "note": "Deferred supporting file"
               }
             ]
@@ -771,17 +816,17 @@
             "components": []
           },
           "total_tokens": {
-            "value": 7390,
-            "band": "moderate"
+            "value": 9788,
+            "band": "heavy"
           }
         },
         "baselineEvidence": {
           "skillSamples": 60,
           "pluginSamples": 180,
           "sourceRoots": [
-            "../../../../.codex/skills",
-            "../../../../.codex/plugins/cache/openai-curated",
-            "../../../../.codex/.tmp/plugins/plugins"
+            "../../../../../.codex/skills",
+            "../../../../../.codex/plugins/cache/openai-curated",
+            "../../../../../.codex/.tmp/plugins/plugins"
           ]
         }
       }
@@ -797,17 +842,17 @@
           {
             "path": "skills/gameday-packet/scripts/game_packet.py",
             "functionCount": 9,
-            "complexity": 81,
+            "complexity": 83,
             "maxFunctionLength": 105,
             "maxNesting": 6,
             "longLines": 0
           },
           {
             "path": "skills/gameday-packet/tests/test_game_packet.py",
-            "functionCount": 23,
-            "complexity": 14,
-            "maxFunctionLength": 28,
-            "maxNesting": 4,
+            "functionCount": 34,
+            "complexity": 30,
+            "maxFunctionLength": 36,
+            "maxNesting": 6,
             "longLines": 1
           }
         ]
@@ -961,13 +1006,13 @@
   "extensions": [],
   "measurementPlan": {
     "kind": "measurement-plan",
-    "createdAt": "2026-11-01T05:43:50.945Z",
+    "createdAt": "2026-11-01T06:08:11.906Z",
     "target": {
       "kind": "plugin",
       "path": "<workspace>/plugins/gameday-ops",
       "entryPath": "<workspace>/plugins/gameday-ops/.codex-plugin/plugin.json",
       "name": "gameday-ops",
-      "relativePath": "sports-plugins/plugins/gameday-ops"
+      "relativePath": "plugins/gameday-ops"
     },
     "title": "Measurement plan for gameday-ops",
     "summary": "Combine cost, outcome, and trust signals so you can tell whether the skill or plugin is genuinely helping instead of only looking well-structured on paper.",
@@ -1253,7 +1298,7 @@
     "nextAction": {
       "label": "Start with Token Usage Observer",
       "why": "Measure how many tokens the skill or plugin actually burns in representative runs.",
-      "command": "plugin-eval start ~/Documents/Codex/2026-11-01/the-next-logical-step-is-to/sports-plugins/plugins/gameday-ops --request 'What should I run next?' --format markdown",
+      "command": "plugin-eval start <workspace>/plugins/gameday-ops --request 'What should I run next?' --format markdown",
       "chatPrompt": "What should I run next?",
       "toolsetId": "token-usage-observer"
     }
@@ -1265,15 +1310,15 @@
       "path": "<workspace>/plugins/gameday-ops",
       "entryPath": "<workspace>/plugins/gameday-ops/.codex-plugin/plugin.json",
       "name": "gameday-ops",
-      "relativePath": "sports-plugins/plugins/gameday-ops"
+      "relativePath": "plugins/gameday-ops"
     },
-    "summary": "Raise the evaluation from grade D (58/100) with a focus on the highest-signal structural and budget issues first.",
+    "summary": "Raise the evaluation from grade F (54/100) with a focus on the highest-signal structural and budget issues first.",
     "goals": [
       "Add interface.privacyPolicyURL to plugin.json.",
       "Add interface.termsOfServiceURL to plugin.json.",
+      "Reduce repeated instruction text and move detail into deferred supporting files.",
       "Split complex functions into smaller helpers or guard clauses.",
-      "Break large functions into smaller helpers with clear names.",
-      "Wrap long expressions and keep docstrings or SQL fragments easier to scan."
+      "Break large functions into smaller helpers with clear names."
     ],
     "measurementGoals": [
       "token-usage-observer",
@@ -1298,6 +1343,13 @@
     ],
     "recommendedFixes": [
       {
+        "id": "deferred_cost_tokens-budget-high",
+        "message": "deferred_cost_tokens is heavy relative to the current Codex baseline.",
+        "remediation": [
+          "Reduce repeated instruction text and move detail into deferred supporting files."
+        ]
+      },
+      {
         "id": "py-complexity-high",
         "message": "At least one Python function has high cyclomatic complexity.",
         "remediation": [
@@ -1319,23 +1371,23 @@
         ]
       }
     ],
-    "suggestedPrompt": "Use the skill-creator guidance to improve gameday-ops. Keep the structure compact and move bulky details into references or scripts. Define success measures with these toolsets: token-usage-observer, task-outcome-scorecard, tool-call-audit. Address interface-missing-privacyPolicyURL: plugin.json interface is missing `privacyPolicyURL`. Address interface-missing-termsOfServiceURL: plugin.json interface is missing `termsOfServiceURL`. Address py-complexity-high: At least one Python function has high cyclomatic complexity. Address py-function-length-high: At least one Python function is long enough to hurt readability. Address py-long-lines: Some Python lines exceed 120 characters."
+    "suggestedPrompt": "Use the skill-creator guidance to improve gameday-ops. Keep the structure compact and move bulky details into references or scripts. Define success measures with these toolsets: token-usage-observer, task-outcome-scorecard, tool-call-audit. Address interface-missing-privacyPolicyURL: plugin.json interface is missing `privacyPolicyURL`. Address interface-missing-termsOfServiceURL: plugin.json interface is missing `termsOfServiceURL`. Address deferred_cost_tokens-budget-high: deferred_cost_tokens is heavy relative to the current Codex baseline. Address py-complexity-high: At least one Python function has high cyclomatic complexity. Address py-function-length-high: At least one Python function is long enough to hurt readability. Address py-long-lines: Some Python lines exceed 120 characters."
   },
   "nextAction": {
     "label": "Fix structural issues first",
     "why": "Failing manifest or skill structure issues reduce trust and can invalidate later measurements.",
-    "command": "plugin-eval start ~/Documents/Codex/2026-11-01/the-next-logical-step-is-to/sports-plugins/plugins/gameday-ops --request 'What should I fix first?' --format markdown",
+    "command": "plugin-eval start <workspace>/plugins/gameday-ops --request 'What should I fix first?' --format markdown",
     "chatPrompt": "What should I fix first?"
   },
   "workflowGuide": {
     "kind": "workflow-guide",
-    "createdAt": "2026-11-01T05:43:50.947Z",
+    "createdAt": "2026-11-01T06:08:11.908Z",
     "target": {
       "kind": "plugin",
       "path": "<workspace>/plugins/gameday-ops",
       "entryPath": "<workspace>/plugins/gameday-ops/.codex-plugin/plugin.json",
       "name": "gameday-ops",
-      "relativePath": "sports-plugins/plugins/gameday-ops"
+      "relativePath": "plugins/gameday-ops"
     },
     "requestedGoal": "evaluate",
     "requestedChatPrompt": null,
@@ -1346,11 +1398,11 @@
       "label": "Evaluate Plugin",
       "chatPrompt": "Evaluate this plugin.",
       "summary": "Start here when you want the overall report for a plugin, including structure, budgets, and code checks.",
-      "firstCommand": "plugin-eval analyze ~/Documents/Codex/2026-11-01/the-next-logical-step-is-to/sports-plugins/plugins/gameday-ops --format markdown",
+      "firstCommand": "plugin-eval analyze <workspace>/plugins/gameday-ops --format markdown",
       "commands": [
-        "plugin-eval analyze ~/Documents/Codex/2026-11-01/the-next-logical-step-is-to/sports-plugins/plugins/gameday-ops --format markdown"
+        "plugin-eval analyze <workspace>/plugins/gameday-ops --format markdown"
       ],
-      "startCommand": "plugin-eval start ~/Documents/Codex/2026-11-01/the-next-logical-step-is-to/sports-plugins/plugins/gameday-ops --request 'Evaluate this plugin.' --format markdown"
+      "startCommand": "plugin-eval start <workspace>/plugins/gameday-ops --request 'Evaluate this plugin.' --format markdown"
     },
     "workflowStatus": {
       "hasBenchmarkConfig": false,
@@ -1362,10 +1414,10 @@
       "label": "Evaluate Plugin",
       "summary": "Start here when you want the overall report for a plugin, including structure, budgets, and code checks.",
       "routingExplanation": "Plugin Eval recommended Evaluate Plugin from the current local state for this plugin.",
-      "startCommand": "plugin-eval start ~/Documents/Codex/2026-11-01/the-next-logical-step-is-to/sports-plugins/plugins/gameday-ops --request 'Evaluate this plugin.' --format markdown",
-      "firstCommand": "plugin-eval analyze ~/Documents/Codex/2026-11-01/the-next-logical-step-is-to/sports-plugins/plugins/gameday-ops --format markdown",
+      "startCommand": "plugin-eval start <workspace>/plugins/gameday-ops --request 'Evaluate this plugin.' --format markdown",
+      "firstCommand": "plugin-eval analyze <workspace>/plugins/gameday-ops --format markdown",
       "commands": [
-        "plugin-eval analyze ~/Documents/Codex/2026-11-01/the-next-logical-step-is-to/sports-plugins/plugins/gameday-ops --format markdown"
+        "plugin-eval analyze <workspace>/plugins/gameday-ops --format markdown"
       ]
     },
     "entrypoints": [
@@ -1374,79 +1426,79 @@
         "label": "Full Plugin Analysis",
         "chatPrompt": "Give me a full analysis of this plugin, including benchmark setup.",
         "summary": "Use this when you want the full report and starter benchmark setup for this plugin in one guided path.",
-        "firstCommand": "plugin-eval analyze ~/Documents/Codex/2026-11-01/the-next-logical-step-is-to/sports-plugins/plugins/gameday-ops --format markdown",
+        "firstCommand": "plugin-eval analyze <workspace>/plugins/gameday-ops --format markdown",
         "commands": [
-          "plugin-eval analyze ~/Documents/Codex/2026-11-01/the-next-logical-step-is-to/sports-plugins/plugins/gameday-ops --format markdown",
-          "plugin-eval init-benchmark ~/Documents/Codex/2026-11-01/the-next-logical-step-is-to/sports-plugins/plugins/gameday-ops",
-          "plugin-eval benchmark ~/Documents/Codex/2026-11-01/the-next-logical-step-is-to/sports-plugins/plugins/gameday-ops --config ~/Documents/Codex/2026-11-01/the-next-logical-step-is-to/sports-plugins/plugins/gameday-ops/.plugin-eval/benchmark.json"
+          "plugin-eval analyze <workspace>/plugins/gameday-ops --format markdown",
+          "plugin-eval init-benchmark <workspace>/plugins/gameday-ops",
+          "plugin-eval benchmark <workspace>/plugins/gameday-ops --config <workspace>/plugins/gameday-ops/.plugin-eval/benchmark.json"
         ],
-        "startCommand": "plugin-eval start ~/Documents/Codex/2026-11-01/the-next-logical-step-is-to/sports-plugins/plugins/gameday-ops --request 'Give me a full analysis of this plugin, including benchmark setup.' --format markdown"
+        "startCommand": "plugin-eval start <workspace>/plugins/gameday-ops --request 'Give me a full analysis of this plugin, including benchmark setup.' --format markdown"
       },
       {
         "id": "evaluate",
         "label": "Evaluate Plugin",
         "chatPrompt": "Evaluate this plugin.",
         "summary": "Start here when you want the overall report for a plugin, including structure, budgets, and code checks.",
-        "firstCommand": "plugin-eval analyze ~/Documents/Codex/2026-11-01/the-next-logical-step-is-to/sports-plugins/plugins/gameday-ops --format markdown",
+        "firstCommand": "plugin-eval analyze <workspace>/plugins/gameday-ops --format markdown",
         "commands": [
-          "plugin-eval analyze ~/Documents/Codex/2026-11-01/the-next-logical-step-is-to/sports-plugins/plugins/gameday-ops --format markdown"
+          "plugin-eval analyze <workspace>/plugins/gameday-ops --format markdown"
         ],
-        "startCommand": "plugin-eval start ~/Documents/Codex/2026-11-01/the-next-logical-step-is-to/sports-plugins/plugins/gameday-ops --request 'Evaluate this plugin.' --format markdown"
+        "startCommand": "plugin-eval start <workspace>/plugins/gameday-ops --request 'Evaluate this plugin.' --format markdown"
       },
       {
         "id": "budget",
         "label": "Explain Token Budget",
         "chatPrompt": "Explain the token budget for this plugin.",
         "summary": "Use this when the main question is why the plugin feels expensive before you collect any live measurements.",
-        "firstCommand": "plugin-eval explain-budget ~/Documents/Codex/2026-11-01/the-next-logical-step-is-to/sports-plugins/plugins/gameday-ops --format markdown",
+        "firstCommand": "plugin-eval explain-budget <workspace>/plugins/gameday-ops --format markdown",
         "commands": [
-          "plugin-eval explain-budget ~/Documents/Codex/2026-11-01/the-next-logical-step-is-to/sports-plugins/plugins/gameday-ops --format markdown"
+          "plugin-eval explain-budget <workspace>/plugins/gameday-ops --format markdown"
         ],
-        "startCommand": "plugin-eval start ~/Documents/Codex/2026-11-01/the-next-logical-step-is-to/sports-plugins/plugins/gameday-ops --request 'Explain the token budget for this plugin.' --format markdown"
+        "startCommand": "plugin-eval start <workspace>/plugins/gameday-ops --request 'Explain the token budget for this plugin.' --format markdown"
       },
       {
         "id": "measure",
         "label": "Measure Real Token Usage",
         "chatPrompt": "Measure the real token usage of this plugin.",
         "summary": "Use this when you want real token usage instead of only the static estimate.",
-        "firstCommand": "plugin-eval init-benchmark ~/Documents/Codex/2026-11-01/the-next-logical-step-is-to/sports-plugins/plugins/gameday-ops",
+        "firstCommand": "plugin-eval init-benchmark <workspace>/plugins/gameday-ops",
         "commands": [
-          "plugin-eval init-benchmark ~/Documents/Codex/2026-11-01/the-next-logical-step-is-to/sports-plugins/plugins/gameday-ops",
-          "plugin-eval benchmark ~/Documents/Codex/2026-11-01/the-next-logical-step-is-to/sports-plugins/plugins/gameday-ops --config ~/Documents/Codex/2026-11-01/the-next-logical-step-is-to/sports-plugins/plugins/gameday-ops/.plugin-eval/benchmark.json",
-          "plugin-eval analyze ~/Documents/Codex/2026-11-01/the-next-logical-step-is-to/sports-plugins/plugins/gameday-ops --observed-usage ~/Documents/Codex/2026-11-01/the-next-logical-step-is-to/sports-plugins/plugins/gameday-ops/.plugin-eval/benchmark-usage.jsonl --format markdown"
+          "plugin-eval init-benchmark <workspace>/plugins/gameday-ops",
+          "plugin-eval benchmark <workspace>/plugins/gameday-ops --config <workspace>/plugins/gameday-ops/.plugin-eval/benchmark.json",
+          "plugin-eval analyze <workspace>/plugins/gameday-ops --observed-usage <workspace>/plugins/gameday-ops/.plugin-eval/benchmark-usage.jsonl --format markdown"
         ],
-        "startCommand": "plugin-eval start ~/Documents/Codex/2026-11-01/the-next-logical-step-is-to/sports-plugins/plugins/gameday-ops --request 'Measure the real token usage of this plugin.' --format markdown"
+        "startCommand": "plugin-eval start <workspace>/plugins/gameday-ops --request 'Measure the real token usage of this plugin.' --format markdown"
       },
       {
         "id": "benchmark",
         "label": "Benchmark With Starter Scenarios",
         "chatPrompt": "Help me benchmark this plugin.",
         "summary": "Use this when you want starter scenarios and a repeatable real-Codex benchmark run for this plugin.",
-        "firstCommand": "plugin-eval init-benchmark ~/Documents/Codex/2026-11-01/the-next-logical-step-is-to/sports-plugins/plugins/gameday-ops",
+        "firstCommand": "plugin-eval init-benchmark <workspace>/plugins/gameday-ops",
         "commands": [
-          "plugin-eval init-benchmark ~/Documents/Codex/2026-11-01/the-next-logical-step-is-to/sports-plugins/plugins/gameday-ops"
+          "plugin-eval init-benchmark <workspace>/plugins/gameday-ops"
         ],
-        "startCommand": "plugin-eval start ~/Documents/Codex/2026-11-01/the-next-logical-step-is-to/sports-plugins/plugins/gameday-ops --request 'Help me benchmark this plugin.' --format markdown"
+        "startCommand": "plugin-eval start <workspace>/plugins/gameday-ops --request 'Help me benchmark this plugin.' --format markdown"
       },
       {
         "id": "next",
         "label": "Start Here",
         "chatPrompt": "What should I run next?",
         "summary": "If you are new to plugin-eval, start with the overall evaluation report for this plugin.",
-        "firstCommand": "plugin-eval analyze ~/Documents/Codex/2026-11-01/the-next-logical-step-is-to/sports-plugins/plugins/gameday-ops --format markdown",
+        "firstCommand": "plugin-eval analyze <workspace>/plugins/gameday-ops --format markdown",
         "commands": [
-          "plugin-eval analyze ~/Documents/Codex/2026-11-01/the-next-logical-step-is-to/sports-plugins/plugins/gameday-ops --format markdown"
+          "plugin-eval analyze <workspace>/plugins/gameday-ops --format markdown"
         ],
-        "startCommand": "plugin-eval start ~/Documents/Codex/2026-11-01/the-next-logical-step-is-to/sports-plugins/plugins/gameday-ops --request 'What should I run next?' --format markdown"
+        "startCommand": "plugin-eval start <workspace>/plugins/gameday-ops --request 'What should I run next?' --format markdown"
       }
     ],
     "nextSteps": [
-      "plugin-eval analyze ~/Documents/Codex/2026-11-01/the-next-logical-step-is-to/sports-plugins/plugins/gameday-ops --format markdown"
+      "plugin-eval analyze <workspace>/plugins/gameday-ops --format markdown"
     ],
     "nextAction": {
       "label": "Evaluate Plugin",
       "why": "Plugin Eval recommended Evaluate Plugin from the current local state for this plugin.",
-      "command": "plugin-eval analyze ~/Documents/Codex/2026-11-01/the-next-logical-step-is-to/sports-plugins/plugins/gameday-ops --format markdown",
+      "command": "plugin-eval analyze <workspace>/plugins/gameday-ops --format markdown",
       "chatPrompt": "Evaluate this plugin."
     }
   }
