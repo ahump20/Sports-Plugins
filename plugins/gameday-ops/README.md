@@ -9,7 +9,7 @@ python3 skills/gameday-packet/scripts/game_packet.py --input input.json --format
 python3 -m unittest discover -s skills/gameday-packet/tests -v
 ```
 
-See [the workflow](skills/gameday-packet/SKILL.md) and [input contract](skills/gameday-packet/references/input-contract.md). JSON output is available with `--format json`; use `--strict` for a nonzero exit on unresolved freshness or documentation checks. `--output` writes only the requested output file. All included example observations are synthetic test fixtures.
+See [the workflow](skills/gameday-packet/SKILL.md) and [input contract](skills/gameday-packet/references/input-contract.md). JSON output is available with `--format json`; use `--strict` to exit 1 for stale or future retrievals. Unknown provider coverage remains a warning and does not make a fresh retrieval fail `--strict`. `--output` writes only the requested output file. All included example observations are synthetic test fixtures.
 
 ## Claude Code installation
 

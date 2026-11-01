@@ -1,6 +1,6 @@
 {
   "name": "cbb-sabermetrics",
-  "version": "0.3.0",
+  "version": "0.3.1",
   "description": "Source-attributed NCAA baseball observations and explicit-input metric interpretation.",
   "author": {
     "name": "Austin Humphrey",

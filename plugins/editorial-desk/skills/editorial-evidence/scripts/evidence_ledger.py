@@ -97,15 +97,19 @@ def audit_ledger(payload, now=None, max_age_hours=24):
             raise ValueError("Duplicate source ID: " + source_id)
         url = text(raw.get("url"), "source.url")
         parsed = urlparse(url)
+        try:
+            parsed.port
+        except ValueError as error:
+            raise ValueError("Source URLs require a numeric port in range") from error
         if (
             parsed.scheme != "https"
             or not parsed.hostname
             or parsed.username
             or parsed.password
-            or any(c.isspace() for c in url)
+            or any(c.isspace() or c in "<>" for c in url)
         ):
             raise ValueError(
-                "Source URLs require HTTPS without credentials or whitespace"
+                "Source URLs require HTTPS without credentials, whitespace, or angle brackets"
             )
         text(raw.get("title"), "source.title")
         dates[source_id] = stamp(raw.get("retrieved_at"))
@@ -113,7 +117,7 @@ def audit_ledger(payload, now=None, max_age_hours=24):
             stamp(raw["published_at"])
         if raw.get("excerpt") is not None and not isinstance(raw["excerpt"], str):
             raise ValueError("Source excerpt must be text")
-        sources[source_id] = dict(raw)
+        sources[source_id] = dict(raw, id=source_id)
     issues = []
     claims = []
     ids = set()
@@ -134,6 +138,7 @@ def audit_ledger(payload, now=None, max_age_hours=24):
             isinstance(s, str) for s in source_ids
         ):
             raise ValueError("source_ids must be strings in an array")
+        source_ids = [s.strip() for s in source_ids]
         problems = []
         if kind != "opinion" and not source_ids:
             problems.append("Factual claims require source IDs")
@@ -142,7 +147,7 @@ def audit_ledger(payload, now=None, max_age_hours=24):
                 problems.append("Unknown source ID: " + source_id)
                 continue
             age = (now - dates[source_id]).total_seconds() / 3600
-            if age < -1 / 30:
+            if age < 0:
                 problems.append(
                     "Source retrieval timestamp is in the future: " + source_id
                 )
@@ -167,6 +172,7 @@ def audit_ledger(payload, now=None, max_age_hours=24):
         claim = dict(raw)
         claim.update(
             text=statement,
+            source_ids=source_ids,
             status=(
                 "unresolved"
                 if problems
@@ -196,7 +202,10 @@ def audit_ledger(payload, now=None, max_age_hours=24):
 
 def render_markdown(result):
     def safe(value):
-        return html.escape(str(value)).replace("|", r"\|").replace("\n", " ")
+        escaped = html.escape(str(value))
+        for character in ("\\", "[", "]", "`", "*", "_", "|"):
+            escaped = escaped.replace(character, "\\" + character)
+        return escaped.replace("\r\n", " ").replace("\r", " ").replace("\n", " ")
 
     lines = [
         "# Editorial evidence ledger",
@@ -268,7 +277,12 @@ def main(argv=None):
             else render_markdown(result)
         )
         if args.output:
-            Path(args.output).write_text(output, encoding="utf-8")
+            input_path, output_path = Path(args.input), Path(args.output)
+            if output_path.resolve() == input_path.resolve() or (
+                output_path.exists() and output_path.samefile(input_path)
+            ):
+                raise ValueError("--output must differ from --input")
+            output_path.write_text(output, encoding="utf-8")
         else:
             print(output, end="")
         return 1 if args.strict and not result["complete"] else 0

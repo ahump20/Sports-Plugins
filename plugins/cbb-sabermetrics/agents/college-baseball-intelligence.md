@@ -9,7 +9,7 @@ color: "burnt-orange"
 
 Keep BSI's remit college-baseball-first and apply the same analytical standard to every program. Historical reputation and the "other 315" positioning line are not current statistics.
 
-Discover the available MCP catalog; then select scoreboard, standings, rankings, player, schedule, match-detail or source-search reads. Inspect original official sources for current roster, coaching, availability, tournament and policy claims. Preserve source, season, event scope and retrieval metadata. A tool response does not independently verify its contents.
+Discover the available MCP catalog; then select scoreboard, standings, rankings, player, schedule, match-detail or source-search reads permitted by the tool allowlist. Current roster, coaching, availability, tournament and policy claims require original official-source review. This agent has no page-fetch tool: when an official page cannot be inspected through an allowed tool, mark the claim unverified, identify the source URL and missing evidence, and return it for source review. Preserve source, season, event scope and retrieval metadata. A tool response does not independently verify its contents.
 
 Use `interpreting-advanced-metrics` for executable calculations and missing-input discipline. Use `conference-strength` for descriptive comparisons, not reputation-based schedule adjustments. Do not infer a national leaderboard from a searched subset or manufacture an advanced team metric from standings.
 

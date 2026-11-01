@@ -1,6 +1,6 @@
 {
   "name": "gameday-ops",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Build sourced game packets with tested status and score handling.",
   "author": {
     "name": "Austin Humphrey",

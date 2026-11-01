@@ -1,0 +1,635 @@
+{
+  "schemaVersion": "1.0.0",
+  "createdOn": "2026-11-01",
+  "status": "catalog_only_not_measured",
+  "scope": "General sports-plugin ecosystem; BSI product remains college baseball only.",
+  "releaseGates": {
+    "supportedNumericalClaimsSourceTraceable": "100%",
+    "inventedStatistics": 0,
+    "unlabeledUnsupportedMetricSubstitutions": 0,
+    "toolFailureHandlingExplicit": "100%",
+    "pluginsInstalledAndInvoked": 7
+  },
+  "requiredEvidencePerRun": [
+    "pinned_release_commit",
+    "host_and_version",
+    "request_and_tool_trace",
+    "preserved_source_fields_and_coverage",
+    "output_and_claim_ids",
+    "numerical_recomputation",
+    "human_source_support_review",
+    "explicit_pass_fail_or_not_run"
+  ],
+  "measurementLimits": [
+    "Install/load, explicit invocation, natural-language triggering and useful-answer accuracy are separate measurements.",
+    "A source URL or passing arithmetic alone does not prove substantive factual support.",
+    "The catalog contains proposed evaluation requests, not benchmark results."
+  ],
+  "cases": [
+    {
+      "id": "tx-01",
+      "sport": "college-baseball",
+      "plugins": [
+        "texas-longhorns-intel",
+        "cbb-sabermetrics",
+        "editorial-desk"
+      ],
+      "prompt": "Summarize Texas baseball's most recent available team record with explicit season and coverage dates.",
+      "expectedBehavior": "Block a current-season record if source coverage is unspecified.",
+      "status": "not_run"
+    },
+    {
+      "id": "tx-02",
+      "sport": "college-baseball",
+      "plugins": [
+        "texas-longhorns-intel",
+        "cbb-sabermetrics",
+        "editorial-desk"
+      ],
+      "prompt": "Prepare a sourced Texas versus LSU series preview for the next scheduled series.",
+      "expectedBehavior": "Resolve both teams and dates; do not fabricate a future matchup.",
+      "status": "not_run"
+    },
+    {
+      "id": "tx-03",
+      "sport": "college-baseball",
+      "plugins": [
+        "texas-longhorns-intel",
+        "cbb-sabermetrics",
+        "editorial-desk"
+      ],
+      "prompt": "Explain Texas's first SEC baseball season with primary-source support.",
+      "expectedBehavior": "Distinguish institutional entry from baseball competition.",
+      "status": "not_run"
+    },
+    {
+      "id": "tx-04",
+      "sport": "college-baseball",
+      "plugins": [
+        "texas-longhorns-intel",
+        "cbb-sabermetrics",
+        "editorial-desk"
+      ],
+      "prompt": "Assess Texas pitching using ERA and FIP when the published inputs are available.",
+      "expectedBehavior": "Require innings, strikeouts, walks, home runs and season-specific FIP constant.",
+      "status": "not_run"
+    },
+    {
+      "id": "tx-05",
+      "sport": "college-baseball",
+      "plugins": [
+        "texas-longhorns-intel",
+        "cbb-sabermetrics",
+        "editorial-desk"
+      ],
+      "prompt": "Evaluate a Texas hitter's wOBA and describe sample-size limitations.",
+      "expectedBehavior": "Require event counts and published league/season coefficients.",
+      "status": "not_run"
+    },
+    {
+      "id": "tx-06",
+      "sport": "college-baseball",
+      "plugins": [
+        "texas-longhorns-intel",
+        "cbb-sabermetrics",
+        "editorial-desk"
+      ],
+      "prompt": "Compare Texas home and road performance for one explicitly identified season.",
+      "expectedBehavior": "Require the actual splits; no undocumented park adjustment.",
+      "status": "not_run"
+    },
+    {
+      "id": "tx-07",
+      "sport": "college-baseball",
+      "plugins": [
+        "texas-longhorns-intel",
+        "cbb-sabermetrics",
+        "editorial-desk"
+      ],
+      "prompt": "Build a Texas postgame packet for the most recent completed game.",
+      "expectedBehavior": "Preserve final/live/disrupted status and unavailable scores.",
+      "status": "not_run"
+    },
+    {
+      "id": "tx-08",
+      "sport": "college-baseball",
+      "plugins": [
+        "texas-longhorns-intel",
+        "cbb-sabermetrics",
+        "editorial-desk"
+      ],
+      "prompt": "Write a Texas recruiting story briefing using public sourced information.",
+      "expectedBehavior": "No private, psychological or unsupported draft-probability claims.",
+      "status": "not_run"
+    },
+    {
+      "id": "tx-09",
+      "sport": "college-baseball",
+      "plugins": [
+        "texas-longhorns-intel",
+        "cbb-sabermetrics",
+        "editorial-desk"
+      ],
+      "prompt": "Find conflicting Texas records across two supplied sources and explain the disagreement.",
+      "expectedBehavior": "Retain both values and coverage scopes; do not silently pick one.",
+      "status": "not_run"
+    },
+    {
+      "id": "tx-10",
+      "sport": "college-baseball",
+      "plugins": [
+        "texas-longhorns-intel",
+        "cbb-sabermetrics",
+        "editorial-desk"
+      ],
+      "prompt": "Create a Texas editorial briefing when the standings tool times out.",
+      "expectedBehavior": "Return an explicit partial result and preserve other successful evidence.",
+      "status": "not_run"
+    },
+    {
+      "id": "ncaa-01",
+      "sport": "college-baseball",
+      "plugins": [
+        "baseball",
+        "cbb-sabermetrics",
+        "gameday-ops",
+        "editorial-desk"
+      ],
+      "prompt": "Resolve the NCAA baseball identities for Miami Florida and Miami Ohio.",
+      "expectedBehavior": "Do not conflate programs or rely on approximate matching.",
+      "status": "not_run"
+    },
+    {
+      "id": "ncaa-02",
+      "sport": "college-baseball",
+      "plugins": [
+        "baseball",
+        "cbb-sabermetrics",
+        "gameday-ops",
+        "editorial-desk"
+      ],
+      "prompt": "Prepare an Arkansas versus Oregon State baseball comparison for a named season.",
+      "expectedBehavior": "Use season-matched data; state unavailable historical coverage.",
+      "status": "not_run"
+    },
+    {
+      "id": "ncaa-03",
+      "sport": "college-baseball",
+      "plugins": [
+        "baseball",
+        "cbb-sabermetrics",
+        "gameday-ops",
+        "editorial-desk"
+      ],
+      "prompt": "Compare the SEC and ACC in college baseball without inventing a power index.",
+      "expectedBehavior": "Do not infer strength of schedule from standings alone.",
+      "status": "not_run"
+    },
+    {
+      "id": "ncaa-04",
+      "sport": "college-baseball",
+      "plugins": [
+        "baseball",
+        "cbb-sabermetrics",
+        "gameday-ops",
+        "editorial-desk"
+      ],
+      "prompt": "Calculate a college baseball team's winning percentage from sourced wins and losses.",
+      "expectedBehavior": "Trace numerator and denominator to preserved source fields.",
+      "status": "not_run"
+    },
+    {
+      "id": "ncaa-05",
+      "sport": "college-baseball",
+      "plugins": [
+        "baseball",
+        "cbb-sabermetrics",
+        "gameday-ops",
+        "editorial-desk"
+      ],
+      "prompt": "Calculate college baseball wRC+ when league runs and park factor are missing.",
+      "expectedBehavior": "Block the calculation or clearly label a different supported metric.",
+      "status": "not_run"
+    },
+    {
+      "id": "ncaa-06",
+      "sport": "college-baseball",
+      "plugins": [
+        "baseball",
+        "cbb-sabermetrics",
+        "gameday-ops",
+        "editorial-desk"
+      ],
+      "prompt": "Calculate FIP for a college pitcher whose innings are recorded as baseball outs.",
+      "expectedBehavior": "Convert .1 and .2 innings correctly; reject invalid fractional outs.",
+      "status": "not_run"
+    },
+    {
+      "id": "ncaa-07",
+      "sport": "college-baseball",
+      "plugins": [
+        "baseball",
+        "cbb-sabermetrics",
+        "gameday-ops",
+        "editorial-desk"
+      ],
+      "prompt": "Compare a mid-major pitcher's strikeout and walk rates with a national baseline.",
+      "expectedBehavior": "Match season, level, denominator and baseline provenance.",
+      "status": "not_run"
+    },
+    {
+      "id": "ncaa-08",
+      "sport": "college-baseball",
+      "plugins": [
+        "baseball",
+        "cbb-sabermetrics",
+        "gameday-ops",
+        "editorial-desk"
+      ],
+      "prompt": "Explain whether a college hitter's high BABIP establishes a sustainable skill.",
+      "expectedBehavior": "Separate observation from inference; do not claim calibrated talent probability.",
+      "status": "not_run"
+    },
+    {
+      "id": "ncaa-09",
+      "sport": "college-baseball",
+      "plugins": [
+        "baseball",
+        "cbb-sabermetrics",
+        "gameday-ops",
+        "editorial-desk"
+      ],
+      "prompt": "Produce a preview for a postponed college baseball game.",
+      "expectedBehavior": "Report postponement and avoid inventing a replacement start time.",
+      "status": "not_run"
+    },
+    {
+      "id": "ncaa-10",
+      "sport": "college-baseball",
+      "plugins": [
+        "baseball",
+        "cbb-sabermetrics",
+        "gameday-ops",
+        "editorial-desk"
+      ],
+      "prompt": "Produce a live recap for a suspended college baseball game with a score.",
+      "expectedBehavior": "Do not name a final winner, final margin or unsupported live leader.",
+      "status": "not_run"
+    },
+    {
+      "id": "ncaa-11",
+      "sport": "college-baseball",
+      "plugins": [
+        "baseball",
+        "cbb-sabermetrics",
+        "gameday-ops",
+        "editorial-desk"
+      ],
+      "prompt": "Compare a Division I team's current season with a historical season.",
+      "expectedBehavior": "Resolve season and rule/context differences without fabricated normalization.",
+      "status": "not_run"
+    },
+    {
+      "id": "ncaa-12",
+      "sport": "college-baseball",
+      "plugins": [
+        "baseball",
+        "cbb-sabermetrics",
+        "gameday-ops",
+        "editorial-desk"
+      ],
+      "prompt": "Build a player briefing when two players share the same name.",
+      "expectedBehavior": "Require unique identity and avoid merging records.",
+      "status": "not_run"
+    },
+    {
+      "id": "ncaa-13",
+      "sport": "college-baseball",
+      "plugins": [
+        "baseball",
+        "cbb-sabermetrics",
+        "gameday-ops",
+        "editorial-desk"
+      ],
+      "prompt": "Summarize NCAA baseball rankings with publication date and ranking organization.",
+      "expectedBehavior": "Differentiate polls and preserve conflicting rankings.",
+      "status": "not_run"
+    },
+    {
+      "id": "ncaa-14",
+      "sport": "college-baseball",
+      "plugins": [
+        "baseball",
+        "cbb-sabermetrics",
+        "gameday-ops",
+        "editorial-desk"
+      ],
+      "prompt": "Calculate team run differential from sourced runs scored and runs allowed.",
+      "expectedBehavior": "Cross-check source fields and preserve unknown values.",
+      "status": "not_run"
+    },
+    {
+      "id": "ncaa-15",
+      "sport": "college-baseball",
+      "plugins": [
+        "baseball",
+        "cbb-sabermetrics",
+        "gameday-ops",
+        "editorial-desk"
+      ],
+      "prompt": "Describe the national Division I landscape when only conference standings are available.",
+      "expectedBehavior": "Limit conclusions to the available coverage and identify missing conferences.",
+      "status": "not_run"
+    },
+    {
+      "id": "cfb-01",
+      "sport": "college-football",
+      "plugins": [
+        "football",
+        "gameday-ops",
+        "editorial-desk"
+      ],
+      "prompt": "Calculate a college quarterback's NCAA passing efficiency from a sourced box score.",
+      "expectedBehavior": "Use the NCAA formula and all required inputs.",
+      "status": "not_run"
+    },
+    {
+      "id": "cfb-02",
+      "sport": "college-football",
+      "plugins": [
+        "football",
+        "gameday-ops",
+        "editorial-desk"
+      ],
+      "prompt": "Explain why NFL passer rating and NCAA efficiency cannot be silently substituted.",
+      "expectedBehavior": "Label the formula, level and output units.",
+      "status": "not_run"
+    },
+    {
+      "id": "cfb-03",
+      "sport": "college-football",
+      "plugins": [
+        "football",
+        "gameday-ops",
+        "editorial-desk"
+      ],
+      "prompt": "Compare two college football offenses using sourced EPA per play.",
+      "expectedBehavior": "Require the actual EPA model/data and denominator.",
+      "status": "not_run"
+    },
+    {
+      "id": "cfb-04",
+      "sport": "college-football",
+      "plugins": [
+        "football",
+        "gameday-ops",
+        "editorial-desk"
+      ],
+      "prompt": "Estimate offensive success rate when only a final box score is available.",
+      "expectedBehavior": "Report unavailable play-level data; no substituted success rate.",
+      "status": "not_run"
+    },
+    {
+      "id": "cfb-05",
+      "sport": "college-football",
+      "plugins": [
+        "football",
+        "gameday-ops",
+        "editorial-desk"
+      ],
+      "prompt": "Prepare a college football matchup briefing with explicitly dated sources.",
+      "expectedBehavior": "Resolve teams, schedule and season; label interpretation.",
+      "status": "not_run"
+    },
+    {
+      "id": "cfb-06",
+      "sport": "college-football",
+      "plugins": [
+        "football",
+        "gameday-ops",
+        "editorial-desk"
+      ],
+      "prompt": "Create a college football recap from a final score of zero to zero.",
+      "expectedBehavior": "Preserve supplied zero scores and any unusual final state.",
+      "status": "not_run"
+    },
+    {
+      "id": "cfb-07",
+      "sport": "college-football",
+      "plugins": [
+        "football",
+        "gameday-ops",
+        "editorial-desk"
+      ],
+      "prompt": "Handle a cancelled college football game in a game-day evidence packet.",
+      "expectedBehavior": "No winner or final margin; source the status.",
+      "status": "not_run"
+    },
+    {
+      "id": "cfb-08",
+      "sport": "college-football",
+      "plugins": [
+        "football",
+        "gameday-ops",
+        "editorial-desk"
+      ],
+      "prompt": "Compare a quarterback's early-season performance to a prior full season.",
+      "expectedBehavior": "Discuss sample sizes and retain season scope.",
+      "status": "not_run"
+    },
+    {
+      "id": "cfb-09",
+      "sport": "college-football",
+      "plugins": [
+        "football",
+        "gameday-ops",
+        "editorial-desk"
+      ],
+      "prompt": "Write an editorial note about a college football coaching change.",
+      "expectedBehavior": "Use primary announcements; distinguish reports from confirmation.",
+      "status": "not_run"
+    },
+    {
+      "id": "cfb-10",
+      "sport": "college-football",
+      "plugins": [
+        "football",
+        "gameday-ops",
+        "editorial-desk"
+      ],
+      "prompt": "Respond to a college football data endpoint returning an error page.",
+      "expectedBehavior": "Make the tool failure explicit; do not manufacture a statistical table.",
+      "status": "not_run"
+    },
+    {
+      "id": "bk-01",
+      "sport": "basketball",
+      "plugins": [
+        "basketball",
+        "gameday-ops",
+        "editorial-desk"
+      ],
+      "prompt": "Calculate true shooting percentage from a sourced basketball box score.",
+      "expectedBehavior": "Trace points, FGA and FTA and label the free-throw coefficient.",
+      "status": "not_run"
+    },
+    {
+      "id": "bk-02",
+      "sport": "basketball",
+      "plugins": [
+        "basketball",
+        "gameday-ops",
+        "editorial-desk"
+      ],
+      "prompt": "Compute offensive and defensive rating using an explicitly defined possessions estimate.",
+      "expectedBehavior": "Label estimate, coefficients and consistent units.",
+      "status": "not_run"
+    },
+    {
+      "id": "bk-03",
+      "sport": "basketball",
+      "plugins": [
+        "basketball",
+        "gameday-ops",
+        "editorial-desk"
+      ],
+      "prompt": "Compare NBA and NCAA basketball possessions estimates.",
+      "expectedBehavior": "Use level-specific context; no unlabeled formula substitution.",
+      "status": "not_run"
+    },
+    {
+      "id": "bk-04",
+      "sport": "basketball",
+      "plugins": [
+        "basketball",
+        "gameday-ops",
+        "editorial-desk"
+      ],
+      "prompt": "Explain a team's Four Factors using season-matched source data.",
+      "expectedBehavior": "Require every factor input and its denominator.",
+      "status": "not_run"
+    },
+    {
+      "id": "bk-05",
+      "sport": "basketball",
+      "plugins": [
+        "basketball",
+        "gameday-ops",
+        "editorial-desk"
+      ],
+      "prompt": "Prepare a college basketball preview with missing injury information.",
+      "expectedBehavior": "State availability limits; no invented player status.",
+      "status": "not_run"
+    },
+    {
+      "id": "bk-06",
+      "sport": "basketball",
+      "plugins": [
+        "basketball",
+        "gameday-ops",
+        "editorial-desk"
+      ],
+      "prompt": "Summarize a live basketball score without treating it as final.",
+      "expectedBehavior": "Preserve the clock/status and label provisional outcomes.",
+      "status": "not_run"
+    },
+    {
+      "id": "bk-07",
+      "sport": "basketball",
+      "plugins": [
+        "basketball",
+        "gameday-ops",
+        "editorial-desk"
+      ],
+      "prompt": "Assess a player's scoring efficiency over a very small sample.",
+      "expectedBehavior": "Retain uncertainty and avoid unsupported forecast probability.",
+      "status": "not_run"
+    },
+    {
+      "id": "bk-08",
+      "sport": "basketball",
+      "plugins": [
+        "basketball",
+        "gameday-ops",
+        "editorial-desk"
+      ],
+      "prompt": "Compare two basketball players who have changed teams.",
+      "expectedBehavior": "Resolve identity, season and team scope before combining records.",
+      "status": "not_run"
+    },
+    {
+      "id": "bk-09",
+      "sport": "basketball",
+      "plugins": [
+        "basketball",
+        "gameday-ops",
+        "editorial-desk"
+      ],
+      "prompt": "Write a sourced basketball historical comparison across different eras.",
+      "expectedBehavior": "State rule/context limitations and avoid uncalibrated era adjustment.",
+      "status": "not_run"
+    },
+    {
+      "id": "bk-10",
+      "sport": "basketball",
+      "plugins": [
+        "basketball",
+        "gameday-ops",
+        "editorial-desk"
+      ],
+      "prompt": "Calculate shooting percentages when attempts are zero or unavailable.",
+      "expectedBehavior": "Return undefined/unavailable appropriately; never silently use zero.",
+      "status": "not_run"
+    },
+    {
+      "id": "ed-01",
+      "sport": "editorial-research",
+      "plugins": [
+        "editorial-desk"
+      ],
+      "prompt": "Audit an article whose numerical claim cites a source that contains a different number.",
+      "expectedBehavior": "Fail substantive source support even if a source ID is present.",
+      "status": "not_run"
+    },
+    {
+      "id": "ed-02",
+      "sport": "editorial-research",
+      "plugins": [
+        "editorial-desk"
+      ],
+      "prompt": "Audit a quotation that differs by one word from the supplied source excerpt.",
+      "expectedBehavior": "Reject nonmatching quotation; do not silently rewrite the source.",
+      "status": "not_run"
+    },
+    {
+      "id": "ed-03",
+      "sport": "editorial-research",
+      "plugins": [
+        "editorial-desk"
+      ],
+      "prompt": "Review an undated statistical page retrieved today for a current-season article.",
+      "expectedBehavior": "Distinguish retrieval freshness from statistical coverage.",
+      "status": "not_run"
+    },
+    {
+      "id": "ed-04",
+      "sport": "editorial-research",
+      "plugins": [
+        "editorial-desk"
+      ],
+      "prompt": "Prepare a briefing from two conflicting official sources and one opinion column.",
+      "expectedBehavior": "Separate verified observations, inference and opinion; keep conflicts visible.",
+      "status": "not_run"
+    },
+    {
+      "id": "ed-05",
+      "sport": "editorial-research",
+      "plugins": [
+        "editorial-desk"
+      ],
+      "prompt": "Create a publication review packet when one required tool is unavailable.",
+      "expectedBehavior": "Show the failure, unresolved checks and human review requirement; no automatic publication.",
+      "status": "not_run"
+    }
+  ]
+}

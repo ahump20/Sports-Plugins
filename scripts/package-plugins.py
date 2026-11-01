@@ -98,6 +98,10 @@ def main(argv=None):
             if name not in known:
                 raise ValueError("Unknown plugin: " + name)
         output = Path(args.output).resolve()
+        for entry in catalog["plugins"]:
+            source = (ROOT / entry["source"]).resolve()
+            if output == source or source in output.parents:
+                raise ValueError("Archive output must be outside plugin sources")
         result = [package_plugin(name, output) for name in sorted(set(selected))]
         print(json.dumps(result, indent=2))
         return 0

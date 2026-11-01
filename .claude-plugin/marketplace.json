@@ -8,7 +8,7 @@
   },
   "metadata": {
     "description": "Tested sports analytics, game-day source packets and editorial evidence workflows for Claude Code and Codex.",
-    "version": "2.1.0"
+    "version": "2.1.1"
   },
   "plugins": [
     {

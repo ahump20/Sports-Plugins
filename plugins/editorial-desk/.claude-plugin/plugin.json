@@ -1,6 +1,6 @@
 {
   "name": "editorial-desk",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Audit claim provenance, quotations, freshness and arithmetic.",
   "author": {
     "name": "Austin Humphrey",

@@ -32,15 +32,19 @@ def stamp(value, label):
 def source_url(value):
     value = text(value, "source.url")
     parsed = urlparse(value)
+    try:
+        parsed.port
+    except ValueError as error:
+        raise ValueError("source.url requires a numeric port in range") from error
     if (
         parsed.scheme != "https"
         or not parsed.hostname
         or parsed.username
         or parsed.password
-        or any(c.isspace() for c in value)
+        or any(c.isspace() or c in "<>" for c in value)
     ):
         raise ValueError(
-            "source.url must be an HTTPS URL without credentials or whitespace"
+            "source.url must be an HTTPS URL without credentials, whitespace, or angle brackets"
         )
     return value
 
@@ -69,7 +73,7 @@ def build_packet(payload, now=None, max_age_hours=24):
     age_hours = (now - fetched).total_seconds() / 3600
     freshness = (
         "future"
-        if age_hours < -1 / 30
+        if age_hours < 0
         else "stale" if age_hours > max_age_hours else "fresh"
     )
     warnings = []
@@ -154,7 +158,10 @@ def build_packet(payload, now=None, max_age_hours=24):
 
 def render_markdown(packet):
     def safe(value):
-        return html.escape(str(value)).replace("|", r"\|").replace("\n", " ")
+        escaped = html.escape(str(value))
+        for character in ("\\", "[", "]", "`", "*", "_", "|"):
+            escaped = escaped.replace(character, "\\" + character)
+        return escaped.replace("\n", " ")
 
     source = packet["source"]
     lines = [
@@ -163,6 +170,7 @@ def render_markdown(packet):
         "Provider: " + safe(source["provider"]),
         "Source: <" + source["url"] + ">",
         "Retrieved: " + safe(source["fetched_at"]),
+        "Coverage as of: " + safe(source.get("data_as_of") or "unavailable"),
         "Freshness: " + packet["freshness"],
         "",
     ]
@@ -235,7 +243,12 @@ def main(argv=None):
             else render_markdown(packet)
         )
         if args.output:
-            Path(args.output).write_text(output, encoding="utf-8")
+            input_path, output_path = Path(args.input), Path(args.output)
+            if output_path.resolve() == input_path.resolve() or (
+                output_path.exists() and output_path.samefile(input_path)
+            ):
+                raise ValueError("--output must differ from --input")
+            output_path.write_text(output, encoding="utf-8")
         else:
             print(output, end="")
         return 1 if args.strict and packet["freshness"] != "fresh" else 0
