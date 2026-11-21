@@ -2,7 +2,7 @@
   "name": "@bsi/sports-plugins",
   "version": "1.1.1",
   "private": true,
-  "description": "A curated marketplace of high-quality community sports plugins for Claude Code, Codex, and AI coding assistants",
+  "description": "Tested sports workflows for Claude Code and Codex: analytics, editorial evidence, game-day packets, roster changes and playoff scenarios.",
   "author": "Austin Humphrey <Austin@BlazeSportsIntel.com>",
   "license": "SEE LICENSE IN LICENSE",
   "repository": {

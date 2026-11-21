@@ -7,8 +7,8 @@
     "url": "https://blazesportsintel.com"
   },
   "metadata": {
-    "description": "Tested sports analytics, game-day source packets and editorial evidence workflows for Claude Code and Codex.",
-    "version": "2.1.1"
+    "description": "Tested sports workflows for Claude Code and Codex: analytics, editorial evidence, game-day packets, roster changes and playoff scenarios.",
+    "version": "2.2.0"
   },
   "plugins": [
     {
@@ -109,6 +109,29 @@
         "sports",
         "provenance",
         "editorial"
+      ]
+    },
+    {
+      "name": "roster-watch",
+      "description": "Compare attributed roster snapshots by stable player ID.",
+      "source": "./plugins/roster-watch",
+      "category": "analytics",
+      "keywords": [
+        "sports",
+        "rosters",
+        "provenance"
+      ]
+    },
+    {
+      "name": "playoff-lab",
+      "description": "Find playoff seed ranges and qualification paths from league standings.",
+      "source": "./plugins/playoff-lab",
+      "category": "analytics",
+      "keywords": [
+        "sports",
+        "fantasy",
+        "playoffs",
+        "standings"
       ]
     }
   ]

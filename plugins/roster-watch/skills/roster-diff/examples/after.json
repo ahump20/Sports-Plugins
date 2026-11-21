@@ -1,0 +1,16 @@
+{
+  "sport": "baseball",
+  "team": "Example College",
+  "season": "2099",
+  "identity_namespace": "synthetic:example-college:2099",
+  "observed_at": "2099-01-17T15:00:00Z",
+  "source": {
+    "url": "https://example.invalid/synthetic-roster/after",
+    "completeness": "partial",
+    "synthetic": true
+  },
+  "players": [
+    {"id": "ex-01", "name": "Ari Chen", "fields": {"number": 17}},
+    {"id": "ex-03", "name": "Jordan Price", "fields": {"number": 12}}
+  ]
+}

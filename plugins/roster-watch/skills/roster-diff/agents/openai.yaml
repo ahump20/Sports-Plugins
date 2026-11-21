@@ -1,0 +1,4 @@
+interface:
+  display_name: "Roster Diff"
+  short_description: "Compare two attributed roster snapshots"
+  default_prompt: "Use $roster-diff to compare these two roster snapshots and explain what the sources establish."

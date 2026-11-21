@@ -1,0 +1,42 @@
+{
+  "date": "2026-11-21",
+  "runtime": "Python 3.12.14",
+  "synthetic_examples": true,
+  "checks": [
+    {
+      "plugin": "roster-watch",
+      "format": "json",
+      "exit_code": 0
+    },
+    {
+      "plugin": "roster-watch",
+      "format": "markdown",
+      "exit_code": 0
+    },
+    {
+      "plugin": "roster-watch",
+      "archive_sha256": "04b19d16ea8deaf71777e2ef5f0f58b6507fdbda57e1a335f67d12340b60c8a5",
+      "standalone": true
+    },
+    {
+      "plugin": "playoff-lab",
+      "format": "json",
+      "exit_code": 0
+    },
+    {
+      "plugin": "playoff-lab",
+      "format": "markdown",
+      "exit_code": 0
+    },
+    {
+      "plugin": "playoff-lab",
+      "archive_sha256": "4a85db7e6f09546b80d1d082fb88a7dcbbe356f453219850f56ef30408c5054f",
+      "standalone": true
+    },
+    {
+      "plugin": "playoff-lab",
+      "condition": "harbor=anchors",
+      "exit_code": 0
+    }
+  ]
+}

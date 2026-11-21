@@ -1,0 +1,30 @@
+{
+  "name": "roster-watch",
+  "version": "1.0.0",
+  "description": "Compare attributed roster snapshots by stable player ID.",
+  "author": {
+    "name": "Austin Humphrey",
+    "url": "https://github.com/ahump20/Sports-Plugins"
+  },
+  "repository": "https://github.com/ahump20/Sports-Plugins",
+  "license": "MIT",
+  "keywords": [
+    "sports",
+    "rosters",
+    "provenance"
+  ],
+  "skills": "./skills/",
+  "interface": {
+    "displayName": "Roster Watch",
+    "shortDescription": "Compare attributed roster snapshots by stable player ID.",
+    "longDescription": "Compare two supplied snapshots for the same sport, team, season and ID namespace. Report observed roster differences, source coverage and field changes offline.",
+    "developerName": "Austin Humphrey",
+    "category": "Analytics",
+    "capabilities": [
+      "Read"
+    ],
+    "websiteURL": "https://github.com/ahump20/Sports-Plugins",
+    "defaultPrompt": "Use $roster-diff to compare my two source-attributed roster snapshots.",
+    "brandColor": "#BF5700"
+  }
+}

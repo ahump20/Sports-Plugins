@@ -9,13 +9,16 @@ async function checker() {
   assert.ok(existsSync(checkerPath), 'package-contract validator must exist');
   return (await import(checkerPath)).checkPackage;
 }
-test('native Codex and Claude catalogs list the same seven working plugins', () => {
+test('native Codex and Claude catalogs list the same nine working plugins', () => {
   const path = join(root, '.agents/plugins/marketplace.json');
   assert.ok(existsSync(path), 'native Codex marketplace must exist');
   const codex = JSON.parse(readFileSync(path));
   const claude = JSON.parse(readFileSync(join(root, '.claude-plugin/marketplace.json')));
   assert.deepEqual(codex.plugins.map(p => p.name).sort(), claude.plugins.map(p => p.name).sort());
-  assert.equal(codex.plugins.length, 7);
+  assert.deepEqual(codex.plugins.map(p => p.name).sort(), [
+    'baseball', 'basketball', 'cbb-sabermetrics', 'editorial-desk', 'football',
+    'gameday-ops', 'playoff-lab', 'roster-watch', 'texas-longhorns-intel',
+  ]);
   for (const p of codex.plugins) assert.ok(existsSync(join(root, p.source.path, 'plugin.json')));
 });
 test('every listed plugin passes the actual package contract', async () => {

@@ -1,0 +1,28 @@
+{
+  "league": "SYNTHETIC Harbor League",
+  "season": "2026",
+  "source": "SYNTHETIC fixture created for Playoff Lab",
+  "as_of": "2026-11-01T12:00:00Z",
+  "completed_week": 2,
+  "regular_season_weeks": 3,
+  "remaining_schedule_complete": true,
+  "settings": {
+    "playoff_slots": 2,
+    "standings": "overall",
+    "ranking": "win_percentage",
+    "existing_ties": "half_win",
+    "future_ties": "excluded",
+    "median_games": false,
+    "tiebreak": {"mode": "unresolved"}
+  },
+  "teams": [
+    {"id": "anchors", "name": "Anchors", "wins": 2, "losses": 0, "ties": 0, "season_games": 3},
+    {"id": "breakers", "name": "Breakers", "wins": 1, "losses": 1, "ties": 0, "season_games": 3},
+    {"id": "cutters", "name": "Cutters", "wins": 1, "losses": 1, "ties": 0, "season_games": 3},
+    {"id": "dories", "name": "Dories", "wins": 0, "losses": 2, "ties": 0, "season_games": 3}
+  ],
+  "remaining_games": [
+    {"id": "harbor", "week": 3, "home": "anchors", "away": "breakers"},
+    {"id": "inlet", "week": 3, "home": "cutters", "away": "dories"}
+  ]
+}

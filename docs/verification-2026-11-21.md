@@ -1,0 +1,58 @@
+# Useful sports workflows verification — November 21, 2026
+
+## Scope
+
+Base: `cb25e49ffa7bb995472a9eb23441d2afc08f2597`. Branch: `codex/useful-sports-workflows-20261121`.
+
+Added Roster Watch and Playoff Lab, registered both in the Claude and native Codex catalogs, and rewrote discovery/contribution/workflow documentation around executable jobs. Marketplace metadata advances to 2.2.0; each new package starts at 1.0.0. No release tag or npm publication is created. The seven existing plugin directories, analytical library and production MCP configuration are unchanged.
+
+## Offline checks
+
+Environment: Node v24.22.3, npm 11.19.1, Python 3.12.14. Supported floors remain Node 22.12 and Python 3.9. Python 3.9 syntax was checked for both new scripts/tests; a separate Python 3.9 runtime was not exercised locally.
+
+| Check | Observed result |
+|---|---|
+| Clean dependency installation | `npm ci` completed before implementation |
+| TypeScript and lint | `npm run check` passed typecheck and ESLint |
+| Node contract/packaging suite | 127 passed, zero failures |
+| Vitest analytical suite | 42 passed in two files |
+| Python suites | 229 run: 220 passed, nine existing optional tests skipped |
+| New package regressions | 15 Roster Watch + 15 Playoff Lab tests passed; implementers recorded failing tests before implementation/fixes |
+| Catalog and package contract | All nine packages pass; exact catalog membership is asserted |
+| Archive build | `npm run package:plugins` produced nine standalone ZIPs |
+| Extracted execution | Both new packages produced JSON and Markdown outside the repository; conditional playoff example also passed |
+
+The optional Python skips are recorded as skips, not successful live-provider checks. Full local logs were inspected. CI results belong to the pull request and its exact head; a local result does not establish a remote result.
+
+## Independent review
+
+Roster Watch passed review with independent probes for exact identities, nested object ordering, timezone offsets, partial coverage, malformed inputs and output path protection. Missing fields remain distinct from explicit nulls. A roster omission never becomes a transfer, injury or eligibility claim.
+
+Playoff review found two defects before delivery: historical pairing capacity counted idle teams, and a returned report retained a mutable reference to input settings. Both were fixed with regressions that failed before the changes. Re-review confirmed rejection of the impossible two-week history, acceptance of the valid three-week/bye control and stable report contents after nested input mutation. The final integration review also corrected a workflow paragraph that could have substituted hypothetical unresolved ties for a league's unsupported actual tiebreak rule, and clarified that selecting a remote branch is an alternative to a local checkout. No actionable review findings remain in the reviewed scope.
+
+Past-history capacity checks are necessary consistency checks, not reconstruction of every prior matchup. The supplier remains responsible for the accuracy and completeness of the standings and remaining schedule.
+
+## Inspect the actual outputs
+
+All examples below are synthetic. They demonstrate behavior and do not report real athletes or league standings.
+
+- Roster Watch: [Markdown](verification/2026-11-21/roster-watch-example.md) and [JSON](verification/2026-11-21/roster-watch-example.json).
+- Playoff Lab, unconstrained: [Markdown](verification/2026-11-21/playoff-lab-example.md) and [JSON](verification/2026-11-21/playoff-lab-example.json).
+- Playoff Lab, Anchors win: [Markdown](verification/2026-11-21/playoff-lab-anchors-win.md) and [JSON](verification/2026-11-21/playoff-lab-anchors-win.json).
+- [Extracted-package smoke record and ZIP checksums](verification/2026-11-21/package-smoke.json).
+
+The roster example preserves a jersey-number change, explicit-null-to-missing change and unresolved absence under partial coverage. The playoff example has four unweighted outcomes: the Anchors qualify under every permitted tiebreak in three and can qualify in all four. Conditioning on an Anchors win clinches their place in the two remaining outcomes.
+
+## Practical limits
+
+Roster Watch consumes two supplied, attributed captures from the same sport, team, season and identity namespace. It does not collect pages, infer identity from names, or establish why a record changed.
+
+Playoff Lab supports one overall head-to-head standings table, exact win percentage, past ties as half-wins and an explicit no-future-ties assumption. It enumerates at most 16 unforced games. Divisions, median games and dynamic head-to-head or points-based tiebreaks need another model. A fixed tiebreak order must be explicitly hypothetical. Outcome shares are not forecasts.
+
+Portable, Claude and Codex manifests agree and the extracted scripts run. These two new packages were not installed and invoked through an authenticated Claude or Codex assistant during this verification. Prior host tests of older packages are not evidence for these additions.
+
+## Discovery and next work
+
+GitHub About text was updated to describe the working sports analytics, game-day and editorial workflows already on main. It does not claim the two unmerged additions are released. The root README explains both repository roles and links the supported commands, contracts and examples.
+
+The [roadmap](ROADMAP.md) separates implemented packages from proposed Series Desk, Game Flow and manuscript-to-ledger work. No fantasy account access, roster transaction, paid provider, Supabase project, database migration, hosting deployment or scheduled monitor was created.

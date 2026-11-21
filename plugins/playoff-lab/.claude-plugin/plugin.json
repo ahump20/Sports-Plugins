@@ -1,0 +1,17 @@
+{
+  "name": "playoff-lab",
+  "version": "1.0.0",
+  "description": "Find playoff seed ranges and qualification paths from league standings.",
+  "author": {
+    "name": "Austin Humphrey",
+    "url": "https://github.com/ahump20/Sports-Plugins"
+  },
+  "repository": "https://github.com/ahump20/Sports-Plugins",
+  "license": "MIT",
+  "keywords": [
+    "sports",
+    "fantasy",
+    "playoffs",
+    "standings"
+  ]
+}

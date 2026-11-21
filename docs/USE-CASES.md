@@ -1,101 +1,50 @@
-# Use Cases — Codex Taxonomy Applied to Sports
+# Sports workflows
 
-This marketplace organizes plugins using the same category vocabulary as [OpenAI Codex's use-cases page](https://developers.openai.com/codex/use-cases). That taxonomy was built for generic software work — applied to sports, the categories still hold, but the examples change.
+## Check a story before filing
 
-## Categories
+Use **Editorial Desk** with the actual manuscript claims, supplied source excerpts and a cutoff time. Its ledger checks attribution, quote/excerpt matches, freshness and arithmetic. Read its unresolved items before writing final copy. A passed excerpt match does not authenticate a quotation; source review is still required.
 
-### Data
-Structured sports data — stats, rates, rankings, projections. Plugins in this category wrap data sources and expose them as tool calls.
+Example request: “Check these claims and quotations. Show the source, coverage date, calculation and unresolved issue for each. Keep my argument and voice.”
 
-- **cbb-sabermetrics** — 7 read-only tools covering 330 NCAA DI college baseball programs: scoreboard, standings, Top 25, player stats, team schedules, game detail, news search. wOBA, FIP, BABIP and ISO computed from returned counting stats; conference strength computed from standings. Free tier, 30 req/min per IP.
-- Coming: MLB sabermetrics wrapper, NFL advanced stats, NBA shot charts.
+Do not add a second editorial plugin for the same work. A future manuscript adapter should feed this existing ledger.
 
-### Integrations
-Plugins that wire external services into an AI coding assistant's tool space. For sports, this usually means MCP servers wrapping live data APIs.
+## Prepare a game-day packet
 
-- **cbb-sabermetrics** — wraps Blaze Sports Intel MCP at `https://sabermetrics.blazesportsintel.com/mcp`. JSON-RPC 2.0 over HTTPS POST, 7 tools exposed.
-- Coming: ESPN, SportsRadar, Highlightly wrappers for sports not yet covered.
+Use **Gameday Ops** to normalize supplied game observations into a sourced packet. Preserve scheduled, live, final, postponed and unavailable states. Read a game's status before describing a score as a result.
 
-### Knowledge Work
-Research, scouting, editorial, and analysis. Plugins that take raw data and produce human-readable intelligence.
+Use the sport-specific analytics plugin only when the packet contains the counting stats or play-by-play the calculation requires. The packet builder does not fetch a full box score by itself.
 
-- **texas-longhorns-intel** — Texas baseball scouting reports, matchup previews, NIL analysis, program history. Depends on `cbb-sabermetrics` for live data.
-- Coming: `cardinals-intel` (MLB Cardinals), other program-specific intelligence plugins.
+## Track a roster page
 
-### Workflow
-Multi-step automation — editorial pipelines, recap generation, weekly digest production, newsletter drafting.
+Use **Roster Watch** with two dated snapshots. Confirm team, sport, season and identity namespace before comparing them. Use the official source's identifiers only when their stability is established within that scope.
 
-- Coming: `sports-storytelling` editorial voice plugin; automated recap pipelines for weekend college baseball series.
+Report “not listed in the later snapshot” rather than an inferred reason for the change. If a capture is partial, preserve the uncertainty. Player page IDs that change between seasons require a separately reviewed identity map; the current comparator rejects cross-season comparisons.
 
-### Front-end
-Visualization, interactive dashboards, game UIs. For sports, this is the visual half of intelligence — charts that make patterns legible.
+See the [roster input contract](../plugins/roster-watch/skills/roster-diff/references/input-contract.md) and the plugin's example command.
 
-- Coming: `sports-viz` — Savant-style charts with texture encoding, spray charts, percentile bands, matchup theaters.
-- Coming: biomechanics motion rendering (batting stance, pitch delivery, swing path).
+## Work through a playoff race
 
-### Engineering
-Infrastructure, data pipelines, app development. For sports, this means building the platforms that serve the intelligence.
+Use **Playoff Lab** with the league's current records and full remaining regular-season schedule. Check its actual seeding rules against the supported overall-table format before calculating. Head-to-head and points-based tiebreak rules are not implemented, so the calculator cannot report exact league outcomes under those policies. Offer unresolved ranges or a declared fixed order only as an explicitly hypothetical comparison; never label those results the league's actual clinch or elimination status.
 
-- Coming: `sports-arcade-dev` — browser sports game development (Canvas/WebGL physics, input handling, scoring, leaderboard integration, Cloudflare Pages deployment).
-- Coming: patterns for building sports data pipelines on Cloudflare Workers + D1 + KV + R2.
+Compare an unconstrained run with a declared outcome such as your team winning its next game. The change in possible seeds explains the consequence of that result. Outcome fractions do not become forecast odds without a separate calibrated probability model.
 
-### Automation
-Scheduled jobs — daily/weekly recomputes, scraped data pipelines, alert triggers.
+The plugin consumes normalized snapshots. It does not sign in to Yahoo, make lineup changes or assume a provider's default settings.
 
-- Coming: patterns for Cloudflare Worker crons that refresh sabermetrics every 6 hours, ingest box scores nightly, publish weekly recaps Sunday mornings.
+## Prepare Texas baseball research
 
-### Quality
-Data validation, stat verification, cross-source reconciliation. For sports, this is enforcing that every claim has a source and a timestamp.
+Use **Texas Longhorns Intel** with **CBB Sabermetrics** for assistant-guided research, or run the companion [Texas evidence CLI](https://github.com/ahump20/Texas-Longhorns-Baseball-Intelligence) for a repeatable source packet.
 
-- Baked into `cbb-sabermetrics` meta envelope (`source`, `fetched_at`, `timezone`) on every response.
-- Coming: standalone validators for sports data freshness and cross-source agreement.
+1. Establish the requested season and reporting cutoff.
+2. Discover the actual MCP tools and retain their responses.
+3. Resolve Texas to an exact team identity.
+4. Check the season and statistical coverage for standings, schedule and rankings separately.
+5. Use official roster pages, game notes and box scores to fill the specific gaps the packet identifies.
+6. Separate observations, supported interpretation and editorial recommendation.
 
-### Evaluation
-Testing plugin outputs against known-good answers. For sports, this means checking that a scouting report cites real numbers, that a leaderboard matches the canonical source.
+Do not convert a missing conference record into zeros, apply an uncalibrated conference multiplier, or manufacture player metrics. The [roadmap](ROADMAP.md) defines a future Series Desk extension; it is not an existing automated series-preview command.
 
-- Coming: `sports-evals` suite — deterministic golden tests against frozen historical data.
+## Read or build with the shared library
 
-## Blueprints
+The [lib](../lib/) modules provide TypeScript calculations, typed score objects and an ESPN scoreboard client. Keep endpoint availability separate from parsing correctness. The legacy sabermetric defaults are illustrative; explicit season constants are required for meaningful cross-team comparisons.
 
-### Blueprint 1: Scouting Workflow
-**Question:** Give me a scouting report on Texas for this weekend's Arkansas series.
-
-1. User runs `/texas-matchup arkansas` (from `texas-longhorns-intel` plugin).
-2. Command routes to `texas-longhorns-baseball-intelligence` agent.
-3. Agent calls `bsi_get_team_schedule team=texas` and `bsi_get_team_schedule team=arkansas` (from `cbb-sabermetrics`) for recent form.
-4. Agent calls `bsi_get_standings conference=SEC` and `bsi_get_rankings` for SEC context.
-5. Agent calls `bsi_get_player_stats` for key players on both sides and computes rate metrics from the returned counting stats.
-6. Agent applies Texas program doctrine + HAV-F framework.
-7. Agent produces structured scouting report: Verified facts → Inference → Recommendation.
-
-### Blueprint 2: Leaderboard Lookup
-**Question:** How do these SEC hitters rank by wOBA?
-
-1. User runs `/cbb-leaderboard metric=woba type=batting conference=SEC` and names the hitters.
-2. Command calls `bsi_get_player_stats` for each hitter (no tool returns a ranked leaderboard; that BSI route is paused).
-3. Command computes wOBA from the counting stats and returns a ranked table with formula, PA, source + timestamp metadata, labeled as covering only those hitters.
-
-### Blueprint 3: Matchup Preview
-**Question:** What's the edge in tomorrow's Vanderbilt at LSU game?
-
-1. User runs `/texas-matchup` (or `/cbb-preview` once built).
-2. Agent chain fetches both teams' standings, recent form and game detail (`bsi_get_match_detail`), then computes metrics for the pitcher matchup and bullpen from player stats.
-3. Agent applies MMI (momentum timeline) and leverage framework.
-4. Agent returns a pre-series brief.
-
-## Team Lenses
-
-From Codex's use-case framing, these plugins serve multiple developer teams:
-
-- **Engineering** — build sports data pipelines, integrate MCP tools, deploy to Cloudflare
-- **Product** — prototype sports features with real data
-- **Design** — visualize sports data with Savant-style patterns
-- **Operations** — automate daily data refreshes, content pipelines
-- **QA** — validate sports data freshness and cross-source agreement
-
-## Task Types
-
-- **Analysis** — sabermetric interpretation, matchup breakdowns, trend detection
-- **Code** — building sports apps, games, dashboards, data pipelines
-- **Design** — chart composition, interactive viz, game UIs
-- **Workflow** — editorial pipelines, recap generation, weekly digests
+These workflows provide inspectable evidence for a human or assistant to use. They do not publish articles, update a website or create background jobs automatically.
