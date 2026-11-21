@@ -56,4 +56,6 @@
 - [x] Register nine packages with exact catalog parity and update the count contract without relaxing validation.
 - [x] Run both complete repository check commands and package extraction smoke tests.
 - [x] Record evidence, limitations and sources in repository verification notes.
-- [ ] Update GitHub About text, push dedicated branches and open reviewable pull requests; verify remote heads and CI state.
+- [x] Update GitHub About text, push dedicated branches and open reviewable pull requests; verify remote heads and CI state.
+
+Delivery: [Sports PR #26](https://github.com/ahump20/Sports-Plugins/pull/26) and [Texas PR #13](https://github.com/ahump20/Texas-Longhorns-Baseball-Intelligence/pull/13). Remote trees matched the local source. The initial Sports CI runner failure and platform correction are recorded in the dated verification note; latest checks remain attached to the PR.

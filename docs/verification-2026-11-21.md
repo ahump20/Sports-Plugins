@@ -24,6 +24,12 @@ Environment: Node v24.22.3, npm 11.19.1, Python 3.12.14. Supported floors remain
 
 The optional Python skips are recorded as skips, not successful live-provider checks. Full local logs were inspected. CI results belong to the pull request and its exact head; a local result does not establish a remote result.
 
+## Remote verification and runner correction
+
+[Sports Plugins PR #26](https://github.com/ahump20/Sports-Plugins/pull/26) contains the implementation; [Texas PR #13](https://github.com/ahump20/Texas-Longhorns-Baseball-Intelligence/pull/13) contains the companion documentation. Initial remote source trees were fetched and matched the verified local trees exactly. Texas CI passed the full check, help and packaging steps.
+
+The first Sports CI run failed during Python setup before script tests ran: `ubuntu-latest` selected Ubuntu 26.04, for which Python 3.9 was unavailable. The [official Python versions manifest](https://github.com/actions/python-versions/blob/main/versions-manifest.json) lists Python 3.9.25 x64 builds for Ubuntu 24.04. Both Python-dependent jobs are now pinned to `ubuntu-24.04`; their Python 3.9 version, test steps and packaging requirements are preserved. The [initial failed run](https://github.com/ahump20/Sports-Plugins/actions/runs/44960071882) retains the diagnosis. Inspect the PR's latest checks for the result of the corrected runner.
+
 ## Independent review
 
 Roster Watch passed review with independent probes for exact identities, nested object ordering, timezone offsets, partial coverage, malformed inputs and output path protection. Missing fields remain distinct from explicit nulls. A roster omission never becomes a transfer, injury or eligibility claim.
