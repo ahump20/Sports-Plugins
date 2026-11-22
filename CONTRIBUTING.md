@@ -11,7 +11,7 @@ Every catalog entry must include:
 | `plugin.json` | Portable manifest with the agent-plugins schema and the same name/version as compatibility manifests |
 | `.claude-plugin/plugin.json` | Claude metadata |
 | `.codex-plugin/plugin.json` | Codex metadata and explicit component paths |
-| `skills/<name>/SKILL.md` | A usable workflow with precise triggers, or another supported executable component |
+| `skills/<name>/SKILL.md` | At least one discoverable skill with precise triggers, a frontmatter `name` matching its directory, and a nonempty `description`; other components may accompany it |
 | `README.md` | Purpose, install instructions, exact input/output, example, source requirements and limitations |
 | `LICENSE` | License covering the packaged source |
 | `mcp.json` and `.mcp.json` | Both portable and compatibility configuration when a server is bundled |

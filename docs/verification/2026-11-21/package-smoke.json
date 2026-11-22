@@ -1,42 +1,112 @@
 {
   "date": "2026-11-21",
+  "timezone": "America/Chicago",
+  "verified_at": "2026-11-22T00:09:00.992014Z",
+  "initial_verification_date": "2026-11-21",
+  "source_commit": "e2107564c3d5aa2ccfbed67743b2cfd4cfb038cc",
   "runtime": "Python 3.12.14",
   "synthetic_examples": true,
+  "working_directory_convention": "For each check, '.' is the root of that check's freshly extracted archive outside the repository. Commands resolve inputs relative to that root. output_artifact is the matching retained stdout file beside this record.",
   "checks": [
     {
       "plugin": "roster-watch",
-      "format": "json",
-      "exit_code": 0
-    },
-    {
-      "plugin": "roster-watch",
-      "format": "markdown",
-      "exit_code": 0
-    },
-    {
-      "plugin": "roster-watch",
+      "archive": "roster-watch-1.0.0.zip",
       "archive_sha256": "04b19d16ea8deaf71777e2ef5f0f58b6507fdbda57e1a335f67d12340b60c8a5",
-      "standalone": true
-    },
-    {
-      "plugin": "playoff-lab",
+      "standalone": true,
+      "working_directory": ".",
+      "command": "python3 skills/roster-diff/scripts/roster_diff.py --before skills/roster-diff/examples/before.json --after skills/roster-diff/examples/after.json --format json",
+      "inputs": [
+        "skills/roster-diff/examples/before.json",
+        "skills/roster-diff/examples/after.json"
+      ],
       "format": "json",
-      "exit_code": 0
+      "exit_code": 0,
+      "output_artifact": "roster-watch-example.json",
+      "output_sha256": "bb698c49cbd4a78fd638205cbc723f1dbd10e2e3709851d28f102ba174fc1117",
+      "matches_retained_output": true
     },
     {
-      "plugin": "playoff-lab",
+      "plugin": "roster-watch",
+      "archive": "roster-watch-1.0.0.zip",
+      "archive_sha256": "04b19d16ea8deaf71777e2ef5f0f58b6507fdbda57e1a335f67d12340b60c8a5",
+      "standalone": true,
+      "working_directory": ".",
+      "command": "python3 skills/roster-diff/scripts/roster_diff.py --before skills/roster-diff/examples/before.json --after skills/roster-diff/examples/after.json --format markdown",
+      "inputs": [
+        "skills/roster-diff/examples/before.json",
+        "skills/roster-diff/examples/after.json"
+      ],
       "format": "markdown",
-      "exit_code": 0
+      "exit_code": 0,
+      "output_artifact": "roster-watch-example.md",
+      "output_sha256": "c32472edf06f99794ca6a526b1045e8c5964555b8530d0f8c7bf8bbf70e21c29",
+      "matches_retained_output": true
     },
     {
       "plugin": "playoff-lab",
+      "archive": "playoff-lab-1.0.0.zip",
       "archive_sha256": "4a85db7e6f09546b80d1d082fb88a7dcbbe356f453219850f56ef30408c5054f",
-      "standalone": true
+      "standalone": true,
+      "working_directory": ".",
+      "command": "python3 skills/playoff-scenarios/scripts/playoff_scenarios.py --input skills/playoff-scenarios/examples/league.json --format json",
+      "inputs": [
+        "skills/playoff-scenarios/examples/league.json"
+      ],
+      "format": "json",
+      "exit_code": 0,
+      "output_artifact": "playoff-lab-example.json",
+      "output_sha256": "3a95c34d765cc227f62ee78a6b50d715c4784b766fa5cfa648e2fd8df35f6a42",
+      "matches_retained_output": true
     },
     {
       "plugin": "playoff-lab",
-      "condition": "harbor=anchors",
-      "exit_code": 0
+      "archive": "playoff-lab-1.0.0.zip",
+      "archive_sha256": "4a85db7e6f09546b80d1d082fb88a7dcbbe356f453219850f56ef30408c5054f",
+      "standalone": true,
+      "working_directory": ".",
+      "command": "python3 skills/playoff-scenarios/scripts/playoff_scenarios.py --input skills/playoff-scenarios/examples/league.json --format markdown",
+      "inputs": [
+        "skills/playoff-scenarios/examples/league.json"
+      ],
+      "format": "markdown",
+      "exit_code": 0,
+      "output_artifact": "playoff-lab-example.md",
+      "output_sha256": "30abce2bc4f240c762c6d21f0f62f8a635cfe3d27473dd30cb088a98033e0d67",
+      "matches_retained_output": true
+    },
+    {
+      "plugin": "playoff-lab",
+      "archive": "playoff-lab-1.0.0.zip",
+      "archive_sha256": "4a85db7e6f09546b80d1d082fb88a7dcbbe356f453219850f56ef30408c5054f",
+      "standalone": true,
+      "working_directory": ".",
+      "command": "python3 skills/playoff-scenarios/scripts/playoff_scenarios.py --input skills/playoff-scenarios/examples/league.json --winner harbor=anchors --format json",
+      "inputs": [
+        "skills/playoff-scenarios/examples/league.json"
+      ],
+      "format": "json",
+      "exit_code": 0,
+      "output_artifact": "playoff-lab-anchors-win.json",
+      "output_sha256": "4915207fd5e6482ea25324de2578300e75194d9510409bd005816cace07671ab",
+      "matches_retained_output": true,
+      "condition": "harbor=anchors"
+    },
+    {
+      "plugin": "playoff-lab",
+      "archive": "playoff-lab-1.0.0.zip",
+      "archive_sha256": "4a85db7e6f09546b80d1d082fb88a7dcbbe356f453219850f56ef30408c5054f",
+      "standalone": true,
+      "working_directory": ".",
+      "command": "python3 skills/playoff-scenarios/scripts/playoff_scenarios.py --input skills/playoff-scenarios/examples/league.json --winner harbor=anchors --format markdown",
+      "inputs": [
+        "skills/playoff-scenarios/examples/league.json"
+      ],
+      "format": "markdown",
+      "exit_code": 0,
+      "output_artifact": "playoff-lab-anchors-win.md",
+      "output_sha256": "af0ce76dc290cefded209493875de2d2c538ecff16c715b04058adcf5599cc91",
+      "matches_retained_output": true,
+      "condition": "harbor=anchors"
     }
   ]
 }
