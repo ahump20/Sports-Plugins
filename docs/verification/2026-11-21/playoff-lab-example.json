@@ -1,0 +1,64 @@
+{
+  "league": "SYNTHETIC Harbor League",
+  "season": "2026",
+  "source": "SYNTHETIC fixture created for Playoff Lab",
+  "as_of": "2026-11-01T12:00:00Z",
+  "completed_week": 2,
+  "regular_season_weeks": 3,
+  "remaining_schedule_complete": true,
+  "coverage": "The supplier declared the remaining schedule complete. Provider completeness is unverified.",
+  "settings": {
+    "playoff_slots": 2,
+    "standings": "overall",
+    "ranking": "win_percentage",
+    "existing_ties": "half_win",
+    "future_ties": "excluded",
+    "median_games": false,
+    "tiebreak": {
+      "mode": "unresolved"
+    }
+  },
+  "remaining_game_count": 2,
+  "unforced_game_count": 2,
+  "forced_winners": {},
+  "scenarios": 4,
+  "interpretation": "Counts are unweighted scenario shares. Forecast probabilities require a separate model.",
+  "teams": [
+    {
+      "id": "anchors",
+      "name": "Anchors",
+      "best_seed": 1,
+      "worst_seed": 3,
+      "guaranteed_qualifications": 3,
+      "possible_qualifications": 4,
+      "status": "alive"
+    },
+    {
+      "id": "breakers",
+      "name": "Breakers",
+      "best_seed": 1,
+      "worst_seed": 4,
+      "guaranteed_qualifications": 1,
+      "possible_qualifications": 3,
+      "status": "alive"
+    },
+    {
+      "id": "cutters",
+      "name": "Cutters",
+      "best_seed": 1,
+      "worst_seed": 4,
+      "guaranteed_qualifications": 1,
+      "possible_qualifications": 3,
+      "status": "alive"
+    },
+    {
+      "id": "dories",
+      "name": "Dories",
+      "best_seed": 2,
+      "worst_seed": 4,
+      "guaranteed_qualifications": 0,
+      "possible_qualifications": 1,
+      "status": "alive"
+    }
+  ]
+}

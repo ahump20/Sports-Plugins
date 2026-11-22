@@ -1,0 +1,35 @@
+{
+  "$schema": "https://agent-plugins.org/schemas/1.0.0/plugin.schema.json",
+  "name": "playoff-lab",
+  "version": "1.0.0",
+  "description": "Find playoff seed ranges and qualification paths from league standings.",
+  "author": {
+    "name": "Austin Humphrey",
+    "url": "https://github.com/ahump20/Sports-Plugins"
+  },
+  "repository": "https://github.com/ahump20/Sports-Plugins",
+  "license": "MIT",
+  "keywords": [
+    "sports",
+    "fantasy",
+    "playoffs",
+    "standings"
+  ],
+  "extensions": {
+    "com.openai": {
+      "interface": {
+        "displayName": "Playoff Lab",
+        "shortDescription": "Find playoff seed ranges and qualification paths from league standings.",
+        "longDescription": "Enumerate remaining head-to-head outcomes from a supplied league snapshot. Compare conditional seed ranges and playoff qualification counts under explicit tiebreak assumptions.",
+        "developerName": "Austin Humphrey",
+        "category": "Analytics",
+        "capabilities": [
+          "Read"
+        ],
+        "websiteURL": "https://github.com/ahump20/Sports-Plugins",
+        "defaultPrompt": "Use $playoff-scenarios to see who can qualify from my league snapshot.",
+        "brandColor": "#BF5700"
+      }
+    }
+  }
+}

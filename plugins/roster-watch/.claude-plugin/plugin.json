@@ -1,0 +1,16 @@
+{
+  "name": "roster-watch",
+  "version": "1.0.0",
+  "description": "Compare attributed roster snapshots by stable player ID.",
+  "author": {
+    "name": "Austin Humphrey",
+    "url": "https://github.com/ahump20/Sports-Plugins"
+  },
+  "repository": "https://github.com/ahump20/Sports-Plugins",
+  "license": "MIT",
+  "keywords": [
+    "sports",
+    "rosters",
+    "provenance"
+  ]
+}

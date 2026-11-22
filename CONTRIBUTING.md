@@ -1,68 +1,49 @@
-# Contributing to Sports-Plugins
+# Contributing to Sports Plugins
 
-Thank you for your interest in contributing sports plugins to this marketplace!
+Start with a sports task someone needs to finish. State the inputs, the useful output and how a reviewer can tell whether it is right. Extend an existing package when the workflow fits; propose a separate plugin when it has a distinct job.
 
-## Plugin Structure
+## Required package
 
-Every plugin follows the standard Claude Code plugin structure:
+Every catalog entry must include:
 
+| Location | Requirement |
+|---|---|
+| `plugin.json` | Portable manifest with the agent-plugins schema and the same name/version as compatibility manifests |
+| `.claude-plugin/plugin.json` | Claude metadata |
+| `.codex-plugin/plugin.json` | Codex metadata and explicit component paths |
+| `skills/<name>/SKILL.md` | At least one discoverable skill with precise triggers, a frontmatter `name` matching its directory, and a nonempty `description`; other components may accompany it |
+| `README.md` | Purpose, install instructions, exact input/output, example, source requirements and limitations |
+| `LICENSE` | License covering the packaged source |
+| `mcp.json` and `.mcp.json` | Both portable and compatibility configuration when a server is bundled |
+
+Use the existing [Roster Watch](plugins/roster-watch/) or [Editorial Desk](plugins/editorial-desk/) package as a concrete reference. Keep supporting scripts, fixtures and references inside the package so it survives standalone extraction.
+
+Register accepted packages in both `.claude-plugin/marketplace.json` and `.agents/plugins/marketplace.json`. Keep names and source paths aligned. Do not register placeholders or advertise a dependency that has not been implemented.
+
+## Evidence and calculations
+
+Preserve source URLs or supplied-file attribution, source observation time, season, coverage and retrieval time where relevant. State unavailable fields; never replace them with plausible values. Resolve identities before joining data and require explicit league rules before applying them.
+
+Synthetic fixtures are welcome in tests and clearly labeled examples. They must never be presented as live or historical observations. Source-backed fixtures must record their source and scope. A script must use real computation, not select a canned answer.
+
+For a new behavior, include a small hand-verifiable case, an adverse input and the end-to-end command a user will run. Test errors as well as successful output. A simulation must state its assumptions and distinguish scenario shares from forecast probabilities.
+
+Provider access, licensing and authentication belong in the package README. An unauthenticated endpoint does not imply permission for commercial redistribution. Never package credentials.
+
+## Verification
+
+Run from the repository root with Node 22.12+ and Python 3.9+:
+
+```bash
+npm ci
+npm run check
+npm run package:plugins
 ```
-plugin-name/
-├── .claude-plugin/
-│   └── plugin.json      # Plugin metadata (required)
-├── .mcp.json            # MCP server configuration (optional)
-├── skills/              # Skill definitions (preferred)
-│   ├── skill-name/
-│   │   └── SKILL.md     # Model-invoked skill
-│   └── command-name/
-│       └── SKILL.md     # User-invoked slash command
-├── commands/            # Legacy slash commands (optional)
-└── README.md            # Documentation (required)
-```
 
-## Submitting a Plugin
+Run a documented example from an extracted archive outside the checkout. Check both JSON and human-readable output. If a host CLI is available, validate and install into an isolated test profile; record host/version and what was actually invoked.
 
-### Internal Plugins (`/plugins`)
+Use [the project scorecard](docs/PROJECT_SCORECARD.md) for the complete gate. Report blocked external checks separately from passing offline checks. Never relax a test or remove an existing package to make a new addition pass.
 
-Internal plugins cover core sports functionality maintained by the Sports-Plugins team:
+## Pull requests
 
-1. Fork this repository
-2. Create your plugin under `plugins/your-plugin-name/`
-3. Include all required files (see structure above)
-4. Submit a pull request
-
-### External Plugins (`/external_plugins`)
-
-Third-party sports integrations from partners and the community:
-
-1. Fork this repository
-2. Create your plugin under `external_plugins/your-plugin-name/`
-3. Include all required files
-4. Submit a pull request
-
-## Plugin Requirements
-
-### Required Files
-
-- **`.claude-plugin/plugin.json`** — Must include `name`, `description`, and `author`
-- **`README.md`** — Clear documentation explaining what the plugin does
-
-### Quality Standards
-
-- Plugins must focus on sports-related functionality
-- All MCP server URLs must be valid and accessible
-- Skills must have clear, specific trigger descriptions
-- No hardcoded API keys or secrets
-
-### Codex Compatibility
-
-Plugins in this marketplace are designed for dual compatibility:
-
-- **Claude Code** — Native plugin support via `.claude-plugin/` and `skills/`
-- **OpenAI Codex** — MCP server endpoints work with Codex tool-use patterns
-
-When building MCP integrations, ensure your server endpoints follow the [Model Context Protocol specification](https://modelcontextprotocol.io/).
-
-## Code of Conduct
-
-Be respectful, collaborative, and constructive. We're all here to make sports data more accessible to AI coding assistants.
+Describe the user problem, behavior added, source requirements, tests run and remaining limitations. Preserve unrelated work. Submit a branch and pull request; follow the repository's tagged release process after review. A source PR is not an account-plugin publication or a live-service deployment.

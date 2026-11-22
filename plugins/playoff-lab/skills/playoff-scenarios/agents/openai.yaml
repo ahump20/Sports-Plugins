@@ -1,0 +1,4 @@
+interface:
+  display_name: "Playoff Scenarios"
+  short_description: "Enumerate playoff seed ranges and qualification paths"
+  default_prompt: "Use $playoff-scenarios to see who can qualify from my league snapshot."

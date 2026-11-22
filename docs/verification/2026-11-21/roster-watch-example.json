@@ -1,0 +1,112 @@
+{
+  "changed": [
+    {
+      "after": {
+        "fields": {
+          "number": 17
+        },
+        "id": "ex-01",
+        "name": "Ari Chen"
+      },
+      "before": {
+        "fields": {
+          "number": 8,
+          "position": null
+        },
+        "id": "ex-01",
+        "name": "Ari Chen"
+      },
+      "fields": [
+        {
+          "after": {
+            "present": true,
+            "value": 17
+          },
+          "before": {
+            "present": true,
+            "value": 8
+          },
+          "path": [
+            "fields",
+            "number"
+          ]
+        },
+        {
+          "after": {
+            "present": false
+          },
+          "before": {
+            "present": true,
+            "value": null
+          },
+          "path": [
+            "fields",
+            "position"
+          ]
+        }
+      ],
+      "id": "ex-01"
+    }
+  ],
+  "counts": {
+    "after": 2,
+    "before": 2,
+    "changed": 1,
+    "observed_only_after": 1,
+    "observed_only_before": 1,
+    "unchanged": 0
+  },
+  "limitations": [
+    "Counts describe supplied snapshots and their declared coverage. Claims of transfer, injury, eligibility, departure or cause require independent evidence.",
+    "Different IDs are separate source records, including identical names. A source ID change can produce two observed-only records for one player.",
+    "The later snapshot is partial. Coverage for IDs observed only earlier is unresolved."
+  ],
+  "observed_only_after": [
+    {
+      "comparison": "absent_from_before",
+      "record": {
+        "fields": {
+          "number": 12
+        },
+        "id": "ex-03",
+        "name": "Jordan Price"
+      }
+    }
+  ],
+  "observed_only_before": [
+    {
+      "comparison": "after_coverage_unresolved",
+      "record": {
+        "fields": {
+          "number": 4
+        },
+        "id": "ex-02",
+        "name": "Cam Rivera"
+      }
+    }
+  ],
+  "scope": {
+    "identity_namespace": "synthetic:example-college:2099",
+    "season": "2099",
+    "sport": "baseball",
+    "team": "Example College"
+  },
+  "snapshots": {
+    "after": {
+      "observed_at": "2099-01-17T15:00:00Z",
+      "source": {
+        "completeness": "partial",
+        "synthetic": true,
+        "url": "https://example.invalid/synthetic-roster/after"
+      }
+    },
+    "before": {
+      "observed_at": "2099-01-10T15:00:00Z",
+      "source": {
+        "completeness": "complete",
+        "synthetic": true,
+        "url": "https://example.invalid/synthetic-roster/before"
+      }
+    }
+  }
+}

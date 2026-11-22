@@ -1,0 +1,16 @@
+{
+  "sport": "baseball",
+  "team": "Example College",
+  "season": "2099",
+  "identity_namespace": "synthetic:example-college:2099",
+  "observed_at": "2099-01-10T15:00:00Z",
+  "source": {
+    "url": "https://example.invalid/synthetic-roster/before",
+    "completeness": "complete",
+    "synthetic": true
+  },
+  "players": [
+    {"id": "ex-01", "name": "Ari Chen", "fields": {"number": 8, "position": null}},
+    {"id": "ex-02", "name": "Cam Rivera", "fields": {"number": 4}}
+  ]
+}
