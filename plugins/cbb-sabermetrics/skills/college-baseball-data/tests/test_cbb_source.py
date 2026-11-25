@@ -305,6 +305,52 @@ class AccessAndCliTests(unittest.TestCase):
             with self.assertRaisesRegex(cbb.SourceError, "bounded download time"):
                 cbb.fetch_source("https://example.edu/")
 
+    def test_real_content_length_truncation_rejects_otherwise_valid_html(self):
+        body = b"<h1>2025 Baseball Statistics</h1><table><tr><th>IP</th></tr><tr><td>70.2</td></tr></table>"
+
+        class Handler(BaseHTTPRequestHandler):
+            def do_GET(self):
+                self.send_response(200)
+                self.send_header("Content-Type", "text/html")
+                if self.path == "/chunked":
+                    self.send_header("Transfer-Encoding", "chunked")
+                    payload = ("%x\r\n" % len(body)).encode() + body + b"\r\n0\r\n\r\n"
+                else:
+                    self.send_header("Content-Length", "5000" if self.path == "/truncated" else str(len(body)))
+                    payload = body
+                self.end_headers()
+                self.wfile.write(payload)
+
+            def log_message(self, *args):
+                pass
+
+        server = ThreadingHTTPServer(("127.0.0.1", 0), Handler)
+        server.daemon_threads = True
+        thread = threading.Thread(target=server.serve_forever, kwargs={"poll_interval": 0.01}, daemon=True)
+        thread.start()
+        opener = cbb.urllib.request.build_opener(cbb.urllib.request.ProxyHandler({}), cbb.PublicRedirects())
+        try:
+            with patch.object(cbb, "validate_url", side_effect=lambda url, resolve=False: url), patch.object(cbb.urllib.request, "build_opener", return_value=opener):
+                output = io.StringIO()
+                with patch.object(sys, "stdout", output):
+                    code = cbb.main(["--url", "http://127.0.0.1:%s/truncated" % server.server_port, "--season", "2025", "--kind", "stats"])
+                packet = json.loads(output.getvalue())
+                self.assertEqual(code, 3)
+                self.assertEqual(packet["status"], "source_unavailable")
+                self.assertIn("IncompleteRead", packet["error"])
+                self.assertIn(str(5000 - len(body)), packet["error"])
+                self.assertEqual(packet["tables"], [])
+                for path in ("/complete", "/chunked"):
+                    with self.subTest(path=path):
+                        html, source = cbb.fetch_source("http://127.0.0.1:%s%s" % (server.server_port, path))
+                        self.assertEqual(html.encode(), body)
+                        self.assertEqual(source["bytes"], len(body))
+                        self.assertEqual(cbb.inspect_html(html, source, 2025, "stats")["status"], "ok")
+        finally:
+            server.shutdown()
+            server.server_close()
+            thread.join(timeout=1)
+
     def test_body_and_chunk_header_trickles_cannot_outlive_deadline(self):
         stop = threading.Event()
 

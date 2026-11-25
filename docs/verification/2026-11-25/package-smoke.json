@@ -1,7 +1,7 @@
 {
   "plugin": "cbb-sabermetrics",
   "version": "0.4.0",
-  "archive_sha256": "eb3f226980cedae3be89f5b19cba9e48ef3406e7c6bbc9fdbfdaaf0c883c6e53",
+  "archive_sha256": "5319005323152515402a36b4d30ea6ce49c744676425a540ea586e0efdcef01b",
   "executed_from": "fresh extraction outside repository",
   "checks": {
     "json": {

@@ -163,11 +163,18 @@ class PublicRedirects(urllib.request.HTTPRedirectHandler):
 
 def read_body(response, deadline):
     """Bound even a trickled read/chunk header by shutting down its HTTP socket."""
+    def finish(chunks):
+        body = b"".join(chunks)
+        remaining_length = getattr(response, "length", None)
+        if isinstance(remaining_length, int) and remaining_length > 0:
+            raise http.client.IncompleteRead(body, remaining_length)
+        return body
+
     remaining = deadline - time.monotonic()
     if remaining <= 0:
         raise SourceError("source_unavailable", "Source exceeded the bounded download time")
     if response.fp is None:
-        return b""
+        return finish([])
     transport = getattr(getattr(getattr(response, "fp", None), "raw", None), "_sock", None)
     if transport is None or not callable(getattr(transport, "shutdown", None)):
         raise SourceError("source_unavailable", "Source response cannot enforce a bounded HTTP read")
@@ -192,7 +199,7 @@ def read_body(response, deadline):
             # HTTPResponse closes its file/socket as soon as a Content-Length
             # body is consumed, before a subsequent read can return EOF.
             if response.fp is None:
-                return b"".join(chunks)
+                return finish(chunks)
             transport.settimeout(min(10, remaining))
             try:
                 # read1 returns after one buffered/socket read, rather than
@@ -205,7 +212,7 @@ def read_body(response, deadline):
             if expired.is_set() or time.monotonic() >= deadline:
                 raise SourceError("source_unavailable", "Source exceeded the bounded download time")
             if not chunk:
-                return b"".join(chunks)
+                return finish(chunks)
             chunks.append(chunk)
             total += len(chunk)
             if total > MAX_BYTES:

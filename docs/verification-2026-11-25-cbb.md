@@ -20,9 +20,9 @@ with `npm ci` from the existing lockfile.
 | Check | Observed result |
 |---|---|
 | `npm run check` | Passed: typecheck, lint, 151 Node tests, 42 Vitest tests, Python suites and nine-package validation |
-| New source-helper tests | 37 passed; source-backed snippets plus explicitly synthetic adverse cases |
+| New source-helper tests | 38 passed; source-backed snippets plus explicitly synthetic adverse cases |
 | New MCP diagnostic tests | 25 passed, including real local HTTP sessions with initialization, session/version headers, paginated discovery and an SSE response that stays open |
-| Python suites in full check | 266 discovered; nine pre-existing opt-in live cases skipped; all executed tests passed |
+| Python suites in full check | 267 discovered; nine pre-existing opt-in live cases skipped; all executed tests passed |
 | Claude marketplace validation | Passed with the available current Claude CLI; this is validation, not installation or invocation |
 | Skill frontmatter validation | New college-baseball-data skill passed |
 | Standalone ZIP | Extracted outside checkout; JSON/Markdown fixture commands, help and rejected wrong-season input behaved as documented |
@@ -80,7 +80,10 @@ their limitations in [the evaluation note](evaluation/2026-11-25/README.md).
 The PR review also reproduced inline-text numeric corruption, malformed table
 spans, truncated HTTP bodies and trickled-response deadline failures. These are
 fixed; local HTTP tests cover successful completion and deadline interruption of
-both body bytes and unfinished chunk headers. A post-review HTTPS fetch through
+both body bytes and unfinished chunk headers. A real premature-EOF regression
+also rejects a body shorter than its declared Content-Length, even when it
+contains an otherwise usable table; complete fixed-length and chunked bodies
+remain supported. A post-review HTTPS fetch through
 the configured proxy read Texas's complete stats HTML successfully and preserved
 the published Mendoza row. The MCP diagnostic now validates complete source URLs,
 checks both selected-player representations, reads SSE incrementally, and respects
