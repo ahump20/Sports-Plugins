@@ -1,0 +1,24 @@
+{
+  "plugin": "cbb-sabermetrics",
+  "version": "0.4.0",
+  "archive_sha256": "5319005323152515402a36b4d30ea6ce49c744676425a540ea586e0efdcef01b",
+  "executed_from": "fresh extraction outside repository",
+  "checks": {
+    "json": {
+      "exit_code": 0,
+      "bytes": 4777
+    },
+    "markdown": {
+      "exit_code": 0,
+      "bytes": 1416
+    },
+    "wrong_season": {
+      "exit_code": 3,
+      "status": "season_mismatch"
+    },
+    "help": {
+      "exit_code": 0
+    }
+  },
+  "fixture_scope": "attributed historical source excerpt; no live or complete-season claim"
+}

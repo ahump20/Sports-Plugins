@@ -54,7 +54,7 @@
     },
     {
       "name": "cbb-sabermetrics",
-      "description": "Source-attributed NCAA baseball observations and explicit-input metric interpretation.",
+      "description": "Verified college baseball records, rosters, schedules, standings and statistics with season-specific sources.",
       "category": "analytics",
       "source": "./plugins/cbb-sabermetrics",
       "homepage": "https://sabermetrics.blazesportsintel.com/mcp",

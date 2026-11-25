@@ -1,0 +1,24 @@
+{
+  "fixture_type": "source-backed excerpts; not complete team datasets",
+  "observed_at": "2026-11-25T22:18:59.067320+00:00",
+  "sources": [
+    {
+      "url": "https://texaslonghorns.com/sports/baseball/stats/2025",
+      "file": "texas-2025-batting-excerpt.html",
+      "original_page_sha256": "33695038428f87014da2f5aabd23f65ed7c75fdae080aa83ee609bde01906a27",
+      "extraction": "Original H1 and original batting table header, first two player rows and final two total rows; outer HTML wrappers and fixture title supplied. No source stat cells changed."
+    },
+    {
+      "url": "https://texaslonghorns.com/sports/baseball/schedule/2025",
+      "file": "texas-2025-record-excerpt.html",
+      "original_page_sha256": "5ea812a8607c311a7a0772eb13ff37ef5cb03368990b1b0ba236326fe1f5477f",
+      "extraction": "Original H1 and four original reported-record spans with screen-reader labels; only outer HTML wrappers and fixture title supplied. Actual full source also has 59 schedule cards."
+    },
+    {
+      "url": "https://texaslonghorns.com/sports/baseball/roster/2025",
+      "file": "texas-2025-roster-excerpt.html",
+      "original_page_sha256": "7a3306f029d43943aa01ed50db1f5358c8ac38840b50206e1d44a432ee1c2a5c",
+      "extraction": "Original H1, original first-table header, first eight source rows (seven players plus an embedded advertisement), and original coaching headers and first coach row; outer wrappers/title and Players section heading supplied. No source cells changed."
+    }
+  ]
+}
