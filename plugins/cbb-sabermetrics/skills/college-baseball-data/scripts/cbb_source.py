@@ -7,11 +7,13 @@ complete NCAA database. The caller must choose an authentic official source.
 
 import argparse
 import hashlib
+import http.client
 import ipaddress
 import json
 import re
 import socket
 import sys
+import threading
 import time
 import urllib.error
 import urllib.parse
@@ -26,9 +28,11 @@ MAX_COLUMNS = 128
 MAX_ROWS = 10000
 MAX_TABLES = 80
 MAX_NODES = 150000
+DOWNLOAD_SECONDS = 30
 KINDS = ("stats", "roster", "schedule", "standings")
 VOID = {"area", "base", "br", "col", "embed", "hr", "img", "input", "link", "meta", "param", "source", "track", "wbr"}
 SKIP_TEXT = {"script", "style", "template", "noscript", "svg"}
+BLOCK_TEXT = {"address", "article", "aside", "blockquote", "caption", "dd", "div", "dl", "dt", "fieldset", "figcaption", "figure", "footer", "form", "h1", "h2", "h3", "h4", "h5", "h6", "header", "hr", "li", "main", "nav", "ol", "p", "pre", "section", "table", "tbody", "td", "tfoot", "th", "thead", "tr", "ul"}
 KIND_TERMS = {
     "stats": r"\b(?:stats|statistics)\b",
     "roster": r"\broster\b",
@@ -54,10 +58,16 @@ class Element:
         self.parent = parent
         self.children = []
 
-    def text(self):
+    def _text(self):
         if self.tag in SKIP_TEXT:
             return ""
-        return clean(" ".join(c if isinstance(c, str) else c.text() for c in self.children))
+        if self.tag == "br":
+            return "\n"
+        text = "".join(c if isinstance(c, str) else c._text() for c in self.children)
+        return "\n" + text + "\n" if self.tag in BLOCK_TEXT else text
+
+    def text(self):
+        return clean(self._text())
 
     def descendants(self, tag=None):
         for child in self.children:
@@ -151,6 +161,59 @@ class PublicRedirects(urllib.request.HTTPRedirectHandler):
         return super().redirect_request(request, fp, code, msg, headers, newurl)
 
 
+def read_body(response, deadline):
+    """Bound even a trickled read/chunk header by shutting down its HTTP socket."""
+    remaining = deadline - time.monotonic()
+    if remaining <= 0:
+        raise SourceError("source_unavailable", "Source exceeded the bounded download time")
+    if response.fp is None:
+        return b""
+    transport = getattr(getattr(getattr(response, "fp", None), "raw", None), "_sock", None)
+    if transport is None or not callable(getattr(transport, "shutdown", None)):
+        raise SourceError("source_unavailable", "Source response cannot enforce a bounded HTTP read")
+    expired = threading.Event()
+
+    def abort():
+        expired.set()
+        try:
+            transport.shutdown(socket.SHUT_RDWR)
+        except OSError:
+            pass
+
+    timer = threading.Timer(remaining, abort)
+    timer.daemon = True
+    timer.start()
+    try:
+        chunks, total = [], 0
+        while True:
+            remaining = deadline - time.monotonic()
+            if expired.is_set() or remaining <= 0:
+                raise SourceError("source_unavailable", "Source exceeded the bounded download time")
+            # HTTPResponse closes its file/socket as soon as a Content-Length
+            # body is consumed, before a subsequent read can return EOF.
+            if response.fp is None:
+                return b"".join(chunks)
+            transport.settimeout(min(10, remaining))
+            try:
+                # read1 returns after one buffered/socket read, rather than
+                # waiting to accumulate 64 KiB while a peer trickles bytes.
+                chunk = response.read1(min(65536, MAX_BYTES + 1 - total))
+            except (OSError, http.client.HTTPException):
+                if expired.is_set() or time.monotonic() >= deadline:
+                    raise SourceError("source_unavailable", "Source exceeded the bounded download time")
+                raise
+            if expired.is_set() or time.monotonic() >= deadline:
+                raise SourceError("source_unavailable", "Source exceeded the bounded download time")
+            if not chunk:
+                return b"".join(chunks)
+            chunks.append(chunk)
+            total += len(chunk)
+            if total > MAX_BYTES:
+                raise SourceError("source_too_large", "Source exceeds the 8 MiB download limit")
+    finally:
+        timer.cancel()
+
+
 def fetch_source(url):
     validate_url(url, resolve=True)
     request = urllib.request.Request(url, headers={
@@ -168,18 +231,7 @@ def fetch_source(url):
             length = response.headers.get("Content-Length")
             if length and length.isdigit() and int(length) > MAX_BYTES:
                 raise SourceError("source_too_large", "Source exceeds the 8 MiB download limit")
-            chunks, total = [], 0
-            while True:
-                if time.monotonic() - started > 30:
-                    raise SourceError("source_unavailable", "Source exceeded the bounded download time")
-                chunk = response.read(min(65536, MAX_BYTES + 1 - total))
-                if not chunk:
-                    break
-                chunks.append(chunk)
-                total += len(chunk)
-                if total > MAX_BYTES:
-                    raise SourceError("source_too_large", "Source exceeds the 8 MiB download limit")
-            raw = b"".join(chunks)
+            raw = read_body(response, started + DOWNLOAD_SECONDS)
             charset = response.headers.get_content_charset() or "utf-8"
             try:
                 html = raw.decode(charset)
@@ -197,7 +249,7 @@ def fetch_source(url):
             }
     except urllib.error.HTTPError as error:
         raise SourceError("source_unavailable", "Source returned HTTP %s; no data was inferred" % error.code) from error
-    except (urllib.error.URLError, TimeoutError, OSError) as error:
+    except (urllib.error.URLError, TimeoutError, OSError, http.client.HTTPException) as error:
         raise SourceError("source_unavailable", "Source request failed: %s" % error) from error
 
 
@@ -272,7 +324,7 @@ def expand_table(table, index, heading, base):
                 column += 1
             try:
                 colspan, rowspan = int(cell.attrs.get("colspan", 1)), int(cell.attrs.get("rowspan", 1))
-            except ValueError as error:
+            except (ValueError, TypeError) as error:
                 raise SourceError("unsupported_markup", "Invalid table span") from error
             if colspan < 1 or rowspan < 1 or column + colspan > MAX_COLUMNS or row_index + rowspan > len(raw_rows):
                 raise SourceError("unsupported_markup", "Unsupported or out-of-bounds table span")

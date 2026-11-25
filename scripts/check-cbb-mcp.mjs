@@ -10,6 +10,13 @@ const LIVE_URL = 'https://sabermetrics.blazesportsintel.com/mcp';
 const own = (object, key) => Object.prototype.hasOwnProperty.call(object, key);
 const nonempty = value => typeof value === 'string' && value.trim().length > 0;
 const count = value => Number.isInteger(value) && value >= 0;
+function sourceUrl(value) {
+  if (typeof value !== 'string' || !/^https?:\/\//i.test(value)) return false;
+  try {
+    const url = new URL(value);
+    return ['http:', 'https:'].includes(url.protocol) && Boolean(url.hostname);
+  } catch { return false; }
+}
 function isoDate(value) {
   if (typeof value !== 'string' || !/^\d{4}-\d{2}-\d{2}(?:T\d{2}:\d{2}(?::\d{2}(?:\.\d+)?)?(?:Z|[+-]\d{2}:\d{2}))?$/.test(value)) return false;
   const datePart = value.slice(0, 10);
@@ -70,7 +77,7 @@ function rowsFor(name, data) {
     return (Array.isArray(data.standings) ? data.standings : []).flatMap(group =>
       Array.isArray(group?.teams) ? group.teams : Array.isArray(group?.standings) ? group.standings : []);
   }
-  if (name === 'bsi_get_player_stats') return Array.isArray(data.players) ? data.players : data.player ? [data.player] : [];
+  if (name === 'bsi_get_player_stats') return [...(Array.isArray(data.players) ? data.players : []), ...(data.player ? [data.player] : [])];
   const key = {bsi_get_rankings: 'rankings', bsi_get_team_schedule: 'schedule', bsi_get_team_roster: 'roster'}[name];
   return key && Array.isArray(data[key]) ? data[key] : [];
 }
@@ -90,7 +97,7 @@ export function inspectResult(name, result, requestedSeason) {
   }
   if (typeof meta.source !== 'string' || !meta.source.trim()) problems.push('Missing source identity');
   if (!Array.isArray(meta.source_urls) || meta.source_urls.length === 0 ||
-      meta.source_urls.some(url => typeof url !== 'string' || !/^https?:\/\//.test(url))) {
+      meta.source_urls.some(url => !sourceUrl(url))) {
     problems.push('Missing source URLs');
   }
   if (!isoDate(meta.retrieved_at) || !meta.retrieved_at.includes('T')) problems.push('Missing or invalid retrieval timestamp');
@@ -135,6 +142,71 @@ export function inspectResult(name, result, requestedSeason) {
   };
 }
 
+async function readRpcMessage(response, id) {
+  if (!response.headers.get('content-type')?.includes('text/event-stream')) return response.json();
+  if (!response.body) throw new Error('Empty SSE response');
+  const reader = response.body.getReader();
+  const decoder = new TextDecoder();
+  let buffer = '';
+  let data = [];
+  try {
+    while (true) {
+      const {value, done} = await reader.read();
+      buffer += decoder.decode(value, {stream: !done});
+      // SSE permits CR, LF, and CRLF. Retain a trailing CR until the next chunk.
+      let newline;
+      while ((newline = /\r\n|\r|\n/.exec(buffer))) {
+        if (!done && newline[0] === '\r' && newline.index === buffer.length - 1) break;
+        const line = buffer.slice(0, newline.index);
+        buffer = buffer.slice(newline.index + newline[0].length);
+        if (line === '') {
+          if (data.length) {
+            const message = JSON.parse(data.join('\n'));
+            data = [];
+            if (message.id === id) return message;
+          }
+        } else if (line === 'data' || line.startsWith('data:')) {
+          data.push(line === 'data' ? '' : line.slice(5).replace(/^ /, ''));
+        }
+      }
+      if (done) throw new Error('No matching SSE response');
+    }
+  } finally {
+    await reader.cancel().catch(() => {});
+    reader.releaseLock();
+  }
+}
+
+function seasonArguments(tool, args) {
+  const schema = tool.inputSchema;
+  const seasonSchema = schema?.properties?.season;
+  if (!seasonSchema) throw new Error('Server cannot honor explicit season; no unsupported arguments sent.');
+  const allowedKeys = ['type', 'description', 'title', 'default', 'examples', 'enum', 'const', 'minimum', 'maximum', 'exclusiveMinimum', 'exclusiveMaximum', 'multipleOf', 'minLength', 'maxLength', 'pattern'];
+  if (Object.keys(seasonSchema).some(key => !allowedKeys.includes(key)) || !['integer', 'number', 'string'].includes(seasonSchema.type)) {
+    throw new Error('Unsupported season schema; no unsupported arguments sent.');
+  }
+  const value = seasonSchema.type === 'string' ? String(args.season) : args.season;
+  if ((seasonSchema.enum && !seasonSchema.enum.includes(value)) || (own(seasonSchema, 'const') && seasonSchema.const !== value)) {
+    throw new Error('Requested season is outside the advertised schema.');
+  }
+  if (typeof value === 'number') {
+    if ((own(seasonSchema, 'minimum') && value < seasonSchema.minimum) ||
+        (own(seasonSchema, 'maximum') && value > seasonSchema.maximum) ||
+        (own(seasonSchema, 'exclusiveMinimum') && value <= seasonSchema.exclusiveMinimum) ||
+        (own(seasonSchema, 'exclusiveMaximum') && value >= seasonSchema.exclusiveMaximum) ||
+        (own(seasonSchema, 'multipleOf') && value % seasonSchema.multipleOf !== 0)) {
+      throw new Error('Requested season is outside the advertised schema.');
+    }
+  } else if ((own(seasonSchema, 'minLength') && value.length < seasonSchema.minLength) ||
+      (own(seasonSchema, 'maxLength') && value.length > seasonSchema.maxLength) ||
+      (own(seasonSchema, 'pattern') && !new RegExp(seasonSchema.pattern, 'u').test(value))) {
+    throw new Error('Requested season is outside the advertised schema.');
+  }
+  const resolved = {...args, season: value};
+  if (schema.required?.some(key => !own(resolved, key))) throw new Error('Required tool arguments are unavailable.');
+  return resolved;
+}
+
 export async function checkMcp(url = LIVE_URL, season = 2025) {
   let nextId = 1;
   let sessionId;
@@ -150,12 +222,8 @@ export async function checkMcp(url = LIVE_URL, season = 2025) {
     });
     sessionId = response.headers.get('mcp-session-id') ?? sessionId;
     if (!response.ok) throw new Error(method + ': HTTP ' + response.status);
-    const raw = await response.text();
-    const messages = response.headers.get('content-type')?.includes('text/event-stream')
-      ? raw.split(/\r?\n\r?\n/).map(event => event.split(/\r?\n/).filter(line => line.startsWith('data:')).map(line => line.slice(5).trimStart()).join('\n')).filter(Boolean)
-      : [raw];
-    const responseMessage = messages.map(message => JSON.parse(message)).find(message => message.id === id);
-    if (!responseMessage || responseMessage.error) throw new Error(method + ': ' + JSON.stringify(responseMessage?.error ?? 'No matching response'));
+    const responseMessage = await readRpcMessage(response, id);
+    if (!responseMessage || responseMessage.id !== id || responseMessage.error) throw new Error(method + ': ' + JSON.stringify(responseMessage?.error ?? 'No matching response'));
     return responseMessage.result;
   }
   const initialized = await rpc('initialize', {
@@ -192,12 +260,9 @@ export async function checkMcp(url = LIVE_URL, season = 2025) {
     ['bsi_get_team_schedule', {team: 'texas', season}],
     ['bsi_get_player_stats', {player: 'Ethan Mendoza', team: 'texas', season}],
   ]) {
-    if (!tools.some(tool => tool.name === name)) continue;
-    if (!tools.find(tool => tool.name === name).inputSchema?.properties?.season) {
-      checks.push({name, contract: 'fail', availability: 'unknown', problems: ['Server cannot honor explicit season; no unsupported arguments sent.']});
-      continue;
-    }
-    try { checks.push({name, ...inspectResult(name, await rpc('tools/call', {name, arguments: args}), season)}); }
+    const tool = tools.find(tool => tool.name === name);
+    if (!tool) continue;
+    try { checks.push({name, ...inspectResult(name, await rpc('tools/call', {name, arguments: seasonArguments(tool, args)}), season)}); }
     catch (error) { checks.push({name, contract: 'fail', availability: 'unknown', problems: [error.message]}); }
   }
   const contractPassed = !catalogProblems.length && checks.length === 4 && checks.every(check => check.contract === 'pass');

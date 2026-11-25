@@ -11,6 +11,8 @@ A computed rate is a description of observed events, not a validated talent fore
 
 Use the installed `baseball-analytics` skill's `scripts/saber.py`; read its `--help` and input contract rather than guessing arguments. For NCAA calculations needing league constants, pass published totals for the requested division and season with `--totals`. If the helper supports only Division I for that calculation, do not relabel DI results for DII, DIII, NAIA or junior college. Do not silently use the helper's MLB `--season` defaults for college players. If the helper or totals are unavailable, name what cannot be computed.
 
+The helper's totals object shares HR, BB, HBP and SO between batting and FIP calculations. Report FIP from `--totals` only after confirming those counts also match the pitching totals for the same league, season and game population. Out-of-league games can break that agreement. If matching pitching totals are unavailable, leave FIP unavailable.
+
 The college-total workflow rescales its weights to the supplied run environment, but its relative event values still originate from MLB. Label that methodological limitation; do not call the result an official NCAA metric or a college-trained model.
 
 | Metric | Required context |

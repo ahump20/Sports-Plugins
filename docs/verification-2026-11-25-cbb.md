@@ -19,10 +19,10 @@ with `npm ci` from the existing lockfile.
 
 | Check | Observed result |
 |---|---|
-| `npm run check` | Passed: typecheck, lint, 146 Node tests, 42 Vitest tests, Python suites and nine-package validation |
-| New source-helper tests | 32 passed; source-backed snippets plus explicitly synthetic adverse cases |
-| New MCP diagnostic tests | 20 passed, including a real local HTTP session with initialization, session/version headers and paginated discovery |
-| Python suites in full check | 261 discovered; nine pre-existing opt-in live cases skipped; all executed tests passed |
+| `npm run check` | Passed: typecheck, lint, 151 Node tests, 42 Vitest tests, Python suites and nine-package validation |
+| New source-helper tests | 37 passed; source-backed snippets plus explicitly synthetic adverse cases |
+| New MCP diagnostic tests | 25 passed, including real local HTTP sessions with initialization, session/version headers, paginated discovery and an SSE response that stays open |
+| Python suites in full check | 266 discovered; nine pre-existing opt-in live cases skipped; all executed tests passed |
 | Claude marketplace validation | Passed with the available current Claude CLI; this is validation, not installation or invocation |
 | Skill frontmatter validation | New college-baseball-data skill passed |
 | Standalone ZIP | Extracted outside checkout; JSON/Markdown fixture commands, help and rejected wrong-season input behaved as documented |
@@ -76,6 +76,24 @@ Independent review tested the workflow with a mixed historical-stat/current-
 roster request and reproduced diagnostic/parser edge cases. Findings were fixed
 and retained as regression tests. Static Plugin Eval reports are included with
 their limitations in [the evaluation note](evaluation/2026-11-25/README.md).
+
+The PR review also reproduced inline-text numeric corruption, malformed table
+spans, truncated HTTP bodies and trickled-response deadline failures. These are
+fixed; local HTTP tests cover successful completion and deadline interruption of
+both body bytes and unfinished chunk headers. A post-review HTTPS fetch through
+the configured proxy read Texas's complete stats HTML successfully and preserved
+the published Mendoza row. The MCP diagnostic now validates complete source URLs,
+checks both selected-player representations, reads SSE incrementally, and respects
+advertised string/integer season schemas without sending unsupported requests.
+FIP guidance now requires matching batting/pitching league totals for the helper's
+shared input fields.
+
+The companion server repair is [BSI PR #1743](https://github.com/Blaze-sports-Intel/BSI/pull/1743).
+Its 56 focused tests and scoped MCP TypeScript check passed, and independent
+review confirmed the final Texas pitcher fallback. The hosted checks did not
+start: failed jobs executed zero steps and candidate validation was skipped.
+Full BSI validation remains unperformed; that PR stays draft. No production
+deployment is implied by this package's passing checks.
 
 The source package can be reviewed and merged after required repository checks.
 No production deployment, tagged publication, account-plugin replacement or

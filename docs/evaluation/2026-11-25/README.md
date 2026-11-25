@@ -12,6 +12,9 @@ The original package scores 81. The expanded candidate initially scores 54,
 mostly because adding executable retrieval code/tests increases the evaluator's
 estimated deferred-token cost and its function-length/complexity warnings.
 The candidate also received a trigger-wording warning, which was corrected.
+The final reviewed candidate scores **58**, including after the HTTP/parser
+repairs. Budget and complexity warnings remain; the report is not a passing
+accuracy certificate.
 Keep the actual reports; do not treat a lower word/code count as evidence that
 the old data path was more accurate. The parser's tested span/season handling
 is retained rather than discarded to improve a static score.
@@ -25,6 +28,11 @@ Behavioral evaluation found and corrected concrete problems:
   initial HTML helper; invalid ranges could leak their first year.
 - Real roster HTML includes advertisement rows and separate staff tables;
   raw row counts must not become player counts.
+- Inline/comments must not split numeric tokens; malformed spans and truncated
+  HTTP responses must produce failure observations rather than tracebacks.
+- Trickle-body and chunk-header reads must obey the overall download deadline.
+- An SSE result can arrive before the stream closes; the diagnostic must return
+  that result, preserve session handling and honor the discovered season schema.
 - Published Mendoza OPS .913 differs from raw-count OPS .9121227 through
   display rounding. This is explicitly distinguished from inconsistent counts.
 

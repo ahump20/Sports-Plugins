@@ -1,12 +1,12 @@
 {
   "plugin": "cbb-sabermetrics",
   "version": "0.4.0",
-  "archive_sha256": "299c70dc32fd074147df4277b27bfdf64e6a60f3e0b76932807d021434af61c1",
+  "archive_sha256": "eb3f226980cedae3be89f5b19cba9e48ef3406e7c6bbc9fdbfdaaf0c883c6e53",
   "executed_from": "fresh extraction outside repository",
   "checks": {
     "json": {
       "exit_code": 0,
-      "bytes": 4798
+      "bytes": 4777
     },
     "markdown": {
       "exit_code": 0,

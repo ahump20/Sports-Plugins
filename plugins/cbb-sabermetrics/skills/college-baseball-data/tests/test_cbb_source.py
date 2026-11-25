@@ -1,12 +1,16 @@
 """Source-backed extraction checks and explicitly synthetic adverse HTML cases."""
 
 import importlib.util
+import io
 import json
 import subprocess
 import sys
 import tempfile
+import threading
+import time
 import unittest
 from email.message import Message
+from http.server import BaseHTTPRequestHandler, ThreadingHTTPServer
 from pathlib import Path
 from unittest.mock import MagicMock, patch
 
@@ -121,6 +125,12 @@ class ScopeTests(unittest.TestCase):
 
 
 class TableAndScheduleTests(unittest.TestCase):
+    def test_inline_fragments_preserve_digits_and_real_word_separators(self):
+        html = """<table><tr><th>IP</th><th>AVG</th><th>Name</th><th>School</th></tr>
+        <tr><td>70.<!-- hydration -->2</td><td><span>.3</span><span>33</span></td>
+        <td>Luke<span> Harrison</span></td><td><div>Texas</div><div>Longhorns<br>Austin</div></td></tr></table>"""
+        self.assertEqual(inspect(synthetic(html))["tables"][0]["rows"], [["70.2", ".333", "Luke Harrison", "Texas Longhorns Austin"]])
+
     def test_zero_missing_dash_and_innings_are_distinct(self):
         packet = inspect(synthetic("<table><tr><th>SO</th><th>BB</th><th>HBP</th><th>IP</th></tr><tr><td>0</td><td></td><td>-</td><td>70.2</td></tr></table>"))
         self.assertEqual(packet["tables"][0]["rows"], [["0", None, "-", "70.2"]])
@@ -140,6 +150,16 @@ class TableAndScheduleTests(unittest.TestCase):
         self.assertEqual(packet["status"], "needs_browser")
         self.assertEqual(len(packet["rejected_tables"]), 1)
         self.assertEqual(packet["tables"], [])
+
+    def test_valueless_spans_reject_only_the_affected_table(self):
+        for attribute in ("colspan", "rowspan"):
+            with self.subTest(attribute=attribute):
+                html = '<table><tr><td %s>Invalid</td></tr></table><table><tr><td>70.2</td></tr></table>' % attribute
+                packet = inspect(synthetic(html))
+                self.assertEqual(packet["status"], "partial")
+                self.assertEqual(packet["rejected_tables"], [{"source_table_index": 0, "reason": "Invalid table span"}])
+                self.assertEqual(packet["tables"][0]["source_table_index"], 1)
+                self.assertEqual(packet["tables"][0]["rows"], [["70.2"]])
 
     def test_implicitly_closed_cells_require_browser_instead_of_concatenation(self):
         packet = inspect(synthetic("<table><tr><th>H<th>AB<tr><td>1<td>3</table>"))
@@ -225,6 +245,7 @@ class AccessAndCliTests(unittest.TestCase):
                         cbb.fetch_source("https://example.edu/")
                 self.assertEqual(caught.exception.code, code)
                 response.read.assert_not_called()
+                response.read1.assert_not_called()
 
     def test_http_provenance_keeps_redirect_and_retrieval_separate(self):
         headers = Message()
@@ -233,7 +254,7 @@ class AccessAndCliTests(unittest.TestCase):
         response.headers = headers
         response.status = 200
         response.geturl.return_value = "https://example.edu/baseball/stats/2025"
-        response.read.side_effect = [b"<h1>2025 Baseball Statistics</h1>", b""]
+        response.read1.side_effect = [b"<h1>2025 Baseball Statistics</h1>", b""]
         response.__enter__.return_value = response
         opener = MagicMock()
         opener.open.return_value = response
@@ -244,6 +265,100 @@ class AccessAndCliTests(unittest.TestCase):
         self.assertTrue(source["retrieved_at"])
         self.assertNotIn("as_of", source)
         self.assertIn("2025 Baseball", html)
+
+    def test_incomplete_http_response_returns_structured_unavailable(self):
+        headers = Message()
+        headers["Content-Type"] = "text/html"
+        response = MagicMock()
+        response.headers = headers
+        response.geturl.return_value = "https://example.edu/"
+        response.read1.side_effect = cbb.http.client.IncompleteRead(b"partial", 100)
+        response.__enter__.return_value = response
+        opener = MagicMock()
+        opener.open.return_value = response
+        output = io.StringIO()
+        with patch.object(cbb, "validate_url", side_effect=lambda url, resolve=False: url), patch.object(cbb.urllib.request, "build_opener", return_value=opener), patch.object(sys, "stdout", output):
+            code = cbb.main(["--url", "https://example.edu/", "--season", "2025", "--kind", "stats"])
+        packet = json.loads(output.getvalue())
+        self.assertEqual(code, 3)
+        self.assertEqual(packet["status"], "source_unavailable")
+        self.assertIn("IncompleteRead", packet["error"])
+        self.assertEqual(packet["tables"], [])
+
+    def test_eof_after_deadline_cannot_be_accepted_as_success(self):
+        headers = Message()
+        headers["Content-Type"] = "text/html"
+        response = MagicMock()
+        response.headers = headers
+        response.geturl.return_value = "https://example.edu/"
+        response.__enter__.return_value = response
+        clock = [0.0]
+
+        def late_eof(size):
+            clock[0] = 31.0
+            return b""
+
+        response.read1.side_effect = late_eof
+        opener = MagicMock()
+        opener.open.return_value = response
+        with patch.object(cbb, "validate_url", side_effect=lambda url, resolve=False: url), patch.object(cbb.urllib.request, "build_opener", return_value=opener), patch.object(cbb.time, "monotonic", side_effect=lambda: clock[0]):
+            with self.assertRaisesRegex(cbb.SourceError, "bounded download time"):
+                cbb.fetch_source("https://example.edu/")
+
+    def test_body_and_chunk_header_trickles_cannot_outlive_deadline(self):
+        stop = threading.Event()
+
+        class Handler(BaseHTTPRequestHandler):
+            def do_GET(self):
+                self.send_response(200)
+                self.send_header("Content-Type", "text/html")
+                if self.path == "/complete":
+                    body = b"<h1>2025 Baseball Statistics</h1>"
+                    self.send_header("Content-Length", str(len(body)))
+                    self.end_headers()
+                    self.wfile.write(body)
+                    return
+                if self.path == "/chunked":
+                    self.send_header("Transfer-Encoding", "chunked")
+                else:
+                    self.send_header("Content-Length", "100")
+                self.end_headers()
+                try:
+                    for _ in range(100):
+                        # The chunked case never finishes its size line. A
+                        # read1/socket inactivity timeout alone is insufficient.
+                        self.wfile.write(b"1")
+                        self.wfile.flush()
+                        if stop.wait(0.02):
+                            break
+                except OSError:
+                    pass
+
+            def log_message(self, *args):
+                pass
+
+        server = ThreadingHTTPServer(("127.0.0.1", 0), Handler)
+        server.daemon_threads = True
+        thread = threading.Thread(target=server.serve_forever, kwargs={"poll_interval": 0.01}, daemon=True)
+        thread.start()
+        opener = cbb.urllib.request.build_opener(cbb.urllib.request.ProxyHandler({}), cbb.PublicRedirects())
+        try:
+            with patch.object(cbb, "DOWNLOAD_SECONDS", 0.15), patch.object(cbb, "validate_url", side_effect=lambda url, resolve=False: url), patch.object(cbb.urllib.request, "build_opener", return_value=opener):
+                html, source = cbb.fetch_source("http://127.0.0.1:%s/complete" % server.server_port)
+            self.assertEqual(html, "<h1>2025 Baseball Statistics</h1>")
+            self.assertEqual(source["http_status"], 200)
+            for path in ("/body", "/chunked"):
+                with self.subTest(path=path):
+                    started = time.monotonic()
+                    with patch.object(cbb, "DOWNLOAD_SECONDS", 0.15), patch.object(cbb, "validate_url", side_effect=lambda url, resolve=False: url), patch.object(cbb.urllib.request, "build_opener", return_value=opener):
+                        with self.assertRaisesRegex(cbb.SourceError, "bounded download time"):
+                            cbb.fetch_source("http://127.0.0.1:%s%s" % (server.server_port, path))
+                    self.assertLess(time.monotonic() - started, 0.6)
+        finally:
+            stop.set()
+            server.shutdown()
+            server.server_close()
+            thread.join(timeout=1)
 
     def command(self, *args):
         return subprocess.run([sys.executable, str(SCRIPT), *args], text=True, capture_output=True, timeout=10)
