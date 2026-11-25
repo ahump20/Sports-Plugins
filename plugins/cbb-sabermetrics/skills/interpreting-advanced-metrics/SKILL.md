@@ -5,11 +5,11 @@ description: Use when interpreting or calculating college baseball wOBA, wRC+, F
 
 # Advanced metrics with explicit inputs
 
-A computed rate is a description of observed events, not a validated talent forecast. Fetch the requested player/team observations, preserve their source, season and cutoff, then check required inputs before calculating.
+A computed rate is a description of observed events, not a validated talent forecast. Follow `college-baseball-data` to retrieve and verify the requested player/team observations, preserving source, season, split and cutoff. Check raw inputs against any published rate before calculating; partial accumulation or zero-filled missing fields can make a provider's own line internally inconsistent. Allow for documented display rounding before calling a difference an error.
 
 ## Calculation path
 
-Use the installed `baseball-analytics` skill's `scripts/saber.py`; read its `--help` and input contract rather than guessing arguments. For NCAA calculations needing league constants, pass published totals for the requested Division I season with `--totals`. Do not silently use the helper's MLB `--season` defaults for college players. If the helper or totals are unavailable, name what cannot be computed.
+Use the installed `baseball-analytics` skill's `scripts/saber.py`; read its `--help` and input contract rather than guessing arguments. For NCAA calculations needing league constants, pass published totals for the requested division and season with `--totals`. If the helper supports only Division I for that calculation, do not relabel DI results for DII, DIII, NAIA or junior college. Do not silently use the helper's MLB `--season` defaults for college players. If the helper or totals are unavailable, name what cannot be computed.
 
 The college-total workflow rescales its weights to the supplied run environment, but its relative event values still originate from MLB. Label that methodological limitation; do not call the result an official NCAA metric or a college-trained model.
 

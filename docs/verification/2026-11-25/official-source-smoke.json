@@ -1,0 +1,320 @@
+{
+  "checked_on": "2026-11-25",
+  "scope": "historical 2025 original school HTML observations; not current-season data",
+  "sources": {
+    "stats": {
+      "status": "ok",
+      "source": {
+        "requested_url": "https://texaslonghorns.com/sports/baseball/stats/2025",
+        "final_url": "https://texaslonghorns.com/sports/baseball/stats/2025",
+        "retrieved_at": "2026-11-25T22:25:22.654225+00:00",
+        "http_status": 200,
+        "content_type": "text/html",
+        "content_sha256": "f050d44a1b27dcfe9324d33c7e18e7ff0fb71103578fb2d1a798b389c5ca42f6",
+        "bytes": 1563658,
+        "input_mode": "http",
+        "title": "Baseball Cumulative Statistics",
+        "as_of": null,
+        "authority": "Caller must verify this is the relevant official school, conference or association source."
+      },
+      "season": {
+        "requested": 2025,
+        "observed": [
+          2025
+        ],
+        "evidence": [
+          {
+            "element": "h1",
+            "text": "2025 Baseball Cumulative Statistics",
+            "season": 2025
+          }
+        ]
+      },
+      "coverage": {
+        "completeness": "unknown",
+        "population": "HTML tables and supported schedule cards on this one page",
+        "includes_all_tabs": false,
+        "includes_all_pages": false,
+        "observed_table_count": 5
+      },
+      "reported_record": {},
+      "tables": [
+        {
+          "heading": "Batting",
+          "columns": 22,
+          "row_sections": {
+            "body": 16,
+            "footer": 2
+          }
+        },
+        {
+          "heading": "Overall Team Stats (44-14, 22-8)",
+          "columns": 3,
+          "row_sections": {
+            "body": 29,
+            "section": 2
+          }
+        },
+        {
+          "heading": "Batting",
+          "columns": 25,
+          "row_sections": {
+            "body": 58,
+            "footer": 1
+          }
+        },
+        {
+          "heading": "Batting",
+          "columns": 3,
+          "row_sections": {
+            "body": 15
+          }
+        },
+        {
+          "heading": "Multi Hit Games",
+          "columns": 6,
+          "row_sections": {
+            "body": 12,
+            "footer": 1
+          }
+        }
+      ],
+      "batting_headers": [
+        [
+          "#",
+          "Player",
+          "AVG",
+          "OPS",
+          "GP-GS",
+          "AB",
+          "r",
+          "h",
+          "2B",
+          "3b",
+          "hr",
+          "rbi",
+          "tb",
+          "slg%",
+          "bb",
+          "hbp",
+          "so",
+          "gdp",
+          "ob%",
+          "sf",
+          "sh",
+          "sb-att"
+        ]
+      ],
+      "selected_batting_rows": [
+        [
+          "5",
+          "Mendoza, Ethan",
+          ".333",
+          ".913",
+          "56 - 55",
+          "225",
+          "53",
+          "75",
+          "9",
+          "4",
+          "5",
+          "35",
+          "107",
+          ".476",
+          "36",
+          "6",
+          "47",
+          "2",
+          ".437",
+          "1",
+          "0",
+          "15 - 16"
+        ],
+        [
+          null,
+          "Total",
+          ".275",
+          ".864",
+          "58-58",
+          "1980",
+          "408",
+          "545",
+          "128",
+          "11",
+          "85",
+          "384",
+          "950",
+          ".480",
+          "299",
+          "58",
+          "556",
+          "26",
+          ".384",
+          "13",
+          "2",
+          "79-99"
+        ],
+        [
+          null,
+          "Opponents",
+          ".219",
+          ".662",
+          "58-58",
+          "1862",
+          "250",
+          "408",
+          "69",
+          "1",
+          "48",
+          "229",
+          "623",
+          ".335",
+          "200",
+          "103",
+          "526",
+          "37",
+          ".327",
+          "11",
+          "24",
+          "21-41"
+        ]
+      ]
+    },
+    "roster": {
+      "status": "ok",
+      "source": {
+        "requested_url": "https://texaslonghorns.com/sports/baseball/roster/2025",
+        "final_url": "https://texaslonghorns.com/sports/baseball/roster/2025",
+        "retrieved_at": "2026-11-25T22:25:18.453942+00:00",
+        "http_status": 200,
+        "content_type": "text/html",
+        "content_sha256": "1415b567be5b15067a146a706d3cd518fa8c76befc5d9e4eeff58251721ef9ec",
+        "bytes": 1465689,
+        "input_mode": "http",
+        "title": "2025 Baseball Roster - University of Texas Athletics",
+        "as_of": null,
+        "authority": "Caller must verify this is the relevant official school, conference or association source."
+      },
+      "season": {
+        "requested": 2025,
+        "observed": [
+          2025
+        ],
+        "evidence": [
+          {
+            "element": "title",
+            "text": "2025 Baseball Roster - University of Texas Athletics",
+            "season": 2025
+          },
+          {
+            "element": "h1",
+            "text": "2025 Baseball Roster",
+            "season": 2025
+          }
+        ]
+      },
+      "coverage": {
+        "completeness": "unknown",
+        "population": "HTML tables and supported schedule cards on this one page",
+        "includes_all_tabs": false,
+        "includes_all_pages": false,
+        "observed_table_count": 3
+      },
+      "reported_record": {},
+      "tables": [
+        {
+          "heading": "Players",
+          "columns": 10,
+          "row_sections": {
+            "advertisement": 2,
+            "body": 41
+          }
+        },
+        {
+          "heading": "Coaching Staff",
+          "columns": 5,
+          "row_sections": {
+            "body": 5
+          }
+        },
+        {
+          "heading": "Support Staff",
+          "columns": 5,
+          "row_sections": {
+            "body": 5
+          }
+        }
+      ]
+    },
+    "schedule": {
+      "status": "ok",
+      "source": {
+        "requested_url": "https://texaslonghorns.com/sports/baseball/schedule/2025",
+        "final_url": "https://texaslonghorns.com/sports/baseball/schedule/2025",
+        "retrieved_at": "2026-11-25T22:22:21.108967+00:00",
+        "http_status": 200,
+        "content_type": "text/html",
+        "content_sha256": "30d08621c98b90d4a71fc023465e78fa18f7e08192da4e869f590a8ecbd5a31d",
+        "bytes": 1550374,
+        "input_mode": "http",
+        "title": "2025 Baseball Schedule - University of Texas Athletics",
+        "as_of": null,
+        "authority": "Caller must verify this is the relevant official school, conference or association source."
+      },
+      "season": {
+        "requested": 2025,
+        "observed": [
+          2025
+        ],
+        "evidence": [
+          {
+            "element": "title",
+            "text": "2025 Baseball Schedule - University of Texas Athletics",
+            "season": 2025
+          },
+          {
+            "element": "h1",
+            "text": "2025 Baseball Schedule",
+            "season": 2025
+          }
+        ]
+      },
+      "coverage": {
+        "completeness": "unknown",
+        "population": "HTML tables and supported schedule cards on this one page",
+        "includes_all_tabs": false,
+        "includes_all_pages": false,
+        "observed_table_count": 0
+      },
+      "reported_record": {
+        "overall": {
+          "wins": 44,
+          "losses": 14,
+          "ties": null
+        },
+        "conference": {
+          "wins": 22,
+          "losses": 8,
+          "ties": null
+        },
+        "home": {
+          "wins": 28,
+          "losses": 7,
+          "ties": null
+        },
+        "away": {
+          "wins": 11,
+          "losses": 5,
+          "ties": null
+        },
+        "neutral": {
+          "wins": 5,
+          "losses": 2,
+          "ties": null
+        }
+      },
+      "tables": [],
+      "source_game_cards": 59
+    }
+  }
+}

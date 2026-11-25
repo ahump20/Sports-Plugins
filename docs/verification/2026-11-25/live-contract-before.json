@@ -1,0 +1,53 @@
+{
+  "endpoint": "https://sabermetrics.blazesportsintel.com/mcp",
+  "checked_at": "2026-11-25T22:19:38.031Z",
+  "requested_season": 2025,
+  "server": {
+    "name": "blaze-sports-intel",
+    "version": "4.0.0"
+  },
+  "connectivity": "pass",
+  "catalogProblems": [
+    "bsi_get_standings: no explicit season input",
+    "bsi_get_rankings: no explicit season input",
+    "bsi_get_player_stats: no explicit season input",
+    "bsi_get_team_schedule: no explicit season input"
+  ],
+  "checks": [
+    {
+      "name": "bsi_get_standings",
+      "contract": "fail",
+      "availability": "unknown",
+      "problems": [
+        "Server cannot honor explicit season; no unsupported arguments sent."
+      ]
+    },
+    {
+      "name": "bsi_get_rankings",
+      "contract": "fail",
+      "availability": "unknown",
+      "problems": [
+        "Server cannot honor explicit season; no unsupported arguments sent."
+      ]
+    },
+    {
+      "name": "bsi_get_team_schedule",
+      "contract": "fail",
+      "availability": "unknown",
+      "problems": [
+        "Server cannot honor explicit season; no unsupported arguments sent."
+      ]
+    },
+    {
+      "name": "bsi_get_player_stats",
+      "contract": "fail",
+      "availability": "unknown",
+      "problems": [
+        "Server cannot honor explicit season; no unsupported arguments sent."
+      ]
+    }
+  ],
+  "contract": "fail",
+  "data_available_for_all_checks": false,
+  "verification": "No independent factual accuracy or complete-season certification is implied."
+}

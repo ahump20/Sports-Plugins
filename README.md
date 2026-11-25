@@ -11,7 +11,7 @@ Maintained by [Austin Humphrey](https://github.com/ahump20), founder of [Blaze S
 | Calculate and explain baseball metrics | [Baseball](plugins/baseball/) | wOBA, wRC+, FIP, rate and sample-size checks; rules and source guidance | Counting stats and the relevant league/season constants |
 | Explain a football performance | [Football](plugins/football/) | NFL and college EPA, success rate and quarterback calculations; rules and source guidance | Supported play-by-play or player data |
 | Compare basketball efficiency | [Basketball](plugins/basketball/) | Possessions, ratings, Four Factors and true shooting; rules and source guidance | Supported NBA or college box scores |
-| Retrieve college baseball observations | [CBB Sabermetrics](plugins/cbb-sabermetrics/) | Source-attributed results from the BSI MCP endpoint | Network access and fields actually returned by the provider |
+| Retrieve college baseball records, rosters and statistics | [CBB Sabermetrics](plugins/cbb-sabermetrics/) | Season-checked BSI observations and official-source HTML packets | Discovered MCP tools or explicit school/conference/association sources |
 | Prepare Texas baseball research | [Texas Longhorns Intel](plugins/texas-longhorns-intel/) | Scouting, opponent and editorial workflows with evidence requirements | CBB Sabermetrics plus verified program context |
 | Assemble a game-day brief | [Gameday Ops](plugins/gameday-ops/) | Status-aware game packets with score and freshness checks | Supplied game observations and sources |
 | Check a story's evidence | [Editorial Desk](plugins/editorial-desk/) | Claim ledger, exact excerpt checks, arithmetic and citation completeness | Supplied claims and source excerpts |

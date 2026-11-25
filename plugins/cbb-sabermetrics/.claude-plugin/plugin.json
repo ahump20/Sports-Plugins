@@ -1,7 +1,7 @@
 {
   "name": "cbb-sabermetrics",
-  "version": "0.3.1",
-  "description": "Source-attributed NCAA baseball observations and explicit-input metric interpretation.",
+  "version": "0.4.0",
+  "description": "Verified college baseball records, rosters, schedules, standings and statistics with season-specific sources.",
   "author": {
     "name": "Austin Humphrey",
     "email": "john.humphrey@blazesportsintel.com",

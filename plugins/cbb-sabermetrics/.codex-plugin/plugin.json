@@ -1,7 +1,7 @@
 {
   "name": "cbb-sabermetrics",
-  "version": "0.3.1",
-  "description": "Source-attributed NCAA baseball observations and explicit-input metric interpretation.",
+  "version": "0.4.0",
+  "description": "Verified college baseball records, rosters, schedules, standings and statistics with season-specific sources.",
   "author": {
     "name": "Austin Humphrey",
     "email": "john.humphrey@blazesportsintel.com",
@@ -26,8 +26,8 @@
   "mcpServers": "./.mcp.json",
   "interface": {
     "displayName": "College Baseball Sabermetrics",
-    "shortDescription": "Source-attributed NCAA baseball observations and explicit-input metric interpretation.",
-    "longDescription": "Source-attributed NCAA baseball observations and explicit-input metric interpretation. Live data is read-only and may be incomplete; no calibrated forecasts or automatic publication are supplied.",
+    "shortDescription": "Verified college baseball records, rosters, schedules, standings and statistics with season-specific sources.",
+    "longDescription": "Retrieve college baseball observations through the BSI MCP and inspect official school, conference and association sources. Verify season, identity and coverage before reporting records, rosters, schedules and team or individual statistics. Includes a local HTML source helper for execution-capable hosts; availability of live fields depends on the connected server and sources.",
     "developerName": "Austin Humphrey / Blaze Sports Intel",
     "category": "Analytics",
     "capabilities": [
@@ -37,7 +37,7 @@
     "websiteURL": "https://blazesportsintel.com",
     "privacyPolicyURL": "https://blazesportsintel.com/privacy",
     "termsOfServiceURL": "https://blazesportsintel.com/terms",
-    "defaultPrompt": "Pull the current SEC standings and this week's Top 25.",
+    "defaultPrompt": "Get Texas baseball records, roster and individual stats for the season I ask for, with official sources and coverage dates.",
     "brandColor": "#BF5700",
     "composerIcon": "./assets/icon-small.svg",
     "screenshots": []
